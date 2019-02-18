@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="headerFragment(title)">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><th:block th:text="${title!=null?title:' YiMo 管理系统后台中心'}"></th:block></title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="shortcut icon" th:href="@{/yimo/favicon.ico}">
+
+<!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+<link rel="shortcut icon" href="favicon.ico">
+<link th:href="@{/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet"	type="text/css">
+<link th:href="@{/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+<link th:href="@{/css/animate.css}" rel="stylesheet">
+<link th:href="@{/css/style.css?v=4.1.0}" rel="stylesheet">
+<link th:href="@{/css/plugins/bootstrap-table/bootstrap-table.min.css}" rel="stylesheet">
+
+</head>

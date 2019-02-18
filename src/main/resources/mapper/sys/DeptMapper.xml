@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.yimo.sys.dao.DeptDao">
+	<!-- 表名 -->
+	<sql id="tableName">
+		sys_dept
+	</sql>
+	
+	<!-- 数据表所有列名 -->
+	<sql id="Base_Column_List">
+		`dept_id`,`parent_id`,`dept_name`,`order_num`,`status`	</sql>
+
+	<!-- 查询字段 -->
+	<sql id="Base_Search_Param">
+				<if test="deptId != null and deptId != ''"> and dept_id = #{deptId} </if>
+				<if test="parentId != null and parentId != ''"> and parent_id = #{parentId} </if>
+				<if test="deptName != null and deptName != ''"> and dept_name = #{deptName} </if>
+				<if test="orderNum != null and orderNum != ''"> and order_num = #{orderNum} </if>
+				<if test="status != null and status != ''"> and status = #{status} </if>
+			</sql>
+	
+	
+	<select id="get" resultType="top.yimo.sys.domain.DeptDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		where dept_id = #{value}
+	</select>
+
+	<select id="listByPage" resultType="top.yimo.sys.domain.DeptDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		 where 1 = 1
+		<include refid="Base_Search_Param" />
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by dept_id desc
+			</otherwise>
+        </choose>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from sys_dept
+		  where 1 = 1
+		<include refid="Base_Search_Param" />
+	</select>
+	 
+	<insert id="save" parameterType="top.yimo.sys.domain.DeptDO" useGeneratedKeys="true" keyProperty="deptId">
+		insert into sys_dept
+		(
+			`parent_id`, 
+			`dept_name`, 
+			`order_num`, 
+			`status`
+		)
+		values
+		(
+			#{parentId}, 
+			#{deptName}, 
+			#{orderNum}, 
+			#{status}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="top.yimo.sys.domain.DeptDO">
+		update sys_dept 
+		<set>
+			<if test="parentId != null">`parent_id` = #{parentId}, </if>
+			<if test="deptName != null">`dept_name` = #{deptName}, </if>
+			<if test="orderNum != null">`order_num` = #{orderNum}, </if>
+			<if test="status != null">`status` = #{status}</if>
+		</set>
+		where dept_id = #{deptId}
+	</update>
+	
+	<delete id="remove">
+		delete from sys_dept where dept_id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from sys_dept where dept_id in 
+		<foreach item="deptId" collection="array" open="(" separator="," close=")">
+			#{deptId}
+		</foreach>
+	</delete>
+
+</mapper>

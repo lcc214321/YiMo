@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="${package}.dao.${className}Dao">
+	<!-- 表名 -->
+	<sql id="tableName">
+		${tableName}
+	</sql>
+	
+	<!-- 数据表所有列名 -->
+	<sql id="Base_Column_List">
+		#foreach($column in $columns)`$column.columnName`#if($velocityCount != $columns.size()),#end#end
+	</sql>
+
+	<!-- 查询字段 -->
+	<sql id="Base_Search_Param">
+		#foreach($column in $columns)
+		<if test="$column.attrname != null and $column.attrname.trim() != ''"> and $column.columnName = #{$column.attrname} </if>
+		#end
+	</sql>
+	
+	
+	<select id="get" resultType="${package}.domain.${className}DO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		where ${pk.columnName} = #{value}
+	</select>
+
+	<select id="listByPage" resultType="${package}.domain.${className}DO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		 where 1 = 1
+		<include refid="Base_Search_Param" />
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by ${pk.columnName} desc
+			</otherwise>
+        </choose>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from ${tableName}
+		  where 1 = 1
+		<include refid="Base_Search_Param" />
+	</select>
+	 
+	<insert id="save" parameterType="${package}.domain.${className}DO"#if($pk.extra == 'auto_increment') useGeneratedKeys="true" keyProperty="$pk.attrname"#end>
+		insert into ${tableName}
+		(
+#foreach($column in $columns)
+#if($column.columnName != $pk.columnName || $pk.extra != 'auto_increment')
+			`$column.columnName`#if($velocityCount != $columns.size()), #end
+
+#end			
+#end
+		)
+		values
+		(
+#foreach($column in $columns)
+#if($column.columnName != $pk.columnName || $pk.extra != 'auto_increment')
+			#{$column.attrname}#if($velocityCount != $columns.size()), #end
+
+#end			
+#end
+		)
+	</insert>
+	 
+	<update id="update" parameterType="${package}.domain.${className}DO">
+		update ${tableName} 
+		<set>
+#foreach($column in $columns)
+#if($column.columnName != $pk.columnName)
+			<if test="$column.attrname != null">`$column.columnName` = #{$column.attrname}#if($velocityCount != $columns.size()), #end</if>
+#end
+#end
+		</set>
+		where ${pk.columnName} = #{${pk.attrname}}
+	</update>
+	
+	<delete id="remove">
+		delete from ${tableName} where ${pk.columnName} = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from ${tableName} where ${pk.columnName} in 
+		<foreach item="${pk.attrname}" collection="array" open="(" separator="," close=")">
+			#{${pk.attrname}}
+		</foreach>
+	</delete>
+
+</mapper>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.yimo.sys.dao.LogDao">
+	<!-- 表名 -->
+	<sql id="tableName">
+		sys_log
+	</sql>
+	
+	<!-- 数据表所有列名 -->
+	<sql id="Base_Column_List">
+		`id`,`user_id`,`user_name`,`operation`,`time`,`method`,`params`,`ip`,`create_time`	</sql>
+
+	<!-- 查询字段 -->
+	<sql id="Base_Search_Param">
+				<if test="id != null and id != ''"> and id = #{id} </if>
+				<if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+				<if test="userName != null and userName != ''"> and user_name = #{userName} </if>
+				<if test="operation != null and operation != ''"> and operation = #{operation} </if>
+				<if test="time != null and time != ''"> and time = #{time} </if>
+				<if test="method != null and method != ''"> and method = #{method} </if>
+				<if test="params != null and params != ''"> and params = #{params} </if>
+				<if test="ip != null and ip != ''"> and ip = #{ip} </if>
+				<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+			</sql>
+	
+	
+	<select id="get" resultType="top.yimo.sys.domain.LogDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		where id = #{value}
+	</select>
+
+	<select id="listByPage" resultType="top.yimo.sys.domain.LogDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		 where 1 = 1
+		<include refid="Base_Search_Param" />
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from sys_log
+		  where 1 = 1
+		<include refid="Base_Search_Param" />
+	</select>
+	 
+	<insert id="save" parameterType="top.yimo.sys.domain.LogDO" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_log
+		(
+			`user_id`, 
+			`user_name`, 
+			`operation`, 
+			`time`, 
+			`method`, 
+			`params`, 
+			`ip`, 
+			`create_time`
+		)
+		values
+		(
+			#{userId}, 
+			#{userName}, 
+			#{operation}, 
+			#{time}, 
+			#{method}, 
+			#{params}, 
+			#{ip}, 
+			#{createTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="top.yimo.sys.domain.LogDO">
+		update sys_log 
+		<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="userName != null">`user_name` = #{userName}, </if>
+			<if test="operation != null">`operation` = #{operation}, </if>
+			<if test="time != null">`time` = #{time}, </if>
+			<if test="method != null">`method` = #{method}, </if>
+			<if test="params != null">`params` = #{params}, </if>
+			<if test="ip != null">`ip` = #{ip}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from sys_log where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from sys_log where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="footer-content">
+	<div class="footer">
+		<div class="pull-right">
+			&copy; 2014-2019 <a target="_blank">YiMo' blog</a>
+		</div>
+	</div>
+</div>
+<body th:fragment="footer">
+	<!-- 全局js -->
+	<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
+	<script th:src="@{/js/jquery.min.js?v=2.1.4}"></script>
+	<script th:src="@{/js/bootstrap.min.js?v=3.3.6}"></script>
+	<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+	<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+	<script th:src="@{/js/plugins/layer/layer.min.js}"></script>
+	<script th:src="@{/js/common.js}"></script>
+<!-- 	<script th:src="@{/js/plugins/pace/pace.min.js}"></script> -->
+	<!-- 自定义js -->
+	<script th:src="@{/js/YiMo.js}"></script>
+	<!-- 表格插件 -->
+	<script th:src="@{/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
+	<script th:src="@{/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js}"></script>
+	<script th:src="@{/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+	<script src="/js/plugins/validate/jquery.validate.min.js" th:src="@{/js/plugins/validate/jquery.validate.min.js}"></script>
+	<script src="/js/plugins/validate/messages_zh.min.js" th:src="@{/js/plugins/validate/messages_zh.min.js}"></script>
+
+</body>
+</html>

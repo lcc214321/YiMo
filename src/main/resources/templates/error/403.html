@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<header th:replace="header::headerFragment(${title})"></header>
+<body class="gray-bg">
+	<div class="middle-box text-center animated fadeInDown">
+		<h1>403</h1>
+		<h3 class="font-bold">您没有权限访问</h3>
+		<div class="error-desc">
+			抱歉，请联系管理员哦~
+			
+			<br/>
+			<br/>	
+			<br/>			<a  class="btn btn-primary" th:href="@{/}">返回首页</a>
+			
+		</div>
+	</div>
+	<div th:replace="footer :: footer"></div>
+</body>
+</html>
+
+

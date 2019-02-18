@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.yimo.sys.dao.UserDao">
+
+	<!-- 表名 -->
+	<sql id="tableName">
+		sys_user
+	</sql>
+
+	<!-- 数据表所有列名 -->
+	<sql id="Base_Column_List">
+		`user_id`,`user_name`,`name`,`password`,`dept_id`,`email`,`mobile`,`status`,`create_user_id`,`create_time`,`update_time`,`sex`,`birth`,`pic_id`,`address`,`hobby`,`province`,`city`,`district`
+	</sql>
+
+	<!-- 查询字段 -->
+	<sql id="Base_Search_Param">
+		<if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+			<if test="userName != null and userName != ''"> and user_name = #{userName} </if>
+			<if test="name != null and name != ''"> and name = #{name} </if>
+			<if test="password != null and password != ''"> and password = #{password} </if>
+			<if test="deptId != null and deptId != ''"> and dept_id = #{deptId} </if>
+			<if test="email != null and email != ''"> and email = #{email} </if>
+			<if test="mobile != null and mobile != ''"> and mobile = #{mobile} </if>
+			<if test="status != null and status != ''"> and status = #{status} </if>
+			<if test="createUserId != null and createUserId != ''"> and create_user_id = #{createUserId} </if>
+			<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+			<if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+			<if test="sex != null and sex != ''"> and sex = #{sex} </if>
+			<if test="birth != null and birth != ''"> and birth = #{birth} </if>
+			<if test="picId != null and picId != ''"> and pic_id = #{picId} </if>
+			<if test="address != null and address != ''"> and address = #{address} </if>
+			<if test="hobby != null and hobby != ''"> and hobby = #{hobby} </if>
+			<if test="province != null and province != ''"> and province = #{province} </if>
+			<if test="city != null and city != ''"> and city = #{city} </if>
+			<if test="district != null and district != ''"> and district = #{district} </if>
+	</sql>
+
+	<select id="get" resultType="top.yimo.sys.domain.UserDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		 where user_id = #{value}
+	</select>
+	
+	<select id="findByUserName"
+		resultType="top.yimo.sys.domain.UserDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		 where user_name = #{value}
+	</select>
+
+	<select id="listByPage" resultType="top.yimo.sys.domain.UserDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		 where 1 = 1
+		<include refid="Base_Search_Param" />
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by user_id 
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="count" resultType="int">
+		select count(*) from sys_user
+		 where 1 = 1
+		<include refid="Base_Search_Param" />
+	</select>
+
+	 <insert id="save" parameterType="top.yimo.sys.domain.UserDO" useGeneratedKeys="true" keyProperty="userId">
+		insert into sys_user
+		(		`user_name`,`name`,`password`,`dept_id`,`email`,`mobile`,`status`,`create_user_id`,`create_time`,`update_time`,`sex`,`birth`,`pic_id`,`address`,`hobby`,`province`,`city`,`district`
+		)
+		values
+		(
+			#{userName}, 
+			#{name}, 
+			#{password}, 
+			#{deptId}, 
+			#{email}, 
+			#{mobile}, 
+			#{status}, 
+			#{createUserId}, 
+			#{createTime}, 
+			#{updateTime}, 
+			#{sex}, 
+			#{birth}, 
+			#{picId}, 
+			#{address}, 
+			#{hobby}, 
+			#{province}, 
+			#{city}, 
+			#{district}
+		)
+	</insert>
+
+	<update id="update" parameterType="top.yimo.sys.domain.UserDO">
+		update sys_user
+		<set>
+			<if test="userName != null">`user_name` = #{userName}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="password != null">`password` = #{password}, </if>
+			<if test="deptId != null">`dept_id` = #{deptId}, </if>
+			<if test="email != null">`email` = #{email}, </if>
+			<if test="mobile != null">`mobile` = #{mobile}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="sex != null">`sex` = #{sex}, </if>
+			<if test="birth != null">`birth` = #{birth}, </if>
+			<if test="picId != null">`pic_id` = #{picId}, </if>
+			<if test="address != null">`address` = #{address}, </if>
+			<if test="hobby != null">`hobby` = #{hobby}, </if>
+			<if test="province != null">`province` = #{province}, </if>
+			<if test="city != null">`city` = #{city}, </if>
+			<if test="district != null">`district` = #{district}</if>
+		</set>
+		where user_id = #{userId}
+	</update>
+
+	<delete id="remove">
+		delete from sys_user where user_id = #{value}
+	</delete>
+
+	<delete id="batchRemove">
+		delete from sys_user where user_id in
+		<foreach item="userId" collection="array" open="("
+			separator="," close=")">
+			#{userId}
+		</foreach>
+	</delete>
+
+</mapper>
