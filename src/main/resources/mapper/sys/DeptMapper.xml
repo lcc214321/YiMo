@@ -20,6 +20,14 @@
 				<if test="status != null and status != ''"> and status = #{status} </if>
 			</sql>
 	
+	<select id="getTree" resultType="top.yimo.sys.domain.DeptDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		where status='1' 
+	</select>	
+	
 	
 	<select id="get" resultType="top.yimo.sys.domain.DeptDO">
 		select
@@ -90,5 +98,6 @@
 			#{deptId}
 		</foreach>
 	</delete>
+
 
 </mapper>

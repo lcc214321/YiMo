@@ -23,8 +23,8 @@ public class MenuServiceImpl implements MenuService {
 	}
 	
 	@Override
-	public List<MenuDO> listByPage(Map<String, Object> map){
-		return menuDao.listByPage(map);
+	public List<MenuDO> list(Map<String, Object> map){
+		return menuDao.list(map);
 	}
 	
 	@Override

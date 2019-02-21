@@ -1,5 +1,7 @@
 package top.yimo.sys.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import top.yimo.common.model.vo.TreeVo;
+import top.yimo.common.util.YiMoUtils;
 import top.yimo.sys.dao.DeptDao;
 import top.yimo.sys.domain.DeptDO;
 import top.yimo.sys.service.DeptService;
@@ -52,9 +55,25 @@ public class DeptServiceImpl implements DeptService {
 	}
 
 	@Override
-	public List<TreeVo> getTree() {
-
-		return null;
+	public TreeVo<DeptDO> getTree() {
+		List<TreeVo> treeList = new ArrayList<TreeVo>();
+		List<DeptDO> depts = deptDao.getTree();
+		for (DeptDO dept : depts) {
+			TreeVo tree = new TreeVo();
+			tree.setId(dept.getDeptId().toString());
+            tree.setPId(dept.getParentId().toString());
+            tree.setText(dept.getDeptName());
+            Map<String, Object> state = new HashMap<>(16);
+            state.put("opened", true);
+            tree.setState(state);
+            treeList.add(tree);
+		}
+		System.out.println(treeList.size());
+		
+		TreeVo tree = YiMoUtils.build(treeList);
+		System.out.println(tree.toString());
+		
+		return tree;
 	}
 
 }

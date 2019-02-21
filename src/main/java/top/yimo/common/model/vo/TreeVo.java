@@ -1,6 +1,10 @@
 package top.yimo.common.model.vo;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+
+import com.alibaba.fastjson.JSON;
 
 import lombok.Data;
 
@@ -11,7 +15,7 @@ import lombok.Data;
  * @Time 2019年1月25日 上午11:22:40
  */
 @Data
-public class TreeVo {
+public class TreeVo<T>{
 	/**
 	 * 节点ID
 	 */
@@ -34,7 +38,25 @@ public class TreeVo {
 	private Map<String, Object> attributes;
 
 	/**
+	 * 节点的子节点
+	 */
+	private List<TreeVo<T>> children = new ArrayList<TreeVo<T>>();
+	/**
 	 * 父ID
 	 */
 	private String pId;
+	
+	/**
+	 * 是否有父节点
+	 */
+	private boolean hasParent = false;
+	/**
+	 * 是否有子节点
+	 */
+	private boolean hasChildren = false;
+	
+	@Override
+	public String toString() {
+		return JSON.toJSONString(this);
+	}
 }

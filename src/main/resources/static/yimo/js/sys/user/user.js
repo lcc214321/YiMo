@@ -1,7 +1,9 @@
 var prefix = ctx + "sys/user"
 $().ready(function() {
 	load();
+	getTreeData();
 	validateRule();
+	
 });
 function load() {
 	$('#userTable')
@@ -47,20 +49,20 @@ function load() {
 								},
 								{
 									field : 'name',
-									title : '昵称'
+									title : '姓名'
 								},
-								{
-									field : 'password',
-									title : '密码'
-								},
-								{
-									field : 'deptId',
-									title : '部门ID'
-								},
-								{
-									field : 'email',
-									title : '邮箱'
-								},
+//								{
+//									field : 'password',
+//									title : '密码'
+//								},
+//								{
+//									field : 'deptId',
+//									title : '部门ID'
+//								},
+//								{
+//									field : 'email',
+//									title : '邮箱'
+//								},
 								{
 									field : 'mobile',
 									title : '手机号'
@@ -202,7 +204,6 @@ function validateRule() {
 }
 
 function dept(){
-	alert(1);
 	$("body").toggleClass("mini-navbar");
     SmoothlyMenu();
 }
@@ -210,7 +211,7 @@ function dept(){
 function getTreeData() {
 	$.ajax({
 		type : "GET",
-		url : "/sys/dept/tree",
+		url : ctx+"sys/dept/tree",
 		success : function(tree) {
 			loadTree(tree);
 		}

@@ -19,7 +19,7 @@ public interface MenuDao {
 
 	MenuDO get(Long menuId);
 	
-	List<MenuDO> listByPage(Map<String,Object> map);
+	List<MenuDO> list(Map<String,Object> map);
 	
 	int count(Map<String,Object> map);
 	

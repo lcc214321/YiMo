@@ -119,9 +119,8 @@ public class DeptController extends BaseController {
 
 	@GetMapping("/tree")
 	@ResponseBody
-	public List<TreeVo> tree() {
-		List<TreeVo> treeList = deptService.getTree();
-		return treeList;
+	public TreeVo<DeptDO> tree() {
+		return  deptService.getTree();
 	}
 
 }

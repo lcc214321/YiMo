@@ -30,5 +30,5 @@ public interface DeptService {
 
 	int batchRemove(Long[] deptIds);
 
-	List<TreeVo> getTree();
+	TreeVo<DeptDO> getTree();
 }

@@ -50,10 +50,9 @@ public class MenuController extends BaseController{
 	@GetMapping("/list")
 	@RequiresPermissions("sys:menu:menu")
 	@Log(describe = "获取菜单管理 列表", title = "菜单管理", operatorType = OperatorType.QUERY)
-	public PageVo listByPage(@RequestParam Map<String, Object> params){
-		List<MenuDO> menuList = menuService.listByPage(params);
-		int total = menuService.count(params);
-		return getPageData(menuList, total);
+	public List<MenuDO> list(@RequestParam Map<String, Object> params){
+		List<MenuDO> menuList = menuService.list(params);
+		return menuList;
 	}
 	
 	@GetMapping("/add")

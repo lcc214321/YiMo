@@ -1,5 +1,6 @@
 package top.yimo.sys.dao;
 
+import top.yimo.common.model.vo.TreeVo;
 import top.yimo.sys.domain.DeptDO;
 
 import java.util.List;
@@ -30,4 +31,6 @@ public interface DeptDao {
 	int remove(Long dept_id);
 	
 	int batchRemove(Long[] deptIds);
+
+	List<DeptDO> getTree();
 }
