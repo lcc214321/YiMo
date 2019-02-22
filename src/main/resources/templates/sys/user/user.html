@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='用户管理'">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"  
+xmlns:shiro="http://www.pollix.at/thymeleaf/shiro" th:with="title='用户管理'">
 <header th:replace="header::headerFragment(${title})"></header>
 <body class="gray-bg">
 	<div class="wrapper wrapper-content animated fadeInRight">
@@ -18,15 +19,15 @@
 				<div class="ibox-body">
 					<div class="fixed-table-toolbar">
 						<div class="columns pull-left">
-							<button shiro:hasPermission="sys:user:add" type="button" class="btn  btn-rounded  btn-primary" onclick="add()">
+							<button shiro:hasPermission ="sys:user:add" type="button" class="btn  btn-rounded  btn-primary" onclick="add()">
 								<i class="fa fa-plus" aria-hidden="true"></i>添加
 							</button>
-							<button shiro:hasPermission="sys:user:batchRemove" type="button" class="btn  btn-rounded btn-danger" onclick="batchRemove()">
+							<button shiro:hasPermission ="sys:user:batchRemove" type="button" class="btn  btn-rounded btn-danger" onclick="batchRemove()">
 								<i class="fa fa-trash" aria-hidden="true"></i>批量删除
 							</button>
 						</div>
 						<div class="columns pull-right">
-							<button class="btn btn-success" onclick="reLoad()">刷新</button>
+							<button class="btn btn-success" onclick="refresh()">刷新</button>
 						</div>
 					</div>
 					<table id="userTable" data-mobile-responsive="true">
@@ -35,29 +36,7 @@
 			</div>
 		</div>
 	</div>
-	<!--shiro控制bootstraptable行内按钮看见性 -->
-	<div>
-		<script type="text/javascript">
-			var s_edit_h = 'hidden';
-			var s_remove_h = 'hidden';
-			var s_resetPwd_h = 'hidden';
-		</script>
-	</div>
-	<div shiro:hasPermission="sys:user:edit">
-		<script type="text/javascript">
-			s_edit_h = '';
-		</script>
-	</div>
-	<div shiro:hasPermission="sys:user:remove">
-		<script type="text/javascript">
-			var s_remove_h = '';
-		</script>
-	</div>
-	<div shiro:hasPermission="sys:user:resetPwd">
-		<script type="text/javascript">
-			var s_resetPwd_h = '';
-		</script>
-	</div>
+	
 	<div th:replace="footer :: footer"></div>
 	<script type="text/javascript" th:src="@{/yimo/js/sys/user/user.js}"></script>
 </body>

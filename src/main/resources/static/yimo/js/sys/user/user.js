@@ -51,18 +51,6 @@ function load() {
 									field : 'name',
 									title : '姓名'
 								},
-//								{
-//									field : 'password',
-//									title : '密码'
-//								},
-//								{
-//									field : 'deptId',
-//									title : '部门ID'
-//								},
-//								{
-//									field : 'email',
-//									title : '邮箱'
-//								},
 								{
 									field : 'mobile',
 									title : '手机号'
@@ -85,16 +73,18 @@ function load() {
 									align : 'center',
 									formatter : function(value, row, index) {
 										var e = '<a class="btn btn-primary btn-sm '
-												+ s_edit_h
+//												+ s_edit_h
 												+ '" href="#" mce_href="#" title="编辑" onclick="edit(\''
 												+ row.userId
 												+ '\')"><i class="fa fa-edit"></i></a> ';
 										var d = '<a class="btn btn-warning btn-sm '
-												+ s_remove_h
+//												+ s_remove_h
 												+ '" href="#" title="删除"  mce_href="#" onclick="remove(\''
 												+ row.userId
 												+ '\')"><i class="fa fa-remove"></i></a> ';
-										var f = '<a class="btn btn-success btn-sm" href="#" title="重置密码"  mce_href="#" onclick="resetPwd(\''
+										var f = '<a class="btn btn-success btn-sm'
+//											+s_resetPwd_h
+											+'" href="#" title="重置密码"  mce_href="#" onclick="resetPwd(\''
 												+ row.userId
 												+ '\')"><i class="fa fa-key"></i></a> ';
 										return e + d + f;
@@ -227,20 +217,15 @@ function loadTree(tree) {
 	$('#jstree').jstree().open_all();
 }
 $('#jstree').on("changed.jstree", function(e, data) {
-	if (data.selected == -1) {
-		var opt = {
-			query : {
-				deptId : '',
-			}
-		}
-		$('#userTable').bootstrapTable('refresh', opt);
-	} else {
+	if(data.selected != -1&&data.selected[0]!=1){
 		var opt = {
 			query : {
 				deptId : data.selected[0],
 			}
 		}
 		$('#userTable').bootstrapTable('refresh',opt);
+	}else{
+		$('#userTable').bootstrapTable('refresh',{query:''});
 	}
 
 });

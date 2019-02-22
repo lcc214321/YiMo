@@ -1,6 +1,8 @@
 package top.yimo.common.shiro;
 
 
+import java.util.Set;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -10,13 +12,17 @@ import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
 import top.yimo.common.constant.WebConstant;
+import top.yimo.common.util.ShiroUtils;
 import top.yimo.sys.domain.UserDO;
+import top.yimo.sys.service.MenuService;
 import top.yimo.sys.service.UserService;
 
 /**
@@ -30,7 +36,8 @@ public class UserRealm extends AuthorizingRealm {
 
 	@Autowired
 	UserService userSerivce;
-	
+	@Autowired
+	MenuService menuService;
 	/**
 	 * 认证
 	 */
@@ -64,9 +71,15 @@ public class UserRealm extends AuthorizingRealm {
         this.clearCachedAuthorizationInfo(SecurityUtils.getSubject().getPrincipals());
     }
 
+    /**
+     * 授权
+     */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		
-		return null;
+		Long userId = ShiroUtils.getUserId();//获取当面登陆用户ID
+		Set<String> perms = menuService.listPermsByUserId(userId);
+		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+		info.setStringPermissions(perms);
+		return info;
 	}
 }

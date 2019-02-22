@@ -103,7 +103,7 @@ function remove(id) {
 		yimo.ajaxDelete({
 			url : prefix + "/remove",
 			data : {
-				'userId' : id
+				'deptId' : id
 			},
 		});
 	})
@@ -122,10 +122,9 @@ function batchRemove() {
 		var ids = new Array();
 		// 遍历所有选择的行数据，取每条数据对应的ID
 		$.each(rows, function(i, row) {
-			ids[i] = row['userId'];
+			ids[i] = row['deptId'];
 		});
 		yimo.ajaxDelete({
-			type : 'POST',
 			data : {
 				"ids" : ids
 			},

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * 菜单管理
@@ -30,4 +31,7 @@ public interface MenuDao {
 	int remove(Long menu_id);
 	
 	int batchRemove(Long[] menuIds);
+	@Select("select m.perms from sys_menu m,sys_user_role ur,sys_role_menu rm where ur.role_id=rm.role_id and rm.menu_id=m.menu_id and ur.user_id=#{id}" )
+	List<String> listPermsByUserId(Long id);
+
 }

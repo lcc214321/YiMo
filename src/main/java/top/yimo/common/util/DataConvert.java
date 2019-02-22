@@ -4,7 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 /**
- * 
+ * 数据转换工具类
  * @author imTayle
  * @Email imTayle@126.com
  * @version 1.0 
@@ -17,15 +17,14 @@ public class DataConvert {
 	  
 	  public static String toString(String paramString)
 	  {
-	    if (paramString == null) {
-	      return "";
-	    }
-	    return paramString;
+	    return toString(paramString, "");
 	  }
-	  
+	  /**
+	   * paramString1为空或者为null时返回paramString2
+	   */
 	  public static String toString(String paramString1, String paramString2)
 	  {
-	    if (paramString1 == null) {
+	    if (paramString1 == null ||  (paramString1.equals(""))) {
 	      return paramString2;
 	    }
 	    return paramString1;
@@ -33,10 +32,7 @@ public class DataConvert {
 	  
 	  public static String toHTMLString(String paramString)
 	  {
-	    if ((paramString == null) || (paramString.equals(""))) {
-	      return "&nbsp;";
-	    }
-	    return paramString;
+	    return toString(paramString, "&nbsp;");
 	  }
 	  
 	  public static String toHTMLMoney(String paramString)
@@ -104,7 +100,9 @@ public class DataConvert {
 	  {
 	    return toMoney(String.valueOf(paramBigDecimal));
 	  }
-	  
+	  /**
+	   * xxxx年xx月xx日
+	   */
 	  public static String toDate_YMD(String paramString)
 	  {
 	    String str1 = paramString.substring(0, 4);
@@ -113,7 +111,9 @@ public class DataConvert {
 	    String str4 = str1 + "年" + str2 + "月" + str3 + "日";
 	    return str4;
 	  }
-	  
+	  /**
+	   * xxxx年xx月xx日至xxxx年xx月xx日
+	   */
 	  public static String toDate_YMD2(String paramString1, String paramString2)
 	  {
 	    String str1 = paramString1.substring(0, 4);
@@ -125,7 +125,6 @@ public class DataConvert {
 	    String str7 = str1 + "年" + str3 + "月" + str5 + "日至" + str2 + "年" + str4 + "月" + str6 + "日";
 	    return str7;
 	  }
-	  
 	  public static String toDate_YM(String paramString)
 	  {
 	    String str1 = paramString.substring(0, 4);
@@ -149,14 +148,6 @@ public class DataConvert {
 	    String str4 = "-";
 	    String str5 = str1 + str4 + str2 + str4 + str3;
 	    return str5;
-	  }
-	  
-	  public static String toDate_YM2(String paramString)
-	  {
-	    String str1 = paramString.substring(0, 4);
-	    String str2 = paramString.substring(4, 6);
-	    String str3 = str1 + "年" + str2 + "月";
-	    return str3;
 	  }
 	  
 	  public static String toRealString_old(String paramString)

@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import top.yimo.common.constant.WebConstant;
 
 /**
@@ -40,7 +41,6 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/favicon.ico", "anon");
 		filterChainDefinitionMap.put("/login/**", "anon");
 
-		// 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了
 		// <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
 		filterChainDefinitionMap.put("/**", "authc");// authc
 		// 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
@@ -55,7 +55,7 @@ public class ShiroConfig {
 	}
 
 	/**
-	 * 增加一个简单的无权限异常捕获qi
+	 * 增加一个简单的无权限异常捕获器
 	 * 
 	 * @param @return
 	 * @return SimpleMappingExceptionResolver
@@ -98,17 +98,25 @@ public class ShiroConfig {
 	}
 
 	/**
-	 * 开启Shiro注解通知器
+	 * 开启Shiro注解方式 
 	 * 
 	 * @param @param
 	 *            securityManager
 	 * @param @return
 	 * @return AuthorizationAttributeSourceAdvisor
 	 */
-	// @Bean
+	 @Bean
 	public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(@Qualifier("securityManager") SecurityManager securityManager) {
 		AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
 		authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
 		return authorizationAttributeSourceAdvisor;
 	}
+	 /**
+	  * 开启支持thymeleaf shiro标签
+	  */
+	 @Bean
+	 public ShiroDialect shiroDialect() {
+		 return new ShiroDialect();
+	 }
+
 }

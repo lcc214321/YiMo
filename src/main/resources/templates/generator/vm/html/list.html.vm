@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='${htmlTitle}'">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"  th:with="title='${htmlTitle}'">
 <meta charset="utf-8">
 <header th:replace="header::headerFragment(${title})"></header>
 <body class="gray-bg">

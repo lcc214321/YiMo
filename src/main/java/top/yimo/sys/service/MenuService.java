@@ -4,6 +4,7 @@ import top.yimo.sys.domain.MenuDO;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 菜单管理
@@ -28,4 +29,9 @@ public interface MenuService {
 	int remove(Long menuId);
 	
 	int batchRemove(Long[] menuIds);
+	/**
+	 * 通过用户ID查询对应菜单权限
+	 */
+	Set<String> listPermsByUserId(Long id);
+
 }

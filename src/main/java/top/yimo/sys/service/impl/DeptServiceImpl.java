@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import top.yimo.common.model.vo.TreeVo;
-import top.yimo.common.util.YiMoUtils;
+import top.yimo.common.util.TreeUtils;
 import top.yimo.sys.dao.DeptDao;
 import top.yimo.sys.domain.DeptDO;
 import top.yimo.sys.service.DeptService;
@@ -68,11 +68,7 @@ public class DeptServiceImpl implements DeptService {
             tree.setState(state);
             treeList.add(tree);
 		}
-		System.out.println(treeList.size());
-		
-		TreeVo tree = YiMoUtils.build(treeList);
-		System.out.println(tree.toString());
-		
+		TreeVo tree = TreeUtils.build(treeList);
 		return tree;
 	}
 

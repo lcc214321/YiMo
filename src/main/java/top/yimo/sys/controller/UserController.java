@@ -3,6 +3,7 @@ package top.yimo.sys.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,14 +41,14 @@ public class UserController extends BaseController {
 	private UserService userService;
 
 	@GetMapping()
-	// @RequiresPermissions("sys:user:user")
+	@RequiresPermissions("sys:user:user")
 	public String User() {
 		return prefix + "/user";
 	}
 
 	@ResponseBody
 	@GetMapping("/list")
-	// @RequiresPermissions("sys:user:user")
+	@RequiresPermissions("sys:user:user")
 	@Log(describe = "获取用户列表", title = "/sys/user", operatorType = OperatorType.QUERY)
 	public PageVo listByPage(@RequestParam Map<String, Object> params) {
 		List<UserDO> userList = userService.listByPage(params);
@@ -56,13 +57,13 @@ public class UserController extends BaseController {
 	}
 
 	@GetMapping("/add")
-	// @RequiresPermissions("sys:user:add")
+	@RequiresPermissions("sys:user:add")
 	public String add() {
 		return prefix + "/add";
 	}
 
 	@GetMapping("/edit/{userId}")
-	// @RequiresPermissions("sys:user:edit")
+	@RequiresPermissions("sys:user:edit")
 	public String edit(@PathVariable("userId") Long userId, Model model) {
 		UserDO user = userService.get(userId);
 		model.addAttribute("user", user);
@@ -74,7 +75,7 @@ public class UserController extends BaseController {
 	 */
 	@ResponseBody
 	@PostMapping("/save")
-	// @RequiresPermissions("sys:user:add")
+	@RequiresPermissions("sys:user:add")
 	public ResponseVo save(UserDO user) {
 
 		if (userService.save(user) > 0) {
@@ -87,7 +88,7 @@ public class UserController extends BaseController {
 	 */
 	@ResponseBody
 	@PutMapping("/update")
-	// @RequiresPermissions("sys:user:edit")
+	@RequiresPermissions("sys:user:edit")
 	public ResponseVo update(UserDO user) {
 		if (userService.update(user) > 0) {
 			return ResponseVo.ok("更新成功");
@@ -100,7 +101,7 @@ public class UserController extends BaseController {
 	 */
 	@DeleteMapping("/remove")
 	@ResponseBody
-	// @RequiresPermissions("sys:user:remove")
+	@RequiresPermissions("sys:user:remove")
 	public ResponseVo remove(Long userId) {
 		if (userService.remove(userId) > 0) {
 			return ResponseVo.ok("删除成功");
@@ -113,7 +114,7 @@ public class UserController extends BaseController {
 	 */
 	@DeleteMapping("/batchRemove")
 	@ResponseBody
-	// @RequiresPermissions("sys:user:batchRemove")
+	@RequiresPermissions("sys:user:batchRemove")
 	public ResponseVo remove(@RequestParam("ids[]") Long[] userIds) {
 		userService.batchRemove(userIds);
 		return ResponseVo.ok("删除成功");
@@ -122,7 +123,7 @@ public class UserController extends BaseController {
 	/**
 	 * 重置为默认密码
 	 */
-	// @RequiresPermissions("sys:user:resetPwd")
+	@RequiresPermissions("sys:user:resetPwd")
 	@PutMapping("/resetPwd/{id}")
 	@Log(describe = "提交重置用户密码", title = "/sys/user", operatorType = OperatorType.resetPwd)
 	@ResponseBody
