@@ -1,10 +1,5 @@
 var prefix = ctx + "sys/user"
-$().ready(function() {
-	load();
-	getTreeData();
-	validateRule();
-	
-});
+
 function load() {
 	$('#userTable')
 			.bootstrapTable(

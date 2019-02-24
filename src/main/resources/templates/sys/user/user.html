@@ -39,5 +39,12 @@ xmlns:shiro="http://www.pollix.at/thymeleaf/shiro" th:with="title='用户管理'
 	
 	<div th:replace="footer :: footer"></div>
 	<script type="text/javascript" th:src="@{/yimo/js/sys/user/user.js}"></script>
+	<script>
+	$().ready(function() {
+		load();
+		getTreeData();
+		validateRule();
+	});
+	</script>
 </body>
 </html>

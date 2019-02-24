@@ -7,18 +7,13 @@
 			<div class="navbar-header">
 				<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#" title="收起菜单"> <i class="fa fa-bars"></i>
 				</a>
-				<!-- 				<form role="search" class="navbar-form-custom" method="post" action="search_results.html"> -->
-				<!-- 					<div class="form-group"> -->
-				<!-- 						<input type="text" placeholder="请输入您需要查找的内容 …" class="form-control" name="top-search" id="top-search"> -->
-				<!-- 					</div> -->
-				<!-- 				</form> -->
 			</div>
 			<ul class="nav navbar-top-links navbar-right ">
 				<li><span class="m-r-sm text-muted">欢迎来到 <a>一墨</a> 管理后台.</span></li>
 				<li class="dropdown hidden-xs"><a class="right-sidebar-toggle" aria-expanded="false"> <i class="fa fa-tasks"></i> 主题
 				</a></li>
-<!-- 				<li><a th:href="@{logout}"> <i class="fa fa-sign-out"></i>退出 -->
-<!-- 				</a></li> -->
+				<li><a th:href="@{logout}"> <i class="fa fa-sign-out"></i>退出
+				</a></li>
 			</ul>
 		</nav>
 	</div>
@@ -45,8 +40,7 @@
 				<li class="J_tabCloseOther"><a>关闭其他选项卡</a></li>
 			</ul>
 		</div>
-		<a th:href="@{/logout}" class="roll-nav roll-right J_tabExit"> <i class="fa fa fa-sign-out"></i> 退出
-		</a>
+		<a href="#" class="roll-nav roll-right J_refreshTab"><i class="fa fa-refresh"></i> 刷新</a>
 	</div>
 	<div class="row J_mainContent" id="content-main">
 		<iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="" frameborder="" data-id="" seamless></iframe>
