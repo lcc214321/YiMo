@@ -5,19 +5,25 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import top.yimo.common.constant.WebConstant;
 import top.yimo.common.util.DateUtils;
 import top.yimo.common.util.ShiroUtils;
 import top.yimo.common.util.YiMoUtils;
 import top.yimo.sys.dao.UserDao;
+import top.yimo.sys.dao.UserRoleDao;
 import top.yimo.sys.domain.UserDO;
+import top.yimo.sys.domain.UserRoleDO;
 import top.yimo.sys.service.UserService;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao userDao;
+	@Autowired
+	private UserRoleDao uerRoleDao;
 
 	@Override
 	public UserDO get(Long userId) {
@@ -50,6 +56,19 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public int update(UserDO user) {
+		Long userId = user.getUserId();
+		System.out.println("userid"+userId);
+		// 更新用户角色信息
+		uerRoleDao.batchRemoveByUserID(userId);
+		List<Long> roles = user.getRoleIds();
+		if(roles.size()>0) {
+			for (Long roleId : roles) {
+				UserRoleDO userRoleDO = new UserRoleDO();
+				userRoleDO.setRoleId(roleId);
+				userRoleDO.setUserId(userId);
+				uerRoleDao.save(userRoleDO);
+			}
+		}
 		return userDao.update(user);
 	}
 

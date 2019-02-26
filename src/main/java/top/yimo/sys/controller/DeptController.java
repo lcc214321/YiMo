@@ -123,4 +123,9 @@ public class DeptController extends BaseController {
 		return  deptService.getTree();
 	}
 
+	@GetMapping("/treeView")
+	String treeView() {
+		return  prefix + "/deptTree";
+	}
+	
 }

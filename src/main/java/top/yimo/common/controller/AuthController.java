@@ -1,5 +1,7 @@
 package top.yimo.common.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,7 +12,9 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +24,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import top.yimo.common.annotation.Log;
 import top.yimo.common.enums.OperatorType;
 import top.yimo.common.model.vo.ResponseVo;
+import top.yimo.common.model.vo.TreeVo;
+import top.yimo.sys.domain.MenuDO;
+import top.yimo.sys.domain.UserDO;
+import top.yimo.sys.service.MenuService;
 
 /**
  * @Author imTayle
@@ -30,7 +38,10 @@ import top.yimo.common.model.vo.ResponseVo;
 @Component
 @RequestMapping("/")
 public class AuthController extends BaseController {
-
+	
+	@Autowired
+	MenuService menuService;
+	
     @GetMapping(value = "login")
     @Log(title = "系统登陆", operatorType = OperatorType.LOGIN)
     public String login() {
@@ -58,7 +69,12 @@ public class AuthController extends BaseController {
     }
 
     @RequestMapping(value = "/index")
-    public String index() {
+    public String index(Model model) {
+    	//加载登陆用户信息
+    	UserDO currUser = getSysUser();
+    	List<TreeVo<MenuDO>> menus = menuService.getMenusByUser(currUser.getUserId());
+    	model.addAttribute("menus", menus);
+    	model.addAttribute("user", currUser);
         return "index";
     }
 

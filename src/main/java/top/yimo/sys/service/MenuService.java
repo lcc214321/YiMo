@@ -1,10 +1,11 @@
 package top.yimo.sys.service;
 
-import top.yimo.sys.domain.MenuDO;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import top.yimo.common.model.vo.TreeVo;
+import top.yimo.sys.domain.MenuDO;
 
 /**
  * 菜单管理
@@ -30,8 +31,13 @@ public interface MenuService {
 	
 	int batchRemove(Long[] menuIds);
 	/**
-	 * 通过用户ID查询对应菜单权限
+	 * 通过用户ID查询对应权限
 	 */
 	Set<String> listPermsByUserId(Long id);
+
+	/**
+	 * 通过用户ID查询对应有效的菜单
+	 */
+	List<TreeVo<MenuDO>> getMenusByUser(Long userId);
 
 }

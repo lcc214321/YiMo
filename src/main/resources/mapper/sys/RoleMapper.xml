@@ -9,7 +9,7 @@
 	
 	<!-- 数据表所有列名 -->
 	<sql id="Base_Column_List">
-		`role_id`,`role_name`,`role_sign`,`remark`,`create_user_id`,`create_time`,`update_time`	</sql>
+		`role_id`,`role_name`,`role_sign`,`remark`,`create_user_id`,`create_time`,`update_time`,`status`	</sql>
 
 	<!-- 查询字段 -->
 	<sql id="Base_Search_Param">
@@ -20,6 +20,7 @@
 				<if test="createUserId != null and createUserId != ''"> and create_user_id = #{createUserId} </if>
 				<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
 				<if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+				<if test="updateTime != null and updateTime != ''"> and status = #{status} </if>
 			</sql>
 	
 	
@@ -28,7 +29,15 @@
 		<include refid="Base_Column_List" />
 		from
 		<include refid="tableName" />
-		where role_id = #{value}
+		where role_id = #{value} and status = 1
+	</select>
+	
+	<select id="getAllRoles" resultType="top.yimo.sys.domain.RoleDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		where status = 1
 	</select>
 
 	<select id="listByPage" resultType="top.yimo.sys.domain.RoleDO">
@@ -52,6 +61,12 @@
 		select count(*) from sys_role
 		  where 1 = 1
 		<include refid="Base_Search_Param" />
+	</select>
+	
+	 <select id="getRolesByUserId" parameterType="Long" resultType="top.yimo.sys.domain.RoleDO">
+		select r.`role_id`,r.`role_name`,r.`role_sign`,r.`remark`,r.`create_user_id`,r.`create_time`,r.`update_time`,r.`status` 
+		from sys_role r ,sys_user_role ur 
+		where ur.role_id=r.role_id and ur.user_id=#{userId} and r.status='1' 
 	</select>
 	 
 	<insert id="save" parameterType="top.yimo.sys.domain.RoleDO" useGeneratedKeys="true" keyProperty="roleId">

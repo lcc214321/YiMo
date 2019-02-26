@@ -56,7 +56,7 @@ public class DeptServiceImpl implements DeptService {
 
 	@Override
 	public TreeVo<DeptDO> getTree() {
-		List<TreeVo> treeList = new ArrayList<TreeVo>();
+		List<TreeVo<DeptDO>> treeList = new ArrayList<TreeVo<DeptDO>>();
 		List<DeptDO> depts = deptDao.getTree();
 		for (DeptDO dept : depts) {
 			TreeVo tree = new TreeVo();

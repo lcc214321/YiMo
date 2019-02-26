@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import lombok.Data;
 
-
-
 /**
  * 角色 表sys_role
  * 
@@ -18,7 +16,7 @@ import lombok.Data;
 public class RoleDO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	//
+	//角色ID
 	private Long roleId;
 	//角色名称
 	private String roleName;
@@ -32,4 +30,10 @@ public class RoleDO implements Serializable {
 	private String createTime;
 	//更新时间
 	private String updateTime;
+	//标识用户是否含有该角色
+	private boolean hasRole = false;
+	
+	//角色是否有效
+	private String status;
+	
 }

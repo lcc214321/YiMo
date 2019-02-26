@@ -12,7 +12,7 @@
 					<li class="nav-header">
 						<div class="dropdown profile-element">
 							<span><img alt="image" class="img-circle" th:src="@{/img/profile_small.jpg}" /></span> <a data-toggle="dropdown" class="dropdown-toggle" href="#"> <span class="clear">
-									<span class="block m-t-xs"><strong class="font-bold">Tayle</strong></span> <span class="text-muted text-xs block">超级管理员<b class="caret"></b></span>
+									<span class="block m-t-xs"><strong class="font-bold"  th:text="${user.userName}"></strong></span> <span class="text-muted text-xs block">超级管理员<b class="caret"></b></span>
 							</span>
 							</a>
 							<ul class="dropdown-menu animated fadeInRight m-t-xs">
@@ -29,28 +29,18 @@
 					</li>
 					<li><a href="#"> <i class="fa fa-home"></i> <span class="nav-label">主页</span> <span class="fa arrow"></span>
 					</a>
-<!-- 					<li><a id="index001" class="fa fa-home" href="" data-index="0" th:href="@{/sys/user}">用户管理</a></li> -->
-					<ul class="nav nav-second-level">
-						<li><a id="index001" class="J_menuItem" href="" data-index="0" th:href="@{/generator}">自动生成代码</a></li>
-					</ul>
-					<ul class="nav nav-second-level">
-						<li><a id="index002" class="J_menuItem" href="" data-index="0" th:href="@{/sys/user}">用户管理</a></li>
-					</ul>
-					<ul class="nav nav-second-level">
-						<li><a id="index003" class="J_menuItem" href="" data-index="0" th:href="@{/sys/dept}">部门管理</a></li>
-					</ul>
-					<ul class="nav nav-second-level">
-						<li><a id="index004" class="J_menuItem" href="" data-index="0" th:href="@{/sys/menu}">菜单管理</a></li>
-					</ul>
+					<li th:each="menu : ${menus}"><a href="#"> <i class="fa fa fa-bar-chart-o" th:class="${menu.attributes.icon}"></i> <span class="nav-label" th:text="${menu.text}">基础信息</span>
+							<span class="fa arrow"></span>
+					</a>
 						<ul class="nav nav-second-level">
-						<li><a id="index005" class="J_menuItem" href="" data-index="0" th:href="@{/sys/role}">角色管理</a></li>
-					</ul>
+							<li th:each="cmenu : ${menu.children}"><a class="J_menuItem" href="#" th:text="${cmenu.text}" th:href="${cmenu.attributes.url}">系统管理</a></li>
+						</ul></li>
+					
+					
 				</ul>
 			</div>
-
 		</nav>
-		<div th:rep
-		ae="rightContent :: 	right-content"></div>
+		<div th:replace="rightContent :: 	right-content"></div>
 		<div th:replace="rightSidebar :: right-sidebar"></div>
 		<div th:replace="footer :: footer"></div>
 	</div>

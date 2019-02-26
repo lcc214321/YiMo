@@ -51,5 +51,20 @@ public class RoleServiceImpl implements RoleService {
 	public int batchRemove(Long[] roleIds){
 		return roleDao.batchRemove(roleIds);
 	}
+
+	@Override
+	public List<RoleDO> getRolesByUserId(Long userId) {
+		List<RoleDO> hasRoles = roleDao.getRolesByUserId(userId);
+		List<RoleDO> allRoles = roleDao.getAllRoles();
+		for (RoleDO allRole : allRoles) {
+			for (RoleDO hasRole : hasRoles) {
+				if(allRole.getRoleId().equals(hasRole.getRoleId())) {
+					allRole.setHasRole(true);
+					break;
+				}
+			}
+		}
+		return allRoles;
+	}
 	
 }

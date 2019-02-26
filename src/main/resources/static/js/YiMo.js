@@ -19,9 +19,10 @@ $.yimo.prototype.ajax = function(options) {
 					time : 2000
 				// 2s后自动关闭
 				});
-				parent.refresh();
-				var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
-				parent.layer.close(index);
+				if(options.needClose==true){
+					var index = parent.layer.getFrameIndex(window.name);
+				    parent.layer.close(index);
+				}
 			} else {
 				options.success && options.success(data);
 			}

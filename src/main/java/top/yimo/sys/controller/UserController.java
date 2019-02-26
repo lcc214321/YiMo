@@ -21,7 +21,11 @@ import top.yimo.common.controller.BaseController;
 import top.yimo.common.enums.OperatorType;
 import top.yimo.common.model.vo.PageVo;
 import top.yimo.common.model.vo.ResponseVo;
+import top.yimo.sys.domain.DeptDO;
+import top.yimo.sys.domain.RoleDO;
 import top.yimo.sys.domain.UserDO;
+import top.yimo.sys.service.DeptService;
+import top.yimo.sys.service.RoleService;
 import top.yimo.sys.service.UserService;
 
 /**
@@ -40,6 +44,12 @@ public class UserController extends BaseController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private RoleService roleService;
+	
+	@Autowired
+	private DeptService deptService;
+	
 	@GetMapping()
 	@RequiresPermissions("sys:user:user")
 	public String User() {
@@ -67,6 +77,12 @@ public class UserController extends BaseController {
 	public String edit(@PathVariable("userId") Long userId, Model model) {
 		UserDO user = userService.get(userId);
 		model.addAttribute("user", user);
+		//加载角色信息
+		List<RoleDO> roles = roleService.getRolesByUserId(userId);
+		model.addAttribute("roles", roles);
+		//加载部门信息
+		DeptDO dept = deptService.get(user.getDeptId());
+		model.addAttribute("dept", dept);
 		return prefix + "/edit";
 	}
 

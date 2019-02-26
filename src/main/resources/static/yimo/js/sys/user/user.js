@@ -68,17 +68,17 @@ function load() {
 									align : 'center',
 									formatter : function(value, row, index) {
 										var e = '<a class="btn btn-primary btn-sm '
-//												+ s_edit_h
+												+ s_edit_h
 												+ '" href="#" mce_href="#" title="编辑" onclick="edit(\''
 												+ row.userId
 												+ '\')"><i class="fa fa-edit"></i></a> ';
 										var d = '<a class="btn btn-warning btn-sm '
-//												+ s_remove_h
+												+ s_remove_h
 												+ '" href="#" title="删除"  mce_href="#" onclick="remove(\''
 												+ row.userId
 												+ '\')"><i class="fa fa-remove"></i></a> ';
-										var f = '<a class="btn btn-success btn-sm'
-//											+s_resetPwd_h
+										var f = '<a class="btn btn-success btn-sm '
+											+s_resetPwd_h
 											+'" href="#" title="重置密码"  mce_href="#" onclick="resetPwd(\''
 												+ row.userId
 												+ '\')"><i class="fa fa-key"></i></a> ';
@@ -113,27 +113,21 @@ function edit(id) {
 function remove(id) {
 	layer.confirm('确定要删除选中的记录？', {
 		btn : [ '确定', '取消' ]
-	}, function() {
+	}, function(index) {
+		layer.close(index);
 		yimo.ajaxDelete({
 			url : prefix + "/remove",
 			data : {
 				'userId' : id
 			},
 		});
+		refresh();
 	})
 }
 
 function resetPwd(id) {
 	yimo.ajaxPut({
 		url : prefix + "/resetPwd/"+id,
-	});
-}
-
-function update() {
-	yimo.ajaxPut({
-		url : prefix + "/update",
-		data : $('#editForm').serialize(),// 你的formid
-
 	});
 }
 
@@ -153,7 +147,8 @@ function batchRemove() {
 	layer.confirm("确认要删除选中的'" + rows.length + "'条数据吗?", {
 		btn : [ '确定', '取消' ]
 	// 按钮
-	}, function() {
+	}, function(index) {
+		layer.close(index);
 		var ids = new Array();
 		// 遍历所有选择的行数据，取每条数据对应的ID
 		$.each(rows, function(i, row) {
@@ -166,7 +161,7 @@ function batchRemove() {
 			},
 			url : prefix + '/batchRemove',
 		});
-	}, function() {
+		refresh();
 	});
 }
 
@@ -222,5 +217,4 @@ $('#jstree').on("changed.jstree", function(e, data) {
 	}else{
 		$('#userTable').bootstrapTable('refresh',{query:''});
 	}
-
 });

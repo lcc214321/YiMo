@@ -15,23 +15,18 @@ import top.yimo.common.model.vo.TreeVo;
  * @Time 2019年2月22日 上午11:21:09
  */
 public class TreeUtils {
-	public static  <T> TreeVo build(List<TreeVo> nodes) {
-
-		if (nodes == null) {
+	public static <T> TreeVo build(List<TreeVo<T>> trees) {
+		if (trees == null) {
 			return null;
 		}
 		List<TreeVo<T>> topNodes = new ArrayList<TreeVo<T>>();
-
-		for (TreeVo<T> children : nodes) {
-
+		for (TreeVo<T> children : trees) {
 			String pid = children.getPId();
 			if (pid == null || "0".equals(pid)) {
 				topNodes.add(children);
-
 				continue;
 			}
-
-			for (TreeVo<T> parent : nodes) {
+			for (TreeVo<T> parent : trees) {
 				String id = parent.getId();
 				if (id != null && id.equals(pid)) {
 					parent.getChildren().add(children);
@@ -57,5 +52,29 @@ public class TreeUtils {
 			root.setState(state);
 		}
 		return root;
+	}
+	
+	public static <T> List<TreeVo<T>> buildList(List<TreeVo<T>> nodes, String idParam) {
+		if (nodes == null) {
+			return null;
+		}
+		List<TreeVo<T>> topNodes = new ArrayList<TreeVo<T>>();
+		for (TreeVo<T> children : nodes) {
+			String pid = children.getPId();
+			if (pid == null || idParam.equals(pid)) {
+				topNodes.add(children);
+				continue;
+			}
+			for (TreeVo<T> parent : nodes) {
+				String id = parent.getId();
+				if (id != null && id.equals(pid)) {
+					parent.getChildren().add(children);
+					children.setHasParent(true);
+					parent.setHasChildren(true);
+					continue;
+				}
+			}
+		}
+		return topNodes;
 	}
 }

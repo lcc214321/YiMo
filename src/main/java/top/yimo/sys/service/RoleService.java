@@ -28,4 +28,9 @@ public interface RoleService {
 	int remove(Long roleId);
 	
 	int batchRemove(Long[] roleIds);
+
+	/**
+	 * 根据用户id获取其拥有的角色信息
+	 */
+	List<RoleDO> getRolesByUserId(Long userId);
 }

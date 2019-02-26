@@ -33,5 +33,7 @@ public interface MenuDao {
 	int batchRemove(Long[] menuIds);
 	@Select("select m.perms from sys_menu m,sys_user_role ur,sys_role_menu rm where ur.role_id=rm.role_id and rm.menu_id=m.menu_id and ur.user_id=#{id}" )
 	List<String> listPermsByUserId(Long id);
+	@Select("select m.* from sys_menu m,sys_user_role ur,sys_role_menu rm where ur.role_id=rm.role_id and rm.menu_id=m.menu_id and ur.user_id=#{id}" )
+	List<MenuDO> getMenuByUserId(Long id);
 
 }

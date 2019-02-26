@@ -1,6 +1,7 @@
 package top.yimo.sys.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 import lombok.Data;
 
@@ -30,6 +31,9 @@ public class UserDO implements Serializable {
 	private String mobile;
 	// 状态 0:禁用，1:正常
 	private Integer status;
+    /** 角色组 */
+    private List<Long> roleIds;
+
 	// 创建用户id
 	private Long createUserId;
 	// 创建时间

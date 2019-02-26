@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * 角色
@@ -30,4 +31,14 @@ public interface RoleDao {
 	int remove(Long role_id);
 	
 	int batchRemove(Long[] roleIds);
+
+	/**
+	 * 根据用户id获取其拥有的角色信息
+	 */
+	List<RoleDO> getRolesByUserId(Long userId);
+	
+	/**
+	 * 获取所有有效的角色信息
+	 */
+	List<RoleDO> getAllRoles();
 }

@@ -38,13 +38,16 @@ xmlns:shiro="http://www.pollix.at/thymeleaf/shiro" th:with="title='用户管理'
 	</div>
 	
 	<div th:replace="footer :: footer"></div>
-	<script type="text/javascript" th:src="@{/yimo/js/sys/user/user.js}"></script>
-	<script>
+	<script  type="text/javascript" th:inline="javascript">
+	var s_edit_h = [[${@permission.hasPermi('sys:user:edit')}]];
+	var s_remove_h = [[${@permission.hasPermi('sys:user:remove')}]];
+	var s_resetPwd_h = [[${@permission.hasPermi('sys:user:resetPwd')}]];
 	$().ready(function() {
 		load();
 		getTreeData();
 		validateRule();
 	});
 	</script>
+	<script type="text/javascript" th:src="@{/yimo/js/sys/user/user.js}"></script>
 </body>
 </html>
