@@ -9,21 +9,27 @@
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
 						<form class="form-horizontal m-t" id="RoleForm">
-						<input id="roleId" name="roleId" th:value="${role.roleId}"  type="hidden">
+							<input id="roleId" name="roleId" th:value="${role.roleId}" type="hidden">
+							<div class="form-group">
+								<label class="col-sm-3 control-label">角色标识：</label>
+								<div class="col-sm-8">
+									<input id="roleSign" name="roleSign" readonly="readonly" th:value="${role.roleSign}" class="form-control" type="text">
+								</div>
+							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label">角色名称：</label>
 								<div class="col-sm-8">
-									<input id="roleName" name="roleName"
-										th:value="${role.roleName}" class="form-control" type="text">
+									<input id="roleName" name="roleName" th:value="${role.roleName}" class="form-control" type="text">
 								</div>
 							</div>
-							<div class="form-group">	
-								<label class="col-sm-3 control-label">角色标识：</label>
+							<div class="form-group">
+								<input id="menuIds" name="menuIds" type="hidden"> <label class="col-sm-3 control-label">菜单权限：</label>
 								<div class="col-sm-8">
-									<input id="roleSign" name="roleSign" th:value="${role.roleSign}" class="form-control" type="text">
+									<div id="menuTree"></div>
 								</div>
 							</div>
-							<div class="form-group">	
+
+							<div class="form-group">
 								<label class="col-sm-3 control-label">备注：</label>
 								<div class="col-sm-8">
 									<input id="remark" name="remark" th:value="${role.remark}" class="form-control" type="text">
@@ -31,17 +37,85 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-8 col-sm-offset-3">
-									<button type="submit" class="btn btn-primary" onclick="update()">提交</button>
+									<button type="submit" class="btn btn-primary">提交</button>
 								</div>
 							</div>
 						</form>
 					</div>
 				</div>
 			</div>
-	</div>
+		</div>
 	</div>
 	<div th:replace="footer :: footer"></div>
-	<script type="text/javascript" th:src="@{/yimo/js/sys/role/role.js}">
+	<script type="text/javascript">
+		$().ready(function() {
+			getMenuTreeData();
+			validateRule();
+		});
+
+		$.validator.setDefaults({
+			submitHandler : function() {
+				getAllSelectNodes();
+				update();
+			}
+		});
+
+		function update() {
+			$('#menuIds').val(menuIds);
+			yimo.ajaxPut({
+				url : ctx + "sys/role/update",
+				data : $('#RoleForm').serialize(),// 你的formid
+				needClose: true,
+			});
+			window.parent.location.reload();
+		}
+
+		function getMenuTreeData() {
+			var roleId = $('#roleId').val();
+			$.ajax({
+				type : "GET",
+				url : ctx + "sys/menu/getMenuTree/" + roleId,
+				success : function(data) {
+					loadMenuTree(data);
+				}
+			});
+		}
+
+		function loadMenuTree(menuTree) {
+			console.log(menuTree);
+			$('#menuTree').jstree({
+				"plugins" : [ "wholerow", "checkbox" ],
+				'core' : {
+					'data' : menuTree,
+					'expand_selected_onload' : true,
+				},
+			});
+		}
+
+		function getAllSelectNodes() {
+			var ref = $('#menuTree').jstree(true); // 获得整个树
+			menuIds = ref.get_selected(); // 获得所有选中节点的，返回值为数组
+			$("#menuTree").find(".jstree-undetermined").each(
+					function(i, element) {
+						menuIds.push($(element).closest('.jstree-node').attr("id"));
+					});
+		}
+
+		function validateRule() {
+			var icon = "<i class='fa fa-times-circle'></i> ";
+			$("#RoleForm").validate({
+				rules : {
+					roleName : {
+						required : true
+					}
+				},
+				messages : {
+					roleName : {
+						required : icon + "请输入角色名"
+					}
+				}
+			});
+		}
 	</script>
 </body>
 </html>

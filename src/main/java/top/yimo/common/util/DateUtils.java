@@ -124,7 +124,7 @@ public class DateUtils {
 	}
 
 	/**
-	 * HH:mm:ss 当前时间
+	 * yyyy-MM-dd HH:mm:ss 当前时间
 	 * 
 	 * @return
 	 */

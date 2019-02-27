@@ -1,7 +1,6 @@
 var prefix = ctx+"sys/dept"
 $(function() {
 	load();
-	validateRule();
 });
 
 function load() {

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import top.yimo.common.model.vo.TreeVo;
 import top.yimo.common.util.TreeUtils;
 import top.yimo.sys.dao.MenuDao;
+import top.yimo.sys.dao.RoleMenuDao;
 import top.yimo.sys.domain.MenuDO;
 import top.yimo.sys.service.MenuService;
 
@@ -22,6 +23,8 @@ import top.yimo.sys.service.MenuService;
 public class MenuServiceImpl implements MenuService {
 	@Autowired
 	private MenuDao menuDao;
+	@Autowired
+	private RoleMenuDao roleMenuDao;
 
 	@Override
 	public MenuDO get(Long menuId) {
@@ -63,7 +66,7 @@ public class MenuServiceImpl implements MenuService {
 		List<String> perms = menuDao.listPermsByUserId(id);
 		Set<String> permsSet = new HashSet<>();
 		for (String perm : perms) {
-			if (StringUtils.isNotBlank(perm)) {//排除空格
+			if (StringUtils.isNotBlank(perm)) {// 排除空格
 				permsSet.addAll(Arrays.asList(perm.trim().split(",")));
 			}
 		}
@@ -71,7 +74,7 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public List<TreeVo<MenuDO>>  getMenusByUser(Long userId) {
+	public List<TreeVo<MenuDO>> getMenusByUser(Long userId) {
 		List<TreeVo<MenuDO>> trees = new ArrayList<TreeVo<MenuDO>>();
 		List<MenuDO> menus = menuDao.getMenuByUserId(userId);
 		for (MenuDO menu : menus) {
@@ -85,9 +88,31 @@ public class MenuServiceImpl implements MenuService {
 			tree.setAttributes(attributes);
 			trees.add(tree);
 		}
-		// 默认顶级菜单为０，根据数据库实际情况调整
-		List<TreeVo<MenuDO>> treeList = TreeUtils.buildList(trees, "0");
+		List<TreeVo<MenuDO>> treeList = TreeUtils.buildList(trees, "", false);
 		return treeList;
 	}
 
+	@Override
+	public List<TreeVo<MenuDO>> getMenuTreeByRole(Long roleId) {
+		List<TreeVo<MenuDO>> trees = new ArrayList<TreeVo<MenuDO>>();
+		List<Long> hasMenuIds = roleMenuDao.getMenuIdByRoleId(roleId);
+		List<MenuDO> allMenus = menuDao.getAllMenu();
+		for (MenuDO menuDO : allMenus) {// 将角色已关联的菜单打上标签
+			TreeVo<MenuDO> tree = new TreeVo<MenuDO>();
+			tree.setId(menuDO.getMenuId().toString());
+			tree.setPId(menuDO.getParentId().toString());
+			tree.setText(menuDO.getName());
+			Long menuId = menuDO.getMenuId();
+			Map<String, Object> state = new HashMap<>();
+			if (hasMenuIds.contains(menuId)) {// 包含
+				state.put("selected", true);
+			} else {
+				state.put("selected", false);
+			}
+			tree.setState(state);
+			trees.add(tree);
+		}
+		List<TreeVo<MenuDO>> treeList = TreeUtils.buildList(trees, "", true);
+		return treeList;
+	}
 }

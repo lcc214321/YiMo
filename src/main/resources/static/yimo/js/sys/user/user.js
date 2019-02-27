@@ -165,29 +165,6 @@ function batchRemove() {
 	});
 }
 
-function validateRule() {
-	var icon = "<i class='fa fa-times-circle'></i> ";
-	$("#reset_pwd_Form").validate({
-		rules : {
-			password : {
-				required : true,
-				minlength : 6
-			}
-		},
-		messages : {
-			password : {
-				required : icon + "请输入您的密码",
-				minlength : icon + "密码必须6个字符以上"
-			}
-		}
-	})
-}
-
-function dept(){
-	$("body").toggleClass("mini-navbar");
-    SmoothlyMenu();
-}
-
 function getTreeData() {
 	$.ajax({
 		type : "GET",

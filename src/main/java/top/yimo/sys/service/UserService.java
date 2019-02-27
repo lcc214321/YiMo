@@ -31,4 +31,9 @@ public interface UserService {
 	int batchRemove(Long[] userIds);
 
 	int resetPwd(Long userId) throws Exception;
+
+	/**
+	 * 判断userName是否唯一
+	 */
+	boolean checkLoginNameUnique(String userName);
 }

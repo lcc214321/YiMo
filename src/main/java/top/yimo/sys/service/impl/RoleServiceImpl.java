@@ -1,54 +1,68 @@
 package top.yimo.sys.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import top.yimo.sys.dao.RoleDao;
+import top.yimo.sys.dao.RoleMenuDao;
 import top.yimo.sys.domain.RoleDO;
+import top.yimo.sys.domain.RoleMenuDO;
 import top.yimo.sys.service.RoleService;
 
-
-
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class RoleServiceImpl implements RoleService {
 	@Autowired
 	private RoleDao roleDao;
-	
+	@Autowired
+	private RoleMenuDao roleMenuDao;
+
 	@Override
-	public RoleDO get(Long roleId){
+	public RoleDO get(Long roleId) {
 		return roleDao.get(roleId);
 	}
-	
+
 	@Override
-	public List<RoleDO> listByPage(Map<String, Object> map){
+	public List<RoleDO> listByPage(Map<String, Object> map) {
 		return roleDao.listByPage(map);
 	}
-	
+
 	@Override
-	public int count(Map<String, Object> map){
+	public int count(Map<String, Object> map) {
 		return roleDao.count(map);
 	}
-	
+
 	@Override
-	public int save(RoleDO role){
+	public int save(RoleDO role) {
 		return roleDao.save(role);
 	}
-	
+
 	@Override
-	public int update(RoleDO role){
+	public int update(RoleDO role) {
+		roleMenuDao.batchRemoveByRoleID(role.getRoleId());// 清空原有数据
+		List<Long> menuIds = role.getMenuIds();
+		if (menuIds.size() > 0) {
+			for (Long menuId : menuIds) {
+				RoleMenuDO roleRoleDO = new RoleMenuDO();
+				roleRoleDO.setMenuId(menuId);
+				roleRoleDO.setRoleId(role.getRoleId());
+				roleMenuDao.save(roleRoleDO);
+			}
+		}
 		return roleDao.update(role);
 	}
-	
+
 	@Override
-	public int remove(Long roleId){
+	public int remove(Long roleId) {
 		return roleDao.remove(roleId);
 	}
-	
+
 	@Override
-	public int batchRemove(Long[] roleIds){
+	public int batchRemove(Long[] roleIds) {
 		return roleDao.batchRemove(roleIds);
 	}
 
@@ -58,7 +72,7 @@ public class RoleServiceImpl implements RoleService {
 		List<RoleDO> allRoles = roleDao.getAllRoles();
 		for (RoleDO allRole : allRoles) {
 			for (RoleDO hasRole : hasRoles) {
-				if(allRole.getRoleId().equals(hasRole.getRoleId())) {
+				if (allRole.getRoleId().equals(hasRole.getRoleId())) {
 					allRole.setHasRole(true);
 					break;
 				}
@@ -66,5 +80,5 @@ public class RoleServiceImpl implements RoleService {
 		}
 		return allRoles;
 	}
-	
+
 }

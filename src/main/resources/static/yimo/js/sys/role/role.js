@@ -1,8 +1,4 @@
-var prefix = ctx+"sys/role"
-$(function() {
-	load();
-});
-
+var prefix = ctx + "sys/role"
 function load() {
 	$('#RoleTable')
 			.bootstrapTable(
@@ -21,7 +17,8 @@ function load() {
 						pageNumber : 1, // 如果设置了分布，首页页码
 						search : false, // 是否显示搜索框
 						showColumns : false, // 是否显示内容下拉框（选择显示的列）
-						sidePagination : "server", // 设置在哪里进行分页，可选值为"client" 或者 "server"
+						sidePagination : "server", // 设置在哪里进行分页，可选值为"client" 或者
+						// "server"
 						queryParams : function(params) {
 							return {
 								limit : params.limit,
@@ -32,55 +29,59 @@ function load() {
 								{
 									checkbox : true
 								},
-																{
-									field : 'roleId', 
-									title : '角色编号' 
+								{
+									field : 'roleId',
+									visible : false,
+									title : '角色编号'
 								},
-																{
-									field : 'roleName', 
-									title : '角色名称' 
+								{
+									field : 'roleName',
+									title : '角色名称'
 								},
-																{
-									field : 'roleSign', 
-									title : '角色标识' 
+								{
+									field : 'roleSign',
+									title : '角色标识'
 								},
-																{
-									field : 'remark', 
-									title : '备注' 
+								{
+									field : 'status',
+									title : '是否有效',
+									formatter : function(value, row, index) {
+										if (value == '0') {
+											return '<span class="label label-danger">停用</span>';
+										} else if (value == '1') {
+											return '<span class="label label-primary">正常</span>';
+										}
+									}
 								},
-																{
-									field : 'createUserId', 
-									title : '创建用户id' 
+								{
+									field : 'remark',
+									title : '备注'
 								},
-																{
-									field : 'createTime', 
-									title : '创建时间' 
-								},
-																{
-									field : 'updateTime', 
-									title : '更新时间' 
-								},
-																{
+								{
 									title : '操作',
 									field : 'id',
 									align : 'center',
 									formatter : function(value, row, index) {
-										var e = '<a class="btn btn-primary btn-sm '+s_edit_h+'" href="#" mce_href="#" title="编辑" onclick="edit(\''
+										var e = '<a class="btn btn-primary btn-sm '
+												+ s_edit_h
+												+ '" href="#" mce_href="#" title="编辑" onclick="edit(\''
 												+ row.roleId
 												+ '\')"><i class="fa fa-edit"></i></a> ';
-										var d = '<a class="btn btn-warning btn-sm '+s_remove_h+'" href="#" title="删除"  mce_href="#" onclick="remove(\''
+										var d = '<a class="btn btn-warning btn-sm '
+												+ s_remove_h
+												+ '" href="#" title="删除"  mce_href="#" onclick="remove(\''
 												+ row.roleId
 												+ '\')"><i class="fa fa-remove"></i></a> ';
-										return e + d ;
+										return e + d;
 									}
 								} ]
 					});
 }
-//刷新
+// 刷新
 function refresh() {
 	$('#RoleTable').bootstrapTable('refresh');
 }
-//新增
+// 新增
 function add() {
 	layer.open({
 		type : 2,
@@ -91,7 +92,7 @@ function add() {
 		content : prefix + '/add' // iframe的url
 	});
 }
-//编辑
+// 编辑
 function edit(id) {
 	layer.open({
 		type : 2,
@@ -102,11 +103,11 @@ function edit(id) {
 		content : prefix + '/edit/' + id // iframe的url
 	});
 }
-//删除
+// 删除
 function remove(id) {
 	layer.confirm('确定要删除选中的记录？', {
 		btn : [ '确定', '取消' ]
-	},  function() {
+	}, function() {
 		yimo.ajaxDelete({
 			url : prefix + "/remove",
 			data : {
@@ -115,7 +116,7 @@ function remove(id) {
 		});
 	})
 }
-//批量删除
+// 批量删除
 function batchRemove() {
 	var rows = $('#RoleTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
 	if (rows.length == 0) {
@@ -141,18 +142,9 @@ function batchRemove() {
 	});
 }
 
-
 function save() {
 	yimo.ajaxPost({
 		url : prefix + "/save",
 		data : $('#RoleForm').serialize(),
-	});
-}
-
-function update() {
-	yimo.ajaxPut({
-		url : prefix + "/update",
-		data : $('#RoleForm').serialize(),// 你的formid
-
 	});
 }

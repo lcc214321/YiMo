@@ -1,6 +1,7 @@
 package top.yimo.sys.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 import lombok.Data;
 
@@ -12,28 +13,30 @@ import lombok.Data;
  * @version 1.0
  * @date 2019年22月24日 17:22:00
  */
- @Data
+@Data
 public class RoleDO implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	//角色ID
+
+	// 角色ID
 	private Long roleId;
-	//角色名称
+	// 角色名称
 	private String roleName;
-	//角色标识
+	// 角色标识
 	private String roleSign;
-	//备注
+	// 备注
 	private String remark;
-	//创建用户id
+	// 创建用户id
 	private Long createUserId;
-	//创建时间
+	// 创建时间
 	private String createTime;
-	//更新时间
+	// 更新时间
 	private String updateTime;
-	//标识用户是否含有该角色
+	// 标识用户是否含有该角色
 	private boolean hasRole = false;
-	
-	//角色是否有效
+	// 角色是否有效
 	private String status;
-	
+
+	// 角色拥有的菜单
+	private List<Long> menuIds;
+
 }

@@ -21,6 +21,8 @@ import top.yimo.common.controller.BaseController;
 import top.yimo.common.enums.OperatorType;
 import top.yimo.common.model.vo.PageVo;
 import top.yimo.common.model.vo.ResponseVo;
+import top.yimo.common.util.DateUtils;
+import top.yimo.common.util.ShiroUtils;
 import top.yimo.sys.domain.DeptDO;
 import top.yimo.sys.domain.RoleDO;
 import top.yimo.sys.domain.UserDO;
@@ -46,10 +48,10 @@ public class UserController extends BaseController {
 
 	@Autowired
 	private RoleService roleService;
-	
+
 	@Autowired
 	private DeptService deptService;
-	
+
 	@GetMapping()
 	@RequiresPermissions("sys:user:user")
 	public String User() {
@@ -68,7 +70,8 @@ public class UserController extends BaseController {
 
 	@GetMapping("/add")
 	@RequiresPermissions("sys:user:add")
-	public String add() {
+	public String add(Model model) {
+		model.addAttribute("user", new UserDO());
 		return prefix + "/add";
 	}
 
@@ -77,23 +80,24 @@ public class UserController extends BaseController {
 	public String edit(@PathVariable("userId") Long userId, Model model) {
 		UserDO user = userService.get(userId);
 		model.addAttribute("user", user);
-		//加载角色信息
+		// 加载角色信息
 		List<RoleDO> roles = roleService.getRolesByUserId(userId);
 		model.addAttribute("roles", roles);
-		//加载部门信息
+		// 加载部门信息
 		DeptDO dept = deptService.get(user.getDeptId());
 		model.addAttribute("dept", dept);
 		return prefix + "/edit";
 	}
 
 	/**
-	 * 保存
+	 * 新增保存
 	 */
 	@ResponseBody
 	@PostMapping("/save")
 	@RequiresPermissions("sys:user:add")
 	public ResponseVo save(UserDO user) {
-
+		user.setCreateUserId(ShiroUtils.getUserId());
+		user.setCreateTime(DateUtils.getNow());
 		if (userService.save(user) > 0) {
 			return ResponseVo.ok("保存成功");
 		}
@@ -106,6 +110,7 @@ public class UserController extends BaseController {
 	@PutMapping("/update")
 	@RequiresPermissions("sys:user:edit")
 	public ResponseVo update(UserDO user) {
+		user.setUpdateTime(DateUtils.getNow());
 		if (userService.update(user) > 0) {
 			return ResponseVo.ok("更新成功");
 		}
@@ -150,6 +155,14 @@ public class UserController extends BaseController {
 		} catch (Exception e) {
 			return ResponseVo.fail(-1, e.getMessage());
 		}
-
 	}
+	/**
+	* 校验用户名是否唯一
+	*/
+	@PostMapping("/checkLoginNameUnique")
+	@ResponseBody
+	public boolean checkLoginNameUnique(String username) {
+		return userService.checkLoginNameUnique(username.trim());
+	}
+
 }

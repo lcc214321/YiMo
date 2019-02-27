@@ -1,9 +1,10 @@
 package top.yimo.sys.domain;
 
-import java.io.Serializable;
 import java.util.List;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import top.yimo.common.domain.BaseDo;
 
 /**
  * 表sys_user
@@ -12,7 +13,8 @@ import lombok.Data;
  * @date 2019年41月16日 17:41:03
  */
 @Data
-public class UserDO implements Serializable {
+@EqualsAndHashCode(callSuper = false)
+public class UserDO extends BaseDo {
 	private static final long serialVersionUID = 1L;
 
 	//
@@ -31,15 +33,7 @@ public class UserDO implements Serializable {
 	private String mobile;
 	// 状态 0:禁用，1:正常
 	private Integer status;
-    /** 角色组 */
-    private List<Long> roleIds;
 
-	// 创建用户id
-	private Long createUserId;
-	// 创建时间
-	private String createTime;
-	// 修改时间
-	private String updateTime;
 	// 性别
 	private Long sex;
 	// 出身日期
@@ -56,4 +50,7 @@ public class UserDO implements Serializable {
 	private String city;
 	// 所在地区
 	private String district;
+
+	// 用户所拥有的角色
+	private List<Long> roleIds;
 }

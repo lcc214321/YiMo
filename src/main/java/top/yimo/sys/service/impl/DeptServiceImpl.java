@@ -61,14 +61,14 @@ public class DeptServiceImpl implements DeptService {
 		for (DeptDO dept : depts) {
 			TreeVo tree = new TreeVo();
 			tree.setId(dept.getDeptId().toString());
-            tree.setPId(dept.getParentId().toString());
-            tree.setText(dept.getDeptName());
-            Map<String, Object> state = new HashMap<>(16);
-            state.put("opened", true);
-            tree.setState(state);
-            treeList.add(tree);
+			tree.setPId(dept.getParentId().toString());
+			tree.setText(dept.getDeptName());
+			Map<String, Object> state = new HashMap<>(16);
+			state.put("opened", true);
+			tree.setState(state);
+			treeList.add(tree);
 		}
-		TreeVo tree = TreeUtils.build(treeList);
+		TreeVo tree = TreeUtils.build(treeList, "");
 		return tree;
 	}
 

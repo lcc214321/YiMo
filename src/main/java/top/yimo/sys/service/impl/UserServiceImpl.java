@@ -56,12 +56,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public int update(UserDO user) {
+		user.setUpdateTime(DateUtils.getNow());
 		Long userId = user.getUserId();
-		System.out.println("userid"+userId);
 		// 更新用户角色信息
 		uerRoleDao.batchRemoveByUserID(userId);
 		List<Long> roles = user.getRoleIds();
-		if(roles.size()>0) {
+		if (roles.size() > 0) {
 			for (Long roleId : roles) {
 				UserRoleDO userRoleDO = new UserRoleDO();
 				userRoleDO.setRoleId(roleId);
@@ -87,6 +87,12 @@ public class UserServiceImpl implements UserService {
 		UserDO user = get(userId);
 		user.setPassword(YiMoUtils.encrypt(user.getUserName(), WebConstant.DEAFULT_PWD));
 		return update(user);
+	}
+
+	@Override
+	public boolean checkLoginNameUnique(String userName) {
+		UserDO user = userDao.findByUserName(userName);
+		return user == null;
 	}
 
 }
