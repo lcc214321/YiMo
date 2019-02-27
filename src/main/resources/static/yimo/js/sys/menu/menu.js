@@ -12,7 +12,7 @@ var load = function() {
 	    expandColumn : '1',// 在哪一列上面显示展开按钮
 	    striped : true, // 是否各行渐变色
 	    bordered : true, // 是否显示边框
-	    expandAll : false, // 是否全部展开
+	    expandAll : true, // 是否全部展开
 	    // toolbar : '#exampleToolbar',
 	    columns : [ {
 	        title : '编号',
@@ -26,9 +26,7 @@ var load = function() {
 	        valign : 'center',
 	        field : 'name',
 	        width : '20%'
-	    },
-
-	    {
+	    }, {
 	        title : '图标',
 	        field : 'icon',
 	        align : 'center',
@@ -81,17 +79,18 @@ var load = function() {
 
 // 刷新
 function refresh() {
-	$('#MenuTable').bootstrapTable('refresh');
+	console.log("进入了刷新");
+	$('#MenuTable').bootstrapTreeTable('refresh');
 }
 // 新增
-function add() {
+function add(menuId) {
 	layer.open({
 	    type : 2,
 	    title : '增加',
 	    maxmin : true,
 	    shadeClose : false, // 点击遮罩关闭层
 	    area : [ '800px', '520px' ],
-	    content : prefix + '/add' // iframe的url
+	    content : prefix + '/add/' + menuId // iframe的url
 	});
 }
 // 编辑
@@ -109,45 +108,14 @@ function edit(id) {
 function remove(id) {
 	layer.confirm('确定要删除选中的记录？', {
 		btn : [ '确定', '取消' ]
-	}, function() {
+	}, function(index) {
+		layer.close(index);
 		yimo.ajaxDelete({
 		    url : prefix + "/remove",
 		    data : {
 			    'menuId' : id
 		    },
+		    refresh : true,
 		});
-	})
-}
-// 批量删除
-function batchRemove() {
-	var rows = $('#MenuTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
-	if (rows.length == 0) {
-		layer.msg("请选择要删除的数据");
-		return;
-	}
-	layer.confirm("确认要删除选中的'" + rows.length + "'条数据吗?", {
-		btn : [ '确定', '取消' ]
-	// 按钮
-	}, function() {
-		var ids = new Array();
-		// 遍历所有选择的行数据，取每条数据对应的ID
-		$.each(rows, function(i, row) {
-			ids[i] = row['menuId'];
-		});
-		yimo.ajaxDelete({
-		    data : {
-			    "ids" : ids
-		    },
-		    url : prefix + '/batchRemove',
-		});
-	}, function() {
 	});
 }
-
-function save() {
-	yimo.ajaxPost({
-	    url : prefix + "/save",
-	    data : $('#MenuForm').serialize(),
-	});
-}
-

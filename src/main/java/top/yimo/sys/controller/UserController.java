@@ -21,8 +21,6 @@ import top.yimo.common.controller.BaseController;
 import top.yimo.common.enums.OperatorType;
 import top.yimo.common.model.vo.PageVo;
 import top.yimo.common.model.vo.ResponseVo;
-import top.yimo.common.util.DateUtils;
-import top.yimo.common.util.ShiroUtils;
 import top.yimo.sys.domain.DeptDO;
 import top.yimo.sys.domain.RoleDO;
 import top.yimo.sys.domain.UserDO;
@@ -96,8 +94,8 @@ public class UserController extends BaseController {
 	@PostMapping("/save")
 	@RequiresPermissions("sys:user:add")
 	public ResponseVo save(UserDO user) {
-		user.setCreateUserId(ShiroUtils.getUserId());
-		user.setCreateTime(DateUtils.getNow());
+		// beforeSave(user);
+		// user.setStatus(1);// 新增用户默认有效
 		if (userService.save(user) > 0) {
 			return ResponseVo.ok("保存成功");
 		}
@@ -110,7 +108,7 @@ public class UserController extends BaseController {
 	@PutMapping("/update")
 	@RequiresPermissions("sys:user:edit")
 	public ResponseVo update(UserDO user) {
-		user.setUpdateTime(DateUtils.getNow());
+		beforeUpdate(user);
 		if (userService.update(user) > 0) {
 			return ResponseVo.ok("更新成功");
 		}
@@ -159,10 +157,10 @@ public class UserController extends BaseController {
 	/**
 	* 校验用户名是否唯一
 	*/
-	@PostMapping("/checkLoginNameUnique")
+	@PostMapping("/checkUserNameUnique")
 	@ResponseBody
-	public boolean checkLoginNameUnique(String username) {
-		return userService.checkLoginNameUnique(username.trim());
+	public boolean checkUserNameUnique(String username) {
+		return userService.checkUserNameUnique(username.trim());
 	}
 
 }

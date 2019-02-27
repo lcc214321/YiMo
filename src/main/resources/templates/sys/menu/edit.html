@@ -65,17 +65,43 @@
 		var prefix = ctx + "/sys/menu/"
         $().ready(function() {
 	        validateRule();
+	        $('input[type=radio][name=type]').change(function() {
+		        var menuType = this.value;
+		        menuVisible(menuType);
+	        });
         });
+		
+		function menuVisible(menuType) {
+            if (menuType == "0") {
+                $("#url").parents(".form-group").hide();
+                $("#perms").parents(".form-group").hide();
+                $("#icon").parents(".form-group").show();
+            } else if (menuType == "1") {
+                $("#url").parents(".form-group").show();
+                $("#perms").parents(".form-group").show();
+                $("#icon").parents(".form-group").show();
+            } else if (menuType == "2") {
+                $("#url").parents(".form-group").hide();
+                $("#perms").parents(".form-group").show();
+                $("#icon").parents(".form-group").hide();
+            }
+        }
 
-        function validateRule() {
+		function validateRule() {
 	        var icon = "<i class='fa fa-times-circle'></i> ";
-	        $("#editForm").validate({
+	        $("#MenuForm").validate({
 	            rules : {
 	                name : {
 		                required : true
 	                },
-	                url : {
+	                type: {
 		                required : true
+	                },
+	                url: {
+	                	  required : true
+	                },
+	                perms: {
+	                	  required : true
 	                },
 	            },
 	            messages : {
@@ -85,14 +111,22 @@
 	                url : {
 		                required : icon + "请输入菜单URL"
 	                },
+	                type:{
+	                	required : icon + "请选择菜单类型"
+	                },
+	                url : {
+		                required : icon + "请输入菜单URL"
+	                },
+	                perms : {
+		                required : icon + "请输入菜单对应权限信息"
+	                },
 	            }
 	        })
         }
 
         $.validator.setDefaults({
 	        submitHandler : function() {
-		        alert("xxxxxxx");
-		        // 		        update();
+		        update();
 	        }
         });
 
@@ -100,6 +134,8 @@
 	        yimo.ajaxPut({
 	            url : prefix + "/update",
 	            data : $('#MenuForm').serialize(),// 你的formid
+	            needClose : true,
+	            parentRefresh : true,
 	        });
         }
 	</script>

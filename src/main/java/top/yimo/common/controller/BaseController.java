@@ -2,7 +2,9 @@ package top.yimo.common.controller;
 
 import java.util.List;
 
+import top.yimo.common.domain.BaseDo;
 import top.yimo.common.model.vo.PageVo;
+import top.yimo.common.util.DateUtils;
 import top.yimo.common.util.ShiroUtils;
 import top.yimo.sys.domain.UserDO;
 
@@ -15,27 +17,32 @@ import top.yimo.sys.domain.UserDO;
  */
 
 public class BaseController {
-	 /**
-     * 响应请求分页数据
-     */
-    protected PageVo getPageData(List<?> list,int total)
-    {
+	/**
+	* 响应请求分页数据
+	*/
+	protected PageVo getPageData(List<?> list, int total) {
 		PageVo page = new PageVo(list, total);
-        return page;
-    }
-    
-    public UserDO getSysUser()
-    {
-        return ShiroUtils.getSysUser();
-    }
+		return page;
+	}
 
-    public Long getUserId()
-    {
-        return getSysUser().getUserId();
-    }
+	public UserDO getSysUser() {
+		return ShiroUtils.getSysUser();
+	}
 
-    public String getUserName()
-    {
-        return getSysUser().getUserName();
-    }
+	public Long getUserId() {
+		return getSysUser().getUserId();
+	}
+
+	public String getUserName() {
+		return getSysUser().getUserName();
+	}
+
+	public void beforeSave(BaseDo baseDo) {
+		baseDo.setCreateUserId(ShiroUtils.getUserId());
+		baseDo.setCreateTime(DateUtils.getNow());
+	}
+
+	public void beforeUpdate(BaseDo baseDo) {
+		baseDo.setUpdateTime(DateUtils.getNow());
+	}
 }

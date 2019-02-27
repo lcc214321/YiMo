@@ -3,6 +3,7 @@ package top.yimo.sys.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -55,9 +56,17 @@ public class MenuController extends BaseController {
 		return menuList;
 	}
 
-	@GetMapping("/add")
+	/**
+	 * 增加下级菜单
+	 */
+	@GetMapping("/add/{menuId}")
 	@RequiresPermissions("sys:menu:add")
-	public String add() {
+	public String add(@PathVariable("menuId") Long menuId, Model model) {
+		if (StringUtils.isBlank(menuId.toString())) {
+			menuId = 0l;
+		}
+		model.addAttribute("pMenuId", menuId);
+		model.addAttribute("menu", new MenuDO());
 		return prefix + "/add";
 	}
 

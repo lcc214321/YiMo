@@ -36,8 +36,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label">部门：</label>
 								<div class="col-sm-8">
-									<input class="form-control" type="text" name="deptName" onclick="selectDeptTree()" readonly="readonly" id="deptName"> 
-									<input id="deptId" name="deptId" class="hidden">
+									<input class="form-control" type="text" name="deptName" onclick="selectDeptTree()" readonly="readonly" id="deptName"> <input id="deptId" name="deptId" class="hidden">
 								</div>
 							</div>
 							<div class="form-group">
@@ -53,60 +52,8 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label">状态：</label>
-								<div class="col-sm-8">
-									<label class="radio-inline"> <input th:field="*{user.status}" type="radio" name="status" value="1" /> 正常
-									</label> <label class="radio-inline"> <input th:field="*{user.status}" type="radio" name="status" value="0" /> 禁用
-									</label>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label">性别：</label>
-								<div class="col-sm-8">
-									<label class="radio-inline"> <input th:field="*{user.sex}" type="radio" name="status" value="1" /> 男
-									</label> <label class="radio-inline"> <input th:field="*{user.sex}" type="radio" name="status" value="0" /> 女
-									</label>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label">出身日期：</label>
-								<div class="col-sm-8">
-									<input id="birth" name="birth" class="form-control" type="text">
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label">现居住地：</label>
-								<div class="col-sm-8">
-									<input id="address" name="address" class="form-control" type="text">
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label">爱好：</label>
-								<div class="col-sm-8">
-									<input id="hobby" name="hobby" class="form-control" type="text">
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label">省份：</label>
-								<div class="col-sm-8">
-									<input id="province" name="province" class="form-control" type="text">
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label">所在城市：</label>
-								<div class="col-sm-8">
-									<input id="city" name="city" class="form-control" type="text">
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label">所在地区：</label>
-								<div class="col-sm-8">
-									<input id="district" name="district" class="form-control" type="text">
-								</div>
-							</div>
-							<div class="form-group">
 								<div class="col-sm-8 col-sm-offset-3">
-									<button type="submit" class="btn btn-primary" onclick="save()">提交</button>
+									<button type="submit" class="btn btn-primary">提交</button>
 								</div>
 							</div>
 						</form>
@@ -121,62 +68,124 @@
 	        validateRule();
         });
 
+        $.validator.addMethod("isMobile", function(value, element) {
+	        var length = value.length;
+	        var mobile = /^1[0-9]{10}$/;
+	        return this.optional(element) || (length == 11 && mobile.test(value));
+        }, "请正确填写您的手机号码");
+
+        $.validator.setDefaults({
+	        submitHandler : function() {
+		        yimo.ajaxPost({
+		            url : ctx + "sys/user/save",
+		            data : $('#userForm').serialize(),
+		            needClose : true,
+		        });
+		        parent.location.reload();
+	        }
+        });
+
+        function getCheckedRoles() {
+	        var adIds = "";
+	        $("input:checkbox[name=role]:checked").each(function(i) {
+		        if (0 == i) {
+			        adIds = $(this).val();
+		        } else {
+			        adIds += ("," + $(this).val());
+		        }
+	        });
+	        return adIds;
+        }
+
         function validateRule() {
 	        var icon = "<i class='fa fa-times-circle'></i> ";
-	        $("#reset_pwd_Form").validate({
-	        	rules : {
-	    			name : {
-	    				required : true
-	    			},
-	    			username : {
-	    				required : true,
-	    				minlength : 2,
-	    				remote : {
-	    					url : ctx+"sys/user/checkLoginNameUnique", // 后台处理程序
-	    					type : "post", // 数据发送方式
-	    					dataType : "json", // 接受数据格式
-	    					data : { // 要传递的数据
-	    						username : function() {
-	    							return $("#username").val();
-	    						}
-	    					}
-	    				}
-	    			},
-	    			password : {
-	    				required : true,
-	    				minlength : 6
-	    			},
-	    			confirm_password : {
-	    				required : true,
-	    				minlength : 6,
-	    				equalTo : "#password"
-	    			},
-	    			email : {
-	    				required : true,
-	    				email : true
-	    			},
-	    		},
-	    		messages : {
-	    			name : {
-	    				required : icon + "请输入姓名"
-	    			},
-	    			username : {
-	    				required : icon + "请输入您的用户名",
-	    				minlength : icon + "用户名必须两个字符以上",
-	    				remote : icon + "用户名已经存在"
-	    			},
-	    			password : {
-	    				required : icon + "请输入您的密码",
-	    				minlength : icon + "密码必须6个字符以上"
-	    			},
-	    			confirm_password : {
-	    				required : icon + "请再次输入密码",
-	    				minlength : icon + "密码必须6个字符以上",
-	    				equalTo : icon + "两次输入的密码不一致"
-	    			},
-	    			email : icon + "请输入您的E-mail",
-	    		}
+	        $("#userForm").validate({
+	            rules : {
+	                name : {
+		                required : true
+	                },
+	                userName : {
+	                    required : true,
+	                    minlength : 2,
+	                    remote : {
+	                        url : ctx + "sys/user/checkUserNameUnique", // 后台处理程序
+	                        type : "post", // 数据发送方式
+	                        dataType : "json", // 接受数据格式
+	                        data : { // 要传递的数据
+		                        username : function() {
+			                        return $("#userName").val();
+		                        }
+	                        },
+	                        dataFilter : function(data, type) {
+		                        if (data == "true")
+			                        return true;
+		                        else
+			                        return false;
+	                        }
+	                    }
+	                },
+	                password : {
+	                    required : true,
+	                    minlength : 6
+	                },
+	                confirm_password : {
+	                    required : true,
+	                    minlength : 6,
+	                    equalTo : "#password"
+	                },
+	                email : {
+	                    required : true,
+	                    email : true
+	                },
+	                mobile : {
+	                    required : true,
+	                    minlength : 11,
+	                    maxlength : 11,
+	                    isMobile : true
+	                },
+	            },
+	            messages : {
+	                name : {
+		                required : icon + "请输入昵称"
+	                },
+	                userName : {
+	                    required : icon + "请输入您的用户名",
+	                    minlength : icon + "用户名必须两个字符以上",
+	                    remote : icon + "用户名已经存在"
+	                },
+	                password : {
+	                    required : icon + "请输入您的密码",
+	                    minlength : icon + "密码必须6个字符以上"
+	                },
+	                confirm_password : {
+	                    required : icon + "请再次输入密码",
+	                    minlength : icon + "密码必须6个字符以上",
+	                    equalTo : icon + "两次输入的密码不一致"
+	                },
+	                email : icon + "请输入您的E-mail",
+	                mobile : {
+	                    required : "请输入手机号",
+	                    maxlength : "请填写11位的手机号",
+	                    maxlength : "请填写11位的手机号",
+	                    isMobile : "请填写正确的手机号码"
+	                }
+	            }
 	        })
+        }
+
+        /*用户管理-新增-选择部门树*/
+        function selectDeptTree() {
+	        layer.open({
+	            type : 2,
+	            title : "选择部门",
+	            area : [ '300px', '450px' ],
+	            content : ctx + "sys/dept/treeView"
+	        })
+        }
+
+        function loadDept(deptId, deptName) {
+	        $("#deptId").val(deptId);
+	        $("#deptName").val(deptName);
         }
 	</script>
 </body>

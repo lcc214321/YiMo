@@ -8,6 +8,11 @@
 			<div class="ibox">
 				<div class="ibox-body">
 					<div class="fixed-table-toolbar">
+						<div class="columns pull-left">
+							<button shiro:hasPermission="sys:menu:add" type="button" class="btn  btn-rounded  btn-primary" onclick="add('0')">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+						</div>
 					</div>
 					<table id="MenuTable" data-mobile-responsive="true">
 					</table>

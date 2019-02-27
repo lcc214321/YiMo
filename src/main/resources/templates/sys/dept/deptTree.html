@@ -44,7 +44,6 @@
 			$('#deptTree').jstree().open_all();
 		}
 		$('#deptTree').on("changed.jstree", function(e, data) {
-			console.log(data.node.text);
 			if(data.node.id!=-1){
 				parent.loadDept(data.node.id,data.node.text);
 				var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引

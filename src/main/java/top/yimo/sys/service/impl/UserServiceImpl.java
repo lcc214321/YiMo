@@ -86,11 +86,11 @@ public class UserServiceImpl implements UserService {
 	public int resetPwd(Long userId) {
 		UserDO user = get(userId);
 		user.setPassword(YiMoUtils.encrypt(user.getUserName(), WebConstant.DEAFULT_PWD));
-		return update(user);
+		return userDao.update(user);
 	}
 
 	@Override
-	public boolean checkLoginNameUnique(String userName) {
+	public boolean checkUserNameUnique(String userName) {
 		UserDO user = userDao.findByUserName(userName);
 		return user == null;
 	}

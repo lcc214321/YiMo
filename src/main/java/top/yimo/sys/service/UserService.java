@@ -30,10 +30,13 @@ public interface UserService {
 
 	int batchRemove(Long[] userIds);
 
+	/**
+	 * 重置密码
+	 */
 	int resetPwd(Long userId) throws Exception;
 
 	/**
 	 * 判断userName是否唯一
 	 */
-	boolean checkLoginNameUnique(String userName);
+	boolean checkUserNameUnique(String userName);
 }
