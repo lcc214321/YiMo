@@ -29,7 +29,7 @@ CREATE TABLE `sys_dept` (
   `order_num` int(11) DEFAULT NULL COMMENT '排序',
   `status` varchar(5) DEFAULT NULL COMMENT '状态',
   PRIMARY KEY (`dept_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='部门管理';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='部门管理';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -119,8 +119,9 @@ CREATE TABLE `sys_menu` (
   `order_no` int(11) DEFAULT NULL COMMENT '排序号',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `status` varchar(1) DEFAULT NULL COMMENT '菜单状态',
   PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8 COMMENT='菜单管理';
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 COMMENT='菜单管理';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -129,7 +130,7 @@ CREATE TABLE `sys_menu` (
 
 LOCK TABLES `sys_menu` WRITE;
 /*!40000 ALTER TABLE `sys_menu` DISABLE KEYS */;
-INSERT INTO `sys_menu` VALUES (1,0,'基础管理','','',0,'fa fa-bars',0,'2017-08-09 22:49:47',NULL),(2,1,'系统菜单','sys/menu/','sys:menu:menu',1,'fa fa-th-list',2,'2017-08-09 22:55:15',NULL),(3,1,'部门管理','sys/dept/','sys:dept:dept',1,'fa fa-th-list',2,'2017-08-09 22:55:15',NULL),(4,1,'用户管理','sys/user/','sys:user:user',1,'fa fa-user',0,'2017-08-10 14:12:11',NULL),(5,1,'角色管理','sys/role','sys:role:role',1,'fa fa-paw',1,'2017-08-10 14:13:19',NULL);
+INSERT INTO `sys_menu` VALUES (1,0,'系统管理','','',0,'fa fa-gears',0,'2017-08-09 22:49:47',NULL,'1'),(2,1,'系统菜单','sys/menu/','sys:menu:menu',1,'fa fa-th-list',3,'2017-08-09 22:55:15',NULL,'1'),(3,1,'部门管理','sys/dept/','sys:dept:dept',1,'fa fa-group',4,'2017-08-09 22:55:15',NULL,'1'),(4,1,'用户管理','sys/user/','sys:user:user',1,'fa fa-user',1,'2017-08-10 14:12:11',NULL,'1'),(5,1,'角色管理','sys/role','sys:role:role',1,'fa fa-user-secret',2,'2017-08-10 14:13:19',NULL,'1'),(6,4,'编辑','','sys:user:edit',2,'',0,'2017-08-14 10:51:35',NULL,'1'),(7,4,'新增','','sys:user:add',2,'',0,'2017-08-14 10:51:35',NULL,'1'),(8,4,'删除','','sys:user:remove',2,'',0,'2017-08-14 10:51:35',NULL,'1'),(9,4,'重置密码','','sys:user:resetPwd',2,'',0,'2017-08-14 10:51:35',NULL,'1'),(10,4,'批量删除','','sys:user:batchRemove',2,'',0,'2017-08-14 10:51:35',NULL,'1'),(11,2,'新增','sys/menu/','sys:menu:add',2,'',3,'2017-08-09 22:55:15',NULL,'1'),(12,2,'编辑','sys/menu/','sys:menu:edit',2,'',3,'2017-08-09 22:55:15',NULL,'1'),(13,2,'删除','sys/menu/','sys:menu:remove',2,'',3,'2017-08-09 22:55:15',NULL,'1'),(17,5,'编辑','','sys:role:edit',2,'',0,'2017-08-14 10:51:35',NULL,'1'),(18,5,'删除','','sys:role:remove',2,'',0,'2017-08-14 10:51:35',NULL,'1'),(25,3,'新增','','sys:dept:add',2,'',NULL,NULL,NULL,NULL),(26,3,'编辑','','sys:dept:edit',2,'',NULL,NULL,NULL,NULL),(32,3,'删除','','sys:dept:delete',2,'',NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `sys_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -150,7 +151,7 @@ CREATE TABLE `sys_role` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `status` varchar(100) DEFAULT NULL COMMENT '角色状态',
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='角色';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='角色';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,7 +160,7 @@ CREATE TABLE `sys_role` (
 
 LOCK TABLES `sys_role` WRITE;
 /*!40000 ALTER TABLE `sys_role` DISABLE KEYS */;
-INSERT INTO `sys_role` VALUES (1,'超级管理员','superAdmin',NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `sys_role` VALUES (1,'超级管理员','superAdmin',NULL,NULL,NULL,NULL,'1'),(2,'用户管理员','userAdmin','用于管理用户信息',NULL,NULL,NULL,'1');
 /*!40000 ALTER TABLE `sys_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -175,7 +176,7 @@ CREATE TABLE `sys_role_menu` (
   `role_id` bigint(20) DEFAULT NULL COMMENT '角色ID',
   `menu_id` bigint(20) DEFAULT NULL COMMENT '菜单ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='角色与菜单对应关系';
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8 COMMENT='角色与菜单对应关系';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -184,7 +185,7 @@ CREATE TABLE `sys_role_menu` (
 
 LOCK TABLES `sys_role_menu` WRITE;
 /*!40000 ALTER TABLE `sys_role_menu` DISABLE KEYS */;
-INSERT INTO `sys_role_menu` VALUES (1,1,1),(2,1,2),(3,1,3),(4,1,4),(5,1,5),(6,1,6),(7,1,7);
+INSERT INTO `sys_role_menu` VALUES (1,1,1),(2,1,2),(3,1,3),(4,1,4),(5,1,5),(6,1,6),(7,1,7),(8,1,8),(9,1,9),(10,1,10),(11,1,11),(12,1,12),(13,1,13),(14,1,14),(15,1,15),(16,1,16),(17,1,17),(18,1,18),(19,1,19),(57,2,4),(58,2,6),(59,2,7),(60,2,8),(61,2,9),(62,2,10),(63,2,1);
 /*!40000 ALTER TABLE `sys_role_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -201,13 +202,13 @@ CREATE TABLE `sys_user` (
   `name` varchar(100) DEFAULT NULL COMMENT '昵称',
   `password` varchar(50) DEFAULT NULL COMMENT '密码',
   `dept_id` bigint(20) DEFAULT NULL COMMENT '部门ID',
-  `email` varchar(100) DEFAULT NULL COMMENT '邮箱',
-  `mobile` varchar(100) DEFAULT NULL COMMENT '手机号',
+  `email` varchar(80) DEFAULT NULL COMMENT '邮箱',
+  `mobile` varchar(20) DEFAULT NULL COMMENT '手机号',
   `status` tinyint(255) DEFAULT NULL COMMENT '状态 0:禁用，1:正常',
-  `create_user_id` bigint(255) DEFAULT NULL COMMENT '创建用户id',
+  `create_user_id` bigint(20) DEFAULT NULL COMMENT '创建用户id',
   `create_time` varchar(20) DEFAULT NULL COMMENT '创建时间',
   `update_time` varchar(20) DEFAULT NULL COMMENT '修改时间',
-  `sex` bigint(32) DEFAULT NULL COMMENT '性别',
+  `sex` bigint(3) DEFAULT NULL COMMENT '性别',
   `birth` varchar(10) DEFAULT NULL COMMENT '出身日期',
   `pic_id` bigint(32) DEFAULT NULL,
   `address` varchar(500) DEFAULT NULL COMMENT '现居住地',
@@ -225,7 +226,7 @@ CREATE TABLE `sys_user` (
 
 LOCK TABLES `sys_user` WRITE;
 /*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
-INSERT INTO `sys_user` VALUES (1,'tayle','Tayle','a91f1e137d8d6d94fd865266a664948c',1,'1','13812344321',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(7,'tayle7','演示用户委屈翁群无','e49e323ad930107f0584b477f3eb5451',1,'1','13812344321',1,NULL,'','',NULL,'',NULL,'','','','',''),(8,'tayle8','演示用户','aa919a058a44b8eee66d32de78e1ee04',2,'1','13812344321',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(9,'tayle9','演示用户','b595be0ab5f810ea22284f005c038ad1',2,'1','13812344321',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(10,'tayle10','演示用户','d8188381d9bfcb122f52bcbabed3b000',2,'1','13812344321',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11,'tayle11','演示用户','e10adc3949ba59abbe56e057f20f883e',2,'1','13812344321',1,NULL,'','',1,'2019-11-11',NULL,'aa','bb','cc','dd',''),(12,'tayle12','演示用户','e10adc3949ba59abbe56e057f20f883e',1,'1','13812344321',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `sys_user` VALUES (1,'tayle','沙漠骆驼','a91f1e137d8d6d94fd865266a664948c',1,'123@qq.com','13112344321',1,NULL,'','2019-02-28 10:38:22',1,'',NULL,'','','','',''),(4,'tayle1','55','05c6c1badbdfc23c62c25386d3c403cf',3,'123@qq.com','13112',1,NULL,'','',1,'',NULL,'','','','',''),(5,'tayle2','演示用44户','a91f1e137d8d6d94fd865266a664948c',5,'123@qq.com','13112',1,NULL,'','',1,'',NULL,'','','','',''),(6,'tayle3','661','a91f1e137d8d6d94fd865266a664948c',2,'123@qq.com','13112',1,NULL,'','2019-02-28 10:37:24',1,'',NULL,'','','','',''),(7,'tayle4','演示用户','a91f1e137d8d6d94fd865266a664948c',4,'123@qq.com','13112',1,NULL,'','',1,'',NULL,'','','','',''),(8,'tayle5','x','a91f1e137d8d6d94fd865266a664948c',5,'123@qq.com','13112',1,NULL,'','',1,'',NULL,'','','','',''),(9,'test','0000','4ef935d142ee2742daa3c2e6e478cdbd',2,'123@qq.com','',1,1,'2019-02-28 09:58:27',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(10,'11','0000','0387e74fa2d8287d2e7be30c6296132d',2,'111@qq.com','',1,1,'2019-02-28 10:02:12',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11,'21','2','781221b66d90b96ebddd516689a67510',NULL,'1@qq.com','12312344321',1,1,'2019-02-28 10:53:22',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(12,'212','12312','5166e9e254c5bc1f5d9804e829cd1f68',NULL,'131@qq.com','13112344321',1,1,'2019-02-28 10:53:56',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(13,'22','2','fbd0953a8e0e38b021ad5787bcfd19c5',NULL,'11@qq.com','13112344321',1,1,'2019-02-28 10:54:20',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `sys_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -241,7 +242,7 @@ CREATE TABLE `sys_user_role` (
   `user_id` bigint(20) DEFAULT NULL COMMENT '用户ID',
   `role_id` bigint(20) DEFAULT NULL COMMENT '角色ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户与角色对应关系';
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COMMENT='用户与角色对应关系';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -250,7 +251,7 @@ CREATE TABLE `sys_user_role` (
 
 LOCK TABLES `sys_user_role` WRITE;
 /*!40000 ALTER TABLE `sys_user_role` DISABLE KEYS */;
-INSERT INTO `sys_user_role` VALUES (1,1,1);
+INSERT INTO `sys_user_role` VALUES (38,6,1),(39,1,1),(40,1,2);
 /*!40000 ALTER TABLE `sys_user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -267,4 +268,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-02-22 18:27:19
+-- Dump completed on 2019-02-28 16:16:38
