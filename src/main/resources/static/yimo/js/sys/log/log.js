@@ -1,9 +1,4 @@
 var prefix = ctx+"sys/log"
-$(function() {
-	load();
-	validateRule();
-});
-
 function load() {
 	$('#LogTable')
 			.bootstrapTable(
@@ -119,8 +114,9 @@ function remove(id) {
 		yimo.ajaxDelete({
 			url : prefix + "/remove",
 			data : {
-				'userId' : id
+				'id' : id
 			},
+			refresh : true,
 		});
 	})
 }
@@ -138,31 +134,15 @@ function batchRemove() {
 		var ids = new Array();
 		// 遍历所有选择的行数据，取每条数据对应的ID
 		$.each(rows, function(i, row) {
-			ids[i] = row['userId'];
+			ids[i] = row['id'];
 		});
 		yimo.ajaxDelete({
-			type : 'POST',
 			data : {
 				"ids" : ids
 			},
 			url : prefix + '/batchRemove',
+			refresh : true,
 		});
 	}, function() {
-	});
-}
-
-
-function save() {
-	yimo.ajaxPost({
-		url : prefix + "/save",
-		data : $('#LogForm').serialize(),
-	});
-}
-
-function update() {
-	yimo.ajaxPut({
-		url : prefix + "/update",
-		data : $('#LogForm').serialize(),// 你的formid
-
 	});
 }
