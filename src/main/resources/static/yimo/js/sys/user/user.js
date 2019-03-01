@@ -38,10 +38,7 @@ function load() {
 	    }, {
 	        field : 'name',
 	        title : '昵称'
-	    }, {
-	        field : 'deptName',
-	        title : '部门名称'
-	    }, {
+	    },{
 	        field : 'mobile',
 	        title : '手机号'
 	    }, {
