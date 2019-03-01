@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import top.yimo.common.annotation.Log;
-import top.yimo.common.enums.OperatorType;
 import top.yimo.common.model.vo.ResponseVo;
 import top.yimo.common.model.vo.TreeVo;
 import top.yimo.sys.domain.MenuDO;
@@ -38,52 +37,51 @@ import top.yimo.sys.service.MenuService;
 @Component
 @RequestMapping("/")
 public class AuthController extends BaseController {
-	
+
 	@Autowired
 	MenuService menuService;
-	
-    @GetMapping(value = "login")
-    @Log(title = "系统登陆", operatorType = OperatorType.LOGIN)
-    public String login() {
-        return "login";
-    }
 
-    @PostMapping(value = "/login")
-    @ResponseBody
-    @Log(title = "系统登陆认证操作")
-    public ResponseVo doLogin(@RequestParam String username, @RequestParam String password,
-                              @RequestParam(required = false) boolean remeber_me,
-                              HttpServletRequest request, HttpServletResponse response) {
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password, remeber_me);
-        Subject currentUser = SecurityUtils.getSubject();
-        try {
-            currentUser.login(token);
-        } catch (IncorrectCredentialsException e) {
-            return ResponseVo.fail("密码错误");
-        } catch (UnknownAccountException | LockedAccountException e) {
-            return ResponseVo.fail(e.getMessage());
-        } catch (AuthenticationException e) {
-            return ResponseVo.fail("登陆失败");
-        }
-        return ResponseVo.ok();
-    }
+	@GetMapping(value = "login")
+	// @Log(title = "系统登陆", operatorType = OperatorType.LOGIN)
+	public String login() {
+		return "login";
+	}
 
-    @RequestMapping(value = "/index")
-    public String index(Model model) {
-    	//加载登陆用户信息
-    	UserDO currUser = getSysUser();
-    	List<TreeVo<MenuDO>> menus = menuService.getMenusByUser(currUser.getUserId());
-    	model.addAttribute("menus", menus);
-    	model.addAttribute("user", currUser);
-        return "index";
-    }
+	@PostMapping(value = "/login")
+	@ResponseBody
+	@Log(title = "系统登陆认证操作")
+	public ResponseVo doLogin(@RequestParam String username, @RequestParam String password, @RequestParam(required = false) boolean remeber_me,
+	        HttpServletRequest request, HttpServletResponse response) {
+		UsernamePasswordToken token = new UsernamePasswordToken(username, password, remeber_me);
+		Subject currentUser = SecurityUtils.getSubject();
+		try {
+			currentUser.login(token);
+		} catch (IncorrectCredentialsException e) {
+			return ResponseVo.fail("密码错误");
+		} catch (UnknownAccountException | LockedAccountException e) {
+			return ResponseVo.fail(e.getMessage());
+		} catch (AuthenticationException e) {
+			return ResponseVo.fail("登陆失败");
+		}
+		return ResponseVo.ok();
+	}
 
-    @GetMapping(value = "/logout")
-    @Log(title = "系统退出")
-    public String logout() {
-        // subject的实现类DelegatingSubject的logout方法，将本subject对象的session清空了
-        SecurityUtils.getSubject().logout();
-        return "/login";
-    }
+	@RequestMapping(value = "/index")
+	public String index(Model model) {
+		// 加载登陆用户信息
+		UserDO currUser = getSysUser();
+		List<TreeVo<MenuDO>> menus = menuService.getMenusByUser(currUser.getUserId());
+		model.addAttribute("menus", menus);
+		model.addAttribute("user", currUser);
+		return "index";
+	}
+
+	@GetMapping(value = "/logout")
+	@Log(title = "系统退出")
+	public String logout() {
+		// subject的实现类DelegatingSubject的logout方法，将本subject对象的session清空了
+		SecurityUtils.getSubject().logout();
+		return "/login";
+	}
 
 }
