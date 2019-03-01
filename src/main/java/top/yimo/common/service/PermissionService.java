@@ -4,7 +4,7 @@ import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 
 /**
- * 用于判断是否有权限服务
+ * 用于JS调用判断是否有权限服务
  * @Author imTayle
  * @Email imTayle@126.com
  * @version 1.0
@@ -14,6 +14,6 @@ import org.springframework.stereotype.Service;
 public class PermissionService {
 	public String hasPermi(String permission) {
 		boolean permitted = SecurityUtils.getSubject().isPermitted(permission);
-		return permitted ? "" : "hidden" ;
+		return permitted ? "" : "hidden";
 	}
 }

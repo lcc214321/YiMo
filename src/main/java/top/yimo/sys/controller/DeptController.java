@@ -3,6 +3,7 @@ package top.yimo.sys.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,7 +49,7 @@ public class DeptController extends BaseController {
 	}
 
 	@ResponseBody
-	@GetMapping("/list")
+	@GetMapping("/listByPage")
 	@RequiresPermissions("sys:dept:dept")
 	@Log(describe = "获取部门管理 列表", title = "部门管理", operatorType = OperatorType.QUERY)
 	public PageVo listByPage(@RequestParam Map<String, Object> params) {
@@ -57,9 +58,23 @@ public class DeptController extends BaseController {
 		return getPageData(deptList, total);
 	}
 
-	@GetMapping("/add")
+	@ResponseBody
+	@GetMapping("/list")
+	@RequiresPermissions("sys:dept:dept")
+	@Log(describe = "获取部门管理 列表", title = "部门管理", operatorType = OperatorType.QUERY)
+	public List<DeptDO> list(@RequestParam Map<String, Object> params) {
+		return deptService.list(params);
+	}
+
+	@GetMapping("/add/{deptId}")
 	@RequiresPermissions("sys:dept:add")
-	public String add() {
+	public String add(@PathVariable("deptId") Long deptId, Model model) {
+		if (StringUtils.isBlank(deptId.toString())) {
+			deptId = 1l;
+		}
+		model.addAttribute("pDeptId", deptId);
+		model.addAttribute("pDeptName", deptService.get(deptId).getDeptName());
+		model.addAttribute("dept", new DeptDO());
 		return prefix + "/add";
 	}
 
@@ -67,6 +82,7 @@ public class DeptController extends BaseController {
 	@RequiresPermissions("sys:dept:edit")
 	public String edit(@PathVariable("deptId") Long deptId, Model model) {
 		DeptDO dept = deptService.get(deptId);
+		model.addAttribute("pDeptName", deptService.get(dept.getDeptId()).getDeptName());
 		model.addAttribute("dept", dept);
 		return prefix + "/edit";
 	}
@@ -75,6 +91,8 @@ public class DeptController extends BaseController {
 	@PostMapping("/save")
 	@RequiresPermissions("sys:dept:add")
 	public ResponseVo save(DeptDO dept) {
+		beforeSave(dept);
+		dept.setStatus("1");
 		if (deptService.save(dept) > 0) {
 			return ResponseVo.ok("保存成功");
 		}
@@ -85,6 +103,7 @@ public class DeptController extends BaseController {
 	@PutMapping("/update")
 	@RequiresPermissions("sys:dept:edit")
 	public ResponseVo update(DeptDO dept) {
+		beforeUpdate(dept);
 		if (deptService.update(dept) > 0) {
 			return ResponseVo.ok("更新成功");
 		}
@@ -120,12 +139,12 @@ public class DeptController extends BaseController {
 	@GetMapping("/tree")
 	@ResponseBody
 	public TreeVo<DeptDO> tree() {
-		return  deptService.getTree();
+		return deptService.getTree();
 	}
 
 	@GetMapping("/treeView")
 	String treeView() {
-		return  prefix + "/deptTree";
+		return prefix + "/deptTree";
 	}
-	
+
 }

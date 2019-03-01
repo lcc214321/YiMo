@@ -22,6 +22,8 @@ public interface DeptDao {
 
 	List<DeptDO> listByPage(Map<String, Object> map);
 
+	List<DeptDO> list(Map<String, Object> map);
+
 	int count(Map<String, Object> map);
 
 	int save(DeptDO dept);

@@ -9,7 +9,7 @@
 	
 	<!-- 数据表所有列名 -->
 	<sql id="Base_Column_List">
-		`menu_id`,`parent_id`,`name`,`url`,`perms`,`type`,`icon`,`order_no`,`create_time`,`update_time`	</sql>
+		`menu_id`,`parent_id`,`name`,`url`,`perms`,`type`,`icon`,`order_no`,`create_time`,`update_time`,`status`	</sql>
 
 	<!-- 查询字段 -->
 	<sql id="Base_Search_Param">
@@ -23,6 +23,7 @@
 				<if test="orderNo != null and orderNo != ''"> and order_no = #{orderNo} </if>
 				<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
 				<if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+				<if test="status != null and status != ''"> and status = #{status} </if>
 			</sql>
 	
 	

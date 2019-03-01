@@ -46,6 +46,10 @@ public class DeptServiceImpl implements DeptService {
 
 	@Override
 	public int remove(Long deptId) {
+		List<Long> allSubDeptIds = getAllSubDeptIds(deptId);
+		for (Long subDeptId : allSubDeptIds) {// 级联删除下级部门
+			deptDao.remove(subDeptId);
+		}
 		return deptDao.remove(deptId);
 	}
 
@@ -90,5 +94,10 @@ public class DeptServiceImpl implements DeptService {
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public List<DeptDO> list(Map<String, Object> map) {
+		return deptDao.list(map);
 	}
 }

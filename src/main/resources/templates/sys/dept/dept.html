@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='sys_dept'">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"  th:with="title='部门管理'">
 <meta charset="utf-8">
 <header th:replace="header::headerFragment(${title})"></header>
 <body class="gray-bg">
@@ -9,16 +9,9 @@
 				<div class="ibox-body">
 					<div class="fixed-table-toolbar">
 						<div class="columns pull-left">
-							<button shiro:hasPermission="sys:dept:add" type="button" class="btn btn-rounded btn-primary" onclick="add()">
+							<button shiro:hasPermission="sys:dept:add" type="button" class="btn btn-rounded btn-primary" onclick="add(1)">
 								<i class="fa fa-plus" aria-hidden="true"></i>添加
 							</button>
-							<button shiro:hasPermission="sys:dept:batchRemove" type="button" class="btn btn-rounded btn-danger"
-								onclick="batchRemove()">
-								<i class="fa fa-trash" aria-hidden="true"></i>批量删除
-							</button>
-						</div>
-						<div class="columns pull-right">
-							<button class="btn btn-success" onclick="refresh()">刷新</button>
 						</div>
 					</div>
 					<table id="DeptTable" data-mobile-responsive="true">
@@ -27,24 +20,15 @@
 			</div>
 		</div>
 	</div>
-	<!--shiro控制bootstraptable行内按钮看见性 -->
-		<div>
-			<script type="text/javascript">
-				var s_edit_h = 'hidden';
-				var s_remove_h = 'hidden';
-			</script>
-		</div>
-		<div shiro:hasPermission="sys:dept:edit">
-			<script type="text/javascript">
-				s_edit_h = '';
-			</script>
-		</div>
-		<div shiro:hasPermission="sys:dept:remove">
-			<script type="text/javascript">
-				var s_remove_h = '';
-			</script>
-		</div>
 	<div th:replace="footer :: footer"></div>
+	<script type="text/javascript" th:inline="javascript">
+	var s_edit_h = [[${@permission.hasPermi('sys:dept:edit')}]];
+	var s_add_h = [[${@permission.hasPermi('sys:dept:add')}]];
+	var s_remove_h = [[${@permission.hasPermi('sys:dept:remove')}]];
+	$().ready(function() {
+		load();
+	});
+	</script>
 	<script type="text/javascript" th:src="@{/yimo/js/sys/dept/dept.js}">
 	</script>
 </body>

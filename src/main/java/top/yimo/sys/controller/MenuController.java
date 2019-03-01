@@ -82,6 +82,8 @@ public class MenuController extends BaseController {
 	@PostMapping("/save")
 	@RequiresPermissions("sys:menu:add")
 	public ResponseVo save(MenuDO menu) {
+		beforeSave(menu);
+		menu.setStatus("1");
 		if (menuService.save(menu) > 0) {
 			return ResponseVo.ok("保存成功");
 		}
@@ -92,6 +94,7 @@ public class MenuController extends BaseController {
 	@PutMapping("/update")
 	@RequiresPermissions("sys:menu:edit")
 	public ResponseVo update(MenuDO menu) {
+		beforeUpdate(menu);
 		if (menuService.update(menu) > 0) {
 			return ResponseVo.ok("更新成功");
 		}

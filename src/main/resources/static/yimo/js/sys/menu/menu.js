@@ -18,18 +18,18 @@ var load = function() {
 	        title : '编号',
 	        field : 'menuId',
 	        visible : false,
-	        align : 'center',
+	        align : 'left',
 	        valign : 'center',
 	        width : '5%'
 	    }, {
 	        title : '名称',
-	        valign : 'center',
+	        align : 'left',
 	        field : 'name',
 	        width : '20%'
 	    }, {
 	        title : '图标',
 	        field : 'icon',
-	        align : 'center',
+	        align : 'left',
 	        valign : 'center',
 	        width : '5%',
 	        formatter : function(value, item, index) {
@@ -38,7 +38,7 @@ var load = function() {
 	    }, {
 	        title : '类型',
 	        field : 'type',
-	        align : 'center',
+	        align : 'left',
 	        valign : 'center',
 	        width : '10%',
 	        formatter : function(value, item, index) {
@@ -63,13 +63,24 @@ var load = function() {
 	        width : '20%',
 	        field : 'perms'
 	    }, {
+	        field : 'status',
+	        title : '状态',
+	        align : 'left',
+	        formatter : function(value, row, index) {
+		        if (value == '0') {
+			        return '<span class="label label-danger">禁用</span>';
+		        } else if (value == '1') {
+			        return '<span class="label label-primary">正常</span>';
+		        }
+	        }
+	    }, {
 	        title : '操作',
 	        field : 'id',
 	        align : 'center',
 	        valign : 'center',
 	        formatter : function(value, item, index) {
 		        var e = '<a class="btn btn-primary btn-sm ' + s_edit_h + '" href="#" mce_href="#" title="编辑" onclick="edit(\'' + item.menuId + '\')"><i class="fa fa-edit"></i></a> ';
-		        var p = '<a class="btn btn-primary btn-sm ' + s_edit_h + '" href="#" mce_href="#" title="添加下级" onclick="add(\'' + item.menuId + '\')"><i class="fa fa-plus-circle"></i></a> ';
+		        var p = '<a class="btn btn-success btn-sm ' + s_edit_h + '" href="#" mce_href="#" title="添加下级" onclick="add(\'' + item.menuId + '\')"><i class="fa fa-plus-circle"></i></a> ';
 		        var d = '<a class="btn btn-warning btn-sm ' + s_remove_h + '" href="#" title="删除"  mce_href="#" onclick="remove(\'' + item.menuId + '\')"><i class="fa fa-remove"></i></a> ';
 		        return e + d + p;
 	        }
@@ -79,7 +90,6 @@ var load = function() {
 
 // 刷新
 function refresh() {
-	console.log("进入了刷新");
 	$('#MenuTable').bootstrapTreeTable('refresh');
 }
 // 新增
