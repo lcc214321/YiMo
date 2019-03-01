@@ -11,7 +11,7 @@ import java.util.Map;
  * @author imTayle
  * @email imTayle@126.com
  * @version 1.0
- * @date 2019年22月24日 17:22:00
+ * @date 2019年07月01日 18:07:27
  */
 public interface LogService {
 	

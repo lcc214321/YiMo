@@ -11,6 +11,7 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import top.yimo.common.model.vo.TreeVo;
 import top.yimo.common.util.TreeUtils;
@@ -20,6 +21,7 @@ import top.yimo.sys.domain.MenuDO;
 import top.yimo.sys.service.MenuService;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class MenuServiceImpl implements MenuService {
 	@Autowired
 	private MenuDao menuDao;

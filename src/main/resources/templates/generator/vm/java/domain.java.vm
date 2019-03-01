@@ -3,7 +3,7 @@ package ${package}.domain;
 import java.io.Serializable;
 
 import lombok.Data;
-
+import lombok.EqualsAndHashCode;
 #if(${hasBigDecimal})
 import java.math.BigDecimal;
 #end
@@ -18,7 +18,8 @@ import java.math.BigDecimal;
  * @date ${datetime}
  */
  @Data
-public class ${className}DO implements Serializable {
+ @EqualsAndHashCode(callSuper = false)
+public class ${className}DO extends BaseDo {
 	private static final long serialVersionUID = 1L;
 	
 #foreach ($column in $columns)

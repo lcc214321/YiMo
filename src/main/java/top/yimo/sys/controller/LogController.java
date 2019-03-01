@@ -30,7 +30,7 @@ import top.yimo.sys.service.LogService;
  * @author imTayle
  * @email imTayle@126.com
  * @version 1.0
- * @date 2019年22月24日 17:22:00
+ * @date 2019年07月01日 18:07:27
  */
  
 @Controller
@@ -49,7 +49,7 @@ public class LogController extends BaseController{
 	@ResponseBody
 	@GetMapping("/list")
 	@RequiresPermissions("sys:log:log")
-	@Log(describe = "获取系统日志 列表", title = "系统日志", operatorType = OperatorType.QUERY)
+	@Log(describe = "获取系统日志列表", title = "系统日志", operatorType = OperatorType.QUERY)
 	public PageVo listByPage(@RequestParam Map<String, Object> params){
 		List<LogDO> logList = logService.listByPage(params);
 		int total = logService.count(params);

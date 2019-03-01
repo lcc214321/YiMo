@@ -13,11 +13,16 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import top.yimo.common.annotation.Log;
+import top.yimo.common.util.DateUtils;
+import top.yimo.common.util.ShiroUtils;
+import top.yimo.sys.domain.LogDO;
+import top.yimo.sys.service.LogService;
 
 /**
  * 自定义系统级别日志切面
@@ -32,7 +37,9 @@ import top.yimo.common.annotation.Log;
 public class LogAspect {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	ThreadLocal<Long> startTime = new ThreadLocal<Long>();
-
+	private String createTime = "";
+	@Autowired
+	LogService logService;
 	/**
 	 * 定义个切面 添加了Log注解的所有方法
 	 * 
@@ -44,8 +51,17 @@ public class LogAspect {
 	}
 
 	@Before("sysLogPoint()")
-	public void doBefore(JoinPoint joinPoint) {
+	public void doBefore(JoinPoint joinPoint) throws Throwable {
 		startTime.set(System.currentTimeMillis());
+		createTime = DateUtils.getNow();
+	}
+	@AfterReturning("sysLogPoint()")
+	public void doAfter(JoinPoint joinPoint) {
+		logger.info("耗时（毫秒） : " + (System.currentTimeMillis() - startTime.get()));
+		// 执行时长(毫秒)
+		long time = System.currentTimeMillis() - startTime.get();
+		LogDO log = new LogDO();
+		log.setTime(time / 1000);
 		// 接收到请求，记录请求内容
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		HttpServletRequest request = attributes.getRequest();
@@ -56,6 +72,8 @@ public class LogAspect {
 		if (syslog != null) {
 			// 注解上的描述
 			logger.info("LOG : " + syslog.toString());
+			log.setOperation(syslog.toString());
+
 		}
 		// 记录下请求内容
 		logger.info("URL : " + request.getRequestURL().toString());
@@ -63,18 +81,14 @@ public class LogAspect {
 		logger.info("IP : " + request.getRemoteAddr());
 		logger.info("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
 		logger.info("ARGS : " + Arrays.toString(joinPoint.getArgs()));
-		// 获取所有参数方法一：
-		// Enumeration<String> enu = request.getParameterNames();
-		// while (enu.hasMoreElements()) {
-		// String paraName = (String) enu.nextElement();
-		// System.out.println(paraName + ": " + request.getParameter(paraName));
-		// }
-	}
 
-	@AfterReturning("sysLogPoint()")
-	public void doAfterReturning(JoinPoint joinPoint) {
-		// 处理完请求，返回内容
-		logger.info("耗时（毫秒） : " + (System.currentTimeMillis() - startTime.get()));
+		log.setIp(request.getRemoteAddr());
+		log.setParams(request.getRequestURL().toString());
+		log.setMethod(request.getMethod());
+		log.setOperation(request.getRequestURL().toString());
+		log.setUserId(ShiroUtils.getUserId());
+		log.setUserName(ShiroUtils.getUserName());
+		log.setCreateTime(createTime);
+		logService.save(log);
 	}
-
 }

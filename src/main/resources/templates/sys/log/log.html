@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='sys_log'">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"  th:with="title='sys_log'">
 <meta charset="utf-8">
 <header th:replace="header::headerFragment(${title})"></header>
 <body class="gray-bg">
@@ -27,25 +28,15 @@
 			</div>
 		</div>
 	</div>
-	<!--shiro控制bootstraptable行内按钮看见性 -->
-		<div>
-			<script type="text/javascript">
-				var s_edit_h = 'hidden';
-				var s_remove_h = 'hidden';
-			</script>
-		</div>
-		<div shiro:hasPermission="sys:log:edit">
-			<script type="text/javascript">
-				s_edit_h = '';
-			</script>
-		</div>
-		<div shiro:hasPermission="sys:log:remove">
-			<script type="text/javascript">
-				var s_remove_h = '';
-			</script>
-		</div>
 	<div th:replace="footer :: footer"></div>
-	<script type="text/javascript" th:src="@{/yimo/js/sys/log/log.js}">
+	<script  type="text/javascript" th:inline="javascript">
+		var s_edit_h = [[${@permission.hasPermi('sys:log:edit')}]];
+		var s_remove_h = [[${@permission.hasPermi('sys:log:remove')}]];
+		var s_resetPwd_h = [[${@permission.hasPermi('sys:log:resetPwd')}]];
+		$().ready(function() {
+			load();
+		});
 	</script>
+	<script type="text/javascript" th:src="@{/yimo/js/sys/log/log.js}"></script>
 </body>
 </html>

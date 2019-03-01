@@ -49,7 +49,7 @@ public class ${className}Controller extends BaseController{
 	@ResponseBody
 	@GetMapping("/list")
 	@RequiresPermissions("${moduleName}:${classname}:${classname}")
-	@Log(describe = "获取${comments} 列表", title = "${comments}", operatorType = OperatorType.QUERY)
+	@Log(describe = "获取${comments}列表", title = "${comments}", operatorType = OperatorType.QUERY)
 	public PageVo listByPage(@RequestParam Map<String, Object> params){
 		List<${className}DO> ${classname}List = ${classname}Service.listByPage(params);
 		int total = ${classname}Service.count(params);

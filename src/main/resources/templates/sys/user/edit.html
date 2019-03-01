@@ -110,9 +110,9 @@
 				yimo.ajaxPut({
 					url : ctx + "sys/user/update",
 					data : $('#editForm').serialize(),
-					needClose: true,
+					needClose : true,
+		            parentRefresh : true,
 				});
-				top.location.reload();
 			}
 		});
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='${htmlTitle}'">>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='${htmlTitle}'">
 <meta charset="utf-8">
 <header th:replace="header::headerFragment(${title})"></header>
 <body class="gray-bg">
@@ -9,16 +9,14 @@
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
 						<form class="form-horizontal m-t" id="${className}Form">
-								#foreach($column in $columns)
-								#if($column.columnName != $pk.columnName)
-								<div class="form-group">	
+							#foreach($column in $columns) #if($column.columnName != $pk.columnName)
+							<div class="form-group">
 								<label class="col-sm-3 control-label">${column.comments}：</label>
 								<div class="col-sm-8">
 									<input id="${column.attrname}" name="${column.attrname}" class="form-control" type="text">
 								</div>
 							</div>
-							#end
-							#end
+							#end #end
 							<div class="form-group">
 								<div class="col-sm-8 col-sm-offset-3">
 									<button type="submit" class="btn btn-primary" onclick="save()">提交</button>
@@ -28,10 +26,50 @@
 					</div>
 				</div>
 			</div>
+		</div>
 	</div>
-	</div>
-	<div th:replace="footer :: footer"></div>
-	<script type="text/javascript" th:src="@{/yimo/js/${moduleName}/${classname}/${classname}.js}">
+<div th:replace="footer :: footer"></div>
+<script type="text/javascript">
+		$().ready(function() {
+	        validateRule();
+        });
+        $.validator.setDefaults({
+        	submitHandler : function() {
+		        save();
+	        }
+        });
+        function save() {
+        	yimo.ajaxPost({
+        		url : prefix + "/save",
+        		data : $('#${className}Form').serialize(),
+        		needClose : true,
+	            parentRefresh : true,
+        	});
+        }
+
+        function validateRule() {
+	        var icon = "<i class='fa fa-times-circle'></i> ";
+	        $("#${className}Form").validate({
+	        	rules : {
+	        	#foreach($column in $columns) 
+	        		#if($column.columnName != $pk.columnName)
+	        			 ${column.attrname} : {
+	 		                required : true
+	 	                },
+	        		#end
+	        	#end
+	        	 },
+	        	 messages : {
+	        	 #foreach($column in $columns) 
+	        	 	#if($column.columnName != $pk.columnName)
+        			 ${column.attrname} : {
+ 		                required : icon + "请输入${column.comments}"
+ 	                },
+        			#end
+        		#end
+	        	 }
+	        })
+        }
 	</script>
 </body>
 </html>

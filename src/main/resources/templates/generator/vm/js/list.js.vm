@@ -1,9 +1,4 @@
 var prefix = ctx+"${moduleName}/${classname}"
-$(function() {
-	load();
-	validateRule();
-});
-
 function load() {
 	$('#${className}Table')
 			.bootstrapTable(
@@ -91,6 +86,7 @@ function remove(id) {
 			data : {
 				'${pk.attrname}' : id
 			},
+			refresh : true,
 		});
 	})
 }
@@ -115,23 +111,8 @@ function batchRemove() {
 				"ids" : ids
 			},
 			url : prefix + '/batchRemove',
+			refresh : true,
 		});
 	}, function() {
-	});
-}
-
-
-function save() {
-	yimo.ajaxPost({
-		url : prefix + "/save",
-		data : $('#${className}Form').serialize(),
-	});
-}
-
-function update() {
-	yimo.ajaxPut({
-		url : prefix + "/update",
-		data : $('#${className}Form').serialize(),// 你的formid
-
 	});
 }

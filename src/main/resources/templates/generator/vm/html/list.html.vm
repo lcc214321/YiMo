@@ -28,25 +28,15 @@ xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"  th:with="title='${htmlTitle}
 			</div>
 		</div>
 	</div>
-	<!--shiro控制bootstraptable行内按钮看见性 -->
-		<div>
-			<script type="text/javascript">
-				var s_edit_h = 'hidden';
-				var s_remove_h = 'hidden';
-			</script>
-		</div>
-		<div shiro:hasPermission="${moduleName}:${classname}:edit">
-			<script type="text/javascript">
-				s_edit_h = '';
-			</script>
-		</div>
-		<div shiro:hasPermission="${moduleName}:${classname}:remove">
-			<script type="text/javascript">
-				var s_remove_h = '';
-			</script>
-		</div>
 	<div th:replace="footer :: footer"></div>
-	<script type="text/javascript" th:src="@{/yimo/js/${moduleName}/${classname}/${classname}.js}">
+	<script  type="text/javascript" th:inline="javascript">
+		var s_edit_h = [[${@permission.hasPermi('${moduleName}:${classname}:edit')}]];
+		var s_remove_h = [[${@permission.hasPermi('${moduleName}:${classname}:remove')}]];
+		var s_resetPwd_h = [[${@permission.hasPermi('${moduleName}:${classname}:resetPwd')}]];
+		$().ready(function() {
+			load();
+		});
 	</script>
+	<script type="text/javascript" th:src="@{/yimo/js/${moduleName}/${classname}/${classname}.js}"></script>
 </body>
 </html>
