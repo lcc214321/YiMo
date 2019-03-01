@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import top.yimo.common.annotation.Log;
+import top.yimo.common.enums.OperatorType;
 import top.yimo.common.model.vo.ResponseVo;
 import top.yimo.common.model.vo.TreeVo;
 import top.yimo.sys.domain.MenuDO;
@@ -42,7 +43,7 @@ public class AuthController extends BaseController {
 	MenuService menuService;
 
 	@GetMapping(value = "login")
-	// @Log(title = "系统登陆", operatorType = OperatorType.LOGIN)
+	@Log(title = "系统登陆", operatorType = OperatorType.LOGIN)
 	public String login() {
 		return "login";
 	}

@@ -22,6 +22,7 @@ import top.yimo.common.annotation.Log;
 import top.yimo.common.util.DateUtils;
 import top.yimo.common.util.ShiroUtils;
 import top.yimo.sys.domain.LogDO;
+import top.yimo.sys.domain.UserDO;
 import top.yimo.sys.service.LogService;
 
 /**
@@ -61,7 +62,7 @@ public class LogAspect {
 		// 执行时长(毫秒)
 		long time = System.currentTimeMillis() - startTime.get();
 		LogDO log = new LogDO();
-		log.setTime(time / 1000);
+		log.setTime(time);
 		// 接收到请求，记录请求内容
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		HttpServletRequest request = attributes.getRequest();
@@ -72,7 +73,7 @@ public class LogAspect {
 		if (syslog != null) {
 			// 注解上的描述
 			logger.info("LOG : " + syslog.toString());
-			log.setOperation(syslog.toString());
+			log.setOperation(syslog.title() + "," + syslog.describe() + "," + syslog.operatorType());
 
 		}
 		// 记录下请求内容
@@ -83,11 +84,13 @@ public class LogAspect {
 		logger.info("ARGS : " + Arrays.toString(joinPoint.getArgs()));
 
 		log.setIp(request.getRemoteAddr());
-		log.setParams(request.getRequestURL().toString());
+		log.setParams(Arrays.toString(joinPoint.getArgs()));
 		log.setMethod(request.getMethod());
-		log.setOperation(request.getRequestURL().toString());
-		log.setUserId(ShiroUtils.getUserId());
-		log.setUserName(ShiroUtils.getUserName());
+		UserDO user = ShiroUtils.getSysUser();
+		if (user != null) {
+			log.setUserId(user.getUserId());
+			log.setUserName(user.getName());
+		}
 		log.setCreateTime(createTime);
 		logService.save(log);
 	}
