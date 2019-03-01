@@ -59,7 +59,7 @@ public class DeptServiceImpl implements DeptService {
 		List<TreeVo<DeptDO>> treeList = new ArrayList<TreeVo<DeptDO>>();
 		List<DeptDO> depts = deptDao.getTree();
 		for (DeptDO dept : depts) {
-			TreeVo tree = new TreeVo();
+			TreeVo<DeptDO> tree = new TreeVo<DeptDO>();
 			tree.setId(dept.getDeptId().toString());
 			tree.setPId(dept.getParentId().toString());
 			tree.setText(dept.getDeptName());
@@ -68,8 +68,27 @@ public class DeptServiceImpl implements DeptService {
 			tree.setState(state);
 			treeList.add(tree);
 		}
-		TreeVo tree = TreeUtils.build(treeList, "");
+		TreeVo<DeptDO> tree = TreeUtils.build(treeList, "");
 		return tree;
 	}
 
+	@Override
+	public List<Long> getAllSubDeptIds(long deptId) {
+		return getSubDeptIds(deptId);
+	}
+
+	public List<Long> getSubDeptIds(long deptId) {
+		List<Long> list = new ArrayList<Long>();
+		list.add(deptId);
+		List<Long> subDeptIds = deptDao.getSubDeptIds(deptId);
+		if (subDeptIds != null && !subDeptIds.isEmpty() && subDeptIds.size() > 0) {
+			for (Long subDeptId : subDeptIds) {
+				if (subDeptId != null) {
+					List<Long> subDeptIds2 = getSubDeptIds(subDeptId);
+					list.addAll(subDeptIds2);
+				}
+			}
+		}
+		return list;
+	}
 }

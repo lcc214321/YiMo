@@ -31,4 +31,9 @@ public interface DeptService {
 	int batchRemove(Long[] deptIds);
 
 	TreeVo<DeptDO> getTree();
+
+	/**
+	 * 获取项下所有下级部门id
+	 */
+	List<Long> getAllSubDeptIds(long deptId);
 }

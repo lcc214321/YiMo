@@ -39,6 +39,9 @@ function load() {
 	        field : 'name',
 	        title : '昵称'
 	    }, {
+	        field : 'deptName',
+	        title : '部门名称'
+	    }, {
 	        field : 'mobile',
 	        title : '手机号'
 	    }, {
@@ -65,11 +68,28 @@ function load() {
 	    } ]
 	});
 }
+// 获取选中的节点
+function getSelectNodeId() {
+	var treeNode = $('#jstree').jstree(true).get_selected(true)[0]; // 获取所有选中的节点对象
+	var deptId = "";//默认展示所有
+	if(treeNode){
+		deptId = treeNode.id;
+	}
+	return deptId;
+}
+// 刷新表格
 function refresh() {
-	$('#userTable').bootstrapTable('refresh');
+	var _deptId = getSelectNodeId();
+	opt = {
+		query : {
+			deptId : _deptId,
+		}
+	}
+	$('#userTable').bootstrapTable('refresh', opt);
 }
 
 function add() {
+
 	layer.open({
 	    type : 2,
 	    title : '增加',
@@ -99,13 +119,15 @@ function remove(id) {
 		    data : {
 			    'userId' : id
 		    },
+		    refresh : true,
 		});
 	})
 }
 
 function resetPwd(id) {
 	yimo.ajaxPut({
-		url : prefix + "/resetPwd/" + id,
+	    url : prefix + "/resetPwd/" + id,
+	    refresh : true,
 	});
 }
 
@@ -138,8 +160,8 @@ function batchRemove() {
 			    "ids" : ids
 		    },
 		    url : prefix + '/batchRemove',
+		    refresh : true,
 		});
-		refresh();
 	});
 }
 
@@ -162,16 +184,5 @@ function loadTree(tree) {
 	$('#jstree').jstree().open_all();
 }
 $('#jstree').on("changed.jstree", function(e, data) {
-	if (data.selected != -1 && data.selected[0] != 1) {
-		var opt = {
-			query : {
-				deptId : data.selected[0],
-			}
-		}
-		$('#userTable').bootstrapTable('refresh', opt);
-	} else {
-		$('#userTable').bootstrapTable('refresh', {
-			query : ''
-		});
-	}
+	refresh();
 });

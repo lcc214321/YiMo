@@ -1,12 +1,12 @@
 package top.yimo.sys.dao;
 
-import top.yimo.common.model.vo.TreeVo;
-import top.yimo.sys.domain.DeptDO;
-
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import top.yimo.sys.domain.DeptDO;
 
 /**
  * 部门管理
@@ -19,18 +19,24 @@ import org.apache.ibatis.annotations.Mapper;
 public interface DeptDao {
 
 	DeptDO get(Long deptId);
-	
-	List<DeptDO> listByPage(Map<String,Object> map);
-	
-	int count(Map<String,Object> map);
-	
+
+	List<DeptDO> listByPage(Map<String, Object> map);
+
+	int count(Map<String, Object> map);
+
 	int save(DeptDO dept);
-	
+
 	int update(DeptDO dept);
-	
+
 	int remove(Long dept_id);
-	
+
 	int batchRemove(Long[] deptIds);
 
 	List<DeptDO> getTree();
+
+	/**
+	 * 查找下级部门id
+	 */
+	@Select("select dept_id from sys_dept where parent_id=#{deptId} and status='1' ")
+	List<Long> getSubDeptIds(long deptId);
 }

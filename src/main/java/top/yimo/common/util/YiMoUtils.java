@@ -1,15 +1,9 @@
 package top.yimo.common.util;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 
 import top.yimo.common.constant.WebConstant;
-import top.yimo.common.model.vo.TreeVo;
 
 /**
  * 工具类

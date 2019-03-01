@@ -61,6 +61,13 @@ public class UserController extends BaseController {
 	@RequiresPermissions("sys:user:user")
 	@Log(describe = "获取用户列表", title = "/sys/user", operatorType = OperatorType.QUERY)
 	public PageVo listByPage(@RequestParam Map<String, Object> params) {
+		long deptId = 1;
+		if (params.get("deptId") != null) {
+			deptId = Long.valueOf(params.get("deptId").toString());
+		}
+		List<Long> allSubDeptIds = deptService.getAllSubDeptIds(deptId);
+		params.put("deptIds", allSubDeptIds);
+
 		List<UserDO> userList = userService.listByPage(params);
 		int total = userService.count(params);
 		return getPageData(userList, total);
@@ -69,7 +76,8 @@ public class UserController extends BaseController {
 	@GetMapping("/add")
 	@RequiresPermissions("sys:user:add")
 	public String add(Model model) {
-		model.addAttribute("user", new UserDO());
+		UserDO user = new UserDO();
+		model.addAttribute("user", user);
 		return prefix + "/add";
 	}
 

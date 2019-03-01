@@ -1,6 +1,5 @@
 package top.yimo.common.shiro;
 
-
 import java.util.Set;
 
 import org.apache.shiro.SecurityUtils;
@@ -17,7 +16,6 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 
 import top.yimo.common.constant.WebConstant;
 import top.yimo.common.util.ShiroUtils;
@@ -53,30 +51,29 @@ public class UserRealm extends AuthorizingRealm {
 			throw new UnknownAccountException("账号不存在");
 		}
 		// 账号锁定
-		if (0==user.getStatus()) {
+		if (0 == user.getStatus()) {
 			throw new LockedAccountException("账号已被锁定,请联系管理员");
 		}
 		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user, // 用户名
-				user.getPassword(), // 密码
-				ByteSource.Util.bytes(user.getUserName()+WebConstant.SALT), // 密码加盐
-				getName() // realm name
+		        user.getPassword(), // 密码
+		        ByteSource.Util.bytes(user.getUserName() + WebConstant.SALT), // 密码加盐
+		        getName() // realm name
 		);
 		return authenticationInfo;
 	}
-    /**
-     * 清理缓存权限
-     */
-    public void clearCachedAuthorizationInfo()
-    {
-        this.clearCachedAuthorizationInfo(SecurityUtils.getSubject().getPrincipals());
-    }
+	/**
+	 * 清理缓存权限
+	 */
+	public void clearCachedAuthorizationInfo() {
+		this.clearCachedAuthorizationInfo(SecurityUtils.getSubject().getPrincipals());
+	}
 
-    /**
-     * 授权
-     */
+	/**
+	 * 授权
+	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		Long userId = ShiroUtils.getUserId();//获取当面登陆用户ID
+		Long userId = ShiroUtils.getUserId();// 获取当面登陆用户ID
 		Set<String> perms = menuService.listPermsByUserId(userId);
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 		info.setStringPermissions(perms);
