@@ -116,7 +116,7 @@ public class GenUtils {
 		map.put("package", config.getString("package"));
 		map.put("author", config.getString("author"));
 		map.put("email", config.getString("email"));
-		map.put("datetime", DateUtils.format(new Date(), "yyyy年mm月dd日 HH:mm:ss"));
+		map.put("datetime", DateUtils.format(new Date(), "yyyy年MM月dd日 HH:mm:ss"));
 		VelocityContext context = new VelocityContext(map);
 
 		// 获取模板列表
