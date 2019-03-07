@@ -32,85 +32,88 @@ import top.yimo.sys.service.RoleService;
  * @version 1.0
  * @date 2019年22月24日 17:22:00
  */
- 
+
 @Controller
 @RequestMapping("/sys/role")
-public class RoleController extends BaseController{
-	private String prefix ="/sys/role";
+public class RoleController extends BaseController {
+	private String prefix = "/sys/role";
 	@Autowired
 	private RoleService roleService;
-	
+
 	@GetMapping()
 	@RequiresPermissions("sys:role:role")
-	public String Role(){
-	    return prefix+"/role";
+	public String Role() {
+		return prefix + "/role";
 	}
-	
+
 	@ResponseBody
 	@GetMapping("/list")
 	@RequiresPermissions("sys:role:role")
 	@Log(describe = "获取角色 列表", title = "角色", operatorType = OperatorType.QUERY)
-	public PageVo listByPage(@RequestParam Map<String, Object> params){
+	public PageVo listByPage(@RequestParam Map<String, Object> params) {
 		List<RoleDO> roleList = roleService.listByPage(params);
 		int total = roleService.count(params);
 		return getPageData(roleList, total);
 	}
-	
+
 	@GetMapping("/add")
 	@RequiresPermissions("sys:role:add")
-	public String add(){
-	    return prefix+"/add";
+	public String add() {
+		return prefix + "/add";
 	}
 
 	@GetMapping("/edit/{roleId}")
 	@RequiresPermissions("sys:role:edit")
-	public String edit(@PathVariable("roleId") Long roleId,Model model){
+	public String edit(@PathVariable("roleId") Long roleId, Model model) {
 		RoleDO role = roleService.get(roleId);
 		model.addAttribute("role", role);
-	    return prefix+"/edit";
+		return prefix + "/edit";
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/save")
 	@RequiresPermissions("sys:role:add")
-	public ResponseVo save( RoleDO role){
-		if(roleService.save(role)>0){
+	public ResponseVo save(RoleDO role) {
+		beforeSave(role);
+		role.setStatus("1");
+		if (roleService.save(role) > 0) {
 			return ResponseVo.ok("保存成功");
 		}
 		return ResponseVo.fail();
 	}
-	
+
 	@ResponseBody
 	@PutMapping("/update")
 	@RequiresPermissions("sys:role:edit")
-	public ResponseVo update( RoleDO role){
+	public ResponseVo update(RoleDO role) {
+		beforeUpdate(role);
 		if (roleService.update(role) > 0) {
 			return ResponseVo.ok("更新成功");
 		}
 		return ResponseVo.fail();
 	}
-	
+
 	/**
 	 * 删除
 	 */
-	@DeleteMapping( "/remove")
+	@DeleteMapping("/remove")
 	@ResponseBody
 	@RequiresPermissions("sys:role:remove")
-	public ResponseVo remove( Long roleId){
-		if(roleService.remove(roleId)>0){
+	public ResponseVo remove(Long roleId) {
+		if (roleService.remove(roleId) > 0) {
 			return ResponseVo.ok("删除成功");
 		}
 		return ResponseVo.fail();
 	}
-	
+
 	/**
 	 * 批量删除
 	 */
-	@DeleteMapping( "/batchRemove")
+	@DeleteMapping("/batchRemove")
 	@ResponseBody
 	@RequiresPermissions("sys:role:batchRemove")
-	public ResponseVo remove(@RequestParam("ids[]") Long[] roleIds){
-		if(roleService.batchRemove(roleIds)>0){
+	public ResponseVo remove(@RequestParam("ids[]") Long[] roleIds) {
+		if (roleService.batchRemove(roleIds) > 0) {
 			return ResponseVo.ok("删除成功");
 		}
 		return ResponseVo.fail();

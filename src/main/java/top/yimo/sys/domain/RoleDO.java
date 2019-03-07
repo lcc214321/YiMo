@@ -1,9 +1,10 @@
 package top.yimo.sys.domain;
 
-import java.io.Serializable;
 import java.util.List;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import top.yimo.common.domain.BaseDo;
 
 /**
  * 角色 表sys_role
@@ -14,7 +15,8 @@ import lombok.Data;
  * @date 2019年22月24日 17:22:00
  */
 @Data
-public class RoleDO implements Serializable {
+@EqualsAndHashCode(callSuper = false)
+public class RoleDO extends BaseDo {
 	private static final long serialVersionUID = 1L;
 
 	// 角色ID

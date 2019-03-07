@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import top.yimo.common.model.vo.ResponseVo;
-import top.yimo.common.util.DateUtils;
 import top.yimo.generator.GenUtils;
 import top.yimo.generator.service.GeneratorService;
 /**
@@ -57,7 +56,7 @@ public class GeneratorController {
 		String[] tableNames = new String[]{tableName};
 		byte[] data = generatorService.generatorCode(tableNames);
 		response.reset();
-		response.setHeader("Content-Disposition", "attachment; filename=\"" + tableName + DateUtils.getNow() + ".zip\"");
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + tableName + ".zip\"");
 		response.addHeader("Content-Length", "" + data.length);
 		response.setContentType("application/octet-stream; charset=UTF-8");
 

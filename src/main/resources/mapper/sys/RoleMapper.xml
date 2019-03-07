@@ -29,7 +29,7 @@
 		<include refid="Base_Column_List" />
 		from
 		<include refid="tableName" />
-		where role_id = #{value} and status = 1
+		where role_id = #{value} 
 	</select>
 	
 	<select id="getAllRoles" resultType="top.yimo.sys.domain.RoleDO">
@@ -77,7 +77,8 @@
 			`remark`, 
 			`create_user_id`, 
 			`create_time`, 
-			`update_time`
+			`update_time`,
+			`status`
 		)
 		values
 		(
@@ -86,7 +87,9 @@
 			#{remark}, 
 			#{createUserId}, 
 			#{createTime}, 
-			#{updateTime}
+			#{updateTime},
+			#{status}
+			
 		)
 	</insert>
 	 
@@ -98,7 +101,8 @@
 			<if test="remark != null">`remark` = #{remark}, </if>
 			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
-			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+			<if test="updateTime != null">`update_time` = #{updateTime},</if>
+			<if test="status != null">`status` = #{status}</if>
 		</set>
 		where role_id = #{roleId}
 	</update>

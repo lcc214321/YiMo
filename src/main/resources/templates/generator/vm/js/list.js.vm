@@ -1,4 +1,4 @@
-var prefix = ctx+"${moduleName}/${classname}"
+var prefix = ctx+"${moduleName}/${classname}";
 function load() {
 	$('#${className}Table')
 			.bootstrapTable(
@@ -80,7 +80,8 @@ function edit(id) {
 function remove(id) {
 	layer.confirm('确定要删除选中的记录？', {
 		btn : [ '确定', '取消' ]
-	},  function() {
+	},  function(index) {
+		layer.close(index);
 		yimo.ajaxDelete({
 			url : prefix + "/remove",
 			data : {
@@ -100,12 +101,13 @@ function batchRemove() {
 	layer.confirm("确认要删除选中的'" + rows.length + "'条数据吗?", {
 		btn : [ '确定', '取消' ]
 	// 按钮
-	}, function() {
+	}, function(index) {
 		var ids = new Array();
 		// 遍历所有选择的行数据，取每条数据对应的ID
 		$.each(rows, function(i, row) {
 			ids[i] = row['${pk.attrname}'];
 		});
+		layer.close(index);
 		yimo.ajaxDelete({
 			data : {
 				"ids" : ids

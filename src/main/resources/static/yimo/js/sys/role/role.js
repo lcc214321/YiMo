@@ -1,4 +1,4 @@
-var prefix = ctx + "sys/role"
+var prefix = ctx + "sys/role";
 function load() {
 	$('#RoleTable')
 			.bootstrapTable(
@@ -103,20 +103,22 @@ function edit(id) {
 		content : prefix + '/edit/' + id // iframe的url
 	});
 }
-// 删除
+//删除
 function remove(id) {
 	layer.confirm('确定要删除选中的记录？', {
 		btn : [ '确定', '取消' ]
-	}, function() {
+	},  function(index) {
+		layer.close(index);
 		yimo.ajaxDelete({
 			url : prefix + "/remove",
 			data : {
-				'userId' : id
+				'roleId' : id
 			},
+			refresh : true,
 		});
 	})
 }
-// 批量删除
+//批量删除
 function batchRemove() {
 	var rows = $('#RoleTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
 	if (rows.length == 0) {
@@ -126,25 +128,20 @@ function batchRemove() {
 	layer.confirm("确认要删除选中的'" + rows.length + "'条数据吗?", {
 		btn : [ '确定', '取消' ]
 	// 按钮
-	}, function() {
+	}, function(index) {
 		var ids = new Array();
 		// 遍历所有选择的行数据，取每条数据对应的ID
 		$.each(rows, function(i, row) {
 			ids[i] = row['roleId'];
 		});
+		layer.close(index);
 		yimo.ajaxDelete({
 			data : {
 				"ids" : ids
 			},
 			url : prefix + '/batchRemove',
+			refresh : true,
 		});
 	}, function() {
-	});
-}
-
-function save() {
-	yimo.ajaxPost({
-		url : prefix + "/save",
-		data : $('#RoleForm').serialize(),
 	});
 }
