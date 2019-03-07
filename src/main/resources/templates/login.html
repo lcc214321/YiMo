@@ -2,36 +2,64 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='YiMo后台管理登录'">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title><th:block th:text="${title!=null?title:' YiMo 管理系统后台中心'}"></th:block></title>
-<meta name="keywords" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>YiMo后台管理通用平台 - 登录</title>
+<meta name="keywords" content="YiMo,YiMo后台管理通用平台">
 <meta name="description" content="">
-<link rel="shortcut icon" th:href="@{/favicon.ico}">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+<link href="css/animate.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+<link href="css/login.css" rel="stylesheet">
 <!--[if lt IE 9]>
     <meta http-equiv="refresh" content="0;ie.html" />
     <![endif]-->
-<link th:href="@{/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet" type="text/css">
-<link th:href="@{/css/style.css?v=4.1.0}" rel="stylesheet">
+<script>
+	if (window.top !== window.self) {
+	    window.top.location = window.location;
+    }
+</script>
+
 </head>
-<body class="gray-bg">
-	<div class="middle-box text-center loginscreen  animated fadeInDown">
-		<div>
-			<div>
-				<h1 class="logo-name">YiMo</h1>
 
+<body class="signin">
+	<div class="signinpanel">
+		<div class="row">
+			<div class="col-sm-7">
+				<div class="signin-info">
+					<div class="logopanel m-b">
+						<h1>YiMo</h1>
+					</div>
+					<div class="m-b"></div>
+					<h4>
+						欢迎使用 <strong>YiMo后台管理通用平台</strong>
+					</h4>
+					<ul class="m-b">
+						<li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 核心框架：Spring Boot [web | thymeleaf | aop | mybatis]</li>
+						<li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 安全框架：Apache Shiro</li>
+						<li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 前端模板：Thymeleaf</li>
+						<li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 模板引擎：Apache Velocity</li>
+						<li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 持久层框架：MyBatis</li>
+						<li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 连接池：Druid</li>
+						<li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 数据库：MySQL</li>
+						<li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 工具类：commons-lang3 | commons-configuration | fastjson</li>
+					</ul>
+					<!--                     <strong>还没有账号？ <a href="#">立即注册&raquo;</a></strong> -->
+				</div>
 			</div>
-			<h3>欢迎使用 YiMo</h3>
-
-			<form class="m-t" role="form" method="post" id="loginForm">
-				<div class="form-group">
-					<input type="text" maxlength="10" id="username" name="username" class="form-control" placeholder="用户名" value="tayle">
-				</div>
-				<div class="form-group">
-					<input type="password" id="password" name="password" class="form-control" placeholder="密码" value="123456">
-				</div>
-				<button type="submit" class="btn btn-primary block full-width m-b">登 录</button>
-				<p class="text-muted text-center"></p>
-			</form>
+			<div class="col-sm-5">
+				<form method="post" id="loginForm" class="m-t">
+					<h4 class="no-margins">登录：</h4>
+					<p class="m-t-md">一墨一心语</p>
+					<input type="text" maxlength="10" id="username" name="username" class="form-control uname" placeholder="用户名" value="tayle"> <input
+						type="password" id="password" name="password" class="form-control pword m-b" placeholder="密码" value="123456" />
+					<!-- 					<a href="">忘记密码了？</a> -->
+					<button type="submit" class="btn btn-success btn-block">登录</button>
+				</form>
+			</div>
+		</div>
+		<div class="signup-footer">
+			<div class="pull-left">&copy; 2019 All Rights Reserved. Tayle</div>
 		</div>
 	</div>
 	<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
@@ -40,67 +68,6 @@
 	<script th:src="@{/js/plugins/layer/layer.min.js}"></script>
 	<script th:src="@{/js/plugins/validate/jquery.validate.min.js}"></script>
 	<script th:src="@{/js/plugins/validate/messages_zh.min.js}"></script>
-	<script type="text/javascript">
-		$(document).ready(function() {
-	        $("#login").on('click', function() {
-		        $("#loginForm").submit();
-	        });
-	        validateRule();
-	        $("body").keydown(keyDownLogon);
-        });
-
-        $.validator.setDefaults({
-	        submitHandler : function() {
-		        login();
-	        }
-        });
-
-        function login() {
-	        $.ajax({
-	            type : "POST",
-	            url : ctx + "login",
-	            data : $('#loginForm').serialize(),
-	            success : function(r) {
-		            if (r.success == true) {
-			            var index = layer.load(1, {
-				            shade : [ 0.1, '#fff' ]
-			            //0.1透明度的白色背景
-			            });
-			            parent.location.href = ctx + 'index';
-		            } else {
-			            layer.msg(r.msg);
-		            }
-	            },
-	        });
-        }
-
-        function keyDownLogon() {
-	        if (event.keyCode == "13") {
-		        $("#login").trigger('click');
-	        }
-        }
-
-        function validateRule() {
-	        var icon = "<i class='fa fa-times-circle'></i> ";
-	        $("#loginForm").validate({
-	            rules : {
-	                username : {
-		                required : true
-	                },
-	                password : {
-		                required : true
-	                }
-	            },
-	            messages : {
-	                username : {
-		                required : icon + "请输入您的用户名",
-	                },
-	                password : {
-		                required : icon + "请输入您的密码",
-	                }
-	            }
-	        })
-        }
-	</script>
+	<script th:src="@{/js/login.js}"></script>
 </body>
 </html>
