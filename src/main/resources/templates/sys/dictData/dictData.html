@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"  th:with="title='sys_dict_data'">
+<meta charset="utf-8">
+<header th:replace="header::headerFragment(${title})"></header>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<div class="columns pull-left">
+							<input id="dictType" name="dictType" th:value="${dictType}" type="hidden">
+							<button shiro:hasPermission="sys:dictData:add" type="button" class="btn btn-rounded btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+							<button shiro:hasPermission="sys:dictData:batchRemove" type="button" class="btn btn-rounded btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>批量删除
+							</button>
+						</div>
+						<div class="columns pull-right">
+							<button class="btn btn-success" onclick="refresh()">刷新</button>
+						</div>
+					</div>
+					<table id="DictDataTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="footer :: footer"></div>
+	<script  type="text/javascript" th:inline="javascript">
+		var s_edit_h = [[${@permission.hasPermi('sys:dictData:edit')}]];
+		var s_remove_h = [[${@permission.hasPermi('sys:dictData:remove')}]];
+		var s_resetPwd_h = [[${@permission.hasPermi('sys:dictData:resetPwd')}]];
+		$().ready(function() {
+			load();
+		});
+	</script>
+	<script type="text/javascript" th:src="@{/yimo/js/sys/dictData/dictData.js}"></script>
+</body>
+</html>

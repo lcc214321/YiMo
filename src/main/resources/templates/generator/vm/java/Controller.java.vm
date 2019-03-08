@@ -74,6 +74,7 @@ public class ${className}Controller extends BaseController{
 	@PostMapping("/save")
 	@RequiresPermissions("${moduleName}:${classname}:add")
 	public ResponseVo save( ${className}DO ${classname}){
+		beforeSave(${classname});
 		if(${classname}Service.save(${classname})>0){
 			return ResponseVo.ok("保存成功");
 		}
@@ -84,6 +85,7 @@ public class ${className}Controller extends BaseController{
 	@PutMapping("/update")
 	@RequiresPermissions("${moduleName}:${classname}:edit")
 	public ResponseVo update( ${className}DO ${classname}){
+			beforeUpdate(${classname});
 		if (${classname}Service.update(${classname}) > 0) {
 			return ResponseVo.ok("更新成功");
 		}

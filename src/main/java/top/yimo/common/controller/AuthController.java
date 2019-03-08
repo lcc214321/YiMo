@@ -45,7 +45,7 @@ public class AuthController extends BaseController {
 	@GetMapping(value = "login")
 	@Log(title = "系统登陆", operatorType = OperatorType.LOGIN)
 	public String login() {
-		return "login";
+		 return "login";
 	}
 
 	@PostMapping(value = "/login")

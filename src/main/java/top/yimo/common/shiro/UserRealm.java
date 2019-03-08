@@ -1,5 +1,6 @@
 package top.yimo.common.shiro;
 
+import java.util.List;
 import java.util.Set;
 
 import org.apache.shiro.SecurityUtils;
@@ -19,8 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import top.yimo.common.constant.WebConstant;
 import top.yimo.common.util.ShiroUtils;
+import top.yimo.sys.domain.RoleDO;
 import top.yimo.sys.domain.UserDO;
 import top.yimo.sys.service.MenuService;
+import top.yimo.sys.service.RoleService;
 import top.yimo.sys.service.UserService;
 
 /**
@@ -36,6 +39,8 @@ public class UserRealm extends AuthorizingRealm {
 	UserService userSerivce;
 	@Autowired
 	MenuService menuService;
+	@Autowired
+	RoleService roleService;
 	/**
 	 * 认证
 	 */
@@ -76,6 +81,13 @@ public class UserRealm extends AuthorizingRealm {
 		Long userId = ShiroUtils.getUserId();// 获取当面登陆用户ID
 		Set<String> perms = menuService.listPermsByUserId(userId);
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+		List<RoleDO> roleIds = roleService.getRolesByUserId(userId);
+		for (RoleDO role : roleIds) {// 超级管理员 默认赋予所有权限
+			if (role.getRoleSign().equalsIgnoreCase("superAdmin")) {
+				perms.addAll(menuService.listAllPerms());
+				break;
+			}
+		}
 		info.setStringPermissions(perms);
 		return info;
 	}

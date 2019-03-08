@@ -36,6 +36,10 @@ public interface MenuService {
 	Set<String> listPermsByUserId(Long id);
 
 	/**
+	 * 获取所有权限
+	 */
+	Set<String> listAllPerms();
+	/**
 	 * 通过用户ID查询对应有效的菜单
 	 */
 	List<TreeVo<MenuDO>> getMenusByUser(Long userId);

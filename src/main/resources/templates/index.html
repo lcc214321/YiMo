@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <header th:replace="header::headerFragment(${title})"></header>
-<body class="fixed-sidebar full-height-layout gray-bg" style="overflow: hidden">
+<body class="fixed-sidebar full-height-layout gray-bg " style="overflow: hidden">
 	<div id="wrapper">
 		<nav class="navbar-default navbar-static-side" role="navigation" th:fragment="menu">
 			<div class="nav-close">
@@ -31,12 +31,12 @@
 <!-- 					<ul class="nav nav-second-level"> -->
 <!-- 						<li><a id="index001" class="J_menuItem" href="" data-index="0" th:href="@{/generator}">自动生成代码</a></li> -->
 <!-- 					</ul> -->
-					<li th:each="menu : ${menus}"><a href="#"> <i class="fa fa fa-bar-chart-o" th:class="${menu.attributes.icon}"></i> <span class="nav-label" th:text="${menu.text}">基础信息</span>
+					<li th:each="menu : ${menus}"><a href="#"> <i class="fa fa fa-bar-chart-o" th:class="${menu.attributes.icon}"></i> <span class="nav-label" th:text="${menu.text}">顶级菜单</span>
 							<span class="fa arrow"></span>
 					</a>
 						<ul class="nav nav-second-level">
 							<li th:each="cmenu : ${menu.children}"><a class="J_menuItem " href="#" th:href="${cmenu.attributes.url}"> <i class="fa fa fa-bar-chart-o"
-									th:class="${cmenu.attributes.icon}"></i> <span class="nav-label" th:text="${cmenu.text}">基础信息</span></a></li>
+									th:class="${cmenu.attributes.icon}"></i> <span class="nav-label" th:text="${cmenu.text}">二级菜单</span></a></li>
 						</ul></li>
 				</ul>
 			</div>

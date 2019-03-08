@@ -55,14 +55,19 @@ var load = function() {
 	    }, {
 	        title : '地址',
 	        valign : 'center',
-	        width : '20%',
+	        width : '10%',
 	        field : 'url'
 	    }, {
 	        title : '权限标识',
 	        valign : 'center',
-	        width : '20%',
+	        width : '15%',
 	        field : 'perms'
 	    }, {
+	        title : '排序号',
+	        valign : 'center',
+	        width : '10%',
+	        field : 'orderNo'
+	    },{
 	        field : 'status',
 	        title : '状态',
 	        align : 'left',
