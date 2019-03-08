@@ -118,16 +118,4 @@ public class MenuServiceImpl implements MenuService {
 		return treeList;
 	}
 
-	@Override
-	public Set<String> listAllPerms() {
-		List<MenuDO> menus = menuDao.getAllMenu();
-		Set<String> permsSet = new HashSet<>();
-		for (MenuDO menu : menus) {
-			String perm = menu.getPerms();
-			if (StringUtils.isNotBlank(perm)) {// 排除空格
-				permsSet.addAll(Arrays.asList(perm.trim().split(",")));
-			}
-		}
-		return permsSet;
-	}
 }

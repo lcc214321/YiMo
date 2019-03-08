@@ -82,9 +82,9 @@ public class UserRealm extends AuthorizingRealm {
 		Set<String> perms = menuService.listPermsByUserId(userId);
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 		List<RoleDO> roleIds = roleService.getRolesByUserId(userId);
-		for (RoleDO role : roleIds) {// 超级管理员 默认赋予所有权限
+		for (RoleDO role : roleIds) {
 			if (role.getRoleSign().equalsIgnoreCase("superAdmin")) {
-				perms.addAll(menuService.listAllPerms());
+				perms.add("*:*:*");// 超级管理员 默认赋予所有权限
 				break;
 			}
 		}

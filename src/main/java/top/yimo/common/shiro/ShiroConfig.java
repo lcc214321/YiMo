@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import net.sf.ehcache.CacheManager;
 import top.yimo.common.constant.WebConstant;
 
 /**
@@ -74,14 +76,36 @@ public class ShiroConfig {
 		UserRealm userRealm = new UserRealm();
 		// 使用加密
 		userRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+		// 使用ehcache
+		userRealm.setCacheManager(ehCacheManager());
 		return userRealm;
 	}
 
+	/**
+	 * 配置核心安全事务管理器
+	 * @param shiroRealm
+	 * @return
+	 */
 	@Bean
 	public SecurityManager securityManager() {
 		DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+		// 设置realm.
 		securityManager.setRealm(userRealm());
+		// 添加Ehcache
+		securityManager.setCacheManager(ehCacheManager());
 		return securityManager;
+	}
+
+	/**
+	 *  缓存管理器 使用Ehcache实现
+	 */
+	@Bean
+	public EhCacheManager ehCacheManager() {
+		// 将ehcacheManager转换成shiro包装后的ehcacheManager对象
+		EhCacheManager em = new EhCacheManager();
+		em.setCacheManager(CacheManager.create());
+		em.setCacheManagerConfigFile("classpath:config/ehcache.xml");
+		return em;
 	}
 
 	/**
@@ -105,18 +129,18 @@ public class ShiroConfig {
 	 * @param @return
 	 * @return AuthorizationAttributeSourceAdvisor
 	 */
-	 @Bean
+	@Bean
 	public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(@Qualifier("securityManager") SecurityManager securityManager) {
 		AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
 		authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
 		return authorizationAttributeSourceAdvisor;
 	}
-	 /**
-	  * 开启支持thymeleaf shiro标签
-	  */
-	 @Bean
-	 public ShiroDialect shiroDialect() {
-		 return new ShiroDialect();
-	 }
+	/**
+	 * 开启支持thymeleaf shiro标签
+	 */
+	@Bean
+	public ShiroDialect shiroDialect() {
+		return new ShiroDialect();
+	}
 
 }

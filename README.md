@@ -8,6 +8,7 @@
 ## 技术栈
 * 核心框架：Spring Boot [web | thymeleaf | aop | mybatis] 
 * 安全框架：Apache Shiro
+* 缓存框架：Ehcache
 * 前端模板：Thymeleaf
 * 模板引擎：Apache Velocity
 * 持久层框架：MyBatis
