@@ -3,9 +3,9 @@ package top.yimo.common.domain;
 import java.io.Serializable;
 
 public class BaseDo implements Serializable {
-	/**   
-	* @Fields serialVersionUID 
-	*/
+	/**
+	 * @Fields serialVersionUID
+	 */
 	private static final long serialVersionUID = -1495715633723805774L;
 	// 创建用户id
 	private Long createUserId;

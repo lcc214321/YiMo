@@ -72,16 +72,17 @@ public class LogAspect {
 		Log syslog = method.getAnnotation(Log.class);
 		if (syslog != null) {
 			// 注解上的描述
-			logger.info("LOG : " + syslog.toString());
+			// logger.info("LOG : " + syslog.toString());
 			log.setOperation(syslog.title() + "," + syslog.describe() + "," + syslog.operatorType());
 
 		}
 		// 记录下请求内容
-		logger.info("URL : " + request.getRequestURL().toString());
-		logger.info("HTTP_METHOD : " + request.getMethod());
-		logger.info("IP : " + request.getRemoteAddr());
-		logger.info("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
-		logger.info("ARGS : " + Arrays.toString(joinPoint.getArgs()));
+		// logger.info("URL : " + request.getRequestURL().toString());
+		// logger.info("HTTP_METHOD : " + request.getMethod());
+		// logger.info("IP : " + request.getRemoteAddr());
+		// logger.info("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." +
+		// joinPoint.getSignature().getName());
+		// logger.info("ARGS : " + Arrays.toString(joinPoint.getArgs()));
 
 		log.setIp(request.getRemoteAddr());
 		log.setParams(Arrays.toString(joinPoint.getArgs()));

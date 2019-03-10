@@ -14,10 +14,6 @@ xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"  th:with="title='sys_dict_dat
 							<button shiro:hasPermission="sys:dictData:add" type="button" class="btn btn-rounded btn-primary" onclick="add()">
 								<i class="fa fa-plus" aria-hidden="true"></i>添加
 							</button>
-							<button shiro:hasPermission="sys:dictData:batchRemove" type="button" class="btn btn-rounded btn-danger"
-								onclick="batchRemove()">
-								<i class="fa fa-trash" aria-hidden="true"></i>批量删除
-							</button>
 						</div>
 						<div class="columns pull-right">
 							<button class="btn btn-success" onclick="refresh()">刷新</button>
@@ -34,6 +30,7 @@ xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"  th:with="title='sys_dict_dat
 		var s_edit_h = [[${@permission.hasPermi('sys:dictData:edit')}]];
 		var s_remove_h = [[${@permission.hasPermi('sys:dictData:remove')}]];
 		var s_resetPwd_h = [[${@permission.hasPermi('sys:dictData:resetPwd')}]];
+		var  dictType =$("#dictType").val();
 		$().ready(function() {
 			load();
 		});

@@ -21,4 +21,6 @@ public class DictDO extends BaseDo {
 	private String dictType;
 	// 字典描述
 	private String dictDescribe;
+	// 状态
+	private String status;
 }
