@@ -70,23 +70,20 @@ public class LogAspect {
 		MethodSignature signature = (MethodSignature) joinPoint.getSignature();
 		Method method = signature.getMethod();
 		Log syslog = method.getAnnotation(Log.class);
+		boolean saveArgs = false;
 		if (syslog != null) {
-			// 注解上的描述
-			// logger.info("LOG : " + syslog.toString());
-			log.setOperation(syslog.title() + "," + syslog.describe() + "," + syslog.operatorType());
-
+			log.setOperationType(syslog.operatorType().name());
+			log.setDescribe(syslog.describe());
+			log.setTitle(syslog.title());
+			saveArgs = syslog.isSaveArgs();
 		}
-		// 记录下请求内容
-		// logger.info("URL : " + request.getRequestURL().toString());
-		// logger.info("HTTP_METHOD : " + request.getMethod());
-		// logger.info("IP : " + request.getRemoteAddr());
-		// logger.info("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." +
-		// joinPoint.getSignature().getName());
-		// logger.info("ARGS : " + Arrays.toString(joinPoint.getArgs()));
-
 		log.setIp(request.getRemoteAddr());
-		log.setParams(Arrays.toString(joinPoint.getArgs()));
-		log.setMethod(request.getMethod());
+		if (saveArgs) {
+			log.setParams(Arrays.toString(joinPoint.getArgs()));
+		}
+		log.setMethod(joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
+		log.setUrl(request.getRequestURL().toString());
+
 		UserDO user = ShiroUtils.getSysUser();
 		if (user != null) {
 			log.setUserId(user.getUserId());

@@ -28,7 +28,7 @@ import top.yimo.sys.service.LogService;
  * @author imTayle
  * @email imTayle@126.com
  * @version 1.0
- * @date 2019年07月01日 18:07:27
+ * @date 2019年03月11日 10:54:37
  */
 
 @Controller
@@ -71,6 +71,7 @@ public class LogController extends BaseController {
 	@PostMapping("/save")
 	@RequiresPermissions("sys:log:add")
 	public ResponseVo save(LogDO log) {
+		beforeSave(log);
 		if (logService.save(log) > 0) {
 			return ResponseVo.ok("保存成功");
 		}
@@ -81,6 +82,7 @@ public class LogController extends BaseController {
 	@PutMapping("/update")
 	@RequiresPermissions("sys:log:edit")
 	public ResponseVo update(LogDO log) {
+		beforeUpdate(log);
 		if (logService.update(log) > 0) {
 			return ResponseVo.ok("更新成功");
 		}

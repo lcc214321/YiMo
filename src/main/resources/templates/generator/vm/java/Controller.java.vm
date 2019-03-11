@@ -37,6 +37,7 @@ import ${package}.service.${className}Service;
 @RequestMapping("/${moduleName}/${classname}")
 public class ${className}Controller extends BaseController{
 	private String prefix ="/${moduleName}/${classname}";
+	private final static String title ="${comments}";
 	@Autowired
 	private ${className}Service ${classname}Service;
 	
@@ -49,7 +50,7 @@ public class ${className}Controller extends BaseController{
 	@ResponseBody
 	@GetMapping("/list")
 	@RequiresPermissions("${moduleName}:${classname}:${classname}")
-	@Log(describe = "获取${comments}列表", title = "${comments}", operatorType = OperatorType.QUERY)
+	@Log(describe = "获取"+title, title = title, operatorType = OperatorType.QUERY)
 	public PageVo listByPage(@RequestParam Map<String, Object> params){
 		List<${className}DO> ${classname}List = ${classname}Service.listByPage(params);
 		int total = ${classname}Service.count(params);
@@ -73,6 +74,7 @@ public class ${className}Controller extends BaseController{
 	@ResponseBody
 	@PostMapping("/save")
 	@RequiresPermissions("${moduleName}:${classname}:add")
+	@Log(describe = "新增", title = title, operatorType = OperatorType.DELETE)
 	public ResponseVo save( ${className}DO ${classname}){
 		beforeSave(${classname});
 		if(${classname}Service.save(${classname})>0){
@@ -84,6 +86,7 @@ public class ${className}Controller extends BaseController{
 	@ResponseBody
 	@PutMapping("/update")
 	@RequiresPermissions("${moduleName}:${classname}:edit")
+	@Log(describe = "更新", title = title, operatorType = OperatorType.DELETE)
 	public ResponseVo update( ${className}DO ${classname}){
 			beforeUpdate(${classname});
 		if (${classname}Service.update(${classname}) > 0) {
@@ -98,6 +101,7 @@ public class ${className}Controller extends BaseController{
 	@DeleteMapping( "/remove")
 	@ResponseBody
 	@RequiresPermissions("${moduleName}:${classname}:remove")
+	@Log(describe = "删除", title = title, operatorType = OperatorType.DELETE)
 	public ResponseVo remove( ${pk.attrType} ${pk.attrname}){
 		if(${classname}Service.remove(${pk.attrname})>0){
 			return ResponseVo.ok("删除成功");
@@ -111,6 +115,7 @@ public class ${className}Controller extends BaseController{
 	@DeleteMapping( "/batchRemove")
 	@ResponseBody
 	@RequiresPermissions("${moduleName}:${classname}:batchRemove")
+	@Log(describe = "批量删除", title = title, operatorType = OperatorType.DELETE)
 	public ResponseVo remove(@RequestParam("ids[]") ${pk.attrType}[] ${pk.attrname}s){
 		if(${classname}Service.batchRemove(${pk.attrname}s)>0){
 			return ResponseVo.ok("删除成功");

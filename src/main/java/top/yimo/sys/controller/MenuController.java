@@ -38,6 +38,8 @@ import top.yimo.sys.service.MenuService;
 @RequestMapping("/sys/menu")
 public class MenuController extends BaseController {
 	private String prefix = "/sys/menu";
+	private final static String title = "菜单管理";
+
 	@Autowired
 	private MenuService menuService;
 
@@ -50,7 +52,7 @@ public class MenuController extends BaseController {
 	@ResponseBody
 	@GetMapping("/list")
 	@RequiresPermissions("sys:menu:menu")
-	@Log(describe = "获取菜单管理 列表", title = "菜单管理", operatorType = OperatorType.QUERY)
+	@Log(describe = "获取菜单列表", title = title, operatorType = OperatorType.QUERY)
 	public List<MenuDO> list(@RequestParam Map<String, Object> params) {
 		List<MenuDO> menuList = menuService.list(params);
 		return menuList;
@@ -81,6 +83,7 @@ public class MenuController extends BaseController {
 	@ResponseBody
 	@PostMapping("/save")
 	@RequiresPermissions("sys:menu:add")
+	@Log(describe = "新增保存", title = title, operatorType = OperatorType.INSERT)
 	public ResponseVo save(MenuDO menu) {
 		beforeSave(menu);
 		menu.setStatus("1");
@@ -93,6 +96,7 @@ public class MenuController extends BaseController {
 	@ResponseBody
 	@PutMapping("/update")
 	@RequiresPermissions("sys:menu:edit")
+	@Log(describe = "更新保存", title = title, operatorType = OperatorType.UPDATE)
 	public ResponseVo update(MenuDO menu) {
 		beforeUpdate(menu);
 		if (menuService.update(menu) > 0) {
@@ -107,6 +111,7 @@ public class MenuController extends BaseController {
 	@DeleteMapping("/remove")
 	@ResponseBody
 	@RequiresPermissions("sys:menu:remove")
+	@Log(describe = "删除菜单信息", title = title, operatorType = OperatorType.DELETE)
 	public ResponseVo remove(Long menuId) {
 		if (menuService.remove(menuId) > 0) {
 			return ResponseVo.ok("删除成功");
@@ -120,6 +125,7 @@ public class MenuController extends BaseController {
 	@DeleteMapping("/batchRemove")
 	@ResponseBody
 	@RequiresPermissions("sys:menu:batchRemove")
+	@Log(describe = "批量删除菜单信息", title = title, operatorType = OperatorType.DELETE)
 	public ResponseVo remove(@RequestParam("ids[]") Long[] menuIds) {
 		if (menuService.batchRemove(menuIds) > 0) {
 			return ResponseVo.ok("删除成功");

@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @author imTayle
  * @email imTayle@126.com
  * @version 1.0
- * @date 2019年07月01日 18:07:27
+ * @date 2019年03月11日 10:54:37
  */
 @Mapper
 public interface LogDao {

@@ -31,4 +31,5 @@ public @interface Log {
 	 */
 	public String describe() default "";
 
+	public boolean isSaveArgs() default false;
 }

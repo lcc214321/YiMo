@@ -51,7 +51,7 @@ public class DeptController extends BaseController {
 	@ResponseBody
 	@GetMapping("/listByPage")
 	@RequiresPermissions("sys:dept:dept")
-	@Log(describe = "获取部门管理 列表", title = "部门管理", operatorType = OperatorType.QUERY)
+	@Log(describe = "获取部门管理列表", title = "部门管理", operatorType = OperatorType.QUERY)
 	public PageVo listByPage(@RequestParam Map<String, Object> params) {
 		List<DeptDO> deptList = deptService.listByPage(params);
 		int total = deptService.count(params);
@@ -61,7 +61,7 @@ public class DeptController extends BaseController {
 	@ResponseBody
 	@GetMapping("/list")
 	@RequiresPermissions("sys:dept:dept")
-	@Log(describe = "获取部门管理 列表", title = "部门管理", operatorType = OperatorType.QUERY)
+	@Log(describe = "获取部门管理列表", title = "部门管理", operatorType = OperatorType.QUERY)
 	public List<DeptDO> list(@RequestParam Map<String, Object> params) {
 		return deptService.list(params);
 	}
@@ -90,6 +90,7 @@ public class DeptController extends BaseController {
 	@ResponseBody
 	@PostMapping("/save")
 	@RequiresPermissions("sys:dept:add")
+	@Log(describe = "新增部门", title = "部门管理", operatorType = OperatorType.INSERT)
 	public ResponseVo save(DeptDO dept) {
 		beforeSave(dept);
 		dept.setStatus("1");
@@ -102,6 +103,7 @@ public class DeptController extends BaseController {
 	@ResponseBody
 	@PutMapping("/update")
 	@RequiresPermissions("sys:dept:edit")
+	@Log(describe = "更新部门信息", title = "部门管理", operatorType = OperatorType.UPDATE)
 	public ResponseVo update(DeptDO dept) {
 		beforeUpdate(dept);
 		if (deptService.update(dept) > 0) {
@@ -116,6 +118,7 @@ public class DeptController extends BaseController {
 	@DeleteMapping("/remove")
 	@ResponseBody
 	@RequiresPermissions("sys:dept:remove")
+	@Log(describe = "删除部门信息", title = "部门管理", operatorType = OperatorType.DELETE)
 	public ResponseVo remove(Long deptId) {
 		if (deptService.remove(deptId) > 0) {
 			return ResponseVo.ok("删除成功");
@@ -129,6 +132,7 @@ public class DeptController extends BaseController {
 	@DeleteMapping("/batchRemove")
 	@ResponseBody
 	@RequiresPermissions("sys:dept:batchRemove")
+	@Log(describe = "批量删除部门信息", title = "部门管理", operatorType = OperatorType.DELETE)
 	public ResponseVo remove(@RequestParam("ids[]") Long[] deptIds) {
 		if (deptService.batchRemove(deptIds) > 0) {
 			return ResponseVo.ok("删除成功");

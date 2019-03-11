@@ -9,19 +9,22 @@
 	
 	<!-- 数据表所有列名 -->
 	<sql id="Base_Column_List">
-		`id`,`user_id`,`user_name`,`operation`,`time`,`method`,`params`,`ip`,`create_time`	</sql>
+		`id`,`user_id`,`user_name`,`operation_type`,`time`,`method`,`params`,`ip`,`create_time`,`url`,`describe`,`title`	</sql>
 
 	<!-- 查询字段 -->
 	<sql id="Base_Search_Param">
 				<if test="id != null and id != ''"> and id = #{id} </if>
 				<if test="userId != null and userId != ''"> and user_id = #{userId} </if>
 				<if test="userName != null and userName != ''"> and user_name = #{userName} </if>
-				<if test="operation != null and operation != ''"> and operation = #{operation} </if>
+				<if test="operationType != null and operationType != ''"> and operation_type = #{operationType} </if>
 				<if test="time != null and time != ''"> and time = #{time} </if>
 				<if test="method != null and method != ''"> and method = #{method} </if>
 				<if test="params != null and params != ''"> and params = #{params} </if>
 				<if test="ip != null and ip != ''"> and ip = #{ip} </if>
 				<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+				<if test="url != null and url != ''"> and url = #{url} </if>
+				<if test="describe != null and describe != ''"> and describe = #{describe} </if>
+				<if test="title != null and title != ''"> and title = #{title} </if>
 			</sql>
 	
 	
@@ -61,23 +64,29 @@
 		(
 			`user_id`, 
 			`user_name`, 
-			`operation`, 
+			`operation_type`, 
 			`time`, 
 			`method`, 
 			`params`, 
 			`ip`, 
-			`create_time`
+			`create_time`, 
+			`url`, 
+			`describe`, 
+			`title`
 		)
 		values
 		(
 			#{userId}, 
 			#{userName}, 
-			#{operation}, 
+			#{operationType}, 
 			#{time}, 
 			#{method}, 
 			#{params}, 
 			#{ip}, 
-			#{createTime}
+			#{createTime}, 
+			#{url}, 
+			#{describe}, 
+			#{title}
 		)
 	</insert>
 	 
@@ -86,12 +95,15 @@
 		<set>
 			<if test="userId != null">`user_id` = #{userId}, </if>
 			<if test="userName != null">`user_name` = #{userName}, </if>
-			<if test="operation != null">`operation` = #{operation}, </if>
+			<if test="operationType != null">`operation_type` = #{operationType}, </if>
 			<if test="time != null">`time` = #{time}, </if>
 			<if test="method != null">`method` = #{method}, </if>
 			<if test="params != null">`params` = #{params}, </if>
 			<if test="ip != null">`ip` = #{ip}, </if>
-			<if test="createTime != null">`create_time` = #{createTime}</if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="url != null">`url` = #{url}, </if>
+			<if test="describe != null">`describe` = #{describe}, </if>
+			<if test="title != null">`title` = #{title}</if>
 		</set>
 		where id = #{id}
 	</update>

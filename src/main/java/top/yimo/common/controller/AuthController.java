@@ -43,14 +43,14 @@ public class AuthController extends BaseController {
 	MenuService menuService;
 
 	@GetMapping(value = "login")
-	@Log(title = "系统登陆", operatorType = OperatorType.LOGIN)
+	@Log(title = "系统认证", describe = "系统登陆", operatorType = OperatorType.LOGIN)
 	public String login() {
-		 return "login";
+		return "login";
 	}
 
 	@PostMapping(value = "/login")
 	@ResponseBody
-	@Log(title = "系统登陆认证操作")
+	@Log(title = "用户认证", describe = "认证操作", isSaveArgs = false, operatorType = OperatorType.LOGIN)
 	public ResponseVo doLogin(@RequestParam String username, @RequestParam String password, @RequestParam(required = false) boolean remeber_me,
 	        HttpServletRequest request, HttpServletResponse response) {
 		UsernamePasswordToken token = new UsernamePasswordToken(username, password, remeber_me);
@@ -78,7 +78,7 @@ public class AuthController extends BaseController {
 	}
 
 	@GetMapping(value = "/logout")
-	@Log(title = "系统退出")
+	@Log(title = "用户认证", describe = "系统退出", operatorType = OperatorType.LOGOUT)
 	public String logout() {
 		// subject的实现类DelegatingSubject的logout方法，将本subject对象的session清空了
 		SecurityUtils.getSubject().logout();
