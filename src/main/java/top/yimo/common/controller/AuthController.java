@@ -43,7 +43,6 @@ public class AuthController extends BaseController {
 	MenuService menuService;
 
 	@RequestMapping(value = "login")
-	@Log(title = "系统认证", describe = "系统登陆", operatorType = OperatorType.LOGIN)
 	public String login() {
 		return "login";
 	}

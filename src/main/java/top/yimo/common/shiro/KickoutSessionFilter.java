@@ -17,8 +17,6 @@ import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.util.WebUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -27,14 +25,13 @@ import top.yimo.sys.domain.UserDO;
 
 /**
  * 利用Shiro自定义访问控制拦截器：AccessControlFilter <br>
- * 			实现登录人数限制、登录判断重定向、session时间设置
+ * 			实现登录人数限制、登录判断重定向
  * @Author imTayle
  * @Email imTayle@126.com
  * @version 1.0
  * @Time 2019年3月11日 下午2:41:01
  */
 public class KickoutSessionFilter extends AccessControlFilter {
-	private static final Logger logger = LoggerFactory.getLogger(KickoutSessionFilter.class);
 
 	private final static ObjectMapper objectMapper = new ObjectMapper();
 

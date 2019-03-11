@@ -66,7 +66,9 @@ public class ResponseVo {
 	public static ResponseVo kickout(String msg) {
 		return new ResponseVo(false, msg, 666, System.currentTimeMillis() / 1000);
 	}
-
+	public static ResponseVo timeout(String msg) {
+		return new ResponseVo(false, msg, 999, System.currentTimeMillis() / 1000);
+	}
 	public ResponseVo(boolean success, String msg, int code, long timestamp) {
 		this.success = success;
 		this.msg = msg;

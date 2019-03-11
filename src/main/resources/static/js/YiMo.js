@@ -10,11 +10,10 @@ $.yimo.prototype.ajax = function(options) {
 	    data : options.data || {},
 	    async : options.async || false,
 	    dataType : 'json',
-	    error : function() {
-		    parent.layer.alert("处理失败");
-	    },
+//	    error : function() {
+//		    parent.layer.alert("处理失败");
+//	    },
 	    success : function(data) {
-	    	console.log(data);
 		    if (data.success == true) {
 			    parent.layer.msg(data.msg, {
 				    time : 2000
