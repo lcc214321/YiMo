@@ -12,7 +12,7 @@ spring:
     encoding: UTF-8
     servlet: 
       content-type: text/html
-    mode: HTML5     
+    mode: HTML     
 # 添加热部署 自动编译       
   devtools: 
     restart: 
@@ -41,4 +41,23 @@ logging:
   level:
     root: info
     top.yimo: debug
+    
+#actuator端口 
+#management: 
+#  server: 
+#    port: 9001
+#  endpoints:    
+#    web:  
+#      base-path:  /actuator #修改访问路径  2.0之前默认是/   2.0默认是 /actuator  可以通过这个属性值修改
+#  endpoint: #显示健康具体信息  默认不会显示详细信息  
+#    health:
+#     show-details: always
+     
+shiro: 
+  session:
+    timeout: 30
+  filter: 
+    loginurl: /login 
+    sucessurl: /index
+    unauthorizedurl: /error/403
     

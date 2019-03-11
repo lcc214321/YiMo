@@ -63,6 +63,10 @@ public class ResponseVo {
 		return new ResponseVo(false, msg, -1, System.currentTimeMillis() / 1000);
 	}
 
+	public static ResponseVo kickout(String msg) {
+		return new ResponseVo(false, msg, 666, System.currentTimeMillis() / 1000);
+	}
+
 	public ResponseVo(boolean success, String msg, int code, long timestamp) {
 		this.success = success;
 		this.msg = msg;

@@ -14,6 +14,7 @@ $.yimo.prototype.ajax = function(options) {
 		    parent.layer.alert("处理失败");
 	    },
 	    success : function(data) {
+	    	console.log(data);
 		    if (data.success == true) {
 			    parent.layer.msg(data.msg, {
 				    time : 2000
@@ -30,8 +31,15 @@ $.yimo.prototype.ajax = function(options) {
 				    var index = parent.layer.getFrameIndex(window.name);
 				    parent.layer.close(index);
 			    }
+		    }else if(data.success == false && data.code==666){
+		    	parent.layer.msg(data.msg, {
+				    time : 2000
+			    // 2s后自动关闭
+			    });
+		    	window.location.reload(true);
 		    }
-	    }
+	    },
+	    
 	});
 };
 
