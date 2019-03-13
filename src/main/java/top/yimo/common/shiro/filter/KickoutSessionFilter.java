@@ -1,4 +1,4 @@
-package top.yimo.common.shiro;
+package top.yimo.common.shiro.filter;
 
 import java.io.PrintWriter;
 import java.io.Serializable;

@@ -11,8 +11,10 @@ import top.yimo.common.constant.WebConstant;
 import top.yimo.common.util.DateUtils;
 import top.yimo.common.util.ShiroUtils;
 import top.yimo.common.util.YiMoUtils;
+import top.yimo.sys.dao.DeptDao;
 import top.yimo.sys.dao.UserDao;
 import top.yimo.sys.dao.UserRoleDao;
+import top.yimo.sys.domain.DeptDO;
 import top.yimo.sys.domain.UserDO;
 import top.yimo.sys.domain.UserRoleDO;
 import top.yimo.sys.service.UserService;
@@ -24,6 +26,8 @@ public class UserServiceImpl implements UserService {
 	private UserDao userDao;
 	@Autowired
 	private UserRoleDao uerRoleDao;
+	@Autowired
+	private DeptDao deptDao;
 
 	@Override
 	public UserDO get(Long userId) {
@@ -32,7 +36,11 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDO findByUserName(String userName) {
-		return userDao.findByUserName(userName);
+		UserDO user = userDao.findByUserName(userName);
+		Long deptId = user.getDeptId();
+		DeptDO dept = deptDao.get(deptId);
+		user.setDeptName(dept.getDeptName());
+		return user;
 	}
 
 	@Override

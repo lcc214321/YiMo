@@ -1,5 +1,7 @@
 package top.yimo.common.util;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 
@@ -40,5 +42,29 @@ public class YiMoUtils {
 		String newPassword = new SimpleHash(WebConstant.ALGORITHM_NAME, pswd, ByteSource.Util.bytes(username + WebConstant.SALT), WebConstant.HASH_ITERATIONS)
 		        .toHex();
 		return newPassword;
+	}
+
+	/**
+	 * 获取IP地址
+	 * 
+	 * X-Forwarded-For：Squid 服务代理
+	* Proxy-Client-IP：apache 服务代理
+	* WL-Proxy-Client-IP：weblogic 服务代理
+	* HTTP_CLIENT_IP：有些代理服务器
+	* X-Real-IP：nginx服务代理
+	*/
+	public static String getIpAddr(HttpServletRequest request) {
+
+		String ip = request.getHeader("x-forwarded-for");
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getRemoteAddr();
+		}
+		return "0:0:0:0:0:0:0:1".equals(ip) ? "127.0.0.1" : ip;
 	}
 }

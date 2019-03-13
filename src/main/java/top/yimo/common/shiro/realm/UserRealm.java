@@ -1,4 +1,4 @@
-package top.yimo.common.shiro;
+package top.yimo.common.shiro.realm;
 
 import java.util.List;
 import java.util.Set;

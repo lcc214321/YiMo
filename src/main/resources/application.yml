@@ -55,7 +55,7 @@ logging:
      
 shiro: 
   session:
-    timeout: 30
+    timeout: 300  #单位为秒
   filter: 
     loginurl: /login 
     sucessurl: /index

@@ -27,6 +27,8 @@ public class UserDO extends BaseDo {
 	private String password;
 	// 部门ID
 	private Long deptId;
+	// 部门Name
+	private String deptName;
 	// 邮箱
 	private String email;
 	// 手机号
