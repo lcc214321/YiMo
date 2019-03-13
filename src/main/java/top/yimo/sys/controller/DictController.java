@@ -74,6 +74,11 @@ public class DictController extends BaseController{
 	@PostMapping("/save")
 	@RequiresPermissions("sys:dict:add")
 	public ResponseVo save( DictDO dict){
+		DictDO dictDB = dictService.get(dict.getDictType());
+		if(dictDB != null) {
+			return ResponseVo.fail(666, "该字典类型已经存在，请检查字典类型。");
+		}
+		beforeSave(dict);
 		if(dictService.save(dict)>0){
 			return ResponseVo.ok("保存成功");
 		}
@@ -84,6 +89,7 @@ public class DictController extends BaseController{
 	@PutMapping("/update")
 	@RequiresPermissions("sys:dict:edit")
 	public ResponseVo update( DictDO dict){
+		beforeUpdate(dict);
 		if (dictService.update(dict) > 0) {
 			return ResponseVo.ok("更新成功");
 		}

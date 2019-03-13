@@ -18,6 +18,8 @@ import top.yimo.sys.domain.DictDataDO;
 public interface DictDataDao {
 
 	DictDataDO get(String dictType);
+	
+	DictDataDO getByTypeAndNo(String dictType,String dictNo);
 
 	List<DictDataDO> listByPage(Map<String, Object> map);
 
@@ -28,6 +30,10 @@ public interface DictDataDao {
 	int update(DictDataDO dictData);
 
 	int remove(String dict_type);
-
+	
+	int removeByNo(String dictType,String dictNo);
+	
 	int batchRemove(String[] dictTypes);
+	
+	int batchRemoveByNo(String dictType, String[] dictNos);
 }

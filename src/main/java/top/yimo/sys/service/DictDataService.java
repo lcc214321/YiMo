@@ -17,6 +17,8 @@ public interface DictDataService {
 	
 	DictDataDO get(String dictType);
 	
+	DictDataDO getByTypeAndNo(String dictType,String dictNo);
+	
 	List<DictDataDO> listByPage(Map<String, Object> map);
 	
 	int count(Map<String, Object> map);
@@ -27,5 +29,10 @@ public interface DictDataService {
 	
 	int remove(String dictType);
 	
+	int removeByNo(String dictType, String dictNo);
+	
 	int batchRemove(String[] dictTypes);
+	
+	int batchRemoveByNo(String dictType, String[] dictNos);
+	
 }

@@ -59,7 +59,7 @@ public class UserController extends BaseController {
 	@ResponseBody
 	@GetMapping("/list")
 	@RequiresPermissions("sys:user:user")
-	@Log(describe = "获取用户列表", title = "/sys/user", operatorType = OperatorType.QUERY)
+	@Log(describe = "获取用户列表", title = "用户管理", operatorType = OperatorType.QUERY)
 	public PageVo listByPage(@RequestParam Map<String, Object> params) {
 		long deptId = 1;
 		if (params.get("deptId") != null) {

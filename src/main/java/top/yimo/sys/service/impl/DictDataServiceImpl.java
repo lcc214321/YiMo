@@ -53,5 +53,20 @@ public class DictDataServiceImpl implements DictDataService {
 	public int batchRemove(String[] dictTypes){
 		return dictDataDao.batchRemove(dictTypes);
 	}
+
+	@Override
+	public DictDataDO getByTypeAndNo(String dictType, String dictNo) {
+		return dictDataDao.getByTypeAndNo(dictType, dictNo);
+	}
+
+	@Override
+	public int removeByNo(String dictType, String dictNo) {
+		return dictDataDao.removeByNo(dictType, dictNo);
+	}
+
+	@Override
+	public int batchRemoveByNo(String dictType, String[] dictNos) {
+		return dictDataDao.batchRemoveByNo(dictType, dictNos);
+	}
 	
 }

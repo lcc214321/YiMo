@@ -58,16 +58,17 @@ public class DictDataController extends BaseController {
 		return getPageData(dictDataList, total);
 	}
 
-	@GetMapping("/add")
+	@GetMapping("/add/{dictType}")
 	@RequiresPermissions("sys:dictData:add")
-	public String add() {
+	public String add(@PathVariable("dictType") String dictType, Model model) {
+		model.addAttribute("dictType", dictType);
 		return prefix + "/add";
 	}
 
-	@GetMapping("/edit/{dictType}")
+	@GetMapping("/edit/{dictType}/{dictNo}")
 	@RequiresPermissions("sys:dictData:edit")
-	public String edit(@PathVariable("dictType") String dictType, Model model) {
-		DictDataDO dictData = dictDataService.get(dictType);
+	public String edit(@PathVariable("dictType") String dictType,@PathVariable("dictNo") String dictNo, Model model) {
+		DictDataDO dictData = dictDataService.getByTypeAndNo(dictType, dictNo);
 		model.addAttribute("dictData", dictData);
 		return prefix + "/edit";
 	}
@@ -76,6 +77,11 @@ public class DictDataController extends BaseController {
 	@PostMapping("/save")
 	@RequiresPermissions("sys:dictData:add")
 	public ResponseVo save(DictDataDO dictData) {
+		DictDataDO dictDataDB = dictDataService.getByTypeAndNo(dictData.getDictType(), dictData.getDictNo());
+		if(dictDataDB != null) {
+			return ResponseVo.fail(666,"该字典编码值已经存在，请检查字典编码值。");
+		}
+		beforeSave(dictData);
 		if (dictDataService.save(dictData) > 0) {
 			return ResponseVo.ok("保存成功");
 		}
@@ -86,6 +92,7 @@ public class DictDataController extends BaseController {
 	@PutMapping("/update")
 	@RequiresPermissions("sys:dictData:edit")
 	public ResponseVo update(DictDataDO dictData) {
+		beforeUpdate(dictData);
 		if (dictDataService.update(dictData) > 0) {
 			return ResponseVo.ok("更新成功");
 		}
@@ -98,8 +105,8 @@ public class DictDataController extends BaseController {
 	@DeleteMapping("/remove")
 	@ResponseBody
 	@RequiresPermissions("sys:dictData:remove")
-	public ResponseVo remove(String dictType) {
-		if (dictDataService.remove(dictType) > 0) {
+	public ResponseVo remove(String dictType,String dictNo) {
+		if (dictDataService.removeByNo(dictType, dictNo) > 0) {
 			return ResponseVo.ok("删除成功");
 		}
 		return ResponseVo.fail();
@@ -111,8 +118,8 @@ public class DictDataController extends BaseController {
 	@DeleteMapping("/batchRemove")
 	@ResponseBody
 	@RequiresPermissions("sys:dictData:batchRemove")
-	public ResponseVo remove(@RequestParam("ids[]") String[] dictTypes) {
-		if (dictDataService.batchRemove(dictTypes) > 0) {
+	public ResponseVo remove(String dictType, @RequestParam("ids[]") String[] dictNos) {
+		if (dictDataService.batchRemoveByNo(dictType, dictNos) > 0) {
 			return ResponseVo.ok("删除成功");
 		}
 		return ResponseVo.fail();
