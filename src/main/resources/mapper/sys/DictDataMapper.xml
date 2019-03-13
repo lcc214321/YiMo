@@ -31,6 +31,14 @@
 		<include refid="tableName" />
 		where dict_type = #{value}
 	</select>
+	
+	<select id="getByTypeAndNo" resultType="top.yimo.sys.domain.DictDataDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		where dict_type = #{dictType} and dict_no = #{dictNo}
+	</select>
 
 	<select id="listByPage" resultType="top.yimo.sys.domain.DictDataDO">
 		select
@@ -91,17 +99,28 @@
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
 			<if test="updateTime != null">`update_time` = #{updateTime}</if>
 		</set>
-		where dict_type = #{dictType}
+		where dict_type = #{dictType} and dict_no = #{dictNo}
 	</update>
 	
 	<delete id="remove">
 		delete from sys_dict_data where dict_type = #{value}
 	</delete>
 	
+	<delete id="removeByNo">
+		delete from sys_dict_data where dict_type = #{dictType} and dict_no = #{dictNo}
+	</delete>
+	
 	<delete id="batchRemove">
 		delete from sys_dict_data where dict_type in 
 		<foreach item="dictType" collection="array" open="(" separator="," close=")">
 			#{dictType}
+		</foreach>
+	</delete>
+	
+	<delete id="batchRemoveByNo">
+		delete from sys_dict_data where dict_type = #{dictType} and dict_no in  
+		<foreach item="dictNo" collection="dictNos" open="(" separator="," close=")">
+			#{dictNo}
 		</foreach>
 	</delete>
 

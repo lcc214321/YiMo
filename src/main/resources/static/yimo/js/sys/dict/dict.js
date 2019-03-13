@@ -26,6 +26,9 @@ function load() {
 				},
 				columns : [
 						{
+							checkbox : true
+						},
+						{
 							field : 'dictType',
 							title : '字典类型',
 							formatter : function(value, row, index) {
@@ -41,7 +44,7 @@ function load() {
 							title : '状态',
 							align : 'center',
 							formatter : function(value, row, index) {
-								console.log(row	);
+//								console.log(row	);
 								if (value == '0') {
 									return '<span class="label label-danger">禁用</span>';
 								} else if (value == '1') {
@@ -92,7 +95,7 @@ function edit(id) {
 
 // 编辑对应字典数据
 function detail(dictType) {
-	openPage(prefix + 'Data/' + dictType, '数据字典编辑');
+	openPage(prefix + 'Data/' + dictType, '数据字典【'+dictType+'】编辑');
 }
 
 // 删除
