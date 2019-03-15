@@ -10,12 +10,9 @@ import javax.servlet.Filter;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.session.mgt.eis.MemorySessionDAO;
-import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +22,11 @@ import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import net.sf.ehcache.CacheManager;
 import top.yimo.common.constant.WebConstant;
+import top.yimo.common.shiro.filter.KickoutSessionFilter;
+import top.yimo.common.shiro.realm.UserRealm;
+import top.yimo.common.shiro.session.UserOnlineSessionDao;
+import top.yimo.common.shiro.session.UserOnlineSessionFactory;
+import top.yimo.common.shiro.session.UserOnlineSessionManager;
 
 /**
  * @Author imTayle
@@ -61,8 +63,8 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/login/**", "anon");
 
 		// <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
-		filterChainDefinitionMap.put("/**", "kickout,authc");
-		// filterChainDefinitionMap.put("/**", "authc");// authc
+		// filterChainDefinitionMap.put("/**", "kickout,authc");
+		filterChainDefinitionMap.put("/**", "authc");// authc
 
 		// 添加kickout认证
 		HashMap<String, Filter> hashMap = new HashMap<String, Filter>();
@@ -123,27 +125,39 @@ public class ShiroConfig {
 		return securityManager;
 	}
 
-	@Bean
-	public SessionDAO sessionDAO() {
-		return new MemorySessionDAO();// 使用默认的MemorySessionDAO
-	}
 	/**
-	 * shiro session的管理
+	 * 自定义sessionDao 
 	 */
 	@Bean
-	public DefaultWebSessionManager sessionManager() { // 配置默认的sesssion管理器
-		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+	public UserOnlineSessionDao sessionDAO() {
+		return new UserOnlineSessionDao();
+	}
+
+	/**
+	* 自定义sessionFactory会话
+	*/
+	@Bean
+	public UserOnlineSessionFactory sessionFactory() {
+		UserOnlineSessionFactory sessionFactory = new UserOnlineSessionFactory();
+		return sessionFactory;
+	}
+
+	/**
+	 * shiro session的管理 负责整个session的生命周期
+	 */
+	@Bean
+	public UserOnlineSessionManager sessionManager() { // 配置默认的sesssion管理器
+		UserOnlineSessionManager sessionManager = new UserOnlineSessionManager();
 		sessionManager.setGlobalSessionTimeout(timeout * 1000);
 		sessionManager.setSessionDAO(sessionDAO());
-		// Collection<SessionListener> listeners = new ArrayList<SessionListener>();
-		// // listeners.add(new BDSessionListener());
-		// sessionManager.setSessionListeners(listeners);
+		// 自定义sessionFactory
+		sessionManager.setSessionFactory(sessionFactory());
 		return sessionManager;
 	}
 
 	/**
-	 * 同一个用户多设备登录限制
-	 */
+	* 自定义session过滤器
+	*/
 	@Bean
 	public KickoutSessionFilter kickoutSessionFilter() {
 		KickoutSessionFilter kickoutSessionFilter = new KickoutSessionFilter();

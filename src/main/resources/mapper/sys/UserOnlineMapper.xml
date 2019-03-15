@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.yimo.sys.dao.UserOnlineDao">
+	<!-- 表名 -->
+	<sql id="tableName">
+		sys_user_online
+	</sql>
+	
+	<!-- 数据表所有列名 -->
+	<sql id="Base_Column_List">
+		`sessionId`,`user_id`,`user_name`,`dept_id`,`dept_name`,`ip`,`login_location`,`browser`,`os`,`status`,`begin_time`,`end_time`,`out_time`	</sql>
+
+	<!-- 查询字段 -->
+	<sql id="Base_Search_Param">
+				<if test="sessionid != null and sessionid != ''"> and sessionId = #{sessionid} </if>
+				<if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+				<if test="userName != null and userName != ''"> and user_name = #{userName} </if>
+				<if test="deptId != null and deptId != ''"> and dept_id = #{deptId} </if>
+				<if test="deptName != null and deptName != ''"> and dept_name = #{deptName} </if>
+				<if test="ip != null and ip != ''"> and ip = #{ip} </if>
+				<if test="loginLocation != null and loginLocation != ''"> and login_location = #{loginLocation} </if>
+				<if test="browser != null and browser != ''"> and browser = #{browser} </if>
+				<if test="os != null and os != ''"> and os = #{os} </if>
+				<if test="status != null and status != ''"> and status = #{status} </if>
+				<if test="beginTime != null and beginTime != ''"> and begin_time = #{beginTime} </if>
+				<if test="endTime != null and endTime != ''"> and end_time = #{endTime} </if>
+				<if test="outTime != null and outTime != ''"> and out_time = #{outTime} </if>
+			</sql>
+	
+	
+	<select id="get" resultType="top.yimo.sys.domain.UserOnlineDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		where sessionId = #{value}
+	</select>
+
+	<select id="listByPage" resultType="top.yimo.sys.domain.UserOnlineDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		 where 1 = 1
+		<include refid="Base_Search_Param" />
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by sessionId desc
+			</otherwise>
+        </choose>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from sys_user_online
+		  where 1 = 1
+		<include refid="Base_Search_Param" />
+	</select>
+	 
+	<insert id="save" parameterType="top.yimo.sys.domain.UserOnlineDO">
+		replace into sys_user_online
+		(
+			`sessionId`, 
+			`user_id`, 
+			`user_name`, 
+			`dept_id`, 
+			`dept_name`, 
+			`ip`, 
+			`login_location`, 
+			`browser`, 
+			`os`, 
+			`status`, 
+			`begin_time`, 
+			`end_time`, 
+			`out_time`
+		)
+		values
+		(
+			#{sessionid}, 
+			#{userId}, 
+			#{userName}, 
+			#{deptId}, 
+			#{deptName}, 
+			#{ip}, 
+			#{loginLocation}, 
+			#{browser}, 
+			#{os}, 
+			#{status}, 
+			#{beginTime}, 
+			#{endTime}, 
+			#{outTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="top.yimo.sys.domain.UserOnlineDO">
+		update sys_user_online 
+		<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="userName != null">`user_name` = #{userName}, </if>
+			<if test="deptId != null">`dept_id` = #{deptId}, </if>
+			<if test="deptName != null">`dept_name` = #{deptName}, </if>
+			<if test="ip != null">`ip` = #{ip}, </if>
+			<if test="loginLocation != null">`login_location` = #{loginLocation}, </if>
+			<if test="browser != null">`browser` = #{browser}, </if>
+			<if test="os != null">`os` = #{os}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="beginTime != null">`begin_time` = #{beginTime}, </if>
+			<if test="endTime != null">`end_time` = #{endTime}, </if>
+			<if test="outTime != null">`out_time` = #{outTime}</if>
+		</set>
+		where sessionId = #{sessionid}
+	</update>
+	
+	<delete id="remove">
+		delete from sys_user_online where sessionId = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from sys_user_online where sessionId in 
+		<foreach item="sessionid" collection="array" open="(" separator="," close=")">
+			#{sessionid}
+		</foreach>
+	</delete>
+
+</mapper>

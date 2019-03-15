@@ -17,11 +17,17 @@ import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.util.WebUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import top.yimo.common.model.vo.ResponseVo;
+import top.yimo.common.shiro.session.UserOnlineSessionDao;
+import top.yimo.common.util.DateUtils;
+import top.yimo.common.util.ShiroUtils;
 import top.yimo.sys.domain.UserDO;
+import top.yimo.sys.domain.UserOnlineDO;
 
 /**
  * 利用Shiro自定义访问控制拦截器：AccessControlFilter <br>
@@ -41,6 +47,9 @@ public class KickoutSessionFilter extends AccessControlFilter {
 	private SessionManager sessionManager;
 	private Cache<String, Deque<Serializable>> cache;
 
+	@Autowired
+	UserOnlineSessionDao userOnlineSessionDao;
+
 	// 设置Cache的key的前缀
 	public void setCacheManager(CacheManager cacheManager) {
 		// 必须和ehcache缓存配置中的缓存name一致
@@ -51,24 +60,15 @@ public class KickoutSessionFilter extends AccessControlFilter {
 	 */
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
-
-		return false;
-	}
-
-	/**
-	 * 表示当访问拒绝时是否已经处理了；如果返回true表示需要继续处理；
-	 * 		如果返回false表示该拦截器实例已经处理了，将直接返回即可
-	 */
-	@Override
-	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
 		Subject subject = getSubject(request, response);
 		// 没有登录授权 且没有记住我
 		if (!subject.isAuthenticated() && !subject.isRemembered()) {
 			// 如果没有登录，直接进行之后的流程
 			return true;
 		}
-		Session session = subject.getSession();
-		try {
+		Session session = userOnlineSessionDao.readSession(ShiroUtils.getSessionId());
+		if (session != null && session instanceof UserOnlineDO) {
+			UserOnlineDO userOnline = (UserOnlineDO) session;
 			// 当前用户
 			UserDO user = (UserDO) subject.getPrincipal();
 			String username = user.getUserName();
@@ -101,36 +101,52 @@ public class KickoutSessionFilter extends AccessControlFilter {
 					// 获取被踢出的sessionId的session对象
 					Session kickoutSession = sessionManager.getSession(new DefaultSessionKey(kickoutSessionId));
 					if (kickoutSession != null) {
-						// 设置会话的kickout属性表示踢出了
+						// 设置会话的kickout属性表示踢出了 同时更新db状态为下线
 						kickoutSession.setAttribute("kickout", true);
+						userOnlineSessionDao.doDelete(kickoutSession);
 					}
 				} catch (Exception e) {// ignore exception
+					return true;
 				}
 			}
-			// 如果被踢出了，(前者或后者)直接退出，重定向到踢出后的地址
-			if ((Boolean) session.getAttribute("kickout") != null && (Boolean) session.getAttribute("kickout") == true) {
-				// 会话被踢出了
-				try {
-					// 退出登录
-					subject.logout();
-				} catch (Exception e) { // ignore
-				}
-				saveRequest(request);
-				// ajax请求
-				if (isAjax(request)) {
-					out(response, ResponseVo.kickout("您已在别处登录，请您修改密码或重新登录"));
-				} else {
-					// 重定向
-					WebUtils.issueRedirect(request, response, kickoutUrl);
-				}
-				return false;
+
+			// 保存session到DB
+			if (userOnline.getUserId() == null || userOnline.getUserId() == 0L) {
+				UserDO sysUser = ShiroUtils.getSysUser();
+				BeanUtils.copyProperties(sysUser, userOnline);
+				userOnline.setEndTime(DateUtils.getNow());
+				userOnlineSessionDao.saveSession2DB(userOnline);
 			}
-			return true;
-		} catch (Exception e) { // ignore
-			// 重定向到登录界面
-			WebUtils.issueRedirect(request, response, "/login");
+		}
+		return true;
+	}
+
+	/**
+	 * 表示当访问拒绝时是否已经处理了；如果返回true表示需要继续处理；
+	 * 		如果返回false表示该拦截器实例已经处理了，将直接返回即可
+	 */
+	@Override
+	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
+		Subject subject = ShiroUtils.getSubject();
+		Session session = ShiroUtils.getSession();
+		// 如果被踢出了，(前者或后者)直接退出，重定向到踢出后的地址
+		if (session != null && (Boolean) session.getAttribute("kickout") != null && (Boolean) session.getAttribute("kickout") == true) {
+			// 会话被踢出了
+			// 退出登录
+			subject.logout();
+			saveRequest(request);
+			// ajax请求
+			if (isAjax(request)) {
+				out(response, ResponseVo.kickout("您已在别处登录，请您修改密码或重新登录"));
+			} else {
+				// 重定向
+				WebUtils.issueRedirect(request, response, kickoutUrl);
+			}
 			return false;
 		}
+		// 重定向到登录界面
+		WebUtils.issueRedirect(request, response, "/login");
+		return false;
 	}
 
 	/**
