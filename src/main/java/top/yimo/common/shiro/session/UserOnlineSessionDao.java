@@ -11,6 +11,7 @@ import top.yimo.sys.domain.UserOnlineDO;
 import top.yimo.sys.service.UserOnlineService;
 /**
  * 管理session的CRUD
+ * 
  * @Author imTayle
  * @Email imTayle@126.com
  * @version 1.0
@@ -38,7 +39,8 @@ public class UserOnlineSessionDao extends EnterpriseCacheSessionDAO {
 	protected Session doReadSession(Serializable sessionId) {
 		System.out.println("sessionid" + sessionId);
 		UserOnlineDO userOnline = onlineSessionService.get(String.valueOf(sessionId));
-		if (userOnline == null) {
+		if (userOnline == null) {// 优先从数据库中获取session ，不存在时从缓存中获取
+			// return super.readSession(sessionId);
 			return null;
 		}
 		return userOnline;
@@ -64,8 +66,8 @@ public class UserOnlineSessionDao extends EnterpriseCacheSessionDAO {
 	}
 
 	/**
-	* 更新会话；如更新会话最后访问时间/停止会话/设置超时时间/设置移除属性等会调用
-	*/
+	 * 更新会话；如更新会话最后访问时间/停止会话/设置超时时间/设置移除属性等会调用
+	 */
 	public void saveSession2DB(UserOnlineDO userOnline) {
 		onlineSessionService.save(userOnline);
 	}

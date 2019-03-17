@@ -23,6 +23,7 @@ import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import net.sf.ehcache.CacheManager;
 import top.yimo.common.constant.WebConstant;
 import top.yimo.common.shiro.filter.KickoutSessionFilter;
+import top.yimo.common.shiro.filter.OnlineSessionFilter;
 import top.yimo.common.shiro.realm.UserRealm;
 import top.yimo.common.shiro.session.UserOnlineSessionDao;
 import top.yimo.common.shiro.session.UserOnlineSessionFactory;
@@ -52,6 +53,10 @@ public class ShiroConfig {
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 		shiroFilterFactoryBean.setSecurityManager(securityManager);
 		// 拦截器.
+		HashMap<String, Filter> hashMap = new HashMap<String, Filter>();
+		hashMap.put("kickout", kickoutSessionFilter());
+		hashMap.put("online", onlineSessionFilter());
+		shiroFilterFactoryBean.setFilters(hashMap);
 		Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
 		// 配置不会被拦截的链接 顺序判断
 		filterChainDefinitionMap.put("/css/**", "anon");
@@ -63,13 +68,8 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/login/**", "anon");
 
 		// <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
-		// filterChainDefinitionMap.put("/**", "kickout,authc");
-		filterChainDefinitionMap.put("/**", "authc");// authc
-
-		// 添加kickout认证
-		HashMap<String, Filter> hashMap = new HashMap<String, Filter>();
-		hashMap.put("kickout", kickoutSessionFilter());
-		shiroFilterFactoryBean.setFilters(hashMap);
+		filterChainDefinitionMap.put("/**", "kickout,online,authc");
+		// filterChainDefinitionMap.put("/**", "authc");// authc
 
 		// 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
 		shiroFilterFactoryBean.setLoginUrl(loginUrl);
@@ -109,6 +109,7 @@ public class ShiroConfig {
 
 	/**
 	 * 配置核心安全事务管理器
+	 * 
 	 * @param shiroRealm
 	 * @return
 	 */
@@ -126,7 +127,7 @@ public class ShiroConfig {
 	}
 
 	/**
-	 * 自定义sessionDao 
+	 * 自定义sessionDao
 	 */
 	@Bean
 	public UserOnlineSessionDao sessionDAO() {
@@ -134,8 +135,8 @@ public class ShiroConfig {
 	}
 
 	/**
-	* 自定义sessionFactory会话
-	*/
+	 * 自定义sessionFactory会话
+	 */
 	@Bean
 	public UserOnlineSessionFactory sessionFactory() {
 		UserOnlineSessionFactory sessionFactory = new UserOnlineSessionFactory();
@@ -155,9 +156,6 @@ public class ShiroConfig {
 		return sessionManager;
 	}
 
-	/**
-	* 自定义session过滤器
-	*/
 	@Bean
 	public KickoutSessionFilter kickoutSessionFilter() {
 		KickoutSessionFilter kickoutSessionFilter = new KickoutSessionFilter();
@@ -176,8 +174,13 @@ public class ShiroConfig {
 		return kickoutSessionFilter;
 	}
 
+	public OnlineSessionFilter onlineSessionFilter() {
+		OnlineSessionFilter onlineSessionFilter = new OnlineSessionFilter();
+		return onlineSessionFilter;
+	}
+
 	/**
-	 *  缓存管理器 使用Ehcache实现
+	 * 缓存管理器 使用Ehcache实现
 	 */
 	@Bean
 	public EhCacheManager ehCacheManager() {
@@ -202,7 +205,7 @@ public class ShiroConfig {
 	}
 
 	/**
-	 * 开启Shiro注解方式 
+	 * 开启Shiro注解方式
 	 * 
 	 * @param @param
 	 *            securityManager

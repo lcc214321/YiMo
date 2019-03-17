@@ -29,4 +29,9 @@ public class WebConstant {
 	 * 默认密码
 	 */
 	public static final String DEAFULT_PWD = "000000";
+
+	/**
+	 * 当前session
+	 */
+	public static final String ONLINE_SESSION = "online_session";
 }

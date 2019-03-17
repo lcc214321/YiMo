@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import top.yimo.common.constant.WebConstant;
 import top.yimo.common.model.vo.ResponseVo;
 import top.yimo.common.shiro.session.UserOnlineSessionDao;
 import top.yimo.common.util.DateUtils;
@@ -31,7 +32,8 @@ import top.yimo.sys.domain.UserOnlineDO;
 
 /**
  * 利用Shiro自定义访问控制拦截器：AccessControlFilter <br>
- * 			实现登录人数限制、登录判断重定向
+ * 实现登录人数限制、登录判断重定向
+ * 
  * @Author imTayle
  * @Email imTayle@126.com
  * @version 1.0
@@ -69,6 +71,7 @@ public class KickoutSessionFilter extends AccessControlFilter {
 		Session session = userOnlineSessionDao.readSession(ShiroUtils.getSessionId());
 		if (session != null && session instanceof UserOnlineDO) {
 			UserOnlineDO userOnline = (UserOnlineDO) session;
+			request.setAttribute(WebConstant.ONLINE_SESSION, userOnline);
 			// 当前用户
 			UserDO user = (UserDO) subject.getPrincipal();
 			String username = user.getUserName();
@@ -110,20 +113,17 @@ public class KickoutSessionFilter extends AccessControlFilter {
 				}
 			}
 
-			// 保存session到DB
 			if (userOnline.getUserId() == null || userOnline.getUserId() == 0L) {
 				UserDO sysUser = ShiroUtils.getSysUser();
 				BeanUtils.copyProperties(sysUser, userOnline);
 				userOnline.setEndTime(DateUtils.getNow());
-				userOnlineSessionDao.saveSession2DB(userOnline);
 			}
 		}
 		return true;
 	}
 
 	/**
-	 * 表示当访问拒绝时是否已经处理了；如果返回true表示需要继续处理；
-	 * 		如果返回false表示该拦截器实例已经处理了，将直接返回即可
+	 * 表示当访问拒绝时是否已经处理了；如果返回true表示需要继续处理； 如果返回false表示该拦截器实例已经处理了，将直接返回即可
 	 */
 	@Override
 	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
