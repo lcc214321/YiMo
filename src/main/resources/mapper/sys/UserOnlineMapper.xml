@@ -13,7 +13,7 @@
 
 	<!-- 查询字段 -->
 	<sql id="Base_Search_Param">
-				<if test="sessionid != null and sessionid != ''"> and sessionId = #{sessionid} </if>
+				<if test="sessionId != null and sessionId != ''"> and sessionId = #{sessionId} </if>
 				<if test="userId != null and userId != ''"> and user_id = #{userId} </if>
 				<if test="userName != null and userName != ''"> and user_name = #{userName} </if>
 				<if test="deptId != null and deptId != ''"> and dept_id = #{deptId} </if>
@@ -34,7 +34,7 @@
 		<include refid="Base_Column_List" />
 		from
 		<include refid="tableName" />
-		where sessionId = #{value}
+		where sessionId = #{value} and status='on_line' 
 	</select>
 
 	<select id="listByPage" resultType="top.yimo.sys.domain.UserOnlineDO">
@@ -79,7 +79,7 @@
 		)
 		values
 		(
-			#{sessionid}, 
+			#{sessionId}, 
 			#{userId}, 
 			#{userName}, 
 			#{deptId}, 
@@ -94,35 +94,5 @@
 			#{outTime}
 		)
 	</insert>
-	 
-	<update id="update" parameterType="top.yimo.sys.domain.UserOnlineDO">
-		update sys_user_online 
-		<set>
-			<if test="userId != null">`user_id` = #{userId}, </if>
-			<if test="userName != null">`user_name` = #{userName}, </if>
-			<if test="deptId != null">`dept_id` = #{deptId}, </if>
-			<if test="deptName != null">`dept_name` = #{deptName}, </if>
-			<if test="ip != null">`ip` = #{ip}, </if>
-			<if test="loginLocation != null">`login_location` = #{loginLocation}, </if>
-			<if test="browser != null">`browser` = #{browser}, </if>
-			<if test="os != null">`os` = #{os}, </if>
-			<if test="status != null">`status` = #{status}, </if>
-			<if test="beginTime != null">`begin_time` = #{beginTime}, </if>
-			<if test="endTime != null">`end_time` = #{endTime}, </if>
-			<if test="outTime != null">`out_time` = #{outTime}</if>
-		</set>
-		where sessionId = #{sessionid}
-	</update>
-	
-	<delete id="remove">
-		delete from sys_user_online where sessionId = #{value}
-	</delete>
-	
-	<delete id="batchRemove">
-		delete from sys_user_online where sessionId in 
-		<foreach item="sessionid" collection="array" open="(" separator="," close=")">
-			#{sessionid}
-		</foreach>
-	</delete>
 
 </mapper>

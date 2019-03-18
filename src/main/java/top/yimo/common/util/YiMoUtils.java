@@ -67,4 +67,9 @@ public class YiMoUtils {
 		}
 		return "0:0:0:0:0:0:0:1".equals(ip) ? "127.0.0.1" : ip;
 	}
+
+	public static String getAddressByIp(String ip) {
+		String address = "未知地址";
+		return address;
+	}
 }

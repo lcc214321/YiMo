@@ -9,6 +9,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.session.Session;
@@ -17,18 +18,19 @@ import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.util.WebUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import top.yimo.common.constant.WebConstant;
 import top.yimo.common.model.vo.ResponseVo;
-import top.yimo.common.shiro.session.UserOnlineSessionDao;
-import top.yimo.common.util.DateUtils;
+import top.yimo.common.shiro.session.OnlineSessionDao;
 import top.yimo.common.util.ShiroUtils;
+import top.yimo.common.util.SpringUtil;
+import top.yimo.sys.domain.OnlineSession;
 import top.yimo.sys.domain.UserDO;
 import top.yimo.sys.domain.UserOnlineDO;
+import top.yimo.sys.service.impl.UserOnlineServiceImpl;
 
 /**
  * 利用Shiro自定义访问控制拦截器：AccessControlFilter <br>
@@ -50,7 +52,7 @@ public class KickoutSessionFilter extends AccessControlFilter {
 	private Cache<String, Deque<Serializable>> cache;
 
 	@Autowired
-	UserOnlineSessionDao userOnlineSessionDao;
+	OnlineSessionDao userOnlineSessionDao;
 
 	// 设置Cache的key的前缀
 	public void setCacheManager(CacheManager cacheManager) {
@@ -70,12 +72,16 @@ public class KickoutSessionFilter extends AccessControlFilter {
 		}
 		Session session = userOnlineSessionDao.readSession(ShiroUtils.getSessionId());
 		if (session != null && session instanceof UserOnlineDO) {
-			UserOnlineDO userOnline = (UserOnlineDO) session;
-			request.setAttribute(WebConstant.ONLINE_SESSION, userOnline);
+			OnlineSession onlineSession = (OnlineSession) session;
+			request.setAttribute(WebConstant.ONLINE_SESSION, onlineSession);
+			if (onlineSession.getUserId() == null || onlineSession.getUserId() == 0L) {// 补充自定义session中当前用户信息
+				UserDO sysUser = ShiroUtils.getSysUser();
+				BeanUtils.copyProperties(sysUser, onlineSession);
+			}
 			// 当前用户
 			UserDO user = (UserDO) subject.getPrincipal();
 			String username = user.getUserName();
-			Serializable sessionId = session.getId();
+			Serializable sessionId = onlineSession.getId();
 			// 读取缓存用户 没有就存入
 			Deque<Serializable> deque = cache.get(username);
 			if (deque == null) {
@@ -83,7 +89,7 @@ public class KickoutSessionFilter extends AccessControlFilter {
 				deque = new ArrayDeque<Serializable>();
 			}
 			// 如果队列里没有此sessionId，且用户没有被踢出；放入队列
-			if (!deque.contains(sessionId) && session.getAttribute("kickout") == null) {
+			if (!deque.contains(sessionId) && onlineSession.getAttribute("kickout") == null) {
 				// 将sessionId存入队列
 				deque.push(sessionId);
 				// 将用户的sessionId队列缓存
@@ -104,20 +110,14 @@ public class KickoutSessionFilter extends AccessControlFilter {
 					// 获取被踢出的sessionId的session对象
 					Session kickoutSession = sessionManager.getSession(new DefaultSessionKey(kickoutSessionId));
 					if (kickoutSession != null) {
-						// 设置会话的kickout属性表示踢出了 同时更新db状态为下线
-						kickoutSession.setAttribute("kickout", true);
-						userOnlineSessionDao.doDelete(kickoutSession);
+						UserOnlineServiceImpl userOnlineService = SpringUtil.getBean(UserOnlineServiceImpl.class);
+						userOnlineService.kickout(kickoutSession.getId().toString());
 					}
 				} catch (Exception e) {// ignore exception
 					return true;
 				}
 			}
 
-			if (userOnline.getUserId() == null || userOnline.getUserId() == 0L) {
-				UserDO sysUser = ShiroUtils.getSysUser();
-				BeanUtils.copyProperties(sysUser, userOnline);
-				userOnline.setEndTime(DateUtils.getNow());
-			}
 		}
 		return true;
 	}

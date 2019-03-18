@@ -23,11 +23,5 @@ public interface UserOnlineService {
 
 	int save(UserOnlineDO userOnline);
 
-	int update(UserOnlineDO userOnline);
-
-	int remove(String sessionid);
-
-	int batchRemove(String[] sessionids);
-
-	int kikcout(String sessionid);
+	int kickout(String sessionid);
 }

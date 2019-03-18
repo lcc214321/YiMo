@@ -6,12 +6,8 @@ import java.util.Map;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -57,67 +53,18 @@ public class UserOnlineController extends BaseController {
 		return getPageData(userOnlineList, total);
 	}
 
-	@GetMapping("/add")
-	@RequiresPermissions("sys:userOnline:add")
-	public String add() {
-		return prefix + "/add";
-	}
-
-	@GetMapping("/edit/{sessionid}")
-	@RequiresPermissions("sys:userOnline:edit")
-	public String edit(@PathVariable("sessionid") String sessionid, Model model) {
-		UserOnlineDO userOnline = userOnlineService.get(sessionid);
-		model.addAttribute("userOnline", userOnline);
-		return prefix + "/edit";
-	}
-
-	@ResponseBody
-	@PostMapping("/save")
-	@RequiresPermissions("sys:userOnline:add")
-	@Log(describe = "新增", title = title, operatorType = OperatorType.DELETE)
-	public ResponseVo save(UserOnlineDO userOnline) {
-		if (userOnlineService.save(userOnline) > 0) {
-			return ResponseVo.ok("保存成功");
-		}
-		return ResponseVo.fail();
-	}
-
-	@ResponseBody
-	@PutMapping("/update")
-	@RequiresPermissions("sys:userOnline:edit")
-	@Log(describe = "更新", title = title, operatorType = OperatorType.DELETE)
-	public ResponseVo update(UserOnlineDO userOnline) {
-		if (userOnlineService.update(userOnline) > 0) {
-			return ResponseVo.ok("更新成功");
-		}
-		return ResponseVo.fail();
-	}
-
 	/**
-	 * 删除
+	 * 强制踢出
 	 */
-	@DeleteMapping("/remove")
+	@DeleteMapping("/kickout")
 	@ResponseBody
-	@RequiresPermissions("sys:userOnline:remove")
-	@Log(describe = "删除", title = title, operatorType = OperatorType.DELETE)
-	public ResponseVo remove(String sessionid) {
-		if (userOnlineService.remove(sessionid) > 0) {
-			return ResponseVo.ok("删除成功");
+	@RequiresPermissions("sys:userOnline:kickout")
+	@Log(describe = "强制踢出", title = title, operatorType = OperatorType.FORCE)
+	public ResponseVo kickout(String sessionid) {
+		if (userOnlineService.kickout(sessionid) > 0) {
+			return ResponseVo.ok("提出成功");
 		}
 		return ResponseVo.fail();
 	}
 
-	/**
-	 * 批量删除
-	 */
-	@DeleteMapping("/batchRemove")
-	@ResponseBody
-	@RequiresPermissions("sys:userOnline:batchRemove")
-	@Log(describe = "批量删除", title = title, operatorType = OperatorType.DELETE)
-	public ResponseVo remove(@RequestParam("ids[]") String[] sessionids) {
-		if (userOnlineService.batchRemove(sessionids) > 0) {
-			return ResponseVo.ok("删除成功");
-		}
-		return ResponseVo.fail();
-	}
 }

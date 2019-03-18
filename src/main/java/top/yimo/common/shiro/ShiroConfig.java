@@ -13,6 +13,7 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -23,11 +24,10 @@ import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import net.sf.ehcache.CacheManager;
 import top.yimo.common.constant.WebConstant;
 import top.yimo.common.shiro.filter.KickoutSessionFilter;
-import top.yimo.common.shiro.filter.OnlineSessionFilter;
+import top.yimo.common.shiro.filter.UserOnlineFilter;
 import top.yimo.common.shiro.realm.UserRealm;
-import top.yimo.common.shiro.session.UserOnlineSessionDao;
+import top.yimo.common.shiro.session.OnlineSessionDao;
 import top.yimo.common.shiro.session.UserOnlineSessionFactory;
-import top.yimo.common.shiro.session.UserOnlineSessionManager;
 
 /**
  * @Author imTayle
@@ -55,7 +55,7 @@ public class ShiroConfig {
 		// 拦截器.
 		HashMap<String, Filter> hashMap = new HashMap<String, Filter>();
 		hashMap.put("kickout", kickoutSessionFilter());
-		hashMap.put("online", onlineSessionFilter());
+		hashMap.put("online", userOnlineFilter());
 		shiroFilterFactoryBean.setFilters(hashMap);
 		Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
 		// 配置不会被拦截的链接 顺序判断
@@ -130,8 +130,8 @@ public class ShiroConfig {
 	 * 自定义sessionDao
 	 */
 	@Bean
-	public UserOnlineSessionDao sessionDAO() {
-		return new UserOnlineSessionDao();
+	public OnlineSessionDao sessionDAO() {
+		return new OnlineSessionDao();
 	}
 
 	/**
@@ -147,8 +147,8 @@ public class ShiroConfig {
 	 * shiro session的管理 负责整个session的生命周期
 	 */
 	@Bean
-	public UserOnlineSessionManager sessionManager() { // 配置默认的sesssion管理器
-		UserOnlineSessionManager sessionManager = new UserOnlineSessionManager();
+	public DefaultWebSessionManager sessionManager() {
+		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();// 配置默认的sesssion管理器
 		sessionManager.setGlobalSessionTimeout(timeout * 1000);
 		sessionManager.setSessionDAO(sessionDAO());
 		// 自定义sessionFactory
@@ -174,8 +174,8 @@ public class ShiroConfig {
 		return kickoutSessionFilter;
 	}
 
-	public OnlineSessionFilter onlineSessionFilter() {
-		OnlineSessionFilter onlineSessionFilter = new OnlineSessionFilter();
+	public UserOnlineFilter userOnlineFilter() {
+		UserOnlineFilter onlineSessionFilter = new UserOnlineFilter();
 		return onlineSessionFilter;
 	}
 

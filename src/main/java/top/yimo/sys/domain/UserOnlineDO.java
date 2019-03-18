@@ -1,12 +1,11 @@
 package top.yimo.sys.domain;
 
-import org.apache.shiro.session.mgt.SimpleSession;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import top.yimo.common.domain.BaseDo;
 
 /**
- * 在线用户记录 表sys_user_online
+ * 在线用户记录 sys_user_online 
  * 
  * @author imTayle
  * @email imTayle@126.com
@@ -15,10 +14,10 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class UserOnlineDO extends SimpleSession {
+public class UserOnlineDO extends BaseDo {
 	private static final long serialVersionUID = 1L;
 	// 用户会话id
-	private String sessionid;
+	private String sessionId;
 	// 登录账号
 	private Long userId;
 	// 登录账号
@@ -43,4 +42,6 @@ public class UserOnlineDO extends SimpleSession {
 	private String endTime;
 	// 超时时间，单位为分钟
 	private Integer outTime;
+
+	private OnlineSession session;
 }

@@ -6,11 +6,12 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.SessionContext;
 import org.apache.shiro.session.mgt.SessionFactory;
 import org.apache.shiro.web.session.mgt.WebSessionContext;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import eu.bitwalker.useragentutils.UserAgent;
 import top.yimo.common.util.DateUtils;
 import top.yimo.common.util.YiMoUtils;
-import top.yimo.sys.domain.UserOnlineDO;
+import top.yimo.sys.domain.OnlineSession;
 /**
  * 根据SessionContext创建session
  * 
@@ -20,13 +21,14 @@ import top.yimo.sys.domain.UserOnlineDO;
  * @Time 2019年3月15日 下午5:23:57
  */
 public class UserOnlineSessionFactory implements SessionFactory {
-
+	@Autowired
+	OnlineSessionDao sessionDao;
 	/**
 	 * 创建session
 	 */
 	@Override
 	public Session createSession(SessionContext initData) {
-		UserOnlineDO session = new UserOnlineDO();
+		OnlineSession onlineSession = new OnlineSession();
 		if (initData != null && initData instanceof WebSessionContext) {
 			WebSessionContext sessionContext = (WebSessionContext) initData;
 			HttpServletRequest request = (HttpServletRequest) sessionContext.getServletRequest();
@@ -36,15 +38,17 @@ public class UserOnlineSessionFactory implements SessionFactory {
 				String os = userAgent.getOperatingSystem().getName();
 				// 获取客户端浏览器
 				String browser = userAgent.getBrowser().getName();
-				session.setHost(YiMoUtils.getIpAddr(request));
-				session.setBrowser(browser);
-				session.setOs(os);
-				session.setStatus("on_line");
-				session.setBeginTime(DateUtils.getNow());
+				onlineSession.setHost(YiMoUtils.getIpAddr(request));
+				onlineSession.setBrowser(browser);
+				onlineSession.setOs(os);
+				onlineSession.setStatus("on_line");
+				onlineSession.setBeginTime(DateUtils.getNow());
+				String ipAddr = YiMoUtils.getIpAddr(request);
+				onlineSession.setIp(ipAddr);
+				onlineSession.setLoginLocation(YiMoUtils.getAddressByIp(ipAddr));
 			}
 		}
-		System.out.println("session信息：" + session.toString());
-		return session;
+		return onlineSession;
 	}
 
 }
