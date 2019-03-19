@@ -94,5 +94,22 @@
 			#{outTime}
 		)
 	</insert>
-
+<update id="update" parameterType="top.yimo.sys.domain.UserOnlineDO">
+		update sys_user_online 
+		<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="userName != null">`user_name` = #{userName}, </if>
+			<if test="deptId != null">`dept_id` = #{deptId}, </if>
+			<if test="deptName != null">`dept_name` = #{deptName}, </if>
+			<if test="ip != null">`ip` = #{ip}, </if>
+			<if test="loginLocation != null">`login_location` = #{loginLocation}, </if>
+			<if test="browser != null">`browser` = #{browser}, </if>
+			<if test="os != null">`os` = #{os}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="beginTime != null">`begin_time` = #{beginTime}, </if>
+			<if test="endTime != null">`end_time` = #{endTime}, </if>
+			<if test="outTime != null">`out_time` = #{outTime}</if>
+		</set>
+		where sessionId = #{sessionId}
+	</update>
 </mapper>

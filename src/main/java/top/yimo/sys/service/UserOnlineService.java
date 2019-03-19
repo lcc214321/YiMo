@@ -23,5 +23,6 @@ public interface UserOnlineService {
 
 	int save(UserOnlineDO userOnline);
 
-	int kickout(String sessionid);
+	int kickout(String sessionId);
+
 }

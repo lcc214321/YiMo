@@ -19,7 +19,7 @@ public class UserOnlineServiceImpl implements UserOnlineService {
 	@Autowired
 	private UserOnlineDao userOnlineDao;
 	@Autowired
-	private OnlineSessionDao sessionDao;
+	private OnlineSessionDao onlineSessionDao;
 
 	@Override
 	public UserOnlineDO get(String sessionid) {
@@ -44,15 +44,13 @@ public class UserOnlineServiceImpl implements UserOnlineService {
 		return userOnlineDao.save(userOnline);
 	}
 
-	/**
-	 * 强制踢出用户
-	 */
 	@Override
-	public int kickout(String sessionid) {
-		Session session = sessionDao.doReadSession(sessionid);
-		session.setAttribute("kickout", true);
-		UserOnlineDO userOnline = get(sessionid);
-		userOnline.setStatus("off_line");
-		return userOnlineDao.update(userOnline);
+	public int kickout(String sessionId) {
+		Session doReadSession = onlineSessionDao.doReadSession(sessionId);
+		if (doReadSession != null) {
+			onlineSessionDao.delete(doReadSession);
+		}
+		return 1;
 	}
+
 }

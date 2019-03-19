@@ -73,7 +73,7 @@ public class OnlineSessionDao extends EnterpriseCacheSessionDAO {
 			BeanUtils.copyProperties(session, userOnline);
 			userOnline.setSessionId(session.getId().toString());
 			if (session.getStatus().equals(WebConstant.ONLINE_SESSION_OFF)) {
-				userOnline.setEndTime(DateUtils.getNow());
+				userOnline.setEndTime(DateUtils.format(session.getStopTimestamp()));
 			}
 			userOnline.setSession(session);
 			UserOnlineServiceImpl userOnlineService = SpringUtil.getBean(UserOnlineServiceImpl.class);

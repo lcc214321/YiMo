@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.session.Session;
-import org.apache.shiro.session.mgt.DefaultSessionKey;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
@@ -25,9 +24,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import top.yimo.common.constant.WebConstant;
 import top.yimo.common.model.vo.ResponseVo;
 import top.yimo.common.shiro.session.OnlineSessionDao;
-import top.yimo.common.util.ShiroUtils;
+import top.yimo.common.util.SpringUtil;
 import top.yimo.sys.domain.OnlineSession;
 import top.yimo.sys.domain.UserDO;
+import top.yimo.sys.service.UserOnlineService;
 
 /**
  * 利用Shiro自定义访问控制拦截器：AccessControlFilter <br>
@@ -68,7 +68,10 @@ public class KickoutSessionFilter extends AccessControlFilter {
 			// 如果没有登录，直接进行之后的流程
 			return true;
 		}
-		Session session = onlineSessionDao.readSession(ShiroUtils.getSessionId());
+		Session session = onlineSessionDao.readSession(subject.getSession().getId());
+		if (session != null && (Boolean) session.getAttribute("kickout") != null && (Boolean) session.getAttribute("kickout") == true) {// 标记为踢出的session
+			return false;
+		}
 		if (session != null && session instanceof OnlineSession) {
 			OnlineSession onlineSession = (OnlineSession) session;// 类型强制转换 ，改变的是对象引用变量
 			// 当前用户
@@ -78,6 +81,8 @@ public class KickoutSessionFilter extends AccessControlFilter {
 				BeanUtils.copyProperties(user, onlineSession);
 				onlineSession.setChange(true);
 			}
+			onlineSessionDao.save2DB(onlineSession);
+
 			request.setAttribute(WebConstant.ONLINE_SESSION, onlineSession);
 			Serializable sessionId = onlineSession.getId();
 			// 读取缓存用户 没有就存入
@@ -104,13 +109,12 @@ public class KickoutSessionFilter extends AccessControlFilter {
 				}
 				// 踢出后再更新下缓存队列
 				cache.put(username, deque);
-				// 获取被踢出的sessionId的session对象
-				Session kickoutSession = sessionManager.getSession(new DefaultSessionKey(kickoutSessionId));
-				if (kickoutSession != null) {
-					onlineSessionDao.delete(kickoutSession);
-				}
+				// 踢出session
+				UserOnlineService userOnlineService = SpringUtil.getBean(UserOnlineService.class);
+				userOnlineService.kickout(kickoutSessionId.toString());
 			}
-			onlineSessionDao.save2DB(onlineSession);
+		} else {
+			return false;
 		}
 		return true;
 	}
@@ -121,26 +125,20 @@ public class KickoutSessionFilter extends AccessControlFilter {
 	 */
 	@Override
 	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-		Subject subject = ShiroUtils.getSubject();
-		Session session = ShiroUtils.getSession();
+		Subject subject = getSubject(request, response);
 		// 如果被踢出了，(前者或后者)直接退出，重定向到踢出后的地址
-		if (session != null && (Boolean) session.getAttribute("kickout") != null && (Boolean) session.getAttribute("kickout") == true) {
-			// 会话被踢出了
-			// 退出登录
-			subject.logout();
-			saveRequest(request);
-			// ajax请求
-			if (isAjax(request)) {
-				out(response, ResponseVo.kickout("您已在别处登录，请您修改密码或重新登录"));
-			} else {
-				// 重定向
-				WebUtils.issueRedirect(request, response, kickoutUrl);
-			}
-			return false;
+		System.out.println("被强制踢出KickoutSessionFilter");
+		// 调用Shiro框架的退出
+		subject.logout();
+		saveRequest(request);
+		// ajax请求
+		if (isAjax(request)) {
+			out(response, ResponseVo.kickout("您已在别处登录，请您修改密码或重新登录"));
+		} else {
+			// 重定向
+			WebUtils.issueRedirect(request, response, kickoutUrl);
 		}
-		// 重定向到登录界面
-		WebUtils.issueRedirect(request, response, "/login");
-		return false;
+		return true;
 	}
 
 	/**

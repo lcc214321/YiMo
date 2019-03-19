@@ -56,6 +56,7 @@ logging:
 shiro: 
   session:
     timeout: 300  #单位为秒
+    interval: 300 #检查session有效性频率
   filter: 
     loginurl: /login 
     sucessurl: /index

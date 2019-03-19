@@ -10,6 +10,8 @@ import javax.servlet.Filter;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler;
+import org.apache.shiro.session.mgt.SessionValidationScheduler;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -27,6 +29,7 @@ import top.yimo.common.shiro.filter.KickoutSessionFilter;
 import top.yimo.common.shiro.realm.UserRealm;
 import top.yimo.common.shiro.session.OnlineSessionDao;
 import top.yimo.common.shiro.session.OnlineSessionFactory;
+import top.yimo.common.shiro.session.OnlineSessionManager;
 
 /**
  * @Author imTayle
@@ -39,6 +42,8 @@ public class ShiroConfig {
 
 	@Value("${shiro.session.timeout}")
 	private int timeout;
+	@Value("${shiro.session.interval}")
+	private int interval;
 
 	@Value("${shiro.filter.loginurl}")
 	private String loginUrl;
@@ -150,7 +155,41 @@ public class ShiroConfig {
 		sessionManager.setGlobalSessionTimeout(timeout * 1000);
 		sessionManager.setSessionDAO(sessionDAO());
 		sessionManager.setSessionFactory(sessionFactory());
+		sessionManager.setSessionIdUrlRewritingEnabled(false);// 去掉 JSESSIONID
+
+		sessionManager.setSessionValidationScheduler(sessionValidationScheduler());
+		sessionManager.setSessionValidationSchedulerEnabled(true);// 开启定时检查session
+
+		sessionManager.setDeleteInvalidSessions(true);// 删除过期的session
+		sessionManager.setSessionIdCookieEnabled(true);
 		return sessionManager;
+	}
+
+	@Bean
+	public SessionValidationScheduler sessionValidationScheduler() {
+		ExecutorServiceSessionValidationScheduler sessionValidationScheduler = new ExecutorServiceSessionValidationScheduler();
+		// 相隔多久检查一次session的有效性，单位秒，
+		sessionValidationScheduler.setInterval(interval * 1000);
+		sessionValidationScheduler.setSessionManager(onlineSessionManager());
+		return sessionValidationScheduler;
+	}
+
+	@Bean
+	public OnlineSessionManager onlineSessionManager() {
+		OnlineSessionManager onlineSessionManager = new OnlineSessionManager();
+		// 加入缓存管理器
+		onlineSessionManager.setCacheManager(ehCacheManager());
+		// 删除过期的session
+		onlineSessionManager.setDeleteInvalidSessions(true);
+		// 去掉 JSESSIONID
+		onlineSessionManager.setSessionIdUrlRewritingEnabled(false);
+		// 是否定时检查session
+		onlineSessionManager.setSessionValidationSchedulerEnabled(true);
+		// 自定义SessionDao
+		onlineSessionManager.setSessionDAO(sessionDAO());
+		// 自定义sessionFactory
+		onlineSessionManager.setSessionFactory(sessionFactory());
+		return onlineSessionManager;
 	}
 
 	@Bean

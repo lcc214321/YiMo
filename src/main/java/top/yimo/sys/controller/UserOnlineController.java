@@ -60,9 +60,10 @@ public class UserOnlineController extends BaseController {
 	@ResponseBody
 	@RequiresPermissions("sys:userOnline:kickout")
 	@Log(describe = "强制踢出", title = title, operatorType = OperatorType.FORCE)
-	public ResponseVo kickout(String sessionid) {
-		if (userOnlineService.kickout(sessionid) > 0) {
-			return ResponseVo.ok("提出成功");
+	public ResponseVo kickout(String sessionId) {
+
+		if (userOnlineService.kickout(sessionId) > 0) {
+			return ResponseVo.ok("踢出成功");
 		}
 		return ResponseVo.fail();
 	}

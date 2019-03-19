@@ -67,7 +67,7 @@ function load() {
 	        field : 'id',
 	        align : 'center',
 	        formatter : function(value, row, index) {
-		        var d = '<a class="btn btn-warning btn-sm ' + s_kickout_h + '" href="#" title="删除"  mce_href="#" onclick="kickout(\'' + row.sessionid + '\')"><i class="fa fa-remove"></i></a> ';
+		        var d = '<a class="btn btn-warning btn-sm ' + s_kickout_h + '" href="#" title="删除"  mce_href="#" onclick="kickout(\'' + row.sessionId + '\')"><i class="fa fa-remove"></i></a> ';
 		        return d;
 	        }
 	    } ]
@@ -77,7 +77,6 @@ function load() {
 function refresh() {
 	$('#UserOnlineTable').bootstrapTable('refresh');
 }
-// 删除
 function kickout(id) {
 	layer.confirm('确定要踢选中用户下线吗？', {
 		btn : [ '确定', '取消' ]
@@ -86,7 +85,7 @@ function kickout(id) {
 		yimo.ajaxDelete({
 		    url : prefix + "/kickout",
 		    data : {
-			    'sessionid' : id
+			    'sessionId' : id
 		    },
 		    refresh : true,
 		});

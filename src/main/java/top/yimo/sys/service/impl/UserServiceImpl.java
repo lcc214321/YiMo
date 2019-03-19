@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import top.yimo.common.constant.WebConstant;
 import top.yimo.common.util.DateUtils;
-import top.yimo.common.util.ShiroUtils;
 import top.yimo.common.util.YiMoUtils;
 import top.yimo.sys.dao.DeptDao;
 import top.yimo.sys.dao.UserDao;
@@ -56,9 +55,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int save(UserDO user) {
 		user.setPassword(YiMoUtils.encrypt(user.getUserName(), user.getPassword()));
-		user.setCreateTime(DateUtils.getNow());
-		user.setCreateUserId(ShiroUtils.getUserId());
-		user.setStatus(1);
 		return userDao.save(user);
 	}
 

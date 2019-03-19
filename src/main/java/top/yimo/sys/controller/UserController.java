@@ -103,7 +103,7 @@ public class UserController extends BaseController {
 	@RequiresPermissions("sys:user:add")
 	public ResponseVo save(UserDO user) {
 		beforeSave(user);
-		// user.setStatus(1);// 新增用户默认有效
+		user.setStatus(1);// 新增用户默认有效
 		if (userService.save(user) > 0) {
 			return ResponseVo.ok("保存成功");
 		}
