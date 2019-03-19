@@ -35,7 +35,7 @@ public class OnlineSession extends SimpleSession {
 	// session创建时间
 	private String beginTime;
 	// 是否有变化需要更新
-	private boolean isChange;
+	private boolean isChange = false;
 
 	public boolean isChange() {
 		return isChange;
@@ -105,8 +105,9 @@ public class OnlineSession extends SimpleSession {
 	}
 	@Override
 	public String toString() {
-		return "OnlineSession [userId=" + userId + ", userName=" + userName + ", deptId=" + deptId + ", deptName=" + deptName + ", ip=" + ip
-		        + ", loginLocation=" + loginLocation + ", browser=" + browser + ", os=" + os + ", status=" + status + ", beginTime=" + beginTime + "]";
+		return "OnlineSession [id=" + getId() + "userId=" + userId + ", userName=" + userName + ", deptId=" + deptId + ", deptName=" + deptName + ", ip=" + ip
+		        + ", loginLocation=" + loginLocation + ", browser=" + browser + ", os=" + os + ", status=" + status + ", beginTime=" + beginTime + ", isChange="
+		        + isChange + "]";
 	}
 
 }

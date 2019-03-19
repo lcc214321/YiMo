@@ -3,12 +3,13 @@ package top.yimo.common.shiro.session;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import top.yimo.common.constant.WebConstant;
+import top.yimo.common.util.DateUtils;
 import top.yimo.common.util.SpringUtil;
 import top.yimo.sys.domain.OnlineSession;
 import top.yimo.sys.domain.UserOnlineDO;
@@ -38,22 +39,12 @@ public class OnlineSessionDao extends EnterpriseCacheSessionDAO {
 	}
 
 	/**
-	 * 根据ID 获取session
+	 * 根据ID 从缓存中获取session 
 	 */
 	@Override
-	protected Session doReadSession(Serializable sessionId) {
-		UserOnlineDO userOnline = onlineSessionService.get(String.valueOf(sessionId));
-		if (userOnline != null && StringUtils.isNotBlank(userOnline.getSessionId().toString())) {
-			OnlineSession session = userOnline.getSession();
-			session.setId(userOnline.getSessionId());
-			return session;
-		}
-		return null;
-	}
-
-	@Override
-	protected void doUpdate(Session session) {
-		super.doUpdate(session);
+	public Session doReadSession(Serializable sessionId) {
+		OnlineSession session = (OnlineSession) getCachedSession(sessionId);
+		return session;
 	}
 
 	/**
@@ -66,6 +57,9 @@ public class OnlineSessionDao extends EnterpriseCacheSessionDAO {
 		}
 		OnlineSession onlineSession = (OnlineSession) session;
 		onlineSession.setAttribute("kickout", true);
+		onlineSession.setStatus(WebConstant.ONLINE_SESSION_OFF);
+		onlineSession.setChange(true);
+		save2DB(onlineSession);
 	}
 
 	/**
@@ -73,10 +67,14 @@ public class OnlineSessionDao extends EnterpriseCacheSessionDAO {
 	 * @throws InvocationTargetException 
 	 * @throws IllegalAccessException 
 	 */
-	public void save2DB(OnlineSession session) throws IllegalAccessException, InvocationTargetException {
+	public void save2DB(OnlineSession session) {
 		if (session.isChange()) {// 发生变化才更新
 			UserOnlineDO userOnline = new UserOnlineDO();
 			BeanUtils.copyProperties(session, userOnline);
+			userOnline.setSessionId(session.getId().toString());
+			if (session.getStatus().equals(WebConstant.ONLINE_SESSION_OFF)) {
+				userOnline.setEndTime(DateUtils.getNow());
+			}
 			userOnline.setSession(session);
 			UserOnlineServiceImpl userOnlineService = SpringUtil.getBean(UserOnlineServiceImpl.class);
 			userOnlineService.save(userOnline);

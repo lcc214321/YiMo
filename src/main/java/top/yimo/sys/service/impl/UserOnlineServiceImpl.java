@@ -18,7 +18,7 @@ import top.yimo.sys.service.UserOnlineService;
 public class UserOnlineServiceImpl implements UserOnlineService {
 	@Autowired
 	private UserOnlineDao userOnlineDao;
-
+	@Autowired
 	private OnlineSessionDao sessionDao;
 
 	@Override
@@ -49,11 +49,10 @@ public class UserOnlineServiceImpl implements UserOnlineService {
 	 */
 	@Override
 	public int kickout(String sessionid) {
-		Session session = sessionDao.readSession(sessionid);
+		Session session = sessionDao.doReadSession(sessionid);
 		session.setAttribute("kickout", true);
 		UserOnlineDO userOnline = get(sessionid);
 		userOnline.setStatus("off_line");
 		return userOnlineDao.update(userOnline);
 	}
-
 }

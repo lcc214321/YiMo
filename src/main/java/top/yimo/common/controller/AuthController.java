@@ -28,6 +28,7 @@ import top.yimo.common.model.vo.TreeVo;
 import top.yimo.sys.domain.MenuDO;
 import top.yimo.sys.domain.UserDO;
 import top.yimo.sys.service.MenuService;
+import top.yimo.sys.service.UserOnlineService;
 
 /**
  * @Author imTayle
@@ -41,6 +42,8 @@ public class AuthController extends BaseController {
 
 	@Autowired
 	MenuService menuService;
+	@Autowired
+	UserOnlineService userOnlineService;
 
 	@RequestMapping(value = "login")
 	public String login() {
@@ -70,6 +73,9 @@ public class AuthController extends BaseController {
 	public String index(Model model) {
 		// 加载登陆用户信息
 		UserDO currUser = getSysUser();
+		if (currUser == null) {
+			return "login";
+		}
 		List<TreeVo<MenuDO>> menus = menuService.getMenusByUser(currUser.getUserId());
 		model.addAttribute("menus", menus);
 		model.addAttribute("user", currUser);

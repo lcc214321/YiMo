@@ -24,10 +24,9 @@ import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import net.sf.ehcache.CacheManager;
 import top.yimo.common.constant.WebConstant;
 import top.yimo.common.shiro.filter.KickoutSessionFilter;
-import top.yimo.common.shiro.filter.UserOnlineFilter;
 import top.yimo.common.shiro.realm.UserRealm;
 import top.yimo.common.shiro.session.OnlineSessionDao;
-import top.yimo.common.shiro.session.UserOnlineSessionFactory;
+import top.yimo.common.shiro.session.OnlineSessionFactory;
 
 /**
  * @Author imTayle
@@ -55,7 +54,6 @@ public class ShiroConfig {
 		// 拦截器.
 		HashMap<String, Filter> hashMap = new HashMap<String, Filter>();
 		hashMap.put("kickout", kickoutSessionFilter());
-		hashMap.put("online", userOnlineFilter());
 		shiroFilterFactoryBean.setFilters(hashMap);
 		Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
 		// 配置不会被拦截的链接 顺序判断
@@ -68,7 +66,7 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/login/**", "anon");
 
 		// <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
-		filterChainDefinitionMap.put("/**", "kickout,online,authc");
+		filterChainDefinitionMap.put("/**", "authc,kickout");
 		// filterChainDefinitionMap.put("/**", "authc");// authc
 
 		// 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
@@ -138,8 +136,8 @@ public class ShiroConfig {
 	 * 自定义sessionFactory会话
 	 */
 	@Bean
-	public UserOnlineSessionFactory sessionFactory() {
-		UserOnlineSessionFactory sessionFactory = new UserOnlineSessionFactory();
+	public OnlineSessionFactory sessionFactory() {
+		OnlineSessionFactory sessionFactory = new OnlineSessionFactory();
 		return sessionFactory;
 	}
 
@@ -151,7 +149,6 @@ public class ShiroConfig {
 		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();// 配置默认的sesssion管理器
 		sessionManager.setGlobalSessionTimeout(timeout * 1000);
 		sessionManager.setSessionDAO(sessionDAO());
-		// 自定义sessionFactory
 		sessionManager.setSessionFactory(sessionFactory());
 		return sessionManager;
 	}
@@ -159,12 +156,9 @@ public class ShiroConfig {
 	@Bean
 	public KickoutSessionFilter kickoutSessionFilter() {
 		KickoutSessionFilter kickoutSessionFilter = new KickoutSessionFilter();
-		// 使用cacheManager获取相应的cache来缓存用户登录的会话；用于保存用户—会话之间的关系的；
-		// 这里我们还是用之前shiro使用的ehcache实现的cacheManager()缓存管理
-		// 也可以重新另写一个，重新配置缓存时间之类的自定义缓存属性
-		kickoutSessionFilter.setCacheManager(ehCacheManager());
-		// 用于根据会话ID，获取会话进行踢出操作的；
 		kickoutSessionFilter.setSessionManager(sessionManager());
+		kickoutSessionFilter.setCacheManager(ehCacheManager());
+
 		// 是否踢出后来登录的，默认是false；即后者登录的用户踢出前者登录的用户；踢出顺序。
 		kickoutSessionFilter.setKickoutAfter(false);
 		// 同一个用户最大的会话数，默认1；比如2的意思是同一个用户允许最多同时两个人登录；
@@ -172,11 +166,6 @@ public class ShiroConfig {
 		// 被踢出后重定向到的地址；
 		kickoutSessionFilter.setKickoutUrl(loginUrl);
 		return kickoutSessionFilter;
-	}
-
-	public UserOnlineFilter userOnlineFilter() {
-		UserOnlineFilter onlineSessionFilter = new UserOnlineFilter();
-		return onlineSessionFilter;
 	}
 
 	/**

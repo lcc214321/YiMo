@@ -34,4 +34,13 @@ public class WebConstant {
 	 * 当前session
 	 */
 	public static final String ONLINE_SESSION = "online_session";
+
+	/**
+	 * 当前登录用户case
+	 */
+	public static final String ONLINE_CASE = "online_case";
+
+	public static final String ONLINE_SESSION_OFF = "off_line";
+	public static final String ONLINE_SESSION_ON = "on_line";
+
 }

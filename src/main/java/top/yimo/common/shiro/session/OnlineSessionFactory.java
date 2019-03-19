@@ -13,14 +13,15 @@ import top.yimo.common.util.DateUtils;
 import top.yimo.common.util.YiMoUtils;
 import top.yimo.sys.domain.OnlineSession;
 /**
- * 根据SessionContext创建session
+ * 自定义sessionFactory
+ * 			<br>根据SessionContext创建session
  * 
  * @Author imTayle
  * @Email imTayle@126.com
  * @version 1.0
  * @Time 2019年3月15日 下午5:23:57
  */
-public class UserOnlineSessionFactory implements SessionFactory {
+public class OnlineSessionFactory implements SessionFactory {
 	@Autowired
 	OnlineSessionDao sessionDao;
 	/**
