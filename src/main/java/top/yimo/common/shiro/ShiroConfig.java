@@ -1,6 +1,8 @@
 package top.yimo.common.shiro;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -10,6 +12,7 @@ import javax.servlet.Filter;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler;
 import org.apache.shiro.session.mgt.SessionValidationScheduler;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -30,6 +33,7 @@ import top.yimo.common.shiro.realm.UserRealm;
 import top.yimo.common.shiro.session.OnlineSessionDao;
 import top.yimo.common.shiro.session.OnlineSessionFactory;
 import top.yimo.common.shiro.session.OnlineSessionManager;
+import top.yimo.common.shiro.session.ShiroSessionListener;
 
 /**
  * @Author imTayle
@@ -71,7 +75,7 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/login/**", "anon");
 
 		// <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
-		filterChainDefinitionMap.put("/**", "authc,kickout");
+		filterChainDefinitionMap.put("/**", "kickout,authc");
 		// filterChainDefinitionMap.put("/**", "authc");// authc
 
 		// 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
@@ -156,13 +160,23 @@ public class ShiroConfig {
 		sessionManager.setSessionDAO(sessionDAO());
 		sessionManager.setSessionFactory(sessionFactory());
 		sessionManager.setSessionIdUrlRewritingEnabled(false);// 去掉 JSESSIONID
-
 		sessionManager.setSessionValidationScheduler(sessionValidationScheduler());
 		sessionManager.setSessionValidationSchedulerEnabled(true);// 开启定时检查session
+
+		// 增加session过期操作监听
+		Collection<SessionListener> listeners = new HashSet<SessionListener>();
+		listeners.add(shiroSessionListener());
+		sessionManager.setSessionListeners(listeners);
 
 		sessionManager.setDeleteInvalidSessions(true);// 删除过期的session
 		sessionManager.setSessionIdCookieEnabled(true);
 		return sessionManager;
+	}
+
+	@Bean
+	public ShiroSessionListener shiroSessionListener() {
+		ShiroSessionListener shiroSessionListener = new ShiroSessionListener();
+		return shiroSessionListener;
 	}
 
 	@Bean

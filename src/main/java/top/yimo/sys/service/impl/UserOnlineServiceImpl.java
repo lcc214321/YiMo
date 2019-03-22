@@ -44,6 +44,9 @@ public class UserOnlineServiceImpl implements UserOnlineService {
 		return userOnlineDao.save(userOnline);
 	}
 
+	/**
+	 * 踢出session
+	 */
 	@Override
 	public int kickout(String sessionId) {
 		Session doReadSession = onlineSessionDao.doReadSession(sessionId);
