@@ -2,6 +2,8 @@ package top.yimo.common.shiro.session;
 
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.SessionListenerAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import top.yimo.common.util.SpringUtil;
 import top.yimo.sys.service.UserOnlineService;
@@ -14,6 +16,7 @@ import top.yimo.sys.service.UserOnlineService;
  * @Time 2019年3月22日 下午3:07:51
  */
 public class ShiroSessionListener extends SessionListenerAdapter {
+	private static final Logger LOGGER = LoggerFactory.getLogger(ShiroSessionListener.class);
 
 	// 会话过期时触发
 	@Override
@@ -21,6 +24,7 @@ public class ShiroSessionListener extends SessionListenerAdapter {
 		String sessionId = session.getId().toString();
 		UserOnlineService userOnlineService = SpringUtil.getBean(UserOnlineService.class);
 		userOnlineService.kickout(sessionId);
+		LOGGER.debug("会话过期同步在线用户状态{}", sessionId);
 	}
 
 }

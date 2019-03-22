@@ -1,11 +1,11 @@
 package top.yimo.sys.dao;
 
-import top.yimo.sys.domain.UserOnlineDO;
-
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+
+import top.yimo.sys.domain.UserOnlineDO;
 
 /**
  * 在线用户记录
@@ -18,16 +18,18 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserOnlineDao {
 
 	UserOnlineDO get(String sessionid);
-	
-	List<UserOnlineDO> listByPage(Map<String,Object> map);
-	
-	int count(Map<String,Object> map);
-	
+
+	List<UserOnlineDO> listByPage(Map<String, Object> map);
+
+	int count(Map<String, Object> map);
+
 	int save(UserOnlineDO userOnline);
-	
+
 	int update(UserOnlineDO userOnline);
-	
+
 	int remove(String sessionId);
-	
+
 	int batchRemove(String[] sessionids);
+
+	List<UserOnlineDO> getActives();
 }

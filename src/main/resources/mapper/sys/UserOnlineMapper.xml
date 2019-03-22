@@ -37,6 +37,15 @@
 		where sessionId = #{value} and status='on_line' 
 	</select>
 
+	<select id="getActives" resultType="top.yimo.sys.domain.UserOnlineDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		where  status='on_line' 
+	</select>
+
+
 	<select id="listByPage" resultType="top.yimo.sys.domain.UserOnlineDO">
 		select
 		<include refid="Base_Column_List" />
