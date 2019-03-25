@@ -2,7 +2,7 @@ package top.yimo.common.controller;
 
 import java.util.List;
 
-import top.yimo.common.domain.BaseDo;
+import top.yimo.common.domain.BaseDO;
 import top.yimo.common.model.vo.PageVo;
 import top.yimo.common.util.DateUtils;
 import top.yimo.common.util.ShiroUtils;
@@ -37,12 +37,12 @@ public class BaseController {
 		return getSysUser().getUserName();
 	}
 
-	public void beforeSave(BaseDo baseDo) {
+	public void beforeSave(BaseDO baseDo) {
 		baseDo.setCreateUserId(ShiroUtils.getUserId());
 		baseDo.setCreateTime(DateUtils.getNow());
 	}
 
-	public void beforeUpdate(BaseDo baseDo) {
+	public void beforeUpdate(BaseDO baseDo) {
 		baseDo.setUpdateTime(DateUtils.getNow());
 	}
 }

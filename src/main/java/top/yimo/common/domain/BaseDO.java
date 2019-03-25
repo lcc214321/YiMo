@@ -2,7 +2,7 @@ package top.yimo.common.domain;
 
 import java.io.Serializable;
 
-public class BaseDo implements Serializable {
+public class BaseDO implements Serializable {
 	/**
 	 * @Fields serialVersionUID
 	 */
@@ -13,6 +13,15 @@ public class BaseDo implements Serializable {
 	private String createTime;
 	// 修改时间
 	private String updateTime;
+	// 修改用户id
+	private Long updateUserId;
+
+	public Long getUpdateUserId() {
+		return updateUserId;
+	}
+	public void setUpdateUserId(Long updateUserId) {
+		this.updateUserId = updateUserId;
+	}
 
 	public Long getCreateUserId() {
 		return createUserId;

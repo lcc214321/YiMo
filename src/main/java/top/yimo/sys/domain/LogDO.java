@@ -2,7 +2,7 @@ package top.yimo.sys.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import top.yimo.common.domain.BaseDo;
+import top.yimo.common.domain.BaseDO;
 
 
 /**
@@ -15,7 +15,7 @@ import top.yimo.common.domain.BaseDo;
  */
  @Data
  @EqualsAndHashCode(callSuper = false)
-public class LogDO extends BaseDo {
+public class LogDO extends BaseDO {
 	private static final long serialVersionUID = 1L;
 	
 	//

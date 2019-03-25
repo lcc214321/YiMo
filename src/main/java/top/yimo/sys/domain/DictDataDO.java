@@ -2,7 +2,7 @@ package top.yimo.sys.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import top.yimo.common.domain.BaseDo;
+import top.yimo.common.domain.BaseDO;
 
 /**
  * 数据字典数据表 表sys_dict_data
@@ -14,7 +14,7 @@ import top.yimo.common.domain.BaseDo;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class DictDataDO extends BaseDo {
+public class DictDataDO extends BaseDO {
 	private static final long serialVersionUID = 1L;
 
 	// 字典类型

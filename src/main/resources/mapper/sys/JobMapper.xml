@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.yimo.sys.dao.JobDao">
+	<!-- 表名 -->
+	<sql id="tableName">
+		sys_job
+	</sql>
+	
+	<!-- 数据表所有列名 -->
+	<sql id="Base_Column_List">
+		`job_id`,`job_name`,`job_group`,`job_class_name`,`method_params`,`cron_expression`,`misfire_policy`,`status`,`create_user_id`,`create_time`,`update_user_id`,`update_time`,`remark`	</sql>
+
+	<!-- 查询字段 -->
+	<sql id="Base_Search_Param">
+				<if test="jobId != null and jobId != ''"> and job_id = #{jobId} </if>
+				<if test="jobName != null and jobName != ''"> and job_name = #{jobName} </if>
+				<if test="jobGroup != null and jobGroup != ''"> and job_group = #{jobGroup} </if>
+				<if test="jobClassName != null and jobClassName != ''"> and job_class_name = #{jobClassName} </if>
+				<if test="methodParams != null and methodParams != ''"> and method_params = #{methodParams} </if>
+				<if test="cronExpression != null and cronExpression != ''"> and cron_expression = #{cronExpression} </if>
+				<if test="misfirePolicy != null and misfirePolicy != ''"> and misfire_policy = #{misfirePolicy} </if>
+				<if test="status != null and status != ''"> and status = #{status} </if>
+				<if test="createUserId != null and createUserId != ''"> and create_user_id = #{createUserId} </if>
+				<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+				<if test="updateUserId != null and updateUserId != ''"> and update_user_id = #{updateUserId} </if>
+				<if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+				<if test="remark != null and remark != ''"> and remark = #{remark} </if>
+			</sql>
+	
+	
+	<select id="get" resultType="top.yimo.sys.domain.JobDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		where job_id = #{value}
+	</select>
+
+	<select id="listByPage" resultType="top.yimo.sys.domain.JobDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		 where 1 = 1
+		<include refid="Base_Search_Param" />
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by job_id desc
+			</otherwise>
+        </choose>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from sys_job
+		  where 1 = 1
+		<include refid="Base_Search_Param" />
+	</select>
+	 
+	<insert id="save" parameterType="top.yimo.sys.domain.JobDO" useGeneratedKeys="true" keyProperty="jobId">
+		insert into sys_job
+		(
+			`job_name`, 
+			`job_group`, 
+			`job_class_name`, 
+			`method_params`, 
+			`cron_expression`, 
+			`misfire_policy`, 
+			`status`, 
+			`create_user_id`, 
+			`create_time`, 
+			`update_user_id`, 
+			`update_time`, 
+			`remark`
+		)
+		values
+		(
+			#{jobName}, 
+			#{jobGroup}, 
+			#{jobClassName}, 
+			#{methodParams}, 
+			#{cronExpression}, 
+			#{misfirePolicy}, 
+			#{status}, 
+			#{createUserId}, 
+			#{createTime}, 
+			#{updateUserId}, 
+			#{updateTime}, 
+			#{remark}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="top.yimo.sys.domain.JobDO">
+		update sys_job 
+		<set>
+			<if test="jobName != null">`job_name` = #{jobName}, </if>
+			<if test="jobGroup != null">`job_group` = #{jobGroup}, </if>
+			<if test="jobClassName != null">`job_class_name` = #{jobClassName}, </if>
+			<if test="methodParams != null">`method_params` = #{methodParams}, </if>
+			<if test="cronExpression != null">`cron_expression` = #{cronExpression}, </if>
+			<if test="misfirePolicy != null">`misfire_policy` = #{misfirePolicy}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateUserId != null">`update_user_id` = #{updateUserId}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="remark != null">`remark` = #{remark}</if>
+		</set>
+		where job_id = #{jobId}
+	</update>
+	
+	<delete id="remove">
+		delete from sys_job where job_id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from sys_job where job_id in 
+		<foreach item="jobId" collection="array" open="(" separator="," close=")">
+			#{jobId}
+		</foreach>
+	</delete>
+
+</mapper>

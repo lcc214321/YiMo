@@ -43,4 +43,7 @@ public class WebConstant {
 	public static final String ONLINE_SESSION_OFF = "off_line";
 	public static final String ONLINE_SESSION_ON = "on_line";
 
+	public static final String STATUS_RUNNING_STOP = "0";
+	public static final String STATUS_RUNNING_RUN = "1";
+
 }

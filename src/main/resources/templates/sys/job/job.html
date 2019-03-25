@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"  th:with="title='sys_job'">
+<meta charset="utf-8">
+<header th:replace="header::headerFragment(${title})"></header>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+<!-- 						<div class="columns pull-left"> -->
+<!-- 							<button shiro:hasPermission="sys:job:add" type="button" class="btn btn-rounded btn-primary" onclick="add()"> -->
+<!-- 								<i class="fa fa-plus" aria-hidden="true"></i>添加 -->
+<!-- 							</button> -->
+<!-- 						</div> -->
+					</div>
+					<table id="JobTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="footer :: footer"></div>
+	<script  type="text/javascript" th:inline="javascript">
+		var s_edit_h = [[${@permission.hasPermi('sys:job:edit')}]];
+		var s_remove_h = [[${@permission.hasPermi('sys:job:remove')}]];
+		$().ready(function() {
+			load();
+		});
+	</script>
+	<script type="text/javascript" th:src="@{/yimo/js/sys/job/job.js}"></script>
+</body>
+</html>

@@ -10,7 +10,6 @@ import org.apache.shiro.session.UnknownSessionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,7 +68,7 @@ public class UserOnlineServiceImpl implements UserOnlineService {
 	/**
 	 * 定时同步DB中的在线用户状态
 	 */
-	@Scheduled(cron = "0/5 * * * * ? ")
+	// @Scheduled(cron = "0/5 * * * * ? ")
 	public void syncStatu() {
 		// 获取数据库中在线的用户
 		List<UserOnlineDO> actives = userOnlineDao.getActives();

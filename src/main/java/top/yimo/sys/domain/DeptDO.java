@@ -2,7 +2,7 @@ package top.yimo.sys.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import top.yimo.common.domain.BaseDo;
+import top.yimo.common.domain.BaseDO;
 
 /**
  * 部门管理 表sys_dept
@@ -14,7 +14,7 @@ import top.yimo.common.domain.BaseDo;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class DeptDO extends BaseDo {
+public class DeptDO extends BaseDO {
 	private static final long serialVersionUID = 1L;
 
 	// 部门ID

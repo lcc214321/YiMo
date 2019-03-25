@@ -2,7 +2,7 @@ package top.yimo.sys.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import top.yimo.common.domain.BaseDo;
+import top.yimo.common.domain.BaseDO;
 
 /**
  * 在线用户记录 sys_user_online 
@@ -14,7 +14,7 @@ import top.yimo.common.domain.BaseDo;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class UserOnlineDO extends BaseDo {
+public class UserOnlineDO extends BaseDO {
 	private static final long serialVersionUID = 1L;
 	// 用户会话id
 	private String sessionId;

@@ -4,7 +4,7 @@ import java.util.List;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import top.yimo.common.domain.BaseDo;
+import top.yimo.common.domain.BaseDO;
 
 /**
  * 表sys_user
@@ -14,7 +14,7 @@ import top.yimo.common.domain.BaseDo;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class UserDO extends BaseDo {
+public class UserDO extends BaseDO {
 	private static final long serialVersionUID = 1L;
 
 	//

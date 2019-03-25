@@ -25,4 +25,5 @@ public interface UserOnlineService {
 
 	int kickout(String sessionId);
 
+	public void syncStatu();
 }
