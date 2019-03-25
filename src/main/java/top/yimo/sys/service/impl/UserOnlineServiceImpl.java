@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.session.UnknownSessionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,8 +78,17 @@ public class UserOnlineServiceImpl implements UserOnlineService {
 		if (actives.size() != activeSessions.size()) {
 			for (UserOnlineDO userOnline : actives) {
 				String sessionId = userOnline.getSessionId();
-				Session doReadSession = onlineSessionDao.readSession(sessionId);
-				if (doReadSession == null) {// 用户不存在session
+				boolean isNot = false;
+				try {
+					Session doReadSession = onlineSessionDao.readSession(sessionId);
+					if (doReadSession == null) {
+						isNot = true;
+					}
+				} catch (UnknownSessionException e) {
+					// TODO: handle exception
+					isNot = true;
+				}
+				if (isNot) {// 用户不存在session
 					userOnline.setStatus(WebConstant.ONLINE_SESSION_OFF);
 					if (userOnline.getEndTime() == null || StringUtils.isBlank(userOnline.getEndTime())) {
 						userOnline.setEndTime(DateUtils.getNow());
