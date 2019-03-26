@@ -58,7 +58,7 @@
                 order by ${sort} ${order}
             </when>
 			<otherwise>
-                order by sessionId desc
+                order by begin_Time desc
 			</otherwise>
         </choose>
 	</select>

@@ -50,11 +50,13 @@ public class QuartzManager {
 			}
 			Class cls = Class.forName(quartz.getJobClassName());
 			cls.newInstance();
+
 			// 构建job信息
 			JobDetail job = JobBuilder.newJob(cls).withIdentity(quartz.getJobName(), quartz.getJobGroup()).withDescription(quartz.getDescription()).build();
 			// 触发时间点
 			CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(quartz.getCronExpression());
-			Trigger trigger = TriggerBuilder.newTrigger().withIdentity("trigger" + quartz.getJobName(), "trigger" + quartz.getJobGroup()).startNow()
+
+			Trigger trigger = TriggerBuilder.newTrigger().withIdentity("trigger-" + quartz.getJobName(), "trigger-" + quartz.getJobGroup())
 			        .withSchedule(cronScheduleBuilder).build();
 			// 添加触发器监听
 			TriggerListener listener = new MonitorTriggerListener();

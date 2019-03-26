@@ -23,10 +23,11 @@ function load() {
 		    };
 	    },
 	    columns : [ {
-	    	visible : false,
+	        visible : false,
 	        field : 'sessionId',
 	        title : 'sessionId'
 	    }, {
+	        visible : false,
 	        field : 'userId',
 	        title : '登录账号ID'
 	    }, {

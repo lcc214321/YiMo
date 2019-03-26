@@ -228,7 +228,8 @@ public class ShiroConfig {
 	public EhCacheManager ehCacheManager() {
 		// 将ehcacheManager转换成shiro包装后的ehcacheManager对象
 		EhCacheManager em = new EhCacheManager();
-		em.setCacheManager(CacheManager.create());
+		CacheManager cacheManager = CacheManager.create();
+		em.setCacheManager(cacheManager);
 		em.setCacheManagerConfigFile("classpath:config/ehcache.xml");
 		return em;
 	}

@@ -62,7 +62,7 @@ mybatis:
 logging:
   level:
     root: error
-    top.yimo: error
+    top.yimo: debug
     
 #actuator端口 
 #management: 

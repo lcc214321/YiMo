@@ -52,21 +52,6 @@ function load() {
 	                        field : 'cronExpression',
 	                        title : 'cron执行表达式'
 	                    },
-//	                    {
-//	                        field : 'misfirePolicy',
-//	                        title : '计划执行策略',
-//	                        align : 'center',
-//	                        formatter : function(value, row, index) {
-//		                        // console.log(row );
-//		                        if (value == '1') {
-//			                        return '<span class="label label-danger">立即执行</span>';
-//		                        } else if (value == '2') {
-//			                        return '<span class="label label-primary">执行一次</span>';
-//		                        } else if (value == '3') {
-//			                        return '<span class="label label-primary">默认策略</span>';
-//		                        }
-//	                        }
-//	                    },
 	                    {
 	                        field : 'status',
 	                        title : '任务状态',
