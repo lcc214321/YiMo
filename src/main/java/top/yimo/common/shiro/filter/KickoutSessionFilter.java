@@ -16,6 +16,8 @@ import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.util.WebUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -39,6 +41,7 @@ import top.yimo.sys.service.UserOnlineService;
  * @Time 2019年3月11日 下午2:41:01
  */
 public class KickoutSessionFilter extends AccessControlFilter {
+	private static final Logger logger = LoggerFactory.getLogger(KickoutSessionFilter.class);
 
 	private final static ObjectMapper objectMapper = new ObjectMapper();
 
@@ -126,17 +129,21 @@ public class KickoutSessionFilter extends AccessControlFilter {
 	@Override
 	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
 		Subject subject = getSubject(request, response);
-		// 如果被踢出了，(前者或后者)直接退出，重定向到踢出后的地址
-		System.out.println("被强制踢出KickoutSessionFilter");
-		// 调用Shiro框架的退出
-		subject.logout();
-		saveRequest(request);
-		// ajax请求
-		if (isAjax(request)) {
-			out(response, ResponseVo.kickout("您已在别处登录，请您修改密码或重新登录"));
-		} else {
-			// 重定向
-			WebUtils.issueRedirect(request, response, kickoutUrl);
+		Session session = subject.getSession();
+		if (session != null && (Boolean) session.getAttribute("kickout") != null && (Boolean) session.getAttribute("kickout") == true) {// 标记为踢出的session
+			// 如果被踢出了，(前者或后者)直接退出，重定向到踢出后的地址
+			logger.debug("被强制踢出KickoutSessionFilter");
+			// 调用Shiro框架的退出
+			subject.logout();
+			saveRequest(request);
+			// ajax请求
+			if (isAjax(request)) {
+				out(response, ResponseVo.kickout("您已在别处登录，请您修改密码或重新登录"));
+			} else {
+				// 重定向
+				WebUtils.issueRedirect(request, response, kickoutUrl);
+			}
+			return false;
 		}
 		return true;
 	}

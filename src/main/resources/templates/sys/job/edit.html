@@ -9,80 +9,70 @@
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
 						<form class="form-horizontal m-t" id="JobForm">
-						<input id="jobId" name="jobId" th:value="${job.jobId}"  type="hidden">
-																																							<div class="form-group">	
+							<input id="jobId" name="jobId" th:value="${job.jobId}" type="hidden"> 
+							<input id="oldJobName" name="oldJobName" th:value="${job.oldJobName}"	type="hidden"> 
+							<input id="oldJobGroup" name="oldJobGroup" th:value="${job.oldJobGroup}" type="hidden">
+							<div class="form-group">
 								<label class="col-sm-3 control-label">任务名称：</label>
 								<div class="col-sm-8">
-									<input id="jobName" name="jobName" th:value="${job.jobName}" class="form-control" type="text">
+									<input id="jobName" name="jobName" th:value="${job.jobName}" class="form-control" readonly="readonly" type="text">
 								</div>
 							</div>
-																														<div class="form-group">	
+							<div class="form-group">
 								<label class="col-sm-3 control-label">任务组名：</label>
 								<div class="col-sm-8">
-									<input id="jobGroup" name="jobGroup" th:value="${job.jobGroup}" class="form-control" type="text">
+									<input id="jobGroup" name="jobGroup" th:value="${job.jobGroup}" class="form-control" readonly="readonly" type="text">
 								</div>
 							</div>
-																														<div class="form-group">	
+							<div class="form-group">
 								<label class="col-sm-3 control-label">任务方法：</label>
 								<div class="col-sm-8">
-									<input id="methodName" name="methodName" th:value="${job.methodName}" class="form-control" type="text">
+									<input id="jobClassName" name="jobClassName" th:value="${job.jobClassName}" readonly="readonly" class="form-control" type="text">
 								</div>
 							</div>
-																														<div class="form-group">	
+							<div class="form-group">
+								<label class="col-sm-3 control-label">任务描述：</label>
+								<div class="col-sm-8">
+									<input id="description" name=description class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-3 control-label">方法参数：</label>
 								<div class="col-sm-8">
-									<input id="methodParams" name="methodParams" th:value="${job.methodParams}" class="form-control" type="text">
+									<input id="methodParams" name="methodParams" th:value="${job.methodParams}" class="form-control" readonly="readonly" type="text">
 								</div>
 							</div>
-																														<div class="form-group">	
+							<div class="form-group">
 								<label class="col-sm-3 control-label">cron执行表达式：</label>
 								<div class="col-sm-8">
 									<input id="cronExpression" name="cronExpression" th:value="${job.cronExpression}" class="form-control" type="text">
 								</div>
 							</div>
-																														<div class="form-group">	
-								<label class="col-sm-3 control-label">计划执行错误策略（1立即执行 2执行一次 3放弃执行）：</label>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">计划执行策略：</label>
 								<div class="col-sm-8">
-									<input id="misfirePolicy" name="misfirePolicy" th:value="${job.misfirePolicy}" class="form-control" type="text">
+									<label class="radio-inline"> <input type="radio" th:field="*{job.misfirePolicy}" name="misfirePolicy" value="1" /> 立即执行
+									</label> <label class="radio-inline"> <input type="radio" th:field="*{job.misfirePolicy}" name="misfirePolicy" value="2" /> 执行一次
+									</label> <label class="radio-inline"> <input type="radio" th:field="*{job.misfirePolicy}" name="misfirePolicy" value="3" /> 放弃执行
+									</label>
 								</div>
 							</div>
-																														<div class="form-group">	
-								<label class="col-sm-3 control-label">状态（0正常 1暂停）：</label>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">状态：</label>
 								<div class="col-sm-8">
-									<input id="status" name="status" th:value="${job.status}" class="form-control" type="text">
+									<label class="radio-inline"> <input readonly="readonly" th:field="*{job.status}" type="radio" name="status" value="1" />
+										运行中
+									</label> <label class="radio-inline"> <input readonly="readonly" th:field="*{job.status}" type="radio" name="status" value="0" />未运行
+									</label>
 								</div>
 							</div>
-																														<div class="form-group">	
-								<label class="col-sm-3 control-label">创建者：</label>
-								<div class="col-sm-8">
-									<input id="createUserId" name="createUserId" th:value="${job.createUserId}" class="form-control" type="text">
-								</div>
-							</div>
-																														<div class="form-group">	
-								<label class="col-sm-3 control-label">创建时间：</label>
-								<div class="col-sm-8">
-									<input id="createTime" name="createTime" th:value="${job.createTime}" class="form-control" type="text">
-								</div>
-							</div>
-																														<div class="form-group">	
-								<label class="col-sm-3 control-label">更新者：</label>
-								<div class="col-sm-8">
-									<input id="updateUserId" name="updateUserId" th:value="${job.updateUserId}" class="form-control" type="text">
-								</div>
-							</div>
-																														<div class="form-group">	
-								<label class="col-sm-3 control-label">更新时间：</label>
-								<div class="col-sm-8">
-									<input id="updateTime" name="updateTime" th:value="${job.updateTime}" class="form-control" type="text">
-								</div>
-							</div>
-																														<div class="form-group">	
+							<div class="form-group">
 								<label class="col-sm-3 control-label">备注信息：</label>
 								<div class="col-sm-8">
-									<input id="remark" name="remark" th:value="${job.remark}" class="form-control" type="text">
+									<textarea id="remark" name="remark" class="form-control">[[*{remark}]]</textarea>
 								</div>
 							</div>
-																					<div class="form-group">
+							<div class="form-group">
 								<div class="col-sm-8 col-sm-offset-3">
 									<button type="submit" class="btn btn-primary">提交</button>
 								</div>
@@ -94,104 +84,74 @@
 		</div>
 	</div>
 	<div th:replace="footer :: footer"></div>
-	$().ready(function() {
+	<script type="text/javascript">
+		var prefix = ctx + "sys/job";
+        $().ready(function() {
 	        validateRule();
         });
         $.validator.setDefaults({
-        	submitHandler : function() {
+	        submitHandler : function() {
 		        update();
 	        }
         });
 
-		function update() {
-			yimo.ajaxPut({
-				url : prefix + "/update",
-				data : $('#JobForm').serialize(),
-				needClose : true,
+        function update() {
+	        yimo.ajaxPut({
+	            url : prefix + "/update",
+	            data : $('#JobForm').serialize(),
+	            needClose : true,
 	            parentRefresh : true,
-			});
-		}
-		
+	        });
+        }
+
         function validateRule() {
 	        var icon = "<i class='fa fa-times-circle'></i> ";
 	        $("#JobForm").validate({
-	        	rules : {
-	        		        			        		        			        			 jobName : {
-	 		                required : true
-	 	                },
-	        			        		        			        			 jobGroup : {
-	 		                required : true
-	 	                },
-	        			        		        			        			 methodName : {
-	 		                required : true
-	 	                },
-	        			        		        			        			 methodParams : {
-	 		                required : true
-	 	                },
-	        			        		        			        			 cronExpression : {
-	 		                required : true
-	 	                },
-	        			        		        			        			 misfirePolicy : {
-	 		                required : true
-	 	                },
-	        			        		        			        			 status : {
-	 		                required : true
-	 	                },
-	        			        		        			        			 createUserId : {
-	 		                required : true
-	 	                },
-	        			        		        			        			 createTime : {
-	 		                required : true
-	 	                },
-	        			        		        			        			 updateUserId : {
-	 		                required : true
-	 	                },
-	        			        		        			        			 updateTime : {
-	 		                required : true
-	 	                },
-	        			        		        			        			 remark : {
-	 		                required : true
-	 	                },
-	        			        		        	 },
-	        	 messages : {
-	        	 	        	 	        			        	 	        			 jobName : {
- 		                required : icon + "请输入任务名称"
- 	                },
-        			        			        	 	        			 jobGroup : {
- 		                required : icon + "请输入任务组名"
- 	                },
-        			        			        	 	        			 methodName : {
- 		                required : icon + "请输入任务方法"
- 	                },
-        			        			        	 	        			 methodParams : {
- 		                required : icon + "请输入方法参数"
- 	                },
-        			        			        	 	        			 cronExpression : {
- 		                required : icon + "请输入cron执行表达式"
- 	                },
-        			        			        	 	        			 misfirePolicy : {
- 		                required : icon + "请输入计划执行错误策略（1立即执行 2执行一次 3放弃执行）"
- 	                },
-        			        			        	 	        			 status : {
- 		                required : icon + "请输入状态（0正常 1暂停）"
- 	                },
-        			        			        	 	        			 createUserId : {
- 		                required : icon + "请输入创建者"
- 	                },
-        			        			        	 	        			 createTime : {
- 		                required : icon + "请输入创建时间"
- 	                },
-        			        			        	 	        			 updateUserId : {
- 		                required : icon + "请输入更新者"
- 	                },
-        			        			        	 	        			 updateTime : {
- 		                required : icon + "请输入更新时间"
- 	                },
-        			        			        	 	        			 remark : {
- 		                required : icon + "请输入备注信息"
- 	                },
-        			        			        	 }
+	            rules : {
+	                jobName : {
+		                required : true
+	                },
+	                jobGroup : {
+		                required : true
+	                },
+	                jobClassName : {
+		                required : true
+	                },
+	                // 	                methodParams : {
+	                // 		                required : true
+	                // 	                },
+	                cronExpression : {
+		                required : true
+	                },
+	                misfirePolicy : {
+		                required : true
+	                },
+	                status : {
+		                required : true
+	                },
+	            },
+	            messages : {
+	                jobName : {
+		                required : icon + "请输入任务名称"
+	                },
+	                jobGroup : {
+		                required : icon + "请输入任务组名"
+	                },
+	                jobClassName : {
+		                required : icon + "请输入任务方法"
+	                },
+	                methodParams : {
+		                required : icon + "请输入方法参数"
+	                },
+	                cronExpression : {
+		                required : icon + "请输入cron执行表达式"
+	                },
+	                misfirePolicy : {
+		                required : icon + "请输入计划执行策略"
+	                },
+	            }
 	        })
         }
+	</script>
 </body>
 </html>

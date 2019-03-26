@@ -32,6 +32,8 @@
 		</div>
 	</div>
 	<div th:replace="footer :: footer"></div>
+	<script type="text/javascript">
+		var prefix = ctx+"${moduleName}/${classname}";
 	$().ready(function() {
 	        validateRule();
         });
@@ -73,5 +75,6 @@
 	        	 }
 	        })
         }
+        </script>
 </body>
 </html>

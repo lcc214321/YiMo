@@ -9,11 +9,11 @@ xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"  th:with="title='sys_job'">
 			<div class="ibox">
 				<div class="ibox-body">
 					<div class="fixed-table-toolbar">
-<!-- 						<div class="columns pull-left"> -->
-<!-- 							<button shiro:hasPermission="sys:job:add" type="button" class="btn btn-rounded btn-primary" onclick="add()"> -->
-<!-- 								<i class="fa fa-plus" aria-hidden="true"></i>添加 -->
-<!-- 							</button> -->
-<!-- 						</div> -->
+						<div class="columns pull-left">
+							<button shiro:hasPermission="sys:job:add" type="button" class="btn btn-rounded btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+						</div>
 					</div>
 					<table id="JobTable" data-mobile-responsive="true">
 					</table>

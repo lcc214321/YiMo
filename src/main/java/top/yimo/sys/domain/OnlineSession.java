@@ -105,7 +105,7 @@ public class OnlineSession extends SimpleSession {
 	}
 	@Override
 	public String toString() {
-		return "OnlineSession [id=" + getId() + "userId=" + userId + ", userName=" + userName + ", deptId=" + deptId + ", deptName=" + deptName + ", ip=" + ip
+		return "OnlineSession [id=" + getId() + ", userId=" + userId + ", userName=" + userName + ", deptId=" + deptId + ", deptName=" + deptName + ", ip=" + ip
 		        + ", loginLocation=" + loginLocation + ", browser=" + browser + ", os=" + os + ", status=" + status + ", beginTime=" + beginTime + ", isChange="
 		        + isChange + "]";
 	}

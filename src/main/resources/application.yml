@@ -61,8 +61,8 @@ mybatis:
  #日志配置
 logging:
   level:
-    root: info
-    top.yimo: debug
+    root: error
+    top.yimo: error
     
 #actuator端口 
 #management: 

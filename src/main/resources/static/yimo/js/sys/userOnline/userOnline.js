@@ -23,6 +23,7 @@ function load() {
 		    };
 	    },
 	    columns : [ {
+	    	visible : false,
 	        field : 'sessionId',
 	        title : 'sessionId'
 	    }, {

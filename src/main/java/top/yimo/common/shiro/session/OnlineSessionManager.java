@@ -46,7 +46,7 @@ public class OnlineSessionManager extends DefaultWebSessionManager {
 					SessionKey key = new DefaultSessionKey(session.getId());
 					validate(session, key);
 					if ((Boolean) session.getAttribute("kickout") != null && (Boolean) session.getAttribute("kickout") == true) {// 被强制踢出的session
-						System.out.println("被强制踢出OnlineSessionManager");
+						logger.debug("被强制踢出OnlineSessionManager");
 						throw new InvalidSessionException();
 					}
 

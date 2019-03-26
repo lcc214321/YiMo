@@ -38,21 +38,29 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	public int save(JobDO job) {
+		quartzManager.save(job);
 		return jobDao.save(job);
 	}
 
 	@Override
 	public int update(JobDO job) {
+		quartzManager.save(job);
 		return jobDao.update(job);
 	}
 
 	@Override
 	public int remove(Integer jobId) {
+		JobDO job = get(jobId);
+		quartzManager.remove(job);
 		return jobDao.remove(jobId);
 	}
 
 	@Override
 	public int batchRemove(Integer[] jobIds) {
+		for (Integer jobId : jobIds) {
+			JobDO job = get(jobId);
+			quartzManager.remove(job);
+		}
 		return jobDao.batchRemove(jobIds);
 	}
 
@@ -62,14 +70,13 @@ public class JobServiceImpl implements JobService {
 		if (job == null) {
 			return;
 		}
-
 		job.setStatus(operation);
 		if (WebConstant.STATUS_RUNNING_STOP.equals(operation)) {
 			quartzManager.pause(job);
 		} else {
 			quartzManager.resume(job);
 		}
-		update(job);
+		jobDao.update(job);
 	}
 
 }
