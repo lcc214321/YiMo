@@ -3,6 +3,7 @@ package top.yimo.sys.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.quartz.CronExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,6 +78,14 @@ public class JobServiceImpl implements JobService {
 			quartzManager.resume(job);
 		}
 		jobDao.update(job);
+	}
+
+	/**
+	 * 校验cron表达式是否正确
+	 */
+	@Override
+	public boolean checkCronExpressionIsValid(String cronExpression) {
+		return CronExpression.isValidExpression(cronExpression);
 	}
 
 }

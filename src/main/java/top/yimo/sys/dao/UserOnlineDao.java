@@ -17,6 +17,8 @@ import top.yimo.sys.domain.UserOnlineDO;
 @Mapper
 public interface UserOnlineDao {
 
+	UserOnlineDO getActive(String sessionid);
+
 	UserOnlineDO get(String sessionid);
 
 	List<UserOnlineDO> listByPage(Map<String, Object> map);

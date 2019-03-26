@@ -15,7 +15,10 @@ import top.yimo.sys.domain.UserOnlineDO;
  */
 public interface UserOnlineService {
 
-	UserOnlineDO get(String sessionid);
+	// 获取活跃的session信息
+	UserOnlineDO getActive(String sessionId);
+
+	UserOnlineDO get(String sessionId);
 
 	List<UserOnlineDO> listByPage(Map<String, Object> map);
 

@@ -133,8 +133,7 @@ public class KickoutSessionFilter extends AccessControlFilter {
 		if (session != null && (Boolean) session.getAttribute("kickout") != null && (Boolean) session.getAttribute("kickout") == true) {// 标记为踢出的session
 			// 如果被踢出了，(前者或后者)直接退出，重定向到踢出后的地址
 			logger.debug("被强制踢出KickoutSessionFilter");
-			// 调用Shiro框架的退出
-			subject.logout();
+			subject.logout();// 调用Shiro框架的退出
 			saveRequest(request);
 			// ajax请求
 			if (isAjax(request)) {

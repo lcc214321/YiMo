@@ -10,15 +10,15 @@ $.yimo.prototype.ajax = function(options) {
 	    data : options.data || {},
 	    async : options.async || false,
 	    dataType : 'json',
-//	    error : function() {
-//		    parent.layer.alert("处理失败");
-//	    },
+	    // error : function() {
+	    // parent.layer.alert("处理失败");
+	    // },
 	    success : function(data) {
+		    parent.layer.msg(data.msg, {
+			    time : 2000
+		    // 2s后自动关闭
+		    });
 		    if (data.success == true) {
-			    parent.layer.msg(data.msg, {
-				    time : 2000
-			    // 2s后自动关闭
-			    });
 			    options.success && options.success(data);
 			    if (options.parentRefresh == true) {
 				    parent.refresh();
@@ -30,15 +30,11 @@ $.yimo.prototype.ajax = function(options) {
 				    var index = parent.layer.getFrameIndex(window.name);
 				    parent.layer.close(index);
 			    }
-		    }else if(data.success == false && data.code==666){
-		    	parent.layer.msg(data.msg, {
-				    time : 2000
-			    // 2s后自动关闭
-			    });
-		    	window.location.reload(true);
-		    }
+		    } else if (data.code == 666) {
+			    window.location.reload(true);
+		    } 
 	    },
-	    
+
 	});
 };
 

@@ -30,4 +30,6 @@ public interface JobService {
 	int batchRemove(Integer[] jobIds);
 
 	void changeStatus(Integer jobId, String operation);
+
+	boolean checkCronExpressionIsValid(String cronExpression);
 }

@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import top.yimo.common.annotation.Log;
+import top.yimo.common.constant.WebConstant;
 import top.yimo.common.controller.BaseController;
 import top.yimo.common.enums.OperatorType;
 import top.yimo.common.model.vo.PageVo;
 import top.yimo.common.model.vo.ResponseVo;
+import top.yimo.common.util.ShiroUtils;
 import top.yimo.sys.domain.UserOnlineDO;
 import top.yimo.sys.service.UserOnlineService;
 
@@ -61,9 +63,15 @@ public class UserOnlineController extends BaseController {
 	@RequiresPermissions("sys:userOnline:kickout")
 	@Log(describe = "强制踢出", title = title, operatorType = OperatorType.FORCE)
 	public ResponseVo kickout(String sessionId) {
-
+		UserOnlineDO userOnlineDO = userOnlineService.get(sessionId);
+		if (userOnlineDO.getStatus().equals(WebConstant.ONLINE_SESSION_OFF)) {
+			return ResponseVo.fail("该用户状态为离线，不允许踢出");
+		}
+		if (userOnlineDO.getUserId().equals(ShiroUtils.getUserId())) {
+			return ResponseVo.fail("踢出用户为当前用户，不允许踢出");
+		}
 		if (userOnlineService.kickout(sessionId) > 0) {
-			return ResponseVo.ok("踢出成功");
+			return ResponseVo.kickout("踢出成功");
 		}
 		return ResponseVo.fail();
 	}

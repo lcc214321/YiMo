@@ -15,7 +15,10 @@ import top.yimo.common.domain.BaseDO;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class UserOnlineDO extends BaseDO {
-	private static final long serialVersionUID = 1L;
+	/**   
+	* @Fields serialVersionUID 
+	*/
+	private static final long serialVersionUID = -1916759778528981910L;
 	// 用户会话id
 	private String sessionId;
 	// 登录账号

@@ -149,4 +149,14 @@ public class JobController extends BaseController {
 		jobService.changeStatus(jobId, WebConstant.STATUS_RUNNING_RUN);
 		return ResponseVo.ok();
 	}
+
+	/**
+	 * 校验cron表达式是否有效
+	 */
+	@PostMapping("/checkCronExpressionIsValid")
+	@ResponseBody
+	public boolean checkCronExpressionIsValid(String cronExpression) {
+		System.out.println(cronExpression);
+		return jobService.checkCronExpressionIsValid(cronExpression);
+	}
 }

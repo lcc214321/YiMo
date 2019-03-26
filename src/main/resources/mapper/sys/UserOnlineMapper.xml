@@ -29,7 +29,7 @@
 			</sql>
 	
 	
-	<select id="get" resultType="top.yimo.sys.domain.UserOnlineDO">
+	<select id="getActive" resultType="top.yimo.sys.domain.UserOnlineDO">
 		select
 		<include refid="Base_Column_List" />
 		from
@@ -37,6 +37,13 @@
 		where sessionId = #{value} and status='on_line' 
 	</select>
 
+	<select id="get" resultType="top.yimo.sys.domain.UserOnlineDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		where sessionId = #{value} 
+	</select>
 	<select id="getActives" resultType="top.yimo.sys.domain.UserOnlineDO">
 		select
 		<include refid="Base_Column_List" />

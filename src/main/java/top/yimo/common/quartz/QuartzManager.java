@@ -45,12 +45,10 @@ public class QuartzManager {
 		try {
 			// 如果是修改 删除旧的任务
 			if (quartz.getOldJobGroup() != null) {
-				JobKey key = new JobKey(quartz.getOldJobName(), quartz.getOldJobGroup());
-				scheduler.deleteJob(key);
+				remove(quartz);
 			}
 			Class cls = Class.forName(quartz.getJobClassName());
 			cls.newInstance();
-
 			// 构建job信息
 			JobDetail job = JobBuilder.newJob(cls).withIdentity(quartz.getJobName(), quartz.getJobGroup()).withDescription(quartz.getDescription()).build();
 			// 触发时间点

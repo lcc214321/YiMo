@@ -31,10 +31,13 @@ public class UserOnlineServiceImpl implements UserOnlineService {
 	private OnlineSessionDao onlineSessionDao;
 
 	@Override
+	public UserOnlineDO getActive(String sessionid) {
+		return userOnlineDao.getActive(sessionid);
+	}
+	@Override
 	public UserOnlineDO get(String sessionid) {
 		return userOnlineDao.get(sessionid);
 	}
-
 	@Override
 	public List<UserOnlineDO> listByPage(Map<String, Object> map) {
 		return userOnlineDao.listByPage(map);
@@ -60,7 +63,7 @@ public class UserOnlineServiceImpl implements UserOnlineService {
 	public int kickout(String sessionId) {
 		Session doReadSession = onlineSessionDao.doReadSession(sessionId);
 		if (doReadSession != null) {
-			onlineSessionDao.delete(doReadSession);
+			onlineSessionDao.doDelete(doReadSession);
 		}
 		return 1;
 	}
@@ -74,28 +77,26 @@ public class UserOnlineServiceImpl implements UserOnlineService {
 		List<UserOnlineDO> actives = userOnlineDao.getActives();
 		Collection<Session> activeSessions = onlineSessionDao.getActiveSessions();
 		LOGGER.debug("同步在线用户状态... 当前数据库在线用户个数：{},缓存中在线用户个数：{}", actives.size(), activeSessions.size());
-		if (actives.size() != activeSessions.size()) {
-			for (UserOnlineDO userOnline : actives) {
-				String sessionId = userOnline.getSessionId();
-				boolean isNot = false;
-				try {
-					Session doReadSession = onlineSessionDao.readSession(sessionId);
-					if (doReadSession == null) {
-						isNot = true;
-					}
-				} catch (UnknownSessionException e) {
-					// TODO: handle exception
+		for (UserOnlineDO userOnline : actives) {
+			String sessionId = userOnline.getSessionId();
+			boolean isNot = false;
+			try {
+				Session doReadSession = onlineSessionDao.readSession(sessionId);
+				if (doReadSession == null) {
 					isNot = true;
 				}
-				if (isNot) {// 用户不存在session
-					userOnline.setStatus(WebConstant.ONLINE_SESSION_OFF);
-					if (userOnline.getEndTime() == null || StringUtils.isBlank(userOnline.getEndTime())) {
-						userOnline.setEndTime(DateUtils.getNow());
-					}
-					save(userOnline);
+			} catch (UnknownSessionException e) {
+				// TODO: handle exception
+				isNot = true;
+			}
+			if (isNot) {// 用户不存在session
+				userOnline.setStatus(WebConstant.ONLINE_SESSION_OFF);
+				if (userOnline.getEndTime() == null || StringUtils.isBlank(userOnline.getEndTime())) {
+					userOnline.setEndTime(DateUtils.getNow());
 				}
+				save(userOnline);
 			}
 		}
-
 	}
+
 }

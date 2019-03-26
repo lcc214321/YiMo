@@ -1,5 +1,6 @@
 package top.yimo.common.shiro;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,6 +12,7 @@ import javax.servlet.Filter;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
+import org.apache.shiro.io.ResourceUtils;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler;
@@ -126,7 +128,7 @@ public class ShiroConfig {
 		// 设置realm.
 		securityManager.setRealm(userRealm());
 		// 添加Ehcache
-		securityManager.setCacheManager(ehCacheManager());
+		// securityManager.setCacheManager(ehCacheManager());
 		// 添加Session控制
 		securityManager.setSessionManager(sessionManager());
 
@@ -162,12 +164,10 @@ public class ShiroConfig {
 		sessionManager.setSessionIdUrlRewritingEnabled(false);// 去掉 JSESSIONID
 		sessionManager.setSessionValidationScheduler(sessionValidationScheduler());
 		sessionManager.setSessionValidationSchedulerEnabled(true);// 开启定时检查session
-
 		// 增加session过期操作监听
 		Collection<SessionListener> listeners = new HashSet<SessionListener>();
 		listeners.add(shiroSessionListener());
 		sessionManager.setSessionListeners(listeners);
-
 		sessionManager.setDeleteInvalidSessions(true);// 删除过期的session
 		sessionManager.setSessionIdCookieEnabled(true);
 		return sessionManager;
@@ -226,12 +226,17 @@ public class ShiroConfig {
 	 */
 	@Bean
 	public EhCacheManager ehCacheManager() {
-		// 将ehcacheManager转换成shiro包装后的ehcacheManager对象
-		EhCacheManager em = new EhCacheManager();
-		CacheManager cacheManager = CacheManager.create();
-		em.setCacheManager(cacheManager);
-		em.setCacheManagerConfigFile("classpath:config/ehcache.xml");
-		return em;
+		CacheManager cacheManager = CacheManager.getCacheManager("YiMo");
+		if (cacheManager == null) {// 避免热部署时冲突,先获取判断是否为空，为空时才重新创建
+			try {
+				cacheManager = CacheManager.create(ResourceUtils.getInputStreamForPath("classpath:config/ehcache.xml"));
+			} catch (IOException e) {
+				throw new RuntimeException("initialize cacheManager failed");
+			}
+		}
+		EhCacheManager ehCacheManager = new EhCacheManager();
+		ehCacheManager.setCacheManager(cacheManager);
+		return ehCacheManager;
 	}
 
 	/**
