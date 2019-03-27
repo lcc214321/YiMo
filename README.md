@@ -11,10 +11,11 @@
 * 缓存框架：Ehcache
 * 前端模板：Thymeleaf
 * 模板引擎：Apache Velocity
+* 作业调度框架：Quartz
 * 持久层框架：MyBatis
 * 连接池：Druid 
 * 数据库：MySQL
-* 工具类：commons-lang3 | commons-configuration | fastjson
+* 工具类：commons-lang3 | commons-configuration | fastjson | UserAgentUtils | lombok
 
 ## 开发环境
-Windows | Spring Tool Suite  | SunJDK | Maven  | Git | MySQL | DBeaver | 
+Windows | Spring Tool Suite  | SunJDK | Maven  | Git | MySQL | DBeaver | lombok
