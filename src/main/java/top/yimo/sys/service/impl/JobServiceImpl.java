@@ -3,13 +3,13 @@ package top.yimo.sys.service.impl;
 import java.util.List;
 import java.util.Map;
 
-import org.quartz.CronExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import top.yimo.common.constant.WebConstant;
 import top.yimo.common.quartz.QuartzManager;
+import top.yimo.common.util.CronUtils;
 import top.yimo.sys.dao.JobDao;
 import top.yimo.sys.domain.JobDO;
 import top.yimo.sys.service.JobService;
@@ -81,11 +81,12 @@ public class JobServiceImpl implements JobService {
 	}
 
 	/**
-	 * 校验cron表达式是否正确
+	 * 校验cron表达式是否正确 返回中文含义
 	 */
 	@Override
-	public boolean checkCronExpressionIsValid(String cronExpression) {
-		return CronExpression.isValidExpression(cronExpression);
+	public String checkCronExpressionIsValid(String cronExpression) {
+		String translateToChinese = CronUtils.translateToChinese(cronExpression);
+		return translateToChinese;
 	}
 
 }

@@ -31,5 +31,5 @@ public interface JobService {
 
 	void changeStatus(Integer jobId, String operation);
 
-	boolean checkCronExpressionIsValid(String cronExpression);
+	String checkCronExpressionIsValid(String cronExpression);
 }

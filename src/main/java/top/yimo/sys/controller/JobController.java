@@ -153,10 +153,18 @@ public class JobController extends BaseController {
 	/**
 	 * 校验cron表达式是否有效
 	 */
-	@PostMapping("/checkCronExpressionIsValid")
+	@GetMapping("/checkCronExpressionIsValid")
 	@ResponseBody
-	public boolean checkCronExpressionIsValid(String cronExpression) {
-		System.out.println(cronExpression);
-		return jobService.checkCronExpressionIsValid(cronExpression);
+	public ResponseVo checkCronExpressionIsValid(String cronExpression) {
+		String result = jobService.checkCronExpressionIsValid(cronExpression.trim());
+		if (result.contains("@")) {
+			if ("true".equals(result.split("@")[0])) {
+				return ResponseVo.ok(result.split("@")[1]);
+			} else {
+				return ResponseVo.fail(result.split("@")[1]);
+			}
+		} else {
+			return ResponseVo.fail("校验cron表达式异常");
+		}
 	}
 }

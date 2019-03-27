@@ -9,9 +9,9 @@
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
 						<form class="form-horizontal m-t" id="JobForm">
-							<input id="jobId" name="jobId" th:value="${job.jobId}" type="hidden"> 
-							<input id="oldJobName" name="oldJobName" th:value="${job.oldJobName}"	type="hidden"> 
-							<input id="oldJobGroup" name="oldJobGroup" th:value="${job.oldJobGroup}" type="hidden">
+							<input id="jobId" name="jobId" th:value="${job.jobId}" type="hidden"> <input id="oldJobName" name="oldJobName"
+								th:value="${job.oldJobName}" type="hidden"> <input id="oldJobGroup" name="oldJobGroup" th:value="${job.oldJobGroup}"
+								type="hidden">
 							<div class="form-group">
 								<label class="col-sm-3 control-label">任务名称：</label>
 								<div class="col-sm-8">
@@ -27,28 +27,39 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label">任务方法：</label>
 								<div class="col-sm-8">
-									<input id="jobClassName" name="jobClassName" th:value="${job.jobClassName}" readonly="readonly" class="form-control" type="text">
+									<input id="jobClassName" name="jobClassName" th:value="${job.jobClassName}" class="form-control" type="text">
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label">任务描述：</label>
 								<div class="col-sm-8">
-									<input id="description" name=description class="form-control" type="text">
+									<input id="description" name=description th:value="${job.description}" class="form-control" type="text">
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group" hidden="">
 								<label class="col-sm-3 control-label">方法参数：</label>
 								<div class="col-sm-8">
 									<input id="methodParams" name="methodParams" th:value="${job.methodParams}" class="form-control" readonly="readonly" type="text">
 								</div>
 							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label">cron执行表达式：</label>
+							<div class="form-group" hidden="">
+								<label class="col-sm-3 control-label">cron执行表达式说明：</label>
 								<div class="col-sm-8">
-									<input id="cronExpression" name="cronExpression" th:value="${job.cronExpression}" class="form-control" type="text">
+									<input id="cronDesc" name="cronDesc" readonly="readonly" class="form-control" type="text">
 								</div>
 							</div>
 							<div class="form-group">
+								<label class="col-sm-3 control-label">cron执行表达式：</label>
+								<div class="col-sm-8">
+									<input id="cronExpression" name="cronExpression" th:value="${job.cronExpression}" class="form-control" type="text"> <span
+										class="help-block m-b-none"><i class="fa fa-info-circle"></i> <b>说明：设置定时器调度的时程表格式</b> <br> <b>秒</b>(0-59,*) <b>分</b>(0-59,*)
+										<b>时</b>(0-23,*) <b>日</b>(0-31,*,?) <b>月</b>(0-11) <b>周</b>(1-7,*,? 1=SUN) /指数值的增量 
+										<br>示例①<code> 0 0 12 * * ? </code>  &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;每月每日12时0分0秒
+										<br>示例②<code> 0 15,16 10 15 * ?</code>  &nbsp;&nbsp;每月15日10时15,16分0秒
+										<br>示例③<code> 0 15 10 ? * 2-6 </code>&nbsp;&nbsp;&nbsp;&nbsp;每月星期一至星期五10时15分0秒</span>
+								</div>
+							</div>
+							<div class="form-group" hidden="">
 								<label class="col-sm-3 control-label">计划执行错失触发策略：</label>
 								<div class="col-sm-8">
 									<label class="radio-inline"> <input type="radio" th:field="*{job.misfirePolicy}" name="misfirePolicy" value="1" /> 立即执行
@@ -57,7 +68,7 @@
 									</label>
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group" hidden="">
 								<label class="col-sm-3 control-label">状态：</label>
 								<div class="col-sm-8">
 									<label class="radio-inline"> <input readonly="readonly" th:field="*{job.status}" type="radio" name="status" value="1" />
@@ -69,7 +80,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label">备注信息：</label>
 								<div class="col-sm-8">
-									<textarea id="remark" name="remark" class="form-control">[[*{remark}]]</textarea>
+									<input id="remark" name="remark" class="form-control" type="text">
 								</div>
 							</div>
 							<div class="form-group">
@@ -118,24 +129,23 @@
 		                required : true
 	                },
 	                cronExpression : {
-		                required : true,
-		                remote: {
+	                    required : true,
+	                    remote : {
 	                        url : prefix + "/checkCronExpressionIsValid", // 后台处理程序
-	                        type : "post", // 数据发送方式
+	                        type : "get", // 数据发送方式
 	                        dataType : "json", // 接受数据格式
 	                        data : { // 要传递的数据
-	                        	cronExpression : function() {
+		                        cronExpression : function() {
 			                        return $("#cronExpression").val();
 		                        }
 	                        },
 	                        dataFilter : function(data, type) {
-	                        	console.log(data);
-		                        if (data == "true")
-			                        return true;
-		                        else
-			                        return false;
+		                        data = $.parseJSON(data);
+		                        $('#cronDesc').attr("value", data.msg);
+		                        $("#cronDesc").parents(".form-group").show();
+		                        return data.success;
 	                        }
-		                }
+	                    }
 	                },
 	                misfirePolicy : {
 		                required : true
@@ -158,7 +168,8 @@
 		                required : icon + "请输入方法参数"
 	                },
 	                cronExpression : {
-		                required : icon + "请输入cron执行表达式"
+	                    required : icon + "请输入cron执行表达式",
+	                    remote : icon + "请输入正确的执行表达式"
 	                },
 	                misfirePolicy : {
 		                required : icon + "请输入计划执行策略"
