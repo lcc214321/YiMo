@@ -53,14 +53,14 @@ public class AuthController extends BaseController {
 	@PostMapping(value = "/login")
 	@ResponseBody
 	@Log(title = "用户认证", describe = "认证操作", isSaveArgs = false, operatorType = OperatorType.LOGIN)
-	public ResponseVo doLogin(@RequestParam String username, @RequestParam String password, @RequestParam(required = false) boolean remeber_me,
+	public ResponseVo doLogin(@RequestParam String username, @RequestParam String password, @RequestParam(required = false) boolean rememberme,
 	        HttpServletRequest request, HttpServletResponse response) {
-		UsernamePasswordToken token = new UsernamePasswordToken(username, password, remeber_me);
+		UsernamePasswordToken token = new UsernamePasswordToken(username, password, false);
 		Subject currentUser = SecurityUtils.getSubject();
 		try {
 			currentUser.login(token);
 		} catch (IncorrectCredentialsException e) {
-			return ResponseVo.fail("密码错误");
+			return ResponseVo.fail("用户或密码错误");
 		} catch (UnknownAccountException | LockedAccountException e) {
 			return ResponseVo.fail(e.getMessage());
 		} catch (AuthenticationException e) {
@@ -69,7 +69,7 @@ public class AuthController extends BaseController {
 		return ResponseVo.ok();
 	}
 
-	@RequestMapping(value = "/index")
+	@RequestMapping(value = {"", "/index"})
 	public String index(Model model) {
 		// 加载登陆用户信息
 		UserDO currUser = getSysUser();
