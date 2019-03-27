@@ -37,4 +37,6 @@ public interface RoleMenuDao {
 	List<Long> getMenuIdByRoleId(Long id);
 	@Delete("delete from sys_role_menu where role_id=#{id}")
 	int batchRemoveByRoleID(Long id);
+	@Delete("delete from sys_role_menu where menu_id=#{menuId}")
+	int batchRemoveByMenuID(Long menuId);
 }
