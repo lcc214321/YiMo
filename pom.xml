@@ -19,6 +19,7 @@
 		<java.version>1.8</java.version>
 		<thymeleaf.extras.shiro.version>2.0.0</thymeleaf.extras.shiro.version>
 		<bitwalker.version>1.19</bitwalker.version>
+		<jsoup.version>1.11.3</jsoup.version>
 	</properties>
 
 	<dependencies>
@@ -135,6 +136,13 @@
 			<artifactId>UserAgentUtils</artifactId>
 			<version>${bitwalker.version}</version>
 		</dependency>
+		<!-- HTML解析器 -->
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>${jsoup.version}</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>mysql</groupId>

@@ -61,7 +61,7 @@ mybatis:
  #日志配置
 logging:
   level:
-    root: error
+    root: info
     top.yimo: debug
     
 #actuator端口 
@@ -84,4 +84,7 @@ shiro:
     sucessurl: /index
     unauthorizedurl: /error/403
     
-
+xss: 
+  enabled: true #xss过滤开关
+  excludes: /favicon.ico,/img/*,/js/*,/css/*  # 不需要过滤的路径（多个用逗号分隔）
+  urlPatterns: /*   #需要过滤的路径
