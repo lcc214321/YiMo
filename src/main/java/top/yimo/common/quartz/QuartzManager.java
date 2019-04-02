@@ -9,7 +9,6 @@ import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
-import org.quartz.TriggerListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,8 +56,8 @@ public class QuartzManager {
 			Trigger trigger = TriggerBuilder.newTrigger().withIdentity("trigger-" + quartz.getJobName(), "trigger-" + quartz.getJobGroup())
 			        .withSchedule(cronScheduleBuilder).build();
 			// 添加触发器监听
-			TriggerListener listener = new MonitorTriggerListener();
-			scheduler.getListenerManager().addTriggerListener(listener);
+//			TriggerListener listener = new MonitorTriggerListener();
+//			scheduler.getListenerManager().addTriggerListener(listener);
 			// 交由Scheduler安排触发
 			scheduler.scheduleJob(job, trigger);
 			LOGGER.debug("新增任务成功,{}", job.getKey().getName());
