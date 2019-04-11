@@ -32,6 +32,14 @@
 		where dict_type = #{value}
 	</select>
 	
+	<select id="getAllActiveDictData" resultType="top.yimo.sys.domain.DictDataDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		where dict_type = #{value} and status='1'
+	</select>
+	
 	<select id="getByTypeAndNo" resultType="top.yimo.sys.domain.DictDataDO">
 		select
 		<include refid="Base_Column_List" />

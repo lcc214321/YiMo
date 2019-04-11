@@ -35,4 +35,5 @@ public interface DictDataService {
 	
 	int batchRemoveByNo(String dictType, String[] dictNos);
 	
+	List<DictDataDO> getAllActiveDictData(String dictType);
 }
