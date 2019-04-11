@@ -34,10 +34,11 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label">状态 0:禁用，1:正常：</label>
+								<label class="col-sm-3 control-label">状态：</label>
 								<div class="col-sm-8">
-									<label class="radio-inline"> <input th:field="*{dictData.status}" type="radio" name="status" value="1" /> 正常</label> 
-									<label class="radio-inline"> <input th:field="*{dictData.status}" type="radio" name="status" value="0" /> 禁用</label>
+								<label class="radio-inline" th:each="dict:${@dict.getDictData('Status')}"> <input th:field="*{dictData.status}" type="radio" th:value="${dict.dictNo}"
+										th:text="${dict.dictName}" />
+									</label>
 								</div>
 							</div>
 							<div class="form-group">
