@@ -1,0 +1,19 @@
+spring:
+  #数据源配置    
+  datasource:
+    url: jdbc:mysql://localhost:3306/YiMo?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&serverTimezone=UTC
+    username: root
+    password: 
+   # 添加热部署 自动编译       
+  devtools: 
+    restart: 
+      enabled: true  
+      additional-paths: src/main/java 
+   #thymeleaf配置
+  thymeleaf:
+    cache: false #开发环境 关闭缓存   
+    #MyBatis配置
+mybatis:
+      configuration:
+        cache-enabled: false  #开发环境  关闭缓存
+    
