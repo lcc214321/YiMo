@@ -14,7 +14,7 @@ import java.util.Map;
  * @date 2019年03月07日 17:42:42
  */
 public interface DictDataService {
-	
+	//
 	DictDataDO get(String dictType);
 	
 	DictDataDO getByTypeAndNo(String dictType,String dictNo);
@@ -34,6 +34,6 @@ public interface DictDataService {
 	int batchRemove(String[] dictTypes);
 	
 	int batchRemoveByNo(String dictType, String[] dictNos);
-	
+	//获取指定type对应有效的字典数据
 	List<DictDataDO> getAllActiveDictData(String dictType);
 }
