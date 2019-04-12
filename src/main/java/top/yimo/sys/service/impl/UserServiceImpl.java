@@ -3,12 +3,15 @@ package top.yimo.sys.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
 import top.yimo.common.constant.WebConstant;
 import top.yimo.common.util.DateUtils;
+import top.yimo.common.util.ShiroUtils;
 import top.yimo.common.util.YiMoUtils;
 import top.yimo.sys.dao.DeptDao;
 import top.yimo.sys.dao.UserDao;
@@ -19,6 +22,7 @@ import top.yimo.sys.domain.UserRoleDO;
 import top.yimo.sys.service.UserService;
 
 @Service
+@Slf4j
 @Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl implements UserService {
 	@Autowired
@@ -72,6 +76,13 @@ public class UserServiceImpl implements UserService {
 				userRoleDO.setUserId(userId);
 				uerRoleDao.save(userRoleDO);
 			}
+		}
+		//如果修改的是当前用户对象 则更新shiro中的当前用户对象
+		Long currUserId = ShiroUtils.getUserId();
+		if(currUserId.equals(userId)) {
+			UserDO currUser = ShiroUtils.getSysUser();
+			BeanUtils.copyProperties(user, currUser);
+			log.info("当前用户同步session完成");
 		}
 		return userDao.update(user);
 	}
