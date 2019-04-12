@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
+import org.jsoup.helper.DataUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -73,7 +74,7 @@ public class OnlineSessionDao extends EnterpriseCacheSessionDAO {
 			BeanUtils.copyProperties(session, userOnline);
 			userOnline.setSessionId(session.getId().toString());
 			if (session.getStatus().equals(WebConstant.ONLINE_SESSION_OFF)) {
-				userOnline.setEndTime(DateUtils.format(session.getStopTimestamp()));
+				userOnline.setEndTime(DateUtils.format(session.getStopTimestamp(),DateUtils.DATE_TIME_PATTERN));
 			}
 			userOnline.setSession(session);
 			UserOnlineServiceImpl userOnlineService = SpringUtil.getBean(UserOnlineServiceImpl.class);
