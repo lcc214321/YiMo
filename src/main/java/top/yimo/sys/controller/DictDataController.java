@@ -124,4 +124,12 @@ public class DictDataController extends BaseController {
 		}
 		return ResponseVo.fail();
 	}
+	
+	@ResponseBody
+	@GetMapping("/getDictDataName")
+	@RequiresPermissions("sys:dictData:dictData")
+	public DictDataDO getDictDataName(@RequestParam Map<String, Object> params, String dictType,String dictNo) {
+		DictDataDO dictData = dictDataService.getByTypeAndNo(dictType, dictNo);
+		return dictData;
+	}
 }

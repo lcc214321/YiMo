@@ -51,3 +51,17 @@ $.yimo.prototype.ajaxPut = function(options) {
 	options.type = "PUT";
 	yimo.ajax(options);
 }
+
+
+$.yimo.prototype.getDictData = function(type,no) {
+	var dictData;
+	$.ajax({
+	    type : 'GET',
+	    url : ctx+'sys/dictData/getDictDataName',
+	    data : {'dictType':type,'dictNo':no},
+	    async : false,
+	    dataType : 'json',
+	    success : function(data) {dictData = data;},
+	});
+	return dictData;
+}
