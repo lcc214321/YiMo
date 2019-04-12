@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="top.yimo.sys.dao.UserDao">
-
 	<!-- 表名 -->
 	<sql id="tableName">
 		sys_user
@@ -42,7 +41,7 @@
 		<if test="district != null and district != ''"> and district = #{district} </if>
 	</sql>
 
-	<select id="get" resultType="top.yimo.sys.domain.UserDO">
+	<select id="get" resultType="top.yimo.sys.domain.UserDO" useCache="false">
 		select
 		<include refid="Base_Column_List" />
 		from

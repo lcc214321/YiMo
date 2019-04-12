@@ -56,6 +56,7 @@ mybatis:
     typeAliasesPackage: top.yimo
     configuration:
       mapUnderscoreToCamelCase: true #开启驼峰命名自动转换
+      cache-enabled: true  #开启二级缓存
       interceptions: top.yimo.common.interceptor.PageInterceptor #配置自定义myBatis拦截器
  
  #日志配置

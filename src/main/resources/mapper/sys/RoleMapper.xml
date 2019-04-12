@@ -2,6 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="top.yimo.sys.dao.RoleDao">
+  <!--根据需求调整缓存参数：-->
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache">
+        <property name="timeToIdleSeconds" value="3600"/>
+        <property name="timeToLiveSeconds" value="3600"/>
+        <!-- 同ehcache参数maxElementsInMemory -->
+        <property name="maxEntriesLocalHeap" value="1000"/>
+        <!-- 同ehcache参数maxElementsOnDisk -->
+        <property name="maxEntriesLocalDisk" value="10000000"/>
+        <property name="memoryStoreEvictionPolicy" value="LRU"/>
+    </cache>
 	<!-- 表名 -->
 	<sql id="tableName">
 		sys_role
@@ -32,7 +42,7 @@
 		where role_id = #{value} 
 	</select>
 	
-	<select id="getAllRoles" resultType="top.yimo.sys.domain.RoleDO">
+	<select id="getAllRoles" resultType="top.yimo.sys.domain.RoleDO" >
 		select
 		<include refid="Base_Column_List" />
 		from
@@ -63,7 +73,7 @@
 		<include refid="Base_Search_Param" />
 	</select>
 	
-	 <select id="getRolesByUserId" parameterType="Long" resultType="top.yimo.sys.domain.RoleDO">
+	 <select id="getRolesByUserId" parameterType="Long" resultType="top.yimo.sys.domain.RoleDO" useCache="false">
 		select r.`role_id`,r.`role_name`,r.`role_sign`,r.`remark`,r.`create_user_id`,r.`create_time`,r.`update_time`,r.`status` 
 		from sys_role r ,sys_user_role ur 
 		where ur.role_id=r.role_id and ur.user_id=#{userId} and r.status='1' 

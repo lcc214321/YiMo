@@ -40,12 +40,12 @@
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>1.3.2</version>
 		</dependency>
-		
+
 		<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-websocket</artifactId>
-        </dependency>
-		
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>
@@ -66,7 +66,6 @@
 			<version>1.7</version>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-spring</artifactId>
@@ -85,8 +84,6 @@
 			<version>${thymeleaf.extras.shiro.version}</version>
 		</dependency>
 
-
-
 		<!--开启 cache 缓存 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -104,6 +101,14 @@
 			<artifactId>shiro-ehcache</artifactId>
 			<version>1.3.2</version>
 		</dependency>
+		
+		<!-- mybatis ehcache -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-ehcache</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
 		<!-- quartz -->
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
