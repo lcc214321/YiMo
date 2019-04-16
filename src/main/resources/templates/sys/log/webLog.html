@@ -3,14 +3,16 @@
 <head>
 <meta charset="utf-8">
 <title>系统日志查看</title>
+<link th:href="@{/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet" type="text/css">
+
 <script th:src="@{/js/jquery.min.js?v=2.1.4}"></script>
 <!--webSocket -->
 <script th:src="@{/js/plugins/webSocket/sockjs.min.js}"></script>
 <script th:src="@{/js/plugins/webSocket/stomp.min.js}"></script>
 <style>
 html, body {
-	height: 100%;
-	width: 100%;
+	height: 97%;
+	width: 99.5%;
 }
 </style>
 </head>
@@ -18,24 +20,35 @@ html, body {
 	<div id="log-container" style="height: 100%; overflow-y: scroll; background: #333; color: #aaa; padding: 10px;">
 		<div></div>
 	</div>
+	<button class="btn btn-rounded btn-danger" onclick="refresh()">清空日志</button>
 </body>
+<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
 <script>
 	var stompClient = null;
     $(function() {
 	    connect();
     });
 
+    function refresh(){
+    	$("#log-container div").empty();
+    }
+    
     function connect() {
 	    var sock = new SockJS(ctx + "/websocket");
 	    var stomp = Stomp.over(sock);
 	    stomp.connect('guest', 'guest', function(frame) {
-		    stomp.subscribe("/topic/webLogJob", showLog);
-		    function showLog(log) {
-			    // 接收服务端的实时日志并添加到HTML页面中
-			    $("#log-container div").append(log.text + "<p> </p>");
-			    // 滚动条滚动到最低部
-			    $("#log-container").scrollTop($("#log-container div").height() - $("#log-container").height());
-		    }
+	    stomp.subscribe("/topic/webLogJob", showLog);
+	    function showLog(log) {
+			var log = JSON.parse(log.body);
+			var text = $("#log-container div p").text();
+			if(text.length>1024*2){//设置大小，避免记录太多浏览器卡顿
+				refresh();
+			}
+		    // 接收服务端的实时日志并添加到HTML页面中
+		    $("#log-container div").append(log.text + "<p> </p>");
+		    // 滚动条滚动到最低部
+		    $("#log-container").scrollTop($("#log-container div").height() - $("#log-container").height());
+	    }
 	    });
     }
 </script>

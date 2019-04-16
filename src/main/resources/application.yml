@@ -52,7 +52,9 @@ mybatis:
  
  #日志配置
 logging:
-  level:
+  config: classpath:config/logback-spring.xml
+  path: /log
+  level: 
     root: info
     top.yimo: debug
     
