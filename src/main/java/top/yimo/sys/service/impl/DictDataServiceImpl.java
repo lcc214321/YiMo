@@ -12,8 +12,14 @@ import top.yimo.sys.domain.DictDataDO;
 import top.yimo.sys.service.DictDataService;
 
 
-
-@Service
+/**
+ * 数据字典服务层，CRUD以及页面动态加载回显
+ * @Author imTayle
+ * @Email imTayle@126.com
+ * @version 1.0
+ * @Time 2019年4月12日 上午11:47:45
+ */
+@Service("dict")
 @Transactional(rollbackFor = Exception.class)
 public class DictDataServiceImpl implements DictDataService {
 	@Autowired
@@ -67,6 +73,32 @@ public class DictDataServiceImpl implements DictDataService {
 	@Override
 	public int batchRemoveByNo(String dictType, String[] dictNos) {
 		return dictDataDao.batchRemoveByNo(dictType, dictNos);
+	}
+
+	@Override
+	public List<DictDataDO> getAllActiveDictData(String dictType) {
+		return dictDataDao.getAllActiveDictData(dictType);
+	}
+	
+	
+	/**
+	 * 获取单个dictData 
+	 * @param dictType 字典类型
+	 * @param dictNo 字典编号
+	 * @return
+	 */
+	public DictDataDO getDictName(String dictType,String dictNo) {
+		DictDataDO dict = getByTypeAndNo(dictType, dictNo);
+		return dict;
+	}
+	
+	/**
+	 * 获取某一个类型的dictData
+	 * @param dictType
+	 * @return
+	 */
+	public List<DictDataDO> getDictData(String dictType){
+		return getAllActiveDictData(dictType);
 	}
 	
 }

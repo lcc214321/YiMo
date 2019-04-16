@@ -3,6 +3,7 @@ package top.yimo.sys.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -62,7 +63,7 @@ public class UserController extends BaseController {
 	@Log(describe = "获取用户列表", title = "用户管理", operatorType = OperatorType.QUERY)
 	public PageVo listByPage(@RequestParam Map<String, Object> params) {
 		long deptId = 1;
-		if (params.get("deptId") != null) {
+		if (params.get("deptId") != null &&   params.get("deptId").toString()!=null && StringUtils.isNotBlank(params.get("deptId").toString())) {
 			deptId = Long.valueOf(params.get("deptId").toString());
 		}
 		List<Long> allSubDeptIds = deptService.getAllSubDeptIds(deptId);

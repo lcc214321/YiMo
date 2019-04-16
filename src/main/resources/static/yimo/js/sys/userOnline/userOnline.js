@@ -52,11 +52,8 @@ function load() {
 	        field : 'status',
 	        title : '在线状态',
 	        formatter : function(value, row, index) {
-		        if (value == 'on_line') {
-			        return '<span class="label label-primary">在线</span>';
-		        } else if (value == 'off_line') {
-			        return '<span class="label label-danger">离线</span>';
-		        }
+				var dictData =	yimo.getDictData('OnlineStatus',value);
+				return '<span class="label '+dictData.dictDescribe+'">'+dictData.dictName+'</span>';
 	        }
 	    }, {
 	        field : 'beginTime',

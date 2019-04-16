@@ -46,11 +46,8 @@ function load() {
 	        title : '状态',
 	        align : 'center',
 	        formatter : function(value, row, index) {
-		        if (value == '0') {
-			        return '<span class="label label-danger">禁用</span>';
-		        } else if (value == '1') {
-			        return '<span class="label label-primary">正常</span>';
-		        }
+	        	var dictData =	yimo.getDictData('Status',value);
+	        	return '<span class="label '+dictData.dictDescribe+'">'+dictData.dictName+'</span>';
 	        }
 	    }, {
 	        title : '操作',

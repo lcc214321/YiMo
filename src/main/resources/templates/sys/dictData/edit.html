@@ -31,33 +31,17 @@
 								<label class="col-sm-3 control-label">字典描述：</label>
 								<div class="col-sm-8">
 									<input id="dictDescribe" name="dictDescribe" th:value="${dictData.dictDescribe}" class="form-control" type="text">
+									<span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 列表回显时显示的样式</span>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label">状态 0:禁用，1:正常：</label>
+								<label class="col-sm-3 control-label">状态：</label>
 								<div class="col-sm-8">
-									<label class="radio-inline"> <input th:field="*{dictData.status}" type="radio" name="status" value="1" /> 正常</label> 
-									<label class="radio-inline"> <input th:field="*{dictData.status}" type="radio" name="status" value="0" /> 禁用</label>
+								<label class="radio-inline" th:each="dict:${@dict.getDictData('Status')}"> <input th:field="*{dictData.status}" type="radio" th:value="${dict.dictNo}"
+										th:text="${dict.dictName}" />
+									</label>
 								</div>
 							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label">创建用户id：</label>
-								<div class="col-sm-8">
-									<input id="createUserId" name="createUserId" th:value="${dictData.createUserId}" readonly="readonly" class="form-control" type="text">
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label">创建时间：</label>
-								<div class="col-sm-8">
-									<input id="createTime" name="createTime" th:value="${dictData.createTime}" readonly="readonly" class="form-control" type="text">
-								</div>
-							</div>
-<!-- 							<div class="form-group"> -->
-<!-- 								<label class="col-sm-3 control-label">修改时间：</label> -->
-<!-- 								<div class="col-sm-8"> -->
-<!-- 									<input id="updateTime" name="updateTime" th:value="${dictData.updateTime}" class="form-control" type="text"> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
 							<div class="form-group">
 								<div class="col-sm-8 col-sm-offset-3">
 									<button type="submit" class="btn btn-primary">提交</button>
@@ -71,7 +55,7 @@
 	</div>
 	<div th:replace="footer :: footer"></div>
 	<script type="text/javascript">
-	
+	var prefix = ctx + "sys/dictData";
 	$().ready(function() { 
 		validateRule(); 
 	}); 
@@ -101,21 +85,9 @@
 				dictName : { 
 					required : true 
 				}, 
-				dictDescribe : { 
-					required : true
-				}, 
 				status : { 
 					required : true 
 				}, 
-				createUserId : { 
-					required : true 
-				}, 
-				createTime : { 
-					required : true 
-				}, 
-// 				updateTime : { 
-// 					required : true 
-// 				}, 
 			},
 			messages : { 
 				dictNo : { 
@@ -124,21 +96,9 @@
 				dictName : { 
 					required : icon + "请输入字典含义" 
 				}, 
-				dictDescribe : { 
-					required : icon +"请输入字典描述" 
-				}, 
 				status : { 
-					required : icon + "请输入状态 0:禁用，1:正常" 
+					required : icon + "请输入状态" 
 				}, 
-				createUserId : { 
-					required : icon + "请输入创建用户id" 
-				}, 
-				createTime : { 
-					required : icon + "请输入创建时间" 
-				}, 
-// 				updateTime : { 
-// 					required : icon + "请输入修改时间" 
-// 				}, 
 			} 
 		}) 
 	}

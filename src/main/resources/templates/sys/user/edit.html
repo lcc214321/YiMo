@@ -44,16 +44,16 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label">状态：</label>
 								<div class="col-sm-8">
-									<label class="radio-inline"> <input th:field="*{user.status}" type="radio" name="status" value="1" /> 正常
-									</label> <label class="radio-inline"> <input th:field="*{user.status}" type="radio" name="status" value="0" /> 禁用
+									<label class="radio-inline" th:each="dict:${@dict.getDictData('Status')}"> <input th:field="*{user.status}" type="radio" th:value="${dict.dictNo}"
+										th:text="${dict.dictName}" />
 									</label>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label">性别：</label>
 								<div class="col-sm-8">
-									<label class="radio-inline"> <input th:field="*{user.sex}" type="radio" name="status" value="1" /> 男
-									</label> <label class="radio-inline"> <input th:field="*{user.sex}" type="radio" name="status" value="0" /> 女
+								<label class="radio-inline" th:each="dict:${@dict.getDictData('Sex')}"> <input th:field="*{user.sex}" type="radio" th:value="${dict.dictNo}"
+										th:text="${dict.dictName}" />
 									</label>
 								</div>
 							</div>
@@ -78,71 +78,70 @@
 		</div>
 	</div>
 	<div th:replace="footer :: footer"></div>
-	<script type="text/javascript">
+	<script type="text/javascript" th:inline="javascript">
+	
 		$().ready(function() {
-			validateRule();
-	    	
-		});
+	        validateRule();
+        });
+        function validateRule() {
+	        var icon = "<i class='fa fa-times-circle'></i> ";
+	        $("#editForm").validate({
+	            rules : {
+	                name : {
+		                required : true
+	                },
+	                email : {
+	                    required : true,
+	                    email : true
+	                },
+	            },
+	            messages : {
 
-		function validateRule() {
-			var icon = "<i class='fa fa-times-circle'></i> ";
-			$("#editForm").validate({
-				rules : {
-					name : {
-						required : true
-					},
-					email : {
-						required : true,
-						email : true
-					},
-				},
-				messages : {
-
-					name : {
-						required : icon + "请输入姓名"
-					},
-					email : icon + "请输入您的E-mail",
-				}
-			})
-		}
-		$.validator.setDefaults({
-			submitHandler : function() {
-				$("#roleIds").val(getCheckedRoles());
-				yimo.ajaxPut({
-					url : ctx + "sys/user/update",
-					data : $('#editForm').serialize(),
-					needClose : true,
+	                name : {
+		                required : icon + "请输入姓名"
+	                },
+	                email : icon + "请输入您的E-mail",
+	            }
+	        })
+        }
+        $.validator.setDefaults({
+	        submitHandler : function() {
+		        $("#roleIds").val(getCheckedRoles());
+		        yimo.ajaxPut({
+		            url : ctx + "sys/user/update",
+		            data : $('#editForm').serialize(),
+		            needClose : true,
 		            parentRefresh : true,
-				});
-			}
-		});
+		        });
+	        }
+        });
 
-		function getCheckedRoles() {
-			var adIds = "";
-			$("input:checkbox[name=role]:checked").each(function(i) {
-				if (0 == i) {
-					adIds = $(this).val();
-				} else {
-					adIds += ("," + $(this).val());
-				}
-			});
-			return adIds;
-		}
+        function getCheckedRoles() {
+	        var adIds = "";
+	        $("input:checkbox[name=role]:checked").each(function(i) {
+		        if (0 == i) {
+			        adIds = $(this).val();
+		        } else {
+			        adIds += ("," + $(this).val());
+		        }
+	        });
+	        return adIds;
+        }
 
-		/*用户管理-修改-选择部门树*/
-		function selectDeptTree() {
-			layer.open({
-				type : 2,
-				title : "选择部门",
-				area : [ '300px', '450px' ],
-				content : ctx + "sys/dept/treeView"
-			})
-		}
+        /*用户管理-修改-选择部门树*/
+        function selectDeptTree() {
+	        layer.open({
+	            type : 2,
+	            title : "选择部门",
+	            area : [ '300px', '450px' ],
+	            content : ctx + "sys/dept/treeView"
+	        })
+        }
 
-		function loadDept(deptId, deptName) {
-			$("#deptId").val(deptId);
-			$("#deptName").val(deptName);
-		}
+        function loadDept(deptId, deptName) {
+	        $("#deptId").val(deptId);
+	        $("#deptName").val(deptName);
+        }
 	</script>
 </body>
 </html>

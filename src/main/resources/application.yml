@@ -2,32 +2,23 @@ server:
   port: 80
   servlet: 
     context-path: /YiMo
-
 spring:
+  profiles:
+    active: dev #使用开发环境配置
+  #数据源配置    
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver     #驱动
+    type: com.alibaba.druid.pool.DruidDataSource
+  #thymeleaf配置
   thymeleaf:
     check-template-location: true
-    cache: false
+    cache: true
     prefix: classpath:/templates/
     suffix: .html
     encoding: UTF-8
     servlet: 
       content-type: text/html
-    mode: HTML     
-# 添加热部署 自动编译       
-  devtools: 
-    restart: 
-      enabled: true  
-      additional-paths: src/main/java 
-  
-  #数据源配置    
-  datasource:
-    url: jdbc:mysql://localhost:3306/YiMo?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&serverTimezone=UTC
-    username: root
-    password: 
-    driverClassName: com.mysql.jdbc.Driver     #驱动
-    type: com.alibaba.druid.pool.DruidDataSource
-    # 下面为连接池的补充设置，应用到上面所有数据源中
-    
+    mode: HTML  
   #quartz配置
   quartz:
     properties:
@@ -56,6 +47,7 @@ mybatis:
     typeAliasesPackage: top.yimo
     configuration:
       mapUnderscoreToCamelCase: true #开启驼峰命名自动转换
+      cache-enabled: true  #开启二级缓存
       interceptions: top.yimo.common.interceptor.PageInterceptor #配置自定义myBatis拦截器
  
  #日志配置

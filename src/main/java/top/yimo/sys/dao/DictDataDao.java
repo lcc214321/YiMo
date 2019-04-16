@@ -36,4 +36,6 @@ public interface DictDataDao {
 	int batchRemove(String[] dictTypes);
 	
 	int batchRemoveByNo(String dictType, String[] dictNos);
+
+	List<DictDataDO> getAllActiveDictData(String dictType);
 }
