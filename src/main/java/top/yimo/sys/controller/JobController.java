@@ -75,9 +75,10 @@ public class JobController extends BaseController {
 	@ResponseBody
 	@PostMapping("/save")
 	@RequiresPermissions("sys:job:add")
-	@Log(describe = "新增", title = title, operatorType = OperatorType.DELETE)
+	@Log(describe = "新增", title = title, operatorType = OperatorType.INSERT)
 	public ResponseVo save(JobDO job) {
 		beforeSave(job);
+		job.setStatus("0");// 默认不执行
 		if (jobService.save(job) > 0) {
 			return ResponseVo.ok("保存成功");
 		}
@@ -87,9 +88,10 @@ public class JobController extends BaseController {
 	@ResponseBody
 	@PutMapping("/update")
 	@RequiresPermissions("sys:job:edit")
-	@Log(describe = "更新", title = title, operatorType = OperatorType.DELETE)
+	@Log(describe = "更新", title = title, operatorType = OperatorType.UPDATE)
 	public ResponseVo update(JobDO job) {
 		beforeUpdate(job);
+		job.setUpdateUserId(getUserId());
 		if (jobService.update(job) > 0) {
 			return ResponseVo.ok("更新成功");
 		}

@@ -39,6 +39,8 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	public int save(JobDO job) {
+		System.out.println(job.toString());
+
 		quartzManager.save(job);
 		return jobDao.save(job);
 	}

@@ -49,20 +49,16 @@
 		    function connect() {
 		        var sock = new SockJS(ctx+"/websocket");
 		        var stomp = Stomp.over(sock);
-		        console.log("进入sock连接");
+// 		        console.log("进入sock连接");
 		        stomp.connect('guest', 'guest', function(frame) {
-		            /**  订阅了/user/queue/notifications 发送的消息,这里雨在控制器的 convertAndSendToUser 定义的地址保持一致, 
-		             *  这里多用了一个/user,并且这个user 是必须的,使用user 才会发送消息到指定的用户。 
-		             *  */
-				stomp.subscribe("/topic/ReceiveTest", handleNotification);
-				stomp.send("/queue/sendTest",{},'发送消息文本内容');
+// 				stomp.subscribe("/topic/ReceiveTest", handleNotification);
+// 				stomp.send("/queue/sendTest",{},'发送消息文本内容');
 		        
 				stomp.subscribe("/topic/webSocketMessageJob", handleNotification);
 
 				
 				function handleNotification(message) {
 					var m = JSON.parse(message.body);
-					console.log(m);
 		            toastr.info(m.msg);
 		        }
 		    });
