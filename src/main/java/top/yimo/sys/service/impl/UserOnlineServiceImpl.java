@@ -86,7 +86,6 @@ public class UserOnlineServiceImpl implements UserOnlineService {
 					isNot = true;
 				}
 			} catch (UnknownSessionException e) {
-				// TODO: handle exception
 				isNot = true;
 			}
 			if (isNot) {// 用户不存在session
