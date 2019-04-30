@@ -3,11 +3,15 @@ package top.yimo.sys.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -63,7 +67,7 @@ public class UserController extends BaseController {
 	@Log(describe = "获取用户列表", title = "用户管理", operatorType = OperatorType.QUERY)
 	public PageVo listByPage(@RequestParam Map<String, Object> params) {
 		long deptId = 1;
-		if (params.get("deptId") != null &&   params.get("deptId").toString()!=null && StringUtils.isNotBlank(params.get("deptId").toString())) {
+		if (params.get("deptId") != null && params.get("deptId").toString() != null && StringUtils.isNotBlank(params.get("deptId").toString())) {
 			deptId = Long.valueOf(params.get("deptId").toString());
 		}
 		List<Long> allSubDeptIds = deptService.getAllSubDeptIds(deptId);
@@ -102,7 +106,16 @@ public class UserController extends BaseController {
 	@ResponseBody
 	@PostMapping("/save")
 	@RequiresPermissions("sys:user:add")
-	public ResponseVo save(UserDO user) {
+	public ResponseVo save(@Valid UserDO user, BindingResult result) {
+		if (result.hasErrors()) {
+			StringBuffer sb = new StringBuffer();
+			List<ObjectError> allErrors = result.getAllErrors();
+			for (ObjectError objectError : allErrors) {
+				String defaultMessage = objectError.getDefaultMessage();
+				sb.append(defaultMessage).append(",");
+			}
+			return ResponseVo.fail(sb.toString());
+		}
 		beforeSave(user);
 		user.setStatus(1);// 新增用户默认有效
 		if (userService.save(user) > 0) {
@@ -116,7 +129,12 @@ public class UserController extends BaseController {
 	@ResponseBody
 	@PutMapping("/update")
 	@RequiresPermissions("sys:user:edit")
-	public ResponseVo update(UserDO user) {
+	public ResponseVo update(@Valid UserDO user, BindingResult result) {
+		if (result.hasErrors()) {
+
+			return ResponseVo.fail(result.getAllErrors().toString());
+		}
+
 		beforeUpdate(user);
 		if (userService.update(user) > 0) {
 			return ResponseVo.ok("更新成功");

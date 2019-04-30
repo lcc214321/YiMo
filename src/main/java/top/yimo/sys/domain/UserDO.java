@@ -2,6 +2,9 @@ package top.yimo.sys.domain;
 
 import java.util.List;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import top.yimo.common.domain.BaseDO;
@@ -23,8 +26,10 @@ public class UserDO extends BaseDO {
 	//
 	private Long userId;
 	// 用户名
+	@NotBlank(message = "用户名不能为空")
 	private String userName;
 	// 昵称
+	@NotBlank(message = "昵称不能为空")
 	private String name;
 	// 密码
 	private String password;
@@ -33,8 +38,11 @@ public class UserDO extends BaseDO {
 	// 部门Name
 	private String deptName;
 	// 邮箱
+	@NotBlank(message = "邮箱不能为空")
+	@Email
 	private String email;
 	// 手机号
+	@NotBlank(message = "手机号不能为空")
 	private String mobile;
 	// 状态 0:禁用，1:正常
 	private Integer status;

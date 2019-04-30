@@ -15,7 +15,7 @@
 * 持久层框架：MyBatis
 * 连接池：Druid 
 * 数据库：MySQL
-* 工具类：commons-lang3 | commons-configuration | fastjson | UserAgentUtils | lombok | JsoupUtil
+* 工具类：commons-lang3 | commons-configuration | fastjson | UserAgentUtils | lombok | JsoupUtil | Swagger
 
 ## 开发环境
 Windows | Spring Tool Suite  | SunJDK | Maven  | Git | MySQL | DBeaver | lombok
