@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import top.yimo.common.annotation.Log;
 import top.yimo.common.controller.BaseController;
 import top.yimo.common.enums.OperatorType;
-import top.yimo.common.model.vo.PageVo;
+import top.yimo.common.model.vo.BootstrapTablePageVo;
 import top.yimo.common.model.vo.ResponseVo;
 import top.yimo.sys.domain.DictDataDO;
 import top.yimo.sys.service.DictDataService;
@@ -51,11 +51,11 @@ public class DictDataController extends BaseController {
 	@GetMapping("/list/{dictType}")
 	@RequiresPermissions("sys:dictData:dictData")
 	@Log(describe = "获取数据字典数据表列表", title = "数据字典数据表", operatorType = OperatorType.QUERY)
-	public PageVo listByPage(@RequestParam Map<String, Object> params, @PathVariable("dictType") String dictType) {
+	public BootstrapTablePageVo listByPage(@RequestParam Map<String, Object> params, @PathVariable("dictType") String dictType) {
 		params.put("dictType", dictType);
+		startPage(params);
 		List<DictDataDO> dictDataList = dictDataService.listByPage(params);
-		int total = dictDataService.count(params);
-		return getPageData(dictDataList, total);
+		return getPageData(dictDataList);
 	}
 
 	@GetMapping("/add/{dictType}")

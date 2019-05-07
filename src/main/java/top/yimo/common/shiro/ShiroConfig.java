@@ -112,7 +112,7 @@ public class ShiroConfig {
 		// 使用加密
 		userRealm.setCredentialsMatcher(hashedCredentialsMatcher());
 		// 使用ehcache
-		// userRealm.setCacheManager(ehCacheManager());
+		 userRealm.setCacheManager(ehCacheManager());
 		return userRealm;
 	}
 

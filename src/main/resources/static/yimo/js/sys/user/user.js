@@ -15,7 +15,7 @@ function load() {
 	    queryParamsType : "limit",
 	    // //设置为limit则会发送符合RESTFull格式的参数
 	    singleSelect : false, // 设置为true将禁止多选
-	    // contentType : "application/x-www-form-urlencoded",
+	    contentType : "application/x-www-form-urlencoded",
 	    // //发送到服务器的数据编码类型
 	    // pageSize : 5, // 如果设置了分页，每页数据条数
 	    // pageNumber : 1, // 如果设置了分布，首页页码
@@ -27,18 +27,21 @@ function load() {
 		    return {
 		        // 说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
 		        limit : params.limit,
-		        offset : params.offset
+		        offset : params.offset,
+		        sort : params.sort,
+		        order : params.order
 		    };
 	    },
 	    columns : [ {
 		    checkbox : true
 	    }, {
 	        field : 'userName',
-	        title : '用户名'
+	        title : '用户名',
+	        sortable : true
 	    }, {
 	        field : 'name',
 	        title : '昵称'
-	    },{
+	    }, {
 	        field : 'mobile',
 	        title : '手机号'
 	    }, {
@@ -46,8 +49,8 @@ function load() {
 	        title : '状态',
 	        align : 'center',
 	        formatter : function(value, row, index) {
-	        	var dictData =	yimo.getDictData('Status',value);
-	        	return '<span class="label '+dictData.dictDescribe+'">'+dictData.dictName+'</span>';
+		        var dictData = yimo.getDictData('Status', value);
+		        return '<span class="label ' + dictData.dictDescribe + '">' + dictData.dictName + '</span>';
 	        }
 	    }, {
 	        title : '操作',
@@ -65,8 +68,8 @@ function load() {
 // 获取选中的节点
 function getSelectNodeId() {
 	var treeNode = $('#jstree').jstree(true).get_selected(true)[0]; // 获取所有选中的节点对象
-	var deptId = "";//默认展示所有
-	if(treeNode){
+	var deptId = "";// 默认展示所有
+	if (treeNode) {
 		deptId = treeNode.id;
 	}
 	return deptId;

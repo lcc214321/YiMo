@@ -3,6 +3,9 @@ package top.yimo.common.quartz.job;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
+import lombok.extern.slf4j.Slf4j;
 import top.yimo.common.model.vo.WebLogVo;
 import top.yimo.common.util.DateUtils;
 /**
@@ -21,6 +25,7 @@ import top.yimo.common.util.DateUtils;
  * @version 1.0
  * @Time 2019年4月16日 上午10:29:03
  */
+@Slf4j
 public class WebLogJob extends QuartzJobBean {
 	@Autowired
 	SimpMessagingTemplate message;

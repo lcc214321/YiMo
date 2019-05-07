@@ -15,12 +15,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import top.yimo.common.annotation.Log;
 import top.yimo.common.util.DateUtils;
 import top.yimo.common.util.ShiroUtils;
+import top.yimo.common.util.WebUtils;
 import top.yimo.sys.domain.LogDO;
 import top.yimo.sys.domain.UserDO;
 import top.yimo.sys.service.LogService;
@@ -64,8 +63,7 @@ public class LogAspect {
 		LogDO log = new LogDO();
 		log.setTime(time);
 		// 接收到请求，记录请求内容
-		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-		HttpServletRequest request = attributes.getRequest();
+		HttpServletRequest request = WebUtils.getHttpServletRequest();
 
 		MethodSignature signature = (MethodSignature) joinPoint.getSignature();
 		Method method = signature.getMethod();

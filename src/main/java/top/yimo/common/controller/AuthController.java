@@ -45,7 +45,7 @@ public class AuthController extends BaseController {
 	@Autowired
 	UserOnlineService userOnlineService;
 
-	@GetMapping(value = "login")
+	@RequestMapping(value = "login")
 	public String login() {
 		return "login";
 	}
@@ -69,7 +69,7 @@ public class AuthController extends BaseController {
 		return ResponseVo.ok();
 	}
 
-	@GetMapping(value = {"", "/index"})
+	@RequestMapping(value = {"", "/index"})
 	public String index(Model model) {
 		// 加载登陆用户信息
 		UserDO currUser = getSysUser();

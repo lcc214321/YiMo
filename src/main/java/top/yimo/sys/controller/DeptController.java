@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import top.yimo.common.annotation.Log;
 import top.yimo.common.controller.BaseController;
 import top.yimo.common.enums.OperatorType;
-import top.yimo.common.model.vo.PageVo;
+import top.yimo.common.model.vo.BootstrapTablePageVo;
 import top.yimo.common.model.vo.ResponseVo;
 import top.yimo.common.model.vo.TreeVo;
 import top.yimo.sys.domain.DeptDO;
@@ -52,10 +52,10 @@ public class DeptController extends BaseController {
 	@GetMapping("/listByPage")
 	@RequiresPermissions("sys:dept:dept")
 	@Log(describe = "获取部门管理列表", title = "部门管理", operatorType = OperatorType.QUERY)
-	public PageVo listByPage(@RequestParam Map<String, Object> params) {
+	public BootstrapTablePageVo listByPage(@RequestParam Map<String, Object> params) {
+		startPage(params);
 		List<DeptDO> deptList = deptService.listByPage(params);
-		int total = deptService.count(params);
-		return getPageData(deptList, total);
+		return getPageData(deptList);
 	}
 
 	@ResponseBody

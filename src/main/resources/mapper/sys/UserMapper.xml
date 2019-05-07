@@ -65,14 +65,14 @@
 		<include refid="tableName" />
 		where 1 = 1
 		<include refid="Base_Search_Param" />
-		<choose>
-			<when test="sort != null and sort.trim() != ''">
-				order by ${sort} ${order}
-			</when>
-			<otherwise>
-				order by user_id
-			</otherwise>
-		</choose>
+<!-- 		<choose> -->
+<!-- 			<when test="sort != null and sort.trim() != ''"> -->
+<!-- 				order by ${sort} ${order} -->
+<!-- 			</when> -->
+<!-- 			<otherwise> -->
+<!-- 				order by user_id -->
+<!-- 			</otherwise> -->
+<!-- 		</choose> -->
 	</select>
 
 	<select id="count" resultType="int">

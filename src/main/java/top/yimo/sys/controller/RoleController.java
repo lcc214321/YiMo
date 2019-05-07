@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import top.yimo.common.annotation.Log;
 import top.yimo.common.controller.BaseController;
 import top.yimo.common.enums.OperatorType;
-import top.yimo.common.model.vo.PageVo;
+import top.yimo.common.model.vo.BootstrapTablePageVo;
 import top.yimo.common.model.vo.ResponseVo;
 import top.yimo.sys.domain.RoleDO;
 import top.yimo.sys.service.RoleService;
@@ -50,10 +50,10 @@ public class RoleController extends BaseController {
 	@GetMapping("/list")
 	@RequiresPermissions("sys:role:role")
 	@Log(describe = "获取角色 列表", title = "角色", operatorType = OperatorType.QUERY)
-	public PageVo listByPage(@RequestParam Map<String, Object> params) {
+	public BootstrapTablePageVo listByPage(@RequestParam Map<String, Object> params) {
+		startPage(params);
 		List<RoleDO> roleList = roleService.listByPage(params);
-		int total = roleService.count(params);
-		return getPageData(roleList, total);
+		return getPageData(roleList);
 	}
 
 	@GetMapping("/add")

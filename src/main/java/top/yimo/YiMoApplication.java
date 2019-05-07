@@ -7,12 +7,9 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-@SpringBootApplication
+@SpringBootApplication()
 @EnableCaching
 @EnableScheduling
-@EnableSwagger2
 @MapperScan("top.yimo.*.dao")
 @EnableTransactionManagement // 开启事务控制
 public class YiMoApplication {

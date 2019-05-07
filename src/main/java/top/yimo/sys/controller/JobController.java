@@ -20,7 +20,7 @@ import top.yimo.common.annotation.Log;
 import top.yimo.common.constant.WebConstant;
 import top.yimo.common.controller.BaseController;
 import top.yimo.common.enums.OperatorType;
-import top.yimo.common.model.vo.PageVo;
+import top.yimo.common.model.vo.BootstrapTablePageVo;
 import top.yimo.common.model.vo.ResponseVo;
 import top.yimo.sys.domain.JobDO;
 import top.yimo.sys.service.JobService;
@@ -52,10 +52,10 @@ public class JobController extends BaseController {
 	@GetMapping("/list")
 	@RequiresPermissions("sys:job:job")
 	@Log(describe = "获取" + title, title = title, operatorType = OperatorType.QUERY)
-	public PageVo listByPage(@RequestParam Map<String, Object> params) {
+	public BootstrapTablePageVo listByPage(@RequestParam Map<String, Object> params) {
+		startPage(params);
 		List<JobDO> jobList = jobService.listByPage(params);
-		int total = jobService.count(params);
-		return getPageData(jobList, total);
+		return getPageData(jobList);
 	}
 
 	@GetMapping("/add")

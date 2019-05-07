@@ -3,15 +3,13 @@ package top.yimo.sys.controller;
 import java.util.List;
 import java.util.Map;
 
-import javax.validation.Valid;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
+
 import top.yimo.common.annotation.Log;
 import top.yimo.common.controller.BaseController;
 import top.yimo.common.enums.OperatorType;
-import top.yimo.common.model.vo.PageVo;
+import top.yimo.common.model.vo.BootstrapTablePageVo;
 import top.yimo.common.model.vo.ResponseVo;
 import top.yimo.sys.domain.DeptDO;
 import top.yimo.sys.domain.RoleDO;
@@ -65,17 +65,17 @@ public class UserController extends BaseController {
 	@GetMapping("/list")
 	@RequiresPermissions("sys:user:user")
 	@Log(describe = "获取用户列表", title = "用户管理", operatorType = OperatorType.QUERY)
-	public PageVo listByPage(@RequestParam Map<String, Object> params) {
+	public BootstrapTablePageVo listByPage(@RequestParam Map<String, Object> params) {
 		long deptId = 1;
-		if (params.get("deptId") != null && params.get("deptId").toString() != null && StringUtils.isNotBlank(params.get("deptId").toString())) {
+		if (params.get("deptId") != null &&   params.get("deptId").toString()!=null && StringUtils.isNotBlank(params.get("deptId").toString())) {
 			deptId = Long.valueOf(params.get("deptId").toString());
 		}
 		List<Long> allSubDeptIds = deptService.getAllSubDeptIds(deptId);
 		params.put("deptIds", allSubDeptIds);
-
+		System.out.println("哈哈哈"+JSONObject.toJSONString(params));
+		startPage(params);
 		List<UserDO> userList = userService.listByPage(params);
-		int total = userService.count(params);
-		return getPageData(userList, total);
+		return getPageData(userList);
 	}
 
 	@GetMapping("/add")
@@ -106,16 +106,7 @@ public class UserController extends BaseController {
 	@ResponseBody
 	@PostMapping("/save")
 	@RequiresPermissions("sys:user:add")
-	public ResponseVo save(@Valid UserDO user, BindingResult result) {
-		if (result.hasErrors()) {
-			StringBuffer sb = new StringBuffer();
-			List<ObjectError> allErrors = result.getAllErrors();
-			for (ObjectError objectError : allErrors) {
-				String defaultMessage = objectError.getDefaultMessage();
-				sb.append(defaultMessage).append(",");
-			}
-			return ResponseVo.fail(sb.toString());
-		}
+	public ResponseVo save(UserDO user) {
 		beforeSave(user);
 		user.setStatus(1);// 新增用户默认有效
 		if (userService.save(user) > 0) {
@@ -129,12 +120,7 @@ public class UserController extends BaseController {
 	@ResponseBody
 	@PutMapping("/update")
 	@RequiresPermissions("sys:user:edit")
-	public ResponseVo update(@Valid UserDO user, BindingResult result) {
-		if (result.hasErrors()) {
-
-			return ResponseVo.fail(result.getAllErrors().toString());
-		}
-
+	public ResponseVo update(UserDO user) {
 		beforeUpdate(user);
 		if (userService.update(user) > 0) {
 			return ResponseVo.ok("更新成功");

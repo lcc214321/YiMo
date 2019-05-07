@@ -8,6 +8,7 @@ import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import lombok.extern.slf4j.Slf4j;
 import top.yimo.common.constant.WebConstant;
 import top.yimo.common.util.DateUtils;
 import top.yimo.common.util.SpringUtil;

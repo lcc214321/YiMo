@@ -48,7 +48,7 @@ mybatis:
     configuration:
       mapUnderscoreToCamelCase: true #开启驼峰命名自动转换
       cache-enabled: true  #开启二级缓存
-      interceptions: top.yimo.common.interceptor.PageInterceptor #配置自定义myBatis拦截器
+    #  interceptions: top.yimo.common.interceptor.PageInterceptor #配置自定义myBatis拦截器
  
  #日志配置
 logging:
@@ -58,16 +58,12 @@ logging:
     root: info
     top.yimo: debug
     
-#actuator端口 
-#management: 
-#  server: 
-#    port: 9001
-#  endpoints:    
-#    web:  
-#      base-path:  /actuator #修改访问路径  2.0之前默认是/   2.0默认是 /actuator  可以通过这个属性值修改
-#  endpoint: #显示健康具体信息  默认不会显示详细信息  
-#    health:
-#     show-details: always
+ #pageHelper配置   
+pagehelper:
+    helperDialect: mysql
+    reasonable: true  #合理化参数，设为true时pageNum<=0 时会查第一页， pageNum>pages（超过总数时），会查询最后一页
+    supportMethodsArguments: true
+    params: count=countSql
      
 shiro: 
   session:

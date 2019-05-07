@@ -16,7 +16,7 @@ import top.yimo.common.annotation.Log;
 import top.yimo.common.constant.WebConstant;
 import top.yimo.common.controller.BaseController;
 import top.yimo.common.enums.OperatorType;
-import top.yimo.common.model.vo.PageVo;
+import top.yimo.common.model.vo.BootstrapTablePageVo;
 import top.yimo.common.model.vo.ResponseVo;
 import top.yimo.common.util.ShiroUtils;
 import top.yimo.sys.domain.UserOnlineDO;
@@ -49,10 +49,10 @@ public class UserOnlineController extends BaseController {
 	@GetMapping("/list")
 	@RequiresPermissions("sys:userOnline:userOnline")
 	@Log(describe = "获取" + title, title = title, operatorType = OperatorType.QUERY)
-	public PageVo listByPage(@RequestParam Map<String, Object> params) {
+	public BootstrapTablePageVo listByPage(@RequestParam Map<String, Object> params) {
+		startPage(params);
 		List<UserOnlineDO> userOnlineList = userOnlineService.listByPage(params);
-		int total = userOnlineService.count(params);
-		return getPageData(userOnlineList, total);
+		return getPageData(userOnlineList);
 	}
 
 	/**

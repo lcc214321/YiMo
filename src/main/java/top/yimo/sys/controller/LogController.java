@@ -3,6 +3,8 @@ package top.yimo.sys.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
+
 import top.yimo.common.controller.BaseController;
-import top.yimo.common.model.vo.PageVo;
+import top.yimo.common.model.vo.BootstrapTablePageVo;
 import top.yimo.common.model.vo.ResponseVo;
 import top.yimo.sys.domain.LogDO;
 import top.yimo.sys.service.LogService;
@@ -47,10 +51,12 @@ public class LogController extends BaseController {
 	@ResponseBody
 	@GetMapping("/list")
 	@RequiresPermissions("sys:log:log")
-	public PageVo listByPage(@RequestParam Map<String, Object> params) {
+	public BootstrapTablePageVo listByPage(@RequestParam Map<String, Object> params) {
+		startPage(params);
+		System.out.println("哈哈哈"+JSONObject.toJSONString(params));
+		
 		List<LogDO> logList = logService.listByPage(params);
-		int total = logService.count(params);
-		return getPageData(logList, total);
+		return getPageData(logList);
 	}
 
 	@GetMapping("/add")
