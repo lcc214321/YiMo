@@ -77,16 +77,18 @@
 		                showRefresh : options.showRefresh || true,// 是否显示刷新按钮
 		                cache : false,// 是否使用缓存
 		                showToggle : options.showToggle || true, // 是否显示详细视图和列表视图的切换按钮
-		                // showExport: options.showExport|| true, // 是否支持导出文件
+		                showExport: options.showExport|| true, // 是否支持导出文件
 		                showFooter : options.showFooter || false,// 是否显示表尾
 		                search : options.search || false,// 是否显示搜索框
 		                showSearch : options.showSearch || true,// 是否显示检索信息
 		                showColumns : options.showColumns || true,// 是否显示内容下拉框（选择显示的列）
-		                iconSize : options.iconSize || 'outline',// 图标大小：undefined默认的按钮尺寸
-																	// xs超小按钮sm小按钮lg大按钮
+//		                showFullscreen : options.showFullscreen || true,// 全屏显示
+		                
+		                iconSize : options.iconSize || 'outline',// 图标大小：undefined默认的按钮尺寸															// xs超小按钮sm小按钮lg大按钮
 		                toolbar : options.toolbar || '#toolbar', // 指定工作栏
 		                striped : options.striped || true,// 设置为true会有隔行变色效果
 		                sortable : options.sortable || true, // 是否启用排序
+		                sortStable: true, 
 		                sortOrder : options.sortOrder || 'desc', // 排序方式 asc
 																	// 或者 desc
 		                dataType : options.dataType || "json",// 服务器返回的数据类型

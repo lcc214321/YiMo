@@ -5,21 +5,21 @@
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="col-sm-3">
 			<div class="ibox ibox-body">
-					<div id="jstree"></div>
+				<div id="jstree"></div>
 			</div>
 		</div>
 		<div class="col-sm-9">
 			<div class="ibox">
-				<div class="ibox-body">
+				<div class="search-collapse">
 					<form id="search-form">
-						<input type="hidden" id="deptId" name="deptId"> 
+						<input type="hidden" id="deptId" name="deptId">
 						<div class="search-list">
 							<ul>
-								<li>用户名：<input type="text" name="userName"  id ="userName"/>
+								<li>用户名：<input type="text" name="userName" id="userName" />
 								</li>
-<!-- 								<li>手机号码：<input type="text" name="mobile"  id="mobile"/> -->
-<!-- 								</li> -->
-								<li>状&nbsp;&nbsp;&nbsp;&nbsp;态：<select name="status"  id="status" th:with="type=${@dict.getDictData('Status')}">
+								<li>手机号码：<input type="text" name="mobile" id="mobile" />
+								</li>
+								<li>状态：<select name="status" id="status" th:with="type=${@dict.getDictData('Status')}">
 										<option value="">所有</option>
 										<option th:each="dict : ${type}" th:text="${dict.dictName}" th:value="${dict.dictNo}"></option>
 								</select>
@@ -30,39 +30,34 @@
 						</div>
 					</form>
 				</div>
-
-
-				<div class="ibox-body">
-					<div class="fixed-table-toolbar" id="BSTable-Toolbar">
-						<div class="columns pull-left">
-							<button shiro:hasPermission="sys:user:add" type="button" class="btn  btn-rounded  btn-primary" onclick="add()">
-								<i class="fa fa-plus" aria-hidden="true"></i>
-								添加
-							</button>
-							<button shiro:hasPermission="sys:user:batchRemove" type="button" class="btn  btn-rounded btn-danger" onclick="batchRemove()">
-								<i class="fa fa-trash" aria-hidden="true"></i>
-								批量删除
-							</button>
-						</div>
-						<!-- 						<div class="columns pull-right"> -->
-						<!-- 							<button class="btn btn-success" onclick="refresh()">刷新</button> -->
-						<!-- 						</div> -->
+			</div>
+			<div class="ibox">
+				<div class="fixed-table-toolbar" id="BSTable-Toolbar">
+					<div class="columns pull-left">
+						<button shiro:hasPermission="sys:user:add" type="button" class="btn  btn-rounded  btn-primary "  >
+							<i class="fa fa-plus" aria-hidden="true"></i> 添加
+						</button>
+						<button shiro:hasPermission="sys:user:batchRemove" type="button" class="btn  btn-rounded btn-danger" onclick="batchRemove()">
+							<i class="fa fa-trash" aria-hidden="true"></i> 批量删除
+						</button>
 					</div>
-					<table id="bootstrap-table" data-mobile-responsive="true">
-					</table>
+					<!-- 						<div class="columns pull-right"> -->
+					<!-- 							<button class="btn btn-success" onclick="refresh()">刷新</button> -->
+					<!-- 						</div> -->
 				</div>
+				<table id="bootstrap-table" data-mobile-responsive="true">
+				</table>
 			</div>
 		</div>
 	</div>
-
 	<div th:replace="footer :: footer"></div>
 	<script type="text/javascript" th:inline="javascript">
 	var s_edit_h = [[${@permission.hasPermi('sys:user:edit')}]];
 	var s_remove_h = [[${@permission.hasPermi('sys:user:remove')}]];
 	var s_resetPwd_h = [[${@permission.hasPermi('sys:user:resetPwd')}]];
 	$().ready(function() {
-		load();
 		getTreeData();
+		load();
 	});
 	</script>
 	<script type="text/javascript" th:src="@{/yimo/js/sys/user/user.js}"></script>
