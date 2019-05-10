@@ -124,6 +124,7 @@
           paginationSwitchDown: 'glyphicon-collapse-down icon-chevron-down',
           paginationSwitchUp: 'glyphicon-collapse-up icon-chevron-up',
           refresh: 'glyphicon-refresh icon-refresh',
+          search: 'glyphicon-search icon-search',
           toggleOff: 'glyphicon-list-alt icon-list-alt',
           toggleOn: 'glyphicon-list-alt icon-list-alt',
           columns: 'glyphicon-th icon-th',
@@ -1307,6 +1308,7 @@
               this.options.sortOrder = this.columns[this.fieldsColumnsIndex[$this.data('field')]].order;
             }
           }
+          
           this.trigger('sort', this.options.sortName, this.options.sortOrder);
 
           $this.add($this_).data('order', this.options.sortOrder);
@@ -1354,6 +1356,11 @@
             html.push('<button class="' + this.constants.buttonsClass + '" type="button" name="paginationSwitch"\n          aria-label="Pagination Switch" title="' + o.formatPaginationSwitch() + '">\n          ' + Utils.sprintf(this.constants.html.icon, o.iconsPrefix, o.icons.paginationSwitchDown) + '\n          </button>');
           }
 
+         	/*增加搜索查询按钮*/
+        	if (o.showSearch) {
+            html.push('<button class="' + this.constants.buttonsClass + '" type="button" name="search"\n          aria-label="showSearch" title="' + o.formatSearch() + '">\n          ' + Utils.sprintf(this.constants.html.icon, o.iconsPrefix, o.icons.search) + '\n          </button>');
+      		}
+          
           if (o.showRefresh) {
             html.push('<button class="' + this.constants.buttonsClass + '" type="button" name="refresh"\n          aria-label="Refresh" title="' + o.formatRefresh() + '">\n          ' + Utils.sprintf(this.constants.html.icon, o.iconsPrefix, o.icons.refresh) + '\n          </button>');
           }
@@ -1410,6 +1417,13 @@
           if (o.showRefresh) {
             this.$toolbar.find('button[name="refresh"]').off('click').on('click', function () {
               return _this4.refresh();
+            });
+          }
+          
+          /*增加搜索查询点击响应*/
+          if (o.showSearch) {
+            this.$toolbar.find('button[name="search"]').off('click').on('click', function () {
+              $(".search-collapse").slideToggle();
             });
           }
 
