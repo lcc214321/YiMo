@@ -1,37 +1,9 @@
 var prefix = ctx + "sys/user"
 
 function load() {
-	$('#userTable').bootstrapTable({
-	    method : 'get', // 服务器数据的请求方式 get or post
-	    url : prefix + "/list", // 服务器数据的加载地址
-	    // showRefresh : true,
-	    // showToggle : true,
-	    // showColumns : true,
-	    iconSize : 'outline',
-	    toolbar : '#exampleToolbar',
-	    striped : true, // 设置为true会有隔行变色效果
-	    dataType : "json", // 服务器返回的数据类型
-	    pagination : true, // 设置为true会在底部显示分页条
-	    queryParamsType : "limit",
-	    // //设置为limit则会发送符合RESTFull格式的参数
-	    singleSelect : false, // 设置为true将禁止多选
-	    contentType : "application/x-www-form-urlencoded",
-	    // //发送到服务器的数据编码类型
-	    // pageSize : 5, // 如果设置了分页，每页数据条数
-	    // pageNumber : 1, // 如果设置了分布，首页页码
-	    search : false, // 是否显示搜索框
-	    showColumns : false, // 是否显示内容下拉框（选择显示的列）
-	    sidePagination : "server", // 设置在哪里进行分页，可选值为"client" 或者
-	    // "server"
-	    queryParams : function(params) {
-		    return {
-		        // 说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
-		        limit : params.limit,
-		        offset : params.offset,
-		        sort : params.sort,
-		        order : params.order
-		    };
-	    },
+	var options = {
+		tableId:	'userTable',
+		url:prefix+"/list",
 	    columns : [ {
 		    checkbox : true
 	    }, {
@@ -40,7 +12,8 @@ function load() {
 	        sortable : true
 	    }, {
 	        field : 'name',
-	        title : '昵称'
+	        title : '昵称',
+	        sortable : true
 	    }, {
 	        field : 'mobile',
 	        title : '手机号'
@@ -55,7 +28,6 @@ function load() {
 	    }, {
 	        title : '操作',
 	        field : 'id',
-	        align : 'center',
 	        formatter : function(value, row, index) {
 		        var e = '<a class="btn btn-primary btn-sm ' + s_edit_h + '" href="#" mce_href="#" title="编辑" onclick="edit(\'' + row.userId + '\')"><i class="fa fa-edit"></i></a> ';
 		        var d = '<a class="btn btn-warning btn-sm ' + s_remove_h + '" href="#" title="删除"  mce_href="#" onclick="remove(\'' + row.userId + '\')"><i class="fa fa-remove"></i></a> ';
@@ -63,26 +35,8 @@ function load() {
 		        return e + d + f;
 	        }
 	    } ]
-	});
-}
-// 获取选中的节点
-function getSelectNodeId() {
-	var treeNode = $('#jstree').jstree(true).get_selected(true)[0]; // 获取所有选中的节点对象
-	var deptId = "";// 默认展示所有
-	if (treeNode) {
-		deptId = treeNode.id;
 	}
-	return deptId;
-}
-// 刷新表格
-function refresh() {
-	var _deptId = getSelectNodeId();
-	opt = {
-		query : {
-			deptId : _deptId,
-		}
-	}
-	$('#userTable').bootstrapTable('refresh', opt);
+	YiMo.BSTable.load(options);
 }
 
 function add() {
@@ -111,7 +65,7 @@ function remove(id) {
 		btn : [ '确定', '取消' ]
 	}, function(index) {
 		layer.close(index);
-		yimo.ajaxDelete({
+		YiMo.ajaxDelete({
 		    url : prefix + "/remove",
 		    data : {
 			    'userId' : id
@@ -122,14 +76,14 @@ function remove(id) {
 }
 
 function resetPwd(id) {
-	yimo.ajaxPut({
+	YiMo.ajaxPut({
 	    url : prefix + "/resetPwd/" + id,
 	    refresh : true,
 	});
 }
 
 function save() {
-	yimo.ajaxPost({
+	YiMo.ajaxPost({
 	    url : prefix + "/save",
 	    data : $('#userForm').serialize(),
 	});
@@ -151,7 +105,7 @@ function batchRemove() {
 		$.each(rows, function(i, row) {
 			ids[i] = row['userId'];
 		});
-		yimo.ajaxDelete({
+		YiMo.ajaxDelete({
 		    type : 'POST',
 		    data : {
 			    "ids" : ids
@@ -176,10 +130,11 @@ function loadTree(tree) {
 	    'core' : {
 		    'data' : tree
 	    },
-	    "plugins" : [ "search" ]
+//	    "plugins" : [ "search" ]
 	});
 	$('#jstree').jstree().open_all();
 }
 $('#jstree').on("changed.jstree", function(e, data) {
-	refresh();
+	$('#deptId').val(data.node.id);
+	YiMo.BSTable.search();
 });

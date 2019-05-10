@@ -1,10 +1,7 @@
 package top.yimo.common.controller;
 
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -16,8 +13,6 @@ import top.yimo.common.model.vo.BootstrapTablePageVo;
 import top.yimo.common.util.DataConvert;
 import top.yimo.common.util.DateUtils;
 import top.yimo.common.util.ShiroUtils;
-import top.yimo.common.util.SpringUtil;
-import top.yimo.common.util.WebUtils;
 import top.yimo.sys.domain.UserDO;
 
 /**
@@ -42,9 +37,9 @@ public class BaseController {
 			pageNum = offset / pageSize + 1;
 		}
 		String orderBy = "";
-		String sort = DataConvert.camelToUnderScore(params.get("sort"));//转化成下划线
-		if(StringUtils.isNotBlank(sort)) {
-			String order =DataConvert.toString(params.get("order"),"desc");
+		String sort = DataConvert.camelToUnderScore(params.get("sort"));// 转化成下划线
+		if (StringUtils.isNotBlank(sort)) {
+			String order = DataConvert.toString(params.get("order"), "desc");
 			orderBy = sort + " " + order;
 		}
 		PageHelper.startPage(pageNum, pageSize, orderBy);

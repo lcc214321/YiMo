@@ -3,8 +3,6 @@ package top.yimo.sys.controller;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,13 +64,13 @@ public class UserController extends BaseController {
 	@RequiresPermissions("sys:user:user")
 	@Log(describe = "获取用户列表", title = "用户管理", operatorType = OperatorType.QUERY)
 	public BootstrapTablePageVo listByPage(@RequestParam Map<String, Object> params) {
+		System.out.println("哈哈哈" + JSONObject.toJSONString(params));
 		long deptId = 1;
-		if (params.get("deptId") != null &&   params.get("deptId").toString()!=null && StringUtils.isNotBlank(params.get("deptId").toString())) {
+		if (params.get("deptId") != null && params.get("deptId").toString() != null && StringUtils.isNotBlank(params.get("deptId").toString())) {
 			deptId = Long.valueOf(params.get("deptId").toString());
 		}
 		List<Long> allSubDeptIds = deptService.getAllSubDeptIds(deptId);
 		params.put("deptIds", allSubDeptIds);
-		System.out.println("哈哈哈"+JSONObject.toJSONString(params));
 		startPage(params);
 		List<UserDO> userList = userService.listByPage(params);
 		return getPageData(userList);

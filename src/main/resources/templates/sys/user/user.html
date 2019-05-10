@@ -1,44 +1,62 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"  
-xmlns:shiro="http://www.pollix.at/thymeleaf/shiro" th:with="title='用户管理'">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro" th:with="title='用户管理'">
 <header th:replace="header::headerFragment(${title})"></header>
 <body class="gray-bg">
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="col-sm-3">
 			<div class="ibox ibox-body">
-				<div class="ibox-title">
-					<h5>选择部门</h5>
-				</div>
-				<div class="ibox-content">
 					<div id="jstree"></div>
-				</div>
 			</div>
 		</div>
 		<div class="col-sm-9">
 			<div class="ibox">
 				<div class="ibox-body">
-					<div class="fixed-table-toolbar">
+					<form id="search-form">
+						<input type="hidden" id="deptId" name="deptId"> 
+						<div class="search-list">
+							<ul>
+								<li>用户名：<input type="text" name="userName"  id ="userName"/>
+								</li>
+<!-- 								<li>手机号码：<input type="text" name="mobile"  id="mobile"/> -->
+<!-- 								</li> -->
+								<li>状&nbsp;&nbsp;&nbsp;&nbsp;态：<select name="status"  id="status" th:with="type=${@dict.getDictData('Status')}">
+										<option value="">所有</option>
+										<option th:each="dict : ${type}" th:text="${dict.dictName}" th:value="${dict.dictNo}"></option>
+								</select>
+								</li>
+								<li><a class="btn btn-primary btn-rounded btn-sm" onclick="$.YiMo.BSTable.search('search-form')"><i class="fa fa-search"></i>&nbsp;搜索</a> <a
+									class="btn btn-warning btn-rounded btn-sm" onclick="$(#search-form).reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a></li>
+							</ul>
+						</div>
+					</form>
+				</div>
+
+
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar" id="BSTable-Toolbar">
 						<div class="columns pull-left">
-							<button shiro:hasPermission ="sys:user:add" type="button" class="btn  btn-rounded  btn-primary" onclick="add()">
-								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							<button shiro:hasPermission="sys:user:add" type="button" class="btn  btn-rounded  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>
+								添加
 							</button>
-							<button shiro:hasPermission ="sys:user:batchRemove" type="button" class="btn  btn-rounded btn-danger" onclick="batchRemove()">
-								<i class="fa fa-trash" aria-hidden="true"></i>批量删除
+							<button shiro:hasPermission="sys:user:batchRemove" type="button" class="btn  btn-rounded btn-danger" onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>
+								批量删除
 							</button>
 						</div>
-						<div class="columns pull-right">
-							<button class="btn btn-success" onclick="refresh()">刷新</button>
-						</div>
+						<!-- 						<div class="columns pull-right"> -->
+						<!-- 							<button class="btn btn-success" onclick="refresh()">刷新</button> -->
+						<!-- 						</div> -->
 					</div>
-					<table id="userTable" data-mobile-responsive="true">
+					<table id="bootstrap-table" data-mobile-responsive="true">
 					</table>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+
 	<div th:replace="footer :: footer"></div>
-	<script  type="text/javascript" th:inline="javascript">
+	<script type="text/javascript" th:inline="javascript">
 	var s_edit_h = [[${@permission.hasPermi('sys:user:edit')}]];
 	var s_remove_h = [[${@permission.hasPermi('sys:user:remove')}]];
 	var s_resetPwd_h = [[${@permission.hasPermi('sys:user:resetPwd')}]];

@@ -1,6 +1,5 @@
 package top.yimo.common.exception;
 
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -13,7 +12,7 @@ import top.yimo.common.model.vo.ResponseVo;
  * @version 1.0
  * @Time 2019年4月30日 下午4:09:26
  */
-@ControllerAdvice
+// @ControllerAdvice
 public class CommonExceptionHandler {
 	/**
 	*  拦截Exception类的异常

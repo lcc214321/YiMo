@@ -4,10 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 /**
  * 数据转换工具类
  * 
@@ -32,7 +28,7 @@ public class DataConvert {
 	 * @param paramString2
 	 * @return
 	 */
-	public static String toString(Object object,String paramString2) {
+	public static String toString(Object object, String paramString2) {
 		if (object == null) {
 			return paramString2;
 		}
