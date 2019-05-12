@@ -2,9 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro" th:with="title='用户管理'">
 <header th:replace="header::headerFragment(${title})"></header>
 <body class="gray-bg">
-	<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="wrapper wrapper-content animated ">
 		<div class="col-sm-3">
-			<div class="ibox ibox-body">
+			<div class="ibox ">
 				<div id="jstree"></div>
 			</div>
 		</div>
@@ -25,14 +25,14 @@
 								</select>
 								</li>
 								<li><a class="btn btn-primary btn-rounded btn-sm" onclick="$.YiMo.BSTable.search('search-form')"><i class="fa fa-search"></i>&nbsp;搜索</a> <a
-									class="btn btn-warning btn-rounded btn-sm" onclick="$(#search-form).reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a></li>
+									class="btn btn-warning btn-rounded btn-sm" onclick="document.getElementById('search-form').reset();"><i class="fa fa-refresh"></i>&nbsp;重置</a></li>
 							</ul>
 						</div>
 					</form>
 				</div>
 			</div>
 			<div class="ibox">
-				<div class="fixed-table-toolbar" id="BSTable-Toolbar">
+				<div class="fixed-table-toolbar" id="toolbar">
 					<div class="columns pull-left">
 						<button shiro:hasPermission="sys:user:add" type="button" class="btn  btn-rounded  btn-primary "  >
 							<i class="fa fa-plus" aria-hidden="true"></i> 添加
@@ -41,9 +41,6 @@
 							<i class="fa fa-trash" aria-hidden="true"></i> 批量删除
 						</button>
 					</div>
-					<!-- 						<div class="columns pull-right"> -->
-					<!-- 							<button class="btn btn-success" onclick="refresh()">刷新</button> -->
-					<!-- 						</div> -->
 				</div>
 				<table id="bootstrap-table" data-mobile-responsive="true">
 				</table>
