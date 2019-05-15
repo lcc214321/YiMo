@@ -1,9 +1,9 @@
 var prefix = ctx + "sys/role";
 function load() {
+	
 	var options = {
 	    tableId : 'RoleTable',
 	    url : prefix + "/list",
-
 	    columns : [ {
 		    checkbox : true
 	    }, {
@@ -37,7 +37,7 @@ function load() {
 	        }
 	    } ]
 	}
-	yimo.BSTable.load(options);
+	YiMo.BSTable.load(options);
 }
 // 刷新
 function refresh() {

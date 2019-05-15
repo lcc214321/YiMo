@@ -6,8 +6,7 @@
 	<div class="wrapper wrapper-content ">
 		<div class="col-sm-12">
 			<div class="ibox">
-				<div class="ibox-body">
-					<div class="fixed-table-toolbar">
+				<div class="fixed-table-toolbar" id="toolbar">
 						<div class="columns pull-left">
 							<button shiro:hasPermission="sys:role:add" type="button" class="btn btn-rounded btn-primary" onclick="add()">
 								<i class="fa fa-plus" aria-hidden="true"></i>添加
@@ -16,14 +15,10 @@
 								<i class="fa fa-trash" aria-hidden="true"></i>批量删除
 							</button>
 						</div>
-						<div class="columns pull-right">
-							<button class="btn btn-success" onclick="refresh()">刷新</button>
-						</div>
 					</div>
-					<table id="RoleTable" data-mobile-responsive="true">
+					<table id="bootstrap-table" data-mobile-responsive="true">
 					</table>
 				</div>
-			</div>
 		</div>
 	</div>
 	<div th:replace="footer :: footer"></div>

@@ -10,68 +10,68 @@ package top.yimo.common.enums;
 
 public enum OperatorType {
 	/**
-     * 退出
-     */
-    LOGOUT,
+	 * 退出
+	 */
+	LOGOUT,
 	/**
-     * 登陆
-     */
-    LOGIN,
-    /**
-     * 强退
-     */
-    FORCE,
+	 * 登陆
+	 */
+	LOGIN,
 	/**
-     * 其它
-     */
-    OTHER,
+	 * 强退
+	 */
+	FORCE,
+	/**
+	 * 其它
+	 */
+	OTHER,
 
-    /**
-     * 新增
-     */
-    INSERT,
+	/**
+	 * 新增
+	 */
+	INSERT,
 
-    /**
-     * 删除
-     */
-    DELETE,
-    
-    /**
-     * 修改
-     */
-    UPDATE,
-    
-    /**
-     * 查询
-     */
-    QUERY,
-    
-    /**
-     * 授权
-     */
-    GRANT,
+	/**
+	 * 删除
+	 */
+	DELETE,
 
-    /**
-     * 导出
-     */
-    EXPORT,
+	/**
+	 * 修改
+	 */
+	UPDATE,
 
-    /**
-     * 导入
-     */
-    IMPORT,
+	/**
+	 * 查询
+	 */
+	QUERY,
 
-    /**
-     * 生成代码
-     */
-    GENCODE,
-    
-    /**
-     * 清空数据
-     */
-    CLEAN,
-    /**
-     * 
-     */
-    resetPwd,
+	/**
+	 * 授权
+	 */
+	GRANT,
+
+	/**
+	 * 导出
+	 */
+	EXPORT,
+
+	/**
+	 * 导入
+	 */
+	IMPORT,
+
+	/**
+	 * 生成代码
+	 */
+	GENCODE,
+
+	/**
+	 * 清空数据
+	 */
+	CLEAN,
+	/**
+	 * 重置密码
+	 */
+	resetPwd,
 }

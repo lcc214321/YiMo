@@ -3,6 +3,8 @@ package top.yimo.sys.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSONObject;
-
 import top.yimo.common.annotation.Log;
 import top.yimo.common.controller.BaseController;
 import top.yimo.common.enums.OperatorType;
 import top.yimo.common.model.vo.BootstrapTablePageVo;
 import top.yimo.common.model.vo.ResponseVo;
+import top.yimo.common.util.excel.ExcelUtil;
 import top.yimo.sys.domain.DeptDO;
 import top.yimo.sys.domain.RoleDO;
 import top.yimo.sys.domain.UserDO;
@@ -64,9 +65,9 @@ public class UserController extends BaseController {
 	@RequiresPermissions("sys:user:user")
 	@Log(describe = "获取用户列表", title = "用户管理", operatorType = OperatorType.QUERY)
 	public BootstrapTablePageVo listByPage(@RequestParam Map<String, Object> params) {
-		System.out.println("哈哈哈" + JSONObject.toJSONString(params));
 		long deptId = 1;
-		if (params.get("deptId") != null && params.get("deptId").toString() != null && StringUtils.isNotBlank(params.get("deptId").toString())) {
+		if (params.get("deptId") != null && params.get("deptId").toString() != null
+				&& StringUtils.isNotBlank(params.get("deptId").toString())) {
 			deptId = Long.valueOf(params.get("deptId").toString());
 		}
 		List<Long> allSubDeptIds = deptService.getAllSubDeptIds(deptId);
@@ -112,6 +113,7 @@ public class UserController extends BaseController {
 		}
 		return ResponseVo.fail();
 	}
+
 	/**
 	 * 修改
 	 */
@@ -165,13 +167,29 @@ public class UserController extends BaseController {
 			return ResponseVo.fail(-1, e.getMessage());
 		}
 	}
+
 	/**
-	* 校验用户名是否唯一
-	*/
+	 * 校验用户名是否唯一
+	 */
 	@PostMapping("/checkUserNameUnique")
 	@ResponseBody
 	public boolean checkUserNameUnique(String username) {
 		return userService.checkUserNameUnique(username.trim());
 	}
 
+	/**
+	 * 导出所有有效的用户信息
+	 */
+	@PostMapping("/exportData")
+	@ResponseBody
+	public ResponseVo exportData(UserDO user, HttpServletResponse response) {
+		try {
+			List<UserDO> exportData = userService.exportData(user);
+			ExcelUtil<UserDO> excel = new ExcelUtil<UserDO>(UserDO.class);
+			return excel.exportExcel(exportData, "用户数据");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseVo.fail(-1, e.getMessage());
+		}
+	}
 }

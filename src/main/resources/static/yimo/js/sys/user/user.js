@@ -10,7 +10,7 @@ function load() {
 				offset : params.offset,
 				sort : params.sort,
 				order : params.order,
-				deptId : $('#deptId').val()  //增加自定义参数部门id
+				deptId : $('#deptId').val()  // 增加自定义参数部门id
 			};
 		},
 		columns : [
@@ -36,7 +36,7 @@ function load() {
 					title : '状态',
 					align : 'center',
 					formatter : function(value, row, index) {
-						var dictData = yimo.getDictData('Status', value);
+						var dictData = $.YiMo.getDictData('Status', value);
 						return '<span class="label ' + dictData.dictDescribe + '">' + dictData.dictName + '</span>';
 					}
 				},
@@ -55,6 +55,12 @@ function load() {
 				} ]
 	}
 	YiMo.BSTable.load(options);
+}
+
+function exportData(){
+	YiMo.exportExcel({
+		url : prefix + "/exportData",
+	});
 }
 
 function add() {

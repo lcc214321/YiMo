@@ -1,3 +1,6 @@
+yimo:
+  downloadPath: d:/
+
 server: 
   port: 80
   servlet: 

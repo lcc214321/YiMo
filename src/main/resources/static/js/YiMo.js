@@ -14,8 +14,9 @@
 					async : options.async || false,
 					dataType : 'json',
 					success : function(data) {
-						parent.toastr.success(data.msg);
+						console.log(data);
 						if (data.success == true) {
+							parent.toastr.success(data.msg);
 							options.success && options.success(data);
 							if (options.parentRefresh == true) {
 								parent.refresh();
@@ -29,6 +30,8 @@
 							}
 						} else if (data.code == 666) {
 							window.location.reload(true);
+						}else{
+							parent.toastr.error(data.msg);
 						}
 					},
 				});
@@ -55,7 +58,7 @@
 				var dictData;
 				$.ajax({
 					type : 'GET',
-					url : ctx + 'sys/dictData/getDictDataName',
+					url : ctx + 'sys/dictData/getDictData',
 					data : {
 						'dictType' : type,
 						'dictNo' : no
@@ -140,6 +143,23 @@
 				},
 
 			},
+			
+			// 导出数据
+    		exportExcel: function(option) {
+				var exportFormId = option.formId || 'export-form';
+				var ii = layer.load("正在导出数据，请稍后...");
+    			$.post(option.url, $("#" + exportFormId).serializeArray(), function(data) {
+    				if (data.success == true) {
+    			        window.location.href = ctx + "tool/download?fileName=" + data.msg + "&delete=" + true;
+    				} else {
+    					layer.msg(data.msg);
+    				}
+    				layer.close(ii);
+    			});
+    			setTimeout(function(){
+    			      layer.close(ii);
+    			    }, 1000);
+    		},
 		},
 		/** 通用数据转化函数* */
 		DataConvert : {

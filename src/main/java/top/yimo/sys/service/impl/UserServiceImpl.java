@@ -77,9 +77,9 @@ public class UserServiceImpl implements UserService {
 				uerRoleDao.save(userRoleDO);
 			}
 		}
-		//如果修改的是当前用户对象 则更新shiro中的当前用户对象
+		// 如果修改的是当前用户对象 则更新shiro中的当前用户对象
 		Long currUserId = ShiroUtils.getUserId();
-		if(currUserId.equals(userId)) {
+		if (currUserId.equals(userId)) {
 			UserDO currUser = ShiroUtils.getSysUser();
 			BeanUtils.copyProperties(user, currUser);
 			log.info("当前用户同步session完成");
@@ -108,6 +108,12 @@ public class UserServiceImpl implements UserService {
 	public boolean checkUserNameUnique(String userName) {
 		UserDO user = userDao.findByUserName(userName);
 		return user == null;
+	}
+
+	@Override
+	public List<UserDO> exportData(UserDO user) {
+		List<UserDO> exportData = userDao.exportData(user);
+		return exportData;
 	}
 
 }

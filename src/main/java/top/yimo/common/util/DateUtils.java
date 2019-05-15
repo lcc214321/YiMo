@@ -1,5 +1,6 @@
 package top.yimo.common.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -11,7 +12,7 @@ import java.util.Date;
  * @version 1.0
  * @Time 2019年1月21日 下午2:36:19
  */
-public class DateUtils {
+public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	/**
 	 * 时间格式(yyyy-MM-dd)
 	 */
@@ -137,5 +138,16 @@ public class DateUtils {
 	 */
 	public static String getNowDate() {
 		return new SimpleDateFormat(DATE_PATTERN).format(new Date());
+	}
+
+	public static Date parseDate(Object o) {
+		if (o == null) {
+			return null;
+		}
+		try {
+			return parseDate(o.toString(), DATE_PATTERN);
+		} catch (ParseException e) {
+			return null;
+		}
 	}
 }

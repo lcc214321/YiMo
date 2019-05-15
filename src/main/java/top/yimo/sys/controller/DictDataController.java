@@ -25,7 +25,7 @@ import top.yimo.sys.domain.DictDataDO;
 import top.yimo.sys.service.DictDataService;
 
 /**
- * 数据字典数据表 
+ * 数据字典数据表
  * 
  * @author imTayle
  * @email imTayle@126.com
@@ -51,7 +51,8 @@ public class DictDataController extends BaseController {
 	@GetMapping("/list/{dictType}")
 	@RequiresPermissions("sys:dictData:dictData")
 	@Log(describe = "获取数据字典数据表列表", title = "数据字典数据表", operatorType = OperatorType.QUERY)
-	public BootstrapTablePageVo listByPage(@RequestParam Map<String, Object> params, @PathVariable("dictType") String dictType) {
+	public BootstrapTablePageVo listByPage(@RequestParam Map<String, Object> params,
+			@PathVariable("dictType") String dictType) {
 		params.put("dictType", dictType);
 		startPage(params);
 		List<DictDataDO> dictDataList = dictDataService.listByPage(params);
@@ -67,7 +68,7 @@ public class DictDataController extends BaseController {
 
 	@GetMapping("/edit/{dictType}/{dictNo}")
 	@RequiresPermissions("sys:dictData:edit")
-	public String edit(@PathVariable("dictType") String dictType,@PathVariable("dictNo") String dictNo, Model model) {
+	public String edit(@PathVariable("dictType") String dictType, @PathVariable("dictNo") String dictNo, Model model) {
 		DictDataDO dictData = dictDataService.getByTypeAndNo(dictType, dictNo);
 		model.addAttribute("dictData", dictData);
 		return prefix + "/edit";
@@ -78,8 +79,8 @@ public class DictDataController extends BaseController {
 	@RequiresPermissions("sys:dictData:add")
 	public ResponseVo save(DictDataDO dictData) {
 		DictDataDO dictDataDB = dictDataService.getByTypeAndNo(dictData.getDictType(), dictData.getDictNo());
-		if(dictDataDB != null) {
-			return ResponseVo.fail(666,"该字典编码值已经存在，请检查字典编码值。");
+		if (dictDataDB != null) {
+			return ResponseVo.fail(666, "该字典编码值已经存在，请检查字典编码值。");
 		}
 		beforeSave(dictData);
 		if (dictDataService.save(dictData) > 0) {
@@ -105,7 +106,7 @@ public class DictDataController extends BaseController {
 	@DeleteMapping("/remove")
 	@ResponseBody
 	@RequiresPermissions("sys:dictData:remove")
-	public ResponseVo remove(String dictType,String dictNo) {
+	public ResponseVo remove(String dictType, String dictNo) {
 		if (dictDataService.removeByNo(dictType, dictNo) > 0) {
 			return ResponseVo.ok("删除成功");
 		}
@@ -124,11 +125,11 @@ public class DictDataController extends BaseController {
 		}
 		return ResponseVo.fail();
 	}
-	
+
 	@ResponseBody
-	@GetMapping("/getDictDataName")
+	@GetMapping("/getDictData")
 	@RequiresPermissions("sys:dictData:dictData")
-	public DictDataDO getDictDataName(@RequestParam Map<String, Object> params, String dictType,String dictNo) {
+	public DictDataDO getDictData(@RequestParam Map<String, Object> params, String dictType, String dictNo) {
 		DictDataDO dictData = dictDataService.getByTypeAndNo(dictType, dictNo);
 		return dictData;
 	}

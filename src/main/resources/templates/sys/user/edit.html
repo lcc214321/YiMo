@@ -44,7 +44,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label">状态：</label>
 								<div class="col-sm-8">
-									<label class="radio-inline" th:each="dict:${@dict.getDictData('Status')}"> <input th:field="*{user.status}" type="radio" th:value="${dict.dictNo}"
+									<label class="radio-inline" th:each="dict:${@dict.getDictDatas('Status')}"> <input th:field="*{user.status}" type="radio" th:value="${dict.dictNo}"
 										th:text="${dict.dictName}" />
 									</label>
 								</div>
@@ -52,7 +52,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label">性别：</label>
 								<div class="col-sm-8">
-								<label class="radio-inline" th:each="dict:${@dict.getDictData('Sex')}"> <input th:field="*{user.sex}" type="radio" th:value="${dict.dictNo}"
+								<label class="radio-inline" th:each="dict:${@dict.getDictDatas('Sex')}"> <input th:field="*{user.sex}" type="radio" th:value="${dict.dictNo}"
 										th:text="${dict.dictName}" />
 									</label>
 								</div>

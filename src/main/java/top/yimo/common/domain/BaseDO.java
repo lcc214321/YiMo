@@ -15,7 +15,15 @@ public class BaseDO implements Serializable {
 	private String updateTime;
 	// 修改用户id
 	private Long updateUserId;
-
+	// // 扩展页面查询参数
+	// private HashMap<String, Object> queryPara = new HashMap<>();
+	//
+	// public HashMap<String, Object> getQueryPara() {
+	// return queryPara;
+	// }
+	// public void setQueryPara(HashMap<String, Object> queryPara) {
+	// this.queryPara = queryPara;
+	// }
 	public Long getUpdateUserId() {
 		return updateUserId;
 	}

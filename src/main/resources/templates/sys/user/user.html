@@ -19,7 +19,7 @@
 								</li>
 								<li>手机号码：<input type="text" name="mobile" id="mobile" />
 								</li>
-								<li>状态：<select name="status" id="status" th:with="type=${@dict.getDictData('Status')}">
+								<li>状态：<select name="status" id="status" th:with="type=${@dict.getDictDatas('Status')}">
 										<option value="">所有</option>
 										<option th:each="dict : ${type}" th:text="${dict.dictName}" th:value="${dict.dictNo}"></option>
 								</select>
@@ -39,6 +39,9 @@
 						</button>
 						<button shiro:hasPermission="sys:user:batchRemove" type="button" class="btn  btn-rounded btn-danger" onclick="batchRemove()">
 							<i class="fa fa-trash" aria-hidden="true"></i> 批量删除
+						</button>
+						<button shiro:hasPermission="sys:user:export" type="button" class="btn  btn-rounded btn-success" onclick="exportData()">
+							<i class="fa fa-download" aria-hidden="true"></i> 下载
 						</button>
 					</div>
 				</div>

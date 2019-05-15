@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * 数据转换工具类
  * 
@@ -231,7 +233,102 @@ public class DataConvert {
 		if ((paramString == null) || (paramString.equals(""))) {
 			return 0.0D;
 		}
-		return Double.parseDouble(paramString);
+		// 支持科学计数法
+		return new BigDecimal(paramString.trim()).doubleValue();
+	}
+
+	public static double toDouble(Object object) {
+		return toDouble(toString(object));
+	}
+
+	/**
+	 * 转换为BigDecimal<br>
+	 * 如果给定的值为空，或者转换失败，返回默认值<br>
+	 * 转换失败不会报错
+	 * 
+	 * @param value 被转换的值
+	 * @param defaultValue 转换错误时的默认值
+	 * @return 结果
+	 */
+	public static BigDecimal toBigDecimal(Object value, BigDecimal defaultValue) {
+		if (value == null) {
+			return defaultValue;
+		}
+		if (value instanceof BigDecimal) {
+			return (BigDecimal) value;
+		}
+		if (value instanceof Long) {
+			return new BigDecimal((Long) value);
+		}
+		if (value instanceof Double) {
+			return new BigDecimal((Double) value);
+		}
+		if (value instanceof Integer) {
+			return new BigDecimal((Integer) value);
+		}
+		final String valueStr = toString(value, null);
+		if (StringUtils.isEmpty(valueStr)) {
+			return defaultValue;
+		}
+		try {
+			return new BigDecimal(valueStr);
+		} catch (Exception e) {
+			return defaultValue;
+		}
+	}
+	public static BigDecimal toBigDecimal(Object object) {
+		return toBigDecimal(object, null);
+	}
+	/**
+	* 转换为Float<br>
+	* 如果给定的值为空，或者转换失败，返回默认值<br>
+	* 转换失败不会报错
+	* @param value 被转换的值
+	* @param defaultValue 转换错误时的默认值
+	* @return 结果
+	*/
+	public static Float toFloat(Object value, Float defaultValue) {
+		if (value == null) {
+			return defaultValue;
+		}
+		if (value instanceof Float) {
+			return (Float) value;
+		}
+		if (value instanceof Number) {
+			return ((Number) value).floatValue();
+		}
+		final String valueStr = toString(value, null);
+		if (StringUtils.isEmpty(valueStr)) {
+			return defaultValue;
+		}
+		try {
+			return Float.parseFloat(valueStr.trim());
+		} catch (Exception e) {
+			return defaultValue;
+		}
+	}
+
+	/**
+	     * 转换为Float<br>
+	     * 如果给定的值为空，或者转换失败，返回默认值<code>null</code><br>
+	     * 转换失败不会报错
+	     * 
+	     * @param value 被转换的值
+	     * @return 结果
+	     */
+	public static Float toFloat(Object value) {
+		return toFloat(value, null);
+	}
+
+	public static Long toLong(Object object) {
+		return toLong(toString(object));
+	}
+
+	public static long toLong(String paramString) {
+		if ((paramString == null) || (paramString.equals(""))) {
+			return 0;
+		}
+		return new BigDecimal(paramString.trim()).longValue();
 	}
 
 	public static int toInt(String paramString) {

@@ -74,6 +74,15 @@
 <!-- 			</otherwise> -->
 <!-- 		</choose> -->
 	</select>
+	<select id="exportData" resultType="top.yimo.sys.domain.UserDO" parameterType="top.yimo.sys.domain.UserDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		where status = '1'
+		<include refid="Base_Search_Param" />
+	</select>
+	
 
 	<select id="count" resultType="int">
 		select count(*) from sys_user

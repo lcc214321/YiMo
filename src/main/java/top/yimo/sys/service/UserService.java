@@ -39,4 +39,9 @@ public interface UserService {
 	 * 判断userName是否唯一
 	 */
 	boolean checkUserNameUnique(String userName);
+
+	/**
+	 * 导出用户数据
+	 */
+	List<UserDO> exportData(UserDO user);
 }
