@@ -3,8 +3,6 @@ package top.yimo.sys.controller;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import top.yimo.common.annotation.Log;
 import top.yimo.common.controller.BaseController;
@@ -182,11 +181,44 @@ public class UserController extends BaseController {
 	 */
 	@PostMapping("/exportData")
 	@ResponseBody
-	public ResponseVo exportData(UserDO user, HttpServletResponse response) {
+	public ResponseVo exportData(UserDO user) {
 		try {
 			List<UserDO> exportData = userService.exportData(user);
 			ExcelUtil<UserDO> excel = new ExcelUtil<UserDO>(UserDO.class);
 			return excel.exportExcel(exportData, "用户数据");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseVo.fail(-1, e.getMessage());
+		}
+	}
+
+	/**
+	 * 导出导入模板
+	 */
+	@GetMapping("/exportTemplate")
+	@ResponseBody
+	public ResponseVo exportTemplate() {
+		try {
+			ExcelUtil<UserDO> excel = new ExcelUtil<UserDO>(UserDO.class);
+			return excel.exportTemplateExcel("用户数据导入模板");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseVo.fail(-1, e.getMessage());
+		}
+	}
+
+	/**
+	 * 导入数据
+	 */
+	@PostMapping("/importData")
+	@ResponseBody
+	public ResponseVo importData(MultipartFile file, boolean isCover) {
+		ExcelUtil<UserDO> util = new ExcelUtil<UserDO>(UserDO.class);
+		List<UserDO> userList;
+		try {
+			userList = util.importExcel(file.getInputStream());
+			String message = userService.importData(userList, isCover);
+			return ResponseVo.ok(message);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseVo.fail(-1, e.getMessage());

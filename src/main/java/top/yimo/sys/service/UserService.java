@@ -44,4 +44,7 @@ public interface UserService {
 	 * 导出用户数据
 	 */
 	List<UserDO> exportData(UserDO user);
+
+	String importData(List<UserDO> userList, boolean isCover);
+
 }

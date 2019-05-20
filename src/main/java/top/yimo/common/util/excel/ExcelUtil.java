@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +23,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.DVConstraint;
 import org.apache.poi.hssf.usermodel.HSSFDataValidation;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
-import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
 import org.apache.poi.ss.usermodel.Cell;
@@ -47,12 +48,14 @@ import org.slf4j.LoggerFactory;
 import top.yimo.common.YiMoConfig;
 import top.yimo.common.annotation.Excel;
 import top.yimo.common.annotation.Excel.Type;
+import top.yimo.common.enums.ComboType;
 import top.yimo.common.enums.ConvertType;
 import top.yimo.common.model.vo.ResponseVo;
 import top.yimo.common.util.DataConvert;
 import top.yimo.common.util.DateUtils;
 import top.yimo.common.util.ReflectUtils;
 import top.yimo.common.util.SpringUtil;
+import top.yimo.sys.domain.DictDataDO;
 import top.yimo.sys.service.impl.DictDataServiceImpl;
 
 /**
@@ -94,7 +97,7 @@ public class ExcelUtil<T> {
 	private List<T> list;
 
 	/**
-	 * 注解列表
+	 * 字段列表
 	 */
 	private List<Field> fields;
 
@@ -115,6 +118,21 @@ public class ExcelUtil<T> {
 		this.sheetName = sheetName;
 		this.type = type;
 		createExcelField();
+		// 排序
+		Collections.sort(fields, new Comparator<Field>() {
+			@Override
+			public int compare(Field f1, Field f2) {
+				Excel e1 = f1.getAnnotation(Excel.class);
+				Excel e2 = f2.getAnnotation(Excel.class);
+				if (e1.orderNum() > e2.orderNum())
+					return 1;
+				else if (e1.orderNum() == e2.orderNum())
+					return 0;
+				else
+					return -1;
+			}
+		});
+
 		createWorkbook();
 	}
 
@@ -177,13 +195,28 @@ public class ExcelUtil<T> {
 				T entity = null;
 				for (int column = 0; column < cellNum; column++) {
 					Object val = this.getCellValue(row, column);
-
+					if (val == null || StringUtils.isEmpty(val.toString())) {// 值为空直接跳过
+						continue;
+					}
 					// 如果不存在实例则新建.
 					entity = (entity == null ? clazz.newInstance() : entity);
 					// 从map中得到对应列的field.
 					Field field = fieldsMap.get(column + 1);
 					// 取得类型,并根据对象类型设置值.
 					Class<?> fieldType = field.getType();
+					Excel attr = field.getAnnotation(Excel.class);
+
+					// 从注解判断是否需要对值进行转化，如果需要则进行转化
+					if (StringUtils.isNotEmpty(attr.convertExp())) {
+						val = reverseByExp(String.valueOf(val), attr.convertExp(), attr.convertType());
+					}
+					// 如果是日期格式数据需要转化
+					if (StringUtils.isNotEmpty(attr.dateFormat()) && val instanceof Date) {
+						String dateFormat = attr.dateFormat();
+						val = DateUtils.format((Date) val, dateFormat);
+					}
+
+					// 根据bean对象格式对数据进行转化
 					if (String.class == fieldType) {
 						String s = DataConvert.toString(val);
 						if (StringUtils.endsWith(s, ".0")) {
@@ -203,20 +236,16 @@ public class ExcelUtil<T> {
 						val = DataConvert.toBigDecimal(val);
 					} else if (Date.class == fieldType) {
 						if (val instanceof String) {
-							val = DateUtils.parseDate(val);
+							val = DateUtils.parseDate(val.toString(), DateUtils.DATE_PATTERN);
 						} else if (val instanceof Double) {
 							val = DateUtil.getJavaDate((Double) val);
 						}
 					}
 					if (fieldType != null) {
-						Excel attr = field.getAnnotation(Excel.class);
 						String propertyName = field.getName();
 						if (StringUtils.isNotEmpty(attr.targetAttr())) {
 							propertyName = field.getName() + "." + attr.targetAttr();
 						}
-//						else if (StringUtils.isNotEmpty(attr.convertExp())) {不再反向处理，通过模板设置下拉选项
-//							val = reverseByExp(String.valueOf(val), attr.convertExp(), attr.convertType());
-//						}
 						ReflectUtils.invokeSetter(entity, propertyName, val);
 					}
 				}
@@ -227,7 +256,7 @@ public class ExcelUtil<T> {
 	}
 
 	/**
-	 * 对list数据源将其里面的数据导入到excel表单
+	 * 导出list数据到excel
 	 * 
 	 * @param list      导出数据集合
 	 * @param sheetName 工作表的名称
@@ -239,12 +268,12 @@ public class ExcelUtil<T> {
 	}
 
 	/**
-	 * 对list数据源将其里面的数据导入到excel表单
+	 * 导出导入模板
 	 * 
 	 * @param sheetName 工作表的名称
 	 * @return 结果
 	 */
-	public ResponseVo importTemplateExcel(String sheetName) {
+	public ResponseVo exportTemplateExcel(String sheetName) {
 		this.init(null, sheetName, Type.IMPORT);
 		return exportExcel();
 	}
@@ -278,17 +307,18 @@ public class ExcelUtil<T> {
 					cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 					if (attr.name().indexOf("注：") >= 0) {
 						Font font = wb.createFont();
-						font.setColor(HSSFFont.COLOR_RED);
+						font.setColor(HSSFColorPredefined.RED.getIndex());
 						cellStyle.setFont(font);
-						cellStyle.setFillForegroundColor(HSSFColorPredefined.BLUE_GREY.getIndex());
+						cellStyle.setFillForegroundColor(HSSFColorPredefined.LIGHT_BLUE.getIndex());
 						sheet.setColumnWidth(i, 6000);
 					} else {
 						Font font = wb.createFont();
 						// 粗体显示
 						font.setBold(true);
+						font.setColor(HSSFColorPredefined.WHITE.getIndex());
 						// 选择需要用到的字体格式
 						cellStyle.setFont(font);
-						cellStyle.setFillForegroundColor(HSSFColorPredefined.LIGHT_YELLOW.getIndex());
+						cellStyle.setFillForegroundColor(HSSFColorPredefined.LIGHT_BLUE.getIndex());
 						// 设置列宽
 						sheet.setColumnWidth(i, (int) ((attr.width() + 0.72) * 256));
 						row.setHeight((short) (attr.height() * 20));
@@ -302,13 +332,11 @@ public class ExcelUtil<T> {
 
 					// 如果设置了提示信息则鼠标放上去提示.
 					if (StringUtils.isNotEmpty(attr.prompt())) {
-						// 这里默认设了2-101列提示.
-						setHSSFPrompt(sheet, "", attr.prompt(), 1, 100, i, i);
+						setHSSFPrompt(sheet, "", attr.prompt(), 0, 1, i, i);
 					}
 					// 如果设置了combo属性则本列只能选择不能输入
-					if (attr.combo().length > 0) {
-						// 这里默认设了2-101列只能选择不能输入.
-						setHSSFValidation(sheet, attr.combo(), 1, 100, i, i);
+					if (attr.comboExp() != null && StringUtils.isNotBlank(attr.comboExp())) {
+						setHSSFValidation(sheet, getComboValue(attr.comboType(), attr.comboExp()), 1, 100, i, i);
 					}
 				}
 				if (Type.EXPORT.equals(type)) {
@@ -484,6 +512,64 @@ public class ExcelUtil<T> {
 			}
 		}
 		return returnValue;
+	}
+
+	/**
+	 * 反向解析值 男=0,女=1,未知=2
+	 * 
+	 */
+	public static String reverseByExp(String propertyValue, String converterExp, ConvertType convertType)
+			throws Exception {
+		String returnValue = "";
+		if (StringUtils.isNotBlank(convertType.name())) {
+			if (ConvertType.CODE_TABLE.equals(convertType)) {
+				try {
+					String[] convertSource = converterExp.split(",");
+					for (String item : convertSource) {
+						String[] itemArray = item.split("=");
+						if (itemArray[1].equals(propertyValue)) {
+							returnValue = itemArray[0];
+						}
+					}
+				} catch (Exception e) {
+					throw e;
+				}
+			} else if (ConvertType.DICT.equals(convertType)) {
+				DictDataServiceImpl dictService = SpringUtil.getBean(DictDataServiceImpl.class);
+				returnValue = dictService.getDictNoByName(converterExp, propertyValue);
+			}
+		}
+		return returnValue;
+	}
+
+	/**
+	 * 根据Combo表达式 解析成Combo值 1=男,2=女 ==> 男,女
+	 * 
+	 */
+	public static String[] getComboValue(ComboType comboType, String comboExp) {
+		ArrayList<String> dictNameList = new ArrayList<>(30);
+		if (StringUtils.isNotBlank(comboType.name())) {
+			if (ComboType.CODE_TABLE.equals(comboType)) {
+				try {
+					String[] convertSource = comboExp.split(",");
+					for (String item : convertSource) {
+						String[] itemArray = item.split("=");
+						dictNameList.add(itemArray[1]);
+					}
+				} catch (Exception e) {
+					throw e;
+				}
+			} else if (ComboType.DICT.equals(comboType)) {
+				DictDataServiceImpl dictService = SpringUtil.getBean(DictDataServiceImpl.class);
+				List<DictDataDO> allActiveDictData = dictService.getAllActiveDictData(comboExp);
+
+				for (DictDataDO dictDataDO : allActiveDictData) {
+					String dictName = dictDataDO.getDictName();
+					dictNameList.add(dictName);
+				}
+			}
+		}
+		return dictNameList.toArray(new String[dictNameList.size()]);
 	}
 
 	/**

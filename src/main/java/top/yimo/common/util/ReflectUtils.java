@@ -152,7 +152,7 @@ public class ReflectUtils {
 						args[i] = DataConvert.toFloat(args[i]);
 					} else if (cs[i] == Date.class) {
 						if (args[i] instanceof String) {
-							args[i] = DateUtils.parseDate(args[i]);
+							args[i] = DateUtils.parseDate(args[i].toString(), DateUtils.DATE_PATTERN);
 						} else {
 							args[i] = DateUtil.getJavaDate((Double) args[i]);
 						}

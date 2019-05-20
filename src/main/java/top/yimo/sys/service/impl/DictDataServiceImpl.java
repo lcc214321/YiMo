@@ -104,6 +104,17 @@ public class DictDataServiceImpl implements DictDataService {
 	}
 
 	/**
+	 * 获取单个dictName
+	 * 
+	 * @param dictType 字典类型
+	 * @param dictNo   字典编号
+	 * @return
+	 */
+	public String getDictNoByName(String dictType, String dictName) {
+		return dictDataDao.getDictNoByName(dictType, dictName);
+	}
+
+	/**
 	 * 获取某一个类型的dictData
 	 * 
 	 * @param dictType

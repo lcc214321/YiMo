@@ -51,7 +51,6 @@
 		<include refid="tableName" />
 		where dict_type = #{value} and status='1'
 	</select>
-	
 	<select id="getByTypeAndNo" resultType="top.yimo.sys.domain.DictDataDO">
 		select
 		<include refid="Base_Column_List" />

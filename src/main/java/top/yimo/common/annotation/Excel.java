@@ -5,6 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import top.yimo.common.enums.ComboType;
 import top.yimo.common.enums.ConvertType;
 
 /**
@@ -23,7 +24,7 @@ public @interface Excel {
 	/**
 	 * 排序号
 	 */
-	public String orderNum();
+	public int orderNum();
 
 	/**
 	 * 日期格式,
@@ -76,9 +77,14 @@ public @interface Excel {
 	public String prompt() default "";
 
 	/**
+	 * 下拉值类型默认为数据字典
+	 */
+	public ComboType comboType() default ComboType.DICT;
+
+	/**
 	 * 设置只能选择不能输入的列内容.
 	 */
-	public String[] combo() default {};
+	public String comboExp() default "";
 
 	/**
 	 * 字段允许导出或导入

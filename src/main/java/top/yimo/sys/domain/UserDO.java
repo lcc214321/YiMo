@@ -21,9 +21,10 @@ public class UserDO extends BaseDO {
 	//
 	private Long userId;
 	// 用户名
+	@Excel(name = "登录账号", orderNum = -1, type = Type.ALL)
 	private String userName;
 	// 昵称
-	@Excel(name = "注: 姓名", orderNum = "0", type = Type.ALL)
+	@Excel(name = "姓名", orderNum = 0, type = Type.ALL)
 	private String name;
 	// 密码
 	private String password;
@@ -32,28 +33,28 @@ public class UserDO extends BaseDO {
 	// 部门Name
 	private String deptName;
 	// 邮箱
-	@Excel(name = "邮箱", orderNum = "1", type = Type.ALL)
+	@Excel(name = "邮箱", orderNum = 1, type = Type.ALL)
 	private String email;
 	// 手机号
-	@Excel(name = "手机号", orderNum = "2")
+	@Excel(name = "手机号", orderNum = 2)
 	private String mobile;
 	// 状态 0:禁用，1:正常
-	@Excel(name = "状态", orderNum = "9", convertExp = "Status", prompt = "批注提示信息")
+	@Excel(name = "状态", orderNum = 9, convertExp = "Status", comboExp = "Status")
 	private Integer status;
 
 	// 性别
-	@Excel(name = "性别", convertExp = "Sex", orderNum = "4")
+	@Excel(name = "性别", convertExp = "Sex", orderNum = 4, comboExp = "Sex")
 	private Long sex;
 	// 出身日期
-	@Excel(name = "生日", orderNum = "5", dateFormat = "yyyy-MM-dd")
+	@Excel(name = "生日", orderNum = 5, dateFormat = "yyyy-MM-dd")
 	private String birth;
 	// 头像
 	private Long picId;
 	// 现居住地
-	@Excel(name = "现居住地", orderNum = "6")
+	@Excel(name = "现居住地", orderNum = 6)
 	private String address;
 	// 爱好
-	@Excel(name = "爱好", orderNum = "7")
+	@Excel(name = "爱好", orderNum = 7)
 	private String hobby;
 	// 省份
 	private String province;

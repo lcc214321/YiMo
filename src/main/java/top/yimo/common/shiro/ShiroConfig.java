@@ -58,6 +58,9 @@ public class ShiroConfig {
 	@Value("${shiro.filter.unauthorizedurl}")
 	private String unauthorizedUrl;
 
+	@Value("${yimo.permissions}")
+	private boolean permissions;
+
 	@Bean
 	public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
@@ -77,8 +80,11 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/login/**", "anon");
 
 		// <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
-		filterChainDefinitionMap.put("/**", "kickout,authc");
-		// filterChainDefinitionMap.put("/**", "authc");// authc
+		if (permissions) {
+			filterChainDefinitionMap.put("/**", "kickout,authc");
+		} else {
+			filterChainDefinitionMap.put("/**", "anon");// authc
+		}
 
 		// 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
 		shiroFilterFactoryBean.setLoginUrl(loginUrl);
@@ -112,7 +118,7 @@ public class ShiroConfig {
 		// 使用加密
 		userRealm.setCredentialsMatcher(hashedCredentialsMatcher());
 		// 使用ehcache
-		 userRealm.setCacheManager(ehCacheManager());
+		userRealm.setCacheManager(ehCacheManager());
 		return userRealm;
 	}
 
@@ -255,17 +261,18 @@ public class ShiroConfig {
 	/**
 	 * 开启Shiro注解方式
 	 * 
-	 * @param @param
-	 *            securityManager
+	 * @param @param securityManager
 	 * @param @return
 	 * @return AuthorizationAttributeSourceAdvisor
 	 */
 	@Bean
-	public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(@Qualifier("securityManager") SecurityManager securityManager) {
+	public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(
+			@Qualifier("securityManager") SecurityManager securityManager) {
 		AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
 		authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
 		return authorizationAttributeSourceAdvisor;
 	}
+
 	/**
 	 * 开启支持thymeleaf shiro标签
 	 */
