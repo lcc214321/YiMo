@@ -20,7 +20,7 @@ function load() {
 	        field : 'status',
 	        title : '是否有效',
 	        formatter : function(value, row, index) {
-		        var dictData = yimo.getDictData('Status', value);
+		        var dictData = $.YiMo.getDictData('Status', value);
 		        return '<span class="label ' + dictData.dictDescribe + '">' + dictData.dictName + '</span>';
 	        }
 	    }, {

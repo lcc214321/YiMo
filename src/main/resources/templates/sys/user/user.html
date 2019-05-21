@@ -34,14 +34,17 @@
 			<div class="ibox">
 				<div class="fixed-table-toolbar" id="toolbar">
 					<div class="columns pull-left">
-						<button shiro:hasPermission="sys:user:add" type="button" class="btn  btn-rounded  btn-primary "  >
+						<button shiro:hasPermission="sys:user:add" type="button" class="btn  btn-rounded  btn-primary "  onclick="add()">
 							<i class="fa fa-plus" aria-hidden="true"></i> 添加
 						</button>
 						<button shiro:hasPermission="sys:user:batchRemove" type="button" class="btn  btn-rounded btn-danger" onclick="batchRemove()">
 							<i class="fa fa-trash" aria-hidden="true"></i> 批量删除
 						</button>
 						<button shiro:hasPermission="sys:user:export" type="button" class="btn  btn-rounded btn-success" onclick="exportData()">
-							<i class="fa fa-download" aria-hidden="true"></i> 下载
+							<i class="fa fa-download" aria-hidden="true"></i> 导出
+						</button>
+						<button shiro:hasPermission="sys:user:import" type="button" class="btn  btn-rounded btn-success" onclick="importData()">
+							<i class="fa fa-upload" aria-hidden="true"></i> 导入
 						</button>
 					</div>
 				</div>
@@ -51,6 +54,7 @@
 		</div>
 	</div>
 	<div th:replace="footer :: footer"></div>
+	<div th:replace="footer :: uploadData"></div>
 	<script type="text/javascript" th:inline="javascript">
 	var s_edit_h = [[${@permission.hasPermi('sys:user:edit')}]];
 	var s_remove_h = [[${@permission.hasPermi('sys:user:remove')}]];

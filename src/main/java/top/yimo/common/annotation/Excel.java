@@ -22,7 +22,7 @@ public @interface Excel {
 	public String name();
 
 	/**
-	 * 排序号
+	 * 排序号用于导出对列排序
 	 */
 	public int orderNum();
 

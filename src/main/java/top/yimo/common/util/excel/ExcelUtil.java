@@ -206,6 +206,8 @@ public class ExcelUtil<T> {
 					Class<?> fieldType = field.getType();
 					Excel attr = field.getAnnotation(Excel.class);
 
+					log.info("字段名称{},excel对应值{},注解{},", field.getName(), val, attr.toString());
+
 					// 从注解判断是否需要对值进行转化，如果需要则进行转化
 					if (StringUtils.isNotEmpty(attr.convertExp())) {
 						val = reverseByExp(String.valueOf(val), attr.convertExp(), attr.convertType());
@@ -241,6 +243,9 @@ public class ExcelUtil<T> {
 							val = DateUtil.getJavaDate((Double) val);
 						}
 					}
+
+					log.info("转化后：字段名称{},excel对应值{},", field.getName(), val);
+
 					if (fieldType != null) {
 						String propertyName = field.getName();
 						if (StringUtils.isNotEmpty(attr.targetAttr())) {
@@ -273,7 +278,7 @@ public class ExcelUtil<T> {
 	 * @param sheetName 工作表的名称
 	 * @return 结果
 	 */
-	public ResponseVo exportTemplateExcel(String sheetName) {
+	public ResponseVo importTemplateExcel(String sheetName) {
 		this.init(null, sheetName, Type.IMPORT);
 		return exportExcel();
 	}

@@ -195,12 +195,12 @@ public class UserController extends BaseController {
 	/**
 	 * 导出导入模板
 	 */
-	@GetMapping("/exportTemplate")
+	@GetMapping("/importTemplate")
 	@ResponseBody
-	public ResponseVo exportTemplate() {
+	public ResponseVo importTemplate() {
 		try {
 			ExcelUtil<UserDO> excel = new ExcelUtil<UserDO>(UserDO.class);
-			return excel.exportTemplateExcel("用户数据导入模板");
+			return excel.importTemplateExcel("用户数据导入模板");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseVo.fail(-1, e.getMessage());

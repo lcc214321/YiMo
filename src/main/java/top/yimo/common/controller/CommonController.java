@@ -16,19 +16,20 @@ import top.yimo.common.YiMoConfig;
 import top.yimo.common.util.file.FileUtils;
 
 /**
+ * 集成一些公共的请求响应
  * 
  * @Author imTayle
  * @Email imTayle@126.com
  * @version 1.0
  * @Time 2019年3月27日 下午4:14:25
  */
-@RequestMapping("/tool")
+@RequestMapping("/common")
 @Controller
 @Slf4j
-public class ToolController extends BaseController {
-	private String prefix = "tool";
+public class CommonController extends BaseController {
+	private String prefix = "common";
 
-	@RequiresPermissions("tool:frombuild")
+	@RequiresPermissions("common:frombuild")
 	@GetMapping(value = "frombuild")
 	public String frombuild() {
 		return prefix + "/frombuilder/frombuilder";
@@ -57,6 +58,11 @@ public class ToolController extends BaseController {
 		} catch (Exception e) {
 			log.error("下载文件失败", e);
 		}
+	}
+
+	@GetMapping(value = "uploadFile")
+	public String uploadFile() {
+		return prefix + "/uploadFile";
 	}
 
 	public String setFileDownloadHeader(HttpServletRequest request, String fileName)

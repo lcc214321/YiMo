@@ -1,9 +1,9 @@
 package top.yimo.sys.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import top.yimo.common.constant.WebConstant;
 import top.yimo.common.exception.TipException;
 import top.yimo.common.util.DateUtils;
-import top.yimo.common.util.ShiroUtils;
 import top.yimo.common.util.YiMoUtils;
 import top.yimo.sys.dao.DeptDao;
 import top.yimo.sys.dao.UserDao;
@@ -60,6 +59,19 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int save(UserDO user) {
 		user.setPassword(YiMoUtils.encrypt(user.getUserName(), user.getPassword()));
+
+		Long deptId = user.getDeptId();
+		if (deptId == null) {// 新增无部门时默认一个
+			deptId = 1l;
+			user.setDeptId(deptId);
+		}
+		List<Long> roleIds = user.getRoleIds();
+		if (roleIds == null || roleIds.size() == 0) {
+			roleIds = new ArrayList<Long>();
+			roleIds.add(0l);// 默认一个角色
+			user.setRoleIds(roleIds);
+		}
+
 		return userDao.save(user);
 	}
 
@@ -69,7 +81,7 @@ public class UserServiceImpl implements UserService {
 		Long userId = user.getUserId();
 		// 更新用户角色信息
 		List<Long> roles = user.getRoleIds();
-		if (roles.size() > 0) {
+		if (roles != null && roles.size() > 0) {
 			uerRoleDao.batchRemoveByUserID(userId);
 			for (Long roleId : roles) {
 				UserRoleDO userRoleDO = new UserRoleDO();
@@ -78,13 +90,13 @@ public class UserServiceImpl implements UserService {
 				uerRoleDao.save(userRoleDO);
 			}
 		}
-		// 如果修改的是当前用户对象 则更新shiro中的当前用户对象
-		Long currUserId = ShiroUtils.getUserId();
-		if (currUserId.equals(userId)) {
-			UserDO currUser = ShiroUtils.getSysUser();
-			BeanUtils.copyProperties(user, currUser);
-			log.info("当前用户同步session完成");
-		}
+//		// 如果修改的是当前用户对象 则更新shiro中的当前用户对象
+//		Long currUserId = ShiroUtils.getUserId();
+//		if (currUserId.equals(userId)) {
+//			UserDO currUser = ShiroUtils.getSysUser();
+//			BeanUtils.copyProperties(user, currUser);
+//			log.info("当前用户同步session完成");
+//		}
 		return userDao.update(user);
 	}
 
@@ -133,9 +145,9 @@ public class UserServiceImpl implements UserService {
 		for (UserDO user : userList) {
 			System.out.println("导入数据信息" + user.toString());
 			try {
-				// 验证是否存在这个用户
+				// 验证是否存在这个用户 通过用户名来判断
 				UserDO userdb = userDao.findByUserName(user.getUserName());
-				if (userdb == null) {// 不存在
+				if (userdb == null) {// 不存在新增
 					user.setPassword(password);
 					user.setCreateUserId(operuserId);
 					this.save(user);
@@ -143,6 +155,10 @@ public class UserServiceImpl implements UserService {
 					successMsg.append("<br/>" + successNum + "、账号 " + user.getName() + " 导入成功");
 				} else if (isCover) {// 覆盖
 					user.setCreateUserId(operuserId);
+					user.setUserId(userdb.getUserId());
+					user.setRoleIds(userdb.getRoleIds());
+					user.setDeptId(userdb.getDeptId());
+
 					this.update(user);
 					successNum++;
 					successMsg.append("<br/>" + successNum + "、账号 " + user.getName() + " 更新成功");

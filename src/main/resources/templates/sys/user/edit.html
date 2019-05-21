@@ -107,7 +107,7 @@
         $.validator.setDefaults({
 	        submitHandler : function() {
 		        $("#roleIds").val(getCheckedRoles());
-		        yimo.ajaxPut({
+		        YiMo.ajaxPut({
 		            url : ctx + "sys/user/update",
 		            data : $('#editForm').serialize(),
 		            needClose : true,
