@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<header th:replace="header::headerFragment(${title})"></header>
+<header th:replace="header::header_index(title)(${title})"></header>
 <body class="fixed-sidebar full-height-layout gray-bg " style="overflow: hidden" >
 	<div id="wrapper">
 		<nav class="navbar-default navbar-static-side" role="navigation" th:fragment="menu">
@@ -38,7 +38,7 @@
 		</nav>
 		<div th:replace="rightContent :: 	right-content"></div>
 		<div th:replace="rightSidebar :: right-sidebar"></div>
-		<div th:replace="footer :: footer"></div>
+		<div th:replace="footer :: footer_index"></div>
 
 		<script type="text/javascript">
 		 var stompClient = null;

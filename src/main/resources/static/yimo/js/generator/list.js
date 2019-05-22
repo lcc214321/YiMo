@@ -1,4 +1,3 @@
-var yimo = new $.yimo();
 var prefix = ctx+"generator";
 $(function() {
 	load();

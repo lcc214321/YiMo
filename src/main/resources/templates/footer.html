@@ -22,6 +22,21 @@
 	<div th:replace="footer :: footer"></div>
 </div>
 
+<div th:fragment="footer_index">
+	<!-- 全局js -->
+	<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
+	<script th:src="@{/js/jquery.min.js?v=2.1.4}"></script>
+	<script th:src="@{/js/bootstrap.min.js?v=3.3.6}"></script>
+	<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+	<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+	<script th:src="@{/js/plugins/layer/layer.min.js}"></script>
+	<script th:src="@{/js/main.js}"></script>
+	<!--webSocket -->
+	<script th:src="@{/js/plugins/webSocket/sockjs.min.js}"></script>
+	<script th:src="@{/js/plugins/webSocket/stomp.min.js}"></script>
+</div>
+
+
 <div th:fragment="footer">
 	<!-- 全局js -->
 	<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
@@ -48,7 +63,5 @@
 	<script th:src="@{/js/plugins/toastr/toastr.min.js}"></script>
 	<!-- 自定义js -->
 	<script th:src="@{/js/YiMo.js}"></script>
-	<script type="text/javascript">
-</script>
 </div>
 </html>

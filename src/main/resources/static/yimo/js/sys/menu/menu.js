@@ -94,9 +94,9 @@ var load = function() {
 }
 
 //新增
-function add() {
+function add(id) {
 	YiMo.add({
-	    url : prefix + '/add' // iframe的url
+	    url : prefix + '/add/'+id, // iframe的url
 	});
 }
 // 编辑
