@@ -118,7 +118,7 @@ public class ShiroConfig {
 		// 使用加密
 		userRealm.setCredentialsMatcher(hashedCredentialsMatcher());
 		// 使用ehcache
-		userRealm.setCacheManager(ehCacheManager());
+//		userRealm.setCacheManager(ehCacheManager());
 		return userRealm;
 	}
 
@@ -134,7 +134,7 @@ public class ShiroConfig {
 		// 设置realm.
 		securityManager.setRealm(userRealm());
 		// 添加Ehcache
-		securityManager.setCacheManager(ehCacheManager());
+//		securityManager.setCacheManager(ehCacheManager());
 		// 添加Session控制
 		securityManager.setSessionManager(sessionManager());
 
@@ -198,7 +198,7 @@ public class ShiroConfig {
 	public OnlineSessionManager onlineSessionManager() {
 		OnlineSessionManager onlineSessionManager = new OnlineSessionManager();
 		// 加入缓存管理器
-		onlineSessionManager.setCacheManager(ehCacheManager());
+//		onlineSessionManager.setCacheManager(ehCacheManager());
 		// 删除过期的session
 		onlineSessionManager.setDeleteInvalidSessions(true);
 		// 去掉 JSESSIONID
@@ -216,7 +216,7 @@ public class ShiroConfig {
 	public KickoutSessionFilter kickoutSessionFilter() {
 		KickoutSessionFilter kickoutSessionFilter = new KickoutSessionFilter();
 		kickoutSessionFilter.setSessionManager(sessionManager());
-		kickoutSessionFilter.setCacheManager(ehCacheManager());
+//		kickoutSessionFilter.setCacheManager(ehCacheManager());
 
 		// 是否踢出后来登录的，默认是false；即后者登录的用户踢出前者登录的用户；踢出顺序。
 		kickoutSessionFilter.setKickoutAfter(false);

@@ -1,9 +1,9 @@
 package top.yimo.sys.service;
 
-import top.yimo.sys.domain.RoleDO;
-
 import java.util.List;
 import java.util.Map;
+
+import top.yimo.sys.domain.RoleDO;
 
 /**
  * 角色
@@ -14,23 +14,25 @@ import java.util.Map;
  * @date 2019年22月24日 17:22:00
  */
 public interface RoleService {
-	
+
 	RoleDO get(Long roleId);
-	
+
 	List<RoleDO> listByPage(Map<String, Object> map);
-	
+
 	int count(Map<String, Object> map);
-	
+
 	int save(RoleDO role);
-	
+
 	int update(RoleDO role);
-	
+
 	int remove(Long roleId);
-	
+
 	int batchRemove(Long[] roleIds);
 
 	/**
 	 * 根据用户id获取其拥有的角色信息
 	 */
 	List<RoleDO> getRolesByUserId(Long userId);
+
+	List<RoleDO> exportData(RoleDO role);
 }

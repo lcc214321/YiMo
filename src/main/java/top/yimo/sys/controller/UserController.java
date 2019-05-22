@@ -130,10 +130,10 @@ public class UserController extends BaseController {
 	/**
 	 * 删除
 	 */
-	@DeleteMapping("/remove")
+	@DeleteMapping("/remove/{id}")
 	@ResponseBody
 	@RequiresPermissions("sys:user:remove")
-	public ResponseVo remove(Long userId) {
+	public ResponseVo remove(@PathVariable("id") Long userId) {
 		if (userService.remove(userId) > 0) {
 			return ResponseVo.ok("删除成功");
 		}
@@ -146,7 +146,7 @@ public class UserController extends BaseController {
 	@DeleteMapping("/batchRemove")
 	@ResponseBody
 	@RequiresPermissions("sys:user:batchRemove")
-	public ResponseVo remove(@RequestParam("ids[]") Long[] userIds) {
+	public ResponseVo remove(@PathVariable("id") @RequestParam("ids[]") Long[] userIds) {
 		userService.batchRemove(userIds);
 		return ResponseVo.ok("删除成功");
 	}

@@ -19,7 +19,7 @@
 				            parent.toastr.success(data.msg);
 				            options.success && options.success(data);
 				            if (options.parentRefresh == true) {
-				            	parent.$.YiMo.BSTable.refresh();
+					            parent.$.YiMo.BSTable.refresh();
 				            }
 				            if (options.refresh == true) {
 					            $.YiMo.BSTable.refresh();
@@ -79,28 +79,26 @@
 		                url : options.url,// 服务器数据的加载地址
 		                showRefresh : options.showRefresh || true,// 是否显示刷新按钮
 		                cache : false,// 是否使用缓存
-		                showToggle : options.showToggle || true, // 是否显示详细视图和列表视图的切换按钮
-		                showExport : options.showExport || true, // 是否支持导出文件
+		                showToggle : options.showToggle || false, // 是否显示详细视图和列表视图的切换按钮
+		                showExport : options.showExport || false, // 是否支持导出文件
 		                showFooter : options.showFooter || false,// 是否显示表尾
 		                search : options.search || false,// 是否显示搜索框
-		                showSearch : options.showSearch || true,// 是否显示检索信息
-		                showColumns : options.showColumns || true,// 是否显示内容下拉框（选择显示的列）
-
+		                showSearch : options.showSearch || true,// 是否显示搜索按钮
+		                showColumns : options.showColumns || false,// 是否显示内容下拉框（选择显示的列）
 		                iconSize : options.iconSize || 'outline',// 图标大小：undefined默认的按钮尺寸
 		                // xs超小按钮sm小按钮lg大按钮
 		                toolbar : options.toolbar || '#toolbar', // 指定工作栏
 		                striped : options.striped || true,// 设置为true会有隔行变色效果
 		                sortable : options.sortable || true, // 是否启用排序
 		                sortStable : true,
-		                sortOrder : options.sortOrder || 'desc', // 排序方式 asc
-		                // 或者 desc
+		                sortOrder : options.sortOrder || 'desc', // 排序方式 asc或者 desc
 		                dataType : options.dataType || "json",// 服务器返回的数据类型
 		                pagination : options.pagination || true,// 设置为true会在底部显示分页条
 		                queryParamsType : options.queryParamsType || "limit",// 设置为limit则会发送符合RESTFull格式的参数
 		                singleSelect : options.singleSelect || false,// 设置为true将禁止多选
 		                contentType : options.contentType || "application/x-www-form-urlencoded",// 发送到服务器的数据编码类型
 		                pagination : options.pagination || true, // 是否显示分页（*）
-		                pageSize : options.pageSize || 5,// 如果设置了分页，每页数据条数
+		                pageSize : options.pageSize || 10,// 如果设置了分页，每页数据条数
 		                pageNumber : options.pageNumber || 1,// 如果设置了分布，首页页码
 		                pageList : options.pageList || [ 10, 25, 50, 75, 100 ], // 可供选择的每页的行数（*）
 		                sidePagination : options.sidePagination || "server",// 设置在哪里进行分页，可选值为"client"或者"server"
@@ -145,6 +143,67 @@
 
 	        },
 
+	        // 新增
+	        add : function(option) {
+		        layer.open({
+		            type : 2,
+		            title : '增加',
+		            maxmin : true,
+		            shadeClose : false, // 点击遮罩关闭层
+		            area : [ '800px', '520px' ],
+		            content : option.url,// iframe的url
+		        });
+	        },
+	        // 编辑
+	        edit : function(option) {
+		        layer.open({
+		            type : 2,
+		            title : '编辑',
+		            maxmin : true,
+		            shadeClose : false, // 点击遮罩关闭层
+		            area : [ '800px', '520px' ],
+		            content : option.url, // iframe的url
+		        });
+	        },
+	        // 删除
+	        remove : function(option, primaryKey) {
+		        layer.confirm('确定要删除选中的记录？', {
+			        btn : [ '确定', '取消' ]
+		        }, function(index) {
+			        layer.close(index);
+			        $.YiMo.ajaxDelete({
+			            url : option.url,
+			            refresh : true,
+			        });
+		        })
+	        },
+
+	        // 批量删除
+	        batchRemove : function(option) {
+		        var rows = $('#bootstrap-table').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
+		        if (rows.length == 0) {
+			        layer.msg("请选择要删除的数据");
+			        return;
+		        }
+		        layer.confirm("确认要删除选中的'" + rows.length + "'条数据吗?", {
+			        btn : [ '确定', '取消' ]
+		        // 按钮
+		        }, function(index) {
+			        layer.close(index);
+			        var ids = new Array();
+			        // 遍历所有选择的行数据，取每条数据对应的ID
+			        $.each(rows, function(i, row) {
+				        ids[i] = row[option.primaryKey];
+			        });
+			        YiMo.ajaxDelete({
+			            data : {
+				            "ids" : ids,
+			            },
+			            url : option.url,
+			            refresh : true,
+			        });
+		        });
+	        },
 	        // 导出数据
 	        exportData : function(option) {
 		        var exportFormId = option.formId || 'export-form';
@@ -190,7 +249,7 @@
 		            btn1 : function(index, layero) {
 			            var file = layero.find('#file').val();
 			            if (file == '' || (!$.common.endWith(file, '.xls') && !$.common.endWith(file, '.xlsx'))) {
-			            	toastr.warning("请选择后缀为 “xls”或“xlsx”的文件。");
+				            toastr.warning("请选择后缀为 “xls”或“xlsx”的文件。");
 				            return false;
 			            }
 			            var index = layer.load(2, {
@@ -207,10 +266,10 @@
 			                processData : false,
 			                type : 'POST',
 			                success : function(data) {
-			                	layer.close(index);
+				                layer.close(index);
 				                if (data.success == true) {
-				                	parent.$.YiMo.BSTable.refresh();
-				                	toastr.success(data.msg);
+					                parent.$.YiMo.BSTable.refresh();
+					                toastr.success(data.msg);
 				                } else {
 					                toastr.error(data.msg);
 				                }
@@ -252,10 +311,10 @@
 		        }
 		        return value.toString().substr(0, length);
 	        },
-	        
+
 	        /**
-	        * 校验只要是数字（包含正负整数，0以及正负浮点数）就返回true
-	        **/
+			 * 校验只要是数字（包含正负整数，0以及正负浮点数）就返回true
+			 */
 	        isNumber : function(val) {
 		        var regPos = /^\d+(\.\d+)?$/; // 非负浮点数
 		        var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; // 负浮点数
@@ -265,16 +324,16 @@
 			        return false;
 		        }
 	        },
-	        /**以字符串开始**/
-	        startWith: function(value, start) {
-                var reg = new RegExp("^" + start);
-                return reg.test(value)
-            },
-            /**以字符串结束**/
-            endWith: function(value, end) {
-                var reg = new RegExp(end + "$");
-                return reg.test(value)
-            }
+	        /** 以字符串开始* */
+	        startWith : function(value, start) {
+		        var reg = new RegExp("^" + start);
+		        return reg.test(value)
+	        },
+	        /** 以字符串结束* */
+	        endWith : function(value, end) {
+		        var reg = new RegExp(end + "$");
+		        return reg.test(value)
+	        }
 	    }
 	});
 })(jQuery);

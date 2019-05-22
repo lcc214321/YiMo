@@ -67,38 +67,14 @@ function importTemplate() {
 }
 
 function add() {
-	layer.open({
-	    type : 2,
-	    title : '增加',
-	    maxmin : true,
-	    shadeClose : false, // 点击遮罩关闭层
-	    area : [ '800px', '520px' ],
-	    content : prefix + '/add' // iframe的url
+	YiMo.add({
+		url : prefix + "/add",
 	});
 }
 function edit(id) {
-	layer.open({
-	    type : 2,
-	    title : '编辑',
-	    maxmin : true,
-	    shadeClose : false, // 点击遮罩关闭层
-	    area : [ '800px', '520px' ],
-	    content : prefix + '/edit/' + id // iframe的url
+	YiMo.edit({
+		url : prefix + "/edit/" + id,
 	});
-}
-function remove(id) {
-	layer.confirm('确定要删除选中的记录？', {
-		btn : [ '确定', '取消' ]
-	}, function(index) {
-		layer.close(index);
-		$.YiMo.ajaxDelete({
-		    url : prefix + "/remove",
-		    data : {
-			    'userId' : id
-		    },
-		    refresh : true,
-		});
-	})
 }
 
 function resetPwd(id) {
@@ -107,38 +83,16 @@ function resetPwd(id) {
 	    refresh : true,
 	});
 }
-
-function save() {
-	YiMo.ajaxPost({
-	    url : prefix + "/save",
-	    data : $('#userForm').serialize(),
+function remove(id) {
+	YiMo.remove({
+	    url : prefix + "/remove/"+id,
 	});
 }
 
 function batchRemove() {
-	var rows = $('#bootstrap-table').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
-	if (rows.length == 0) {
-		layer.msg("请选择要删除的数据");
-		return;
-	}
-	layer.confirm("确认要删除选中的'" + rows.length + "'条数据吗?", {
-		btn : [ '确定', '取消' ]
-	// 按钮
-	}, function(index) {
-		layer.close(index);
-		var ids = new Array();
-		// 遍历所有选择的行数据，取每条数据对应的ID
-		$.each(rows, function(i, row) {
-			ids[i] = row['userId'];
-		});
-		YiMo.ajaxDelete({
-		    type : 'POST',
-		    data : {
-			    "ids" : ids
-		    },
-		    url : prefix + '/batchRemove',
-		    refresh : true,
-		});
+	YiMo.batchRemove({
+	    primaryKey : 'userId',
+	    url : prefix + "/batchRemove",
 	});
 }
 
@@ -153,10 +107,10 @@ function getTreeData() {
 }
 function loadTree(tree) {
 	$('#jstree').jstree({
-		'core' : {
-			'data' : tree
-		},
-	// "plugins" : [ "search" ]
+	    'core' : {
+		    'data' : tree
+	    },
+	    "plugins" : [ "search" ]
 	});
 	$('#jstree').jstree().open_all();
 }

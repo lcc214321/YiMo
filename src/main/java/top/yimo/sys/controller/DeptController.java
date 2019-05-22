@@ -115,11 +115,11 @@ public class DeptController extends BaseController {
 	/**
 	 * 删除
 	 */
-	@DeleteMapping("/remove")
+	@DeleteMapping("/remove/{id}")
 	@ResponseBody
 	@RequiresPermissions("sys:dept:remove")
 	@Log(describe = "删除部门信息", title = "部门管理", operatorType = OperatorType.DELETE)
-	public ResponseVo remove(Long deptId) {
+	public ResponseVo remove(@PathVariable("id")Long deptId) {
 		if (deptService.remove(deptId) > 0) {
 			return ResponseVo.ok("删除成功");
 		}
@@ -133,7 +133,7 @@ public class DeptController extends BaseController {
 	@ResponseBody
 	@RequiresPermissions("sys:dept:batchRemove")
 	@Log(describe = "批量删除部门信息", title = "部门管理", operatorType = OperatorType.DELETE)
-	public ResponseVo remove(@RequestParam("ids[]") Long[] deptIds) {
+	public ResponseVo remove(@PathVariable("id")@RequestParam("ids[]") Long[] deptIds) {
 		if (deptService.batchRemove(deptIds) > 0) {
 			return ResponseVo.ok("删除成功");
 		}

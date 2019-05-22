@@ -4,6 +4,7 @@ import java.util.List;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import top.yimo.common.annotation.Excel;
 import top.yimo.common.domain.BaseDO;
 
 /**
@@ -22,10 +23,13 @@ public class RoleDO extends BaseDO {
 	// 角色ID
 	private Long roleId;
 	// 角色名称
+	@Excel(name = "角色名称", orderNum = 1)
 	private String roleName;
 	// 角色标识
+	@Excel(name = "角色标识", orderNum = 2)
 	private String roleSign;
 	// 备注
+	@Excel(name = "备注", orderNum = 3)
 	private String remark;
 	// 创建用户id
 	private Long createUserId;
@@ -36,6 +40,7 @@ public class RoleDO extends BaseDO {
 	// 标识用户是否含有该角色
 	private boolean hasRole = false;
 	// 角色是否有效
+	@Excel(name = "状态", convertExp = "Status", orderNum = 3)
 	private String status;
 
 	// 角色拥有的菜单

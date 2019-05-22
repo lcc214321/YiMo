@@ -101,11 +101,11 @@ public class JobController extends BaseController {
 	/**
 	 * 删除
 	 */
-	@DeleteMapping("/remove")
+	@DeleteMapping("/remove/{id}")
 	@ResponseBody
 	@RequiresPermissions("sys:job:remove")
 	@Log(describe = "删除", title = title, operatorType = OperatorType.DELETE)
-	public ResponseVo remove(Integer jobId) {
+	public ResponseVo remove(@PathVariable("id")Integer jobId) {
 		if (jobService.remove(jobId) > 0) {
 			return ResponseVo.ok("删除成功");
 		}
@@ -119,7 +119,7 @@ public class JobController extends BaseController {
 	@ResponseBody
 	@RequiresPermissions("sys:job:batchRemove")
 	@Log(describe = "批量删除", title = title, operatorType = OperatorType.DELETE)
-	public ResponseVo remove(@RequestParam("ids[]") Integer[] jobIds) {
+	public ResponseVo remove(@PathVariable("id")@RequestParam("ids[]") Integer[] jobIds) {
 		if (jobService.batchRemove(jobIds) > 0) {
 			return ResponseVo.ok("删除成功");
 		}

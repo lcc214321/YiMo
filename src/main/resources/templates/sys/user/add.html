@@ -76,7 +76,7 @@
 
         $.validator.setDefaults({
 	        submitHandler : function() {
-		        YiMo.ajaxPost({
+		       YiMo.ajaxPost({
 		            url : ctx + "sys/user/save",
 		            data : $('#userForm').serialize(),
 		            needClose : true,

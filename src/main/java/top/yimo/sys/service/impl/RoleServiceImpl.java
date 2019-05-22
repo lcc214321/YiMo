@@ -81,4 +81,10 @@ public class RoleServiceImpl implements RoleService {
 		return allRoles;
 	}
 
+	@Override
+	public List<RoleDO> exportData(RoleDO role) {
+		List<RoleDO> exportData = roleDao.exportData(role);
+		return exportData;
+	}
+
 }

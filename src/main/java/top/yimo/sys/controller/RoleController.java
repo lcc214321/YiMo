@@ -16,23 +16,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import lombok.extern.slf4j.Slf4j;
 import top.yimo.common.annotation.Log;
 import top.yimo.common.controller.BaseController;
 import top.yimo.common.enums.OperatorType;
 import top.yimo.common.model.vo.BootstrapTablePageVo;
 import top.yimo.common.model.vo.ResponseVo;
+import top.yimo.common.util.excel.ExcelUtil;
 import top.yimo.sys.domain.RoleDO;
 import top.yimo.sys.service.RoleService;
 
 /**
- * 角色 
+ * 角色
  * 
  * @author imTayle
  * @email imTayle@126.com
  * @version 1.0
  * @date 2019年22月24日 17:22:00
  */
-
+@Slf4j
 @Controller
 @RequestMapping("/sys/role")
 public class RoleController extends BaseController {
@@ -51,6 +53,7 @@ public class RoleController extends BaseController {
 	@RequiresPermissions("sys:role:role")
 	@Log(describe = "获取角色 列表", title = "角色", operatorType = OperatorType.QUERY)
 	public BootstrapTablePageVo listByPage(@RequestParam Map<String, Object> params) {
+		log.info("参数信息：{}", params.toString());
 		startPage(params);
 		List<RoleDO> roleList = roleService.listByPage(params);
 		return getPageData(roleList);
@@ -96,10 +99,10 @@ public class RoleController extends BaseController {
 	/**
 	 * 删除
 	 */
-	@DeleteMapping("/remove")
+	@DeleteMapping("/remove/{id}")
 	@ResponseBody
 	@RequiresPermissions("sys:role:remove")
-	public ResponseVo remove(Long roleId) {
+	public ResponseVo remove(@PathVariable("id") Long roleId) {
 		if (roleService.remove(roleId) > 0) {
 			return ResponseVo.ok("删除成功");
 		}
@@ -112,10 +115,26 @@ public class RoleController extends BaseController {
 	@DeleteMapping("/batchRemove")
 	@ResponseBody
 	@RequiresPermissions("sys:role:batchRemove")
-	public ResponseVo remove(@RequestParam("ids[]") Long[] roleIds) {
+	public ResponseVo remove(@PathVariable("id") @RequestParam("ids[]") Long[] roleIds) {
 		if (roleService.batchRemove(roleIds) > 0) {
 			return ResponseVo.ok("删除成功");
 		}
 		return ResponseVo.fail();
+	}
+
+	/**
+	 * 导出所有有效的用户信息
+	 */
+	@PostMapping("/exportData")
+	@ResponseBody
+	public ResponseVo exportData(RoleDO role) {
+		try {
+			List<RoleDO> exportData = roleService.exportData(role);
+			ExcelUtil<RoleDO> excel = new ExcelUtil<RoleDO>(RoleDO.class);
+			return excel.exportExcel(exportData, "角色数据");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseVo.fail(-1, e.getMessage());
+		}
 	}
 }

@@ -3,8 +3,6 @@ package top.yimo.sys.controller;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +25,7 @@ import top.yimo.sys.domain.LogDO;
 import top.yimo.sys.service.LogService;
 
 /**
- * 系统日志 
+ * 系统日志
  * 
  * @author imTayle
  * @email imTayle@126.com
@@ -53,8 +51,8 @@ public class LogController extends BaseController {
 	@RequiresPermissions("sys:log:log")
 	public BootstrapTablePageVo listByPage(@RequestParam Map<String, Object> params) {
 		startPage(params);
-		System.out.println("哈哈哈"+JSONObject.toJSONString(params));
-		
+		System.out.println("哈哈哈" + JSONObject.toJSONString(params));
+
 		List<LogDO> logList = logService.listByPage(params);
 		return getPageData(logList);
 	}
@@ -98,10 +96,10 @@ public class LogController extends BaseController {
 	/**
 	 * 删除
 	 */
-	@DeleteMapping("/remove")
+	@DeleteMapping("/remove/{id}")
 	@ResponseBody
 	@RequiresPermissions("sys:log:remove")
-	public ResponseVo remove(Long id) {
+	public ResponseVo remove(@PathVariable("id") Long id) {
 		if (logService.remove(id) > 0) {
 			return ResponseVo.ok("删除成功");
 		}
@@ -114,7 +112,7 @@ public class LogController extends BaseController {
 	@DeleteMapping("/batchRemove")
 	@ResponseBody
 	@RequiresPermissions("sys:log:batchRemove")
-	public ResponseVo remove(@RequestParam("ids[]") Long[] ids) {
+	public ResponseVo remove(@PathVariable("id")@RequestParam("ids[]") Long[] ids) {
 		if (logService.batchRemove(ids) > 0) {
 			return ResponseVo.ok("删除成功");
 		}

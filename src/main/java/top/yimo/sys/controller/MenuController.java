@@ -26,7 +26,7 @@ import top.yimo.sys.domain.MenuDO;
 import top.yimo.sys.service.MenuService;
 
 /**
- * 菜单管理 
+ * 菜单管理
  * 
  * @author imTayle
  * @email imTayle@126.com
@@ -72,9 +72,9 @@ public class MenuController extends BaseController {
 		return prefix + "/add";
 	}
 
-	@GetMapping("/edit/{menuId}")
+	@GetMapping("/edit/{id}")
 	@RequiresPermissions("sys:menu:edit")
-	public String edit(@PathVariable("menuId") Long menuId, Model model) {
+	public String edit(@PathVariable("id") Long menuId, Model model) {
 		MenuDO menu = menuService.get(menuId);
 		model.addAttribute("menu", menu);
 		return prefix + "/edit";
@@ -108,11 +108,11 @@ public class MenuController extends BaseController {
 	/**
 	 * 删除
 	 */
-	@DeleteMapping("/remove")
+	@DeleteMapping("/remove/{id}")
 	@ResponseBody
 	@RequiresPermissions("sys:menu:remove")
 	@Log(describe = "删除菜单信息", title = title, operatorType = OperatorType.DELETE)
-	public ResponseVo remove(Long menuId) {
+	public ResponseVo remove(@PathVariable("id") Long menuId) {
 		if (menuService.remove(menuId) > 0) {
 			return ResponseVo.ok("删除成功");
 		}
@@ -126,7 +126,7 @@ public class MenuController extends BaseController {
 	@ResponseBody
 	@RequiresPermissions("sys:menu:batchRemove")
 	@Log(describe = "批量删除菜单信息", title = title, operatorType = OperatorType.DELETE)
-	public ResponseVo remove(@RequestParam("ids[]") Long[] menuIds) {
+	public ResponseVo remove(@PathVariable("id")@RequestParam("ids[]") Long[] menuIds) {
 		if (menuService.batchRemove(menuIds) > 0) {
 			return ResponseVo.ok("删除成功");
 		}

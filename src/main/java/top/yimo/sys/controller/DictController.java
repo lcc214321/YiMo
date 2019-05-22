@@ -102,7 +102,7 @@ public class DictController extends BaseController{
 	@DeleteMapping( "/remove")
 	@ResponseBody
 	@RequiresPermissions("sys:dict:remove")
-	public ResponseVo remove( String dictType){
+	public ResponseVo remove(@PathVariable("id") String dictType){
 		if(dictService.remove(dictType)>0){
 			return ResponseVo.ok("删除成功");
 		}
@@ -115,7 +115,7 @@ public class DictController extends BaseController{
 	@DeleteMapping( "/batchRemove")
 	@ResponseBody
 	@RequiresPermissions("sys:dict:batchRemove")
-	public ResponseVo remove(@RequestParam("ids[]") String[] dictTypes){
+	public ResponseVo remove(@PathVariable("id")@RequestParam("ids[]") String[] dictTypes){
 		if(dictService.batchRemove(dictTypes)>0){
 			return ResponseVo.ok("删除成功");
 		}

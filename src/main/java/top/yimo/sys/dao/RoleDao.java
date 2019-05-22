@@ -9,6 +9,7 @@ import top.yimo.sys.domain.RoleDO;
 
 /**
  * 角色
+ * 
  * @author imTayle
  * @email imTayle@126.com
  * @version 1.0
@@ -40,4 +41,6 @@ public interface RoleDao {
 	 * 获取所有有效的角色信息
 	 */
 	List<RoleDO> getAllRoles();
+
+	List<RoleDO> exportData(RoleDO role);
 }

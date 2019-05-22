@@ -5,6 +5,25 @@
 <body class="gray-bg">
 	<div class="wrapper wrapper-content ">
 		<div class="col-sm-12">
+		<div class="ibox">
+				<div class="search-collapse" hidden="">
+					<form id="search-form">
+						<div class="search-list">
+							<ul>
+								<li>角色名称：<input type="text" name="roleName" id="roleName" />
+								</li>
+								<li>状态：<select name="status" id="status" th:with="type=${@dict.getDictDatas('Status')}">
+										<option value="">所有</option>
+										<option th:each="dict : ${type}" th:text="${dict.dictName}" th:value="${dict.dictNo}"></option>
+								</select>
+								</li>
+								<li><a class="btn btn-primary btn-rounded btn-sm" onclick="$.YiMo.BSTable.search('search-form')"><i class="fa fa-search"></i>&nbsp;搜索</a> <a
+									class="btn btn-warning btn-rounded btn-sm" onclick="document.getElementById('search-form').reset();"><i class="fa fa-refresh"></i>&nbsp;重置</a></li>
+							</ul>
+						</div>
+					</form>
+				</div>
+			</div>
 			<div class="ibox">
 				<div class="fixed-table-toolbar" id="toolbar">
 						<div class="columns pull-left">
@@ -14,6 +33,9 @@
 							<button shiro:hasPermission="sys:role:batchRemove" type="button" class="btn btn-rounded btn-danger" onclick="batchRemove()">
 								<i class="fa fa-trash" aria-hidden="true"></i>批量删除
 							</button>
+							<button shiro:hasPermission="sys:user:export" type="button" class="btn  btn-rounded btn-success" onclick="exportData()">
+							<i class="fa fa-download" aria-hidden="true"></i> 导出
+						</button>
 						</div>
 					</div>
 					<table id="bootstrap-table" data-mobile-responsive="true">
@@ -22,6 +44,7 @@
 		</div>
 	</div>
 	<div th:replace="footer :: footer"></div>
+		<div th:replace="footer :: uploadData"></div>
 	<script type="text/javascript" th:inline="javascript">
 	var s_edit_h = [[${@permission.hasPermi('sys:role:edit')}]];
 	var s_remove_h = [[${@permission.hasPermi('sys:role:remove')}]];

@@ -93,44 +93,21 @@ var load = function() {
 	});
 }
 
-// 刷新
-function refresh() {
-	$('#MenuTable').bootstrapTreeTable('refresh');
-}
-// 新增
-function add(menuId) {
-	layer.open({
-	    type : 2,
-	    title : '增加',
-	    maxmin : true,
-	    shadeClose : false, // 点击遮罩关闭层
-	    area : [ '800px', '520px' ],
-	    content : prefix + '/add/' + menuId // iframe的url
+//新增
+function add() {
+	YiMo.add({
+	    url : prefix + '/add' // iframe的url
 	});
 }
 // 编辑
 function edit(id) {
-	layer.open({
-	    type : 2,
-	    title : '编辑',
-	    maxmin : true,
-	    shadeClose : false, // 点击遮罩关闭层
-	    area : [ '800px', '520px' ],
-	    content : prefix + '/edit/' + id // iframe的url
+	YiMo.edit({
+	    url : prefix + '/edit/' + id // iframe的url
 	});
 }
-// 删除
+//删除
 function remove(id) {
-	layer.confirm('确定要删除选中的记录？', {
-		btn : [ '确定', '取消' ]
-	}, function(index) {
-		layer.close(index);
-		yimo.ajaxDelete({
-		    url : prefix + "/remove",
-		    data : {
-			    'menuId' : id
-		    },
-		    refresh : true,
-		});
+	YiMo.remove({
+	    url : prefix + "/remove/"+id,
 	});
 }
