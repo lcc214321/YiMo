@@ -95,7 +95,7 @@
 		                iconSize : options.iconSize || 'outline',// 图标大小：undefined默认的按钮尺寸
 		                // xs超小按钮sm小按钮lg大按钮
 		                toolbar : options.toolbar || '#toolbar', // 指定工作栏
-		                striped : true,// 设置为true会有隔行变色效果
+		                striped :  options.striped ||true,// 设置为true会有隔行变色效果
 		                sortable : options.sortable || true, // 是否启用排序
 		                sortStable : true,
 		                sortOrder : options.sortOrder || 'desc', // 排序方式

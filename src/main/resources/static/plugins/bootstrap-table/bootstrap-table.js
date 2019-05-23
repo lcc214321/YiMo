@@ -882,6 +882,11 @@
           this.$el.addClass(this.options.classes);
           this.$tableLoading.addClass(this.options.classes);
 
+          /**增加奇偶显示**/
+           if (this.options.striped) {
+                this.$el.addClass("table-striped")
+           }
+          
           if (this.options.height) {
             this.$tableContainer.addClass('fixed-height');
 

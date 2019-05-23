@@ -8054,12 +8054,12 @@ body.skin-3 {
 /* 	color: white; */
 /* } */
 
-/* /*奇偶行颜色*/ */
-/* .table-striped>tbody>tr:nth-of-type(odd) { */
-/* 	background-color: #808080 */
-/* } */
-
+/*奇偶行颜色 */
+.table-striped>tbody>tr:nth-of-type(odd) {
+	background-color: #eeeeee;
+}
+.table-hover>tbody>tr{}
 .table-hover>tbody>tr:hover {
-	background-color: #31b0d5  !important; 
-	color: white;
+	background-color: #199d82; important; 
+	color: white; !important; 
 }
