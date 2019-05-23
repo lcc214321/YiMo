@@ -33,7 +33,12 @@ function load() {
 	    }, {
 	        field : 'mobile',
 	        halign : 'center',
-	        title : '手机号'
+	        title : '手机号',
+	        
+	    }, {
+	        field : 'birth',
+	        halign : 'center',
+	        title : '生日',
 	    }, {
 	        field : 'status',
 	        title : '状态',

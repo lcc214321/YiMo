@@ -23,19 +23,14 @@
 				</form>
 			</div>
 			<div class="ibox">
-				<div class="fixed-table-toolbar" id="toolbar">
-					<button shiro:hasPermission="sys:role:add" type="button" class="btn btn-rounded btn-primary" onclick="add()">
-						<i class="fa fa-plus" aria-hidden="true"></i>
-						添加
-					</button>
-					<button shiro:hasPermission="sys:role:batchRemove" type="button" class="btn btn-rounded btn-danger" onclick="batchRemove()">
-						<i class="fa fa-trash" aria-hidden="true"></i>
-						批量删除
-					</button>
-					<button shiro:hasPermission="sys:user:export" type="button" class="btn  btn-rounded btn-success" onclick="exportData()">
-						<i class="fa fa-download" aria-hidden="true"></i>
-						导出
-					</button>
+				<div class="fixed-table-toolbar" id="toolbar" role="group">
+					<a shiro:hasPermission="sys:role:add" class="btn    btn-primary  btn-circle" onclick="add()" title="添加"> <i class="fa fa-plus"
+							aria-hidden="true"></i>
+					</a> <a shiro:hasPermission="sys:role:batchRemove" class="btn   btn-danger btn-circle" onclick="batchRemove()" title="批量删除"> <i
+							class="fa fa-trash" aria-hidden="true"></i>
+					</a> <a shiro:hasPermission="sys:role:export" class="btn btn-info  btn-circle " onclick="exportData()" title="下载"> <i
+							class="fa fa-download" aria-hidden="true"></i>
+					</a>
 				</div>
 				<table id="bootstrap-table" data-mobile-responsive="true">
 				</table>

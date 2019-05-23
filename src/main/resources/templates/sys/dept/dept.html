@@ -5,25 +5,39 @@
 <body class="gray-bg">
 	<div class="wrapper wrapper-content ">
 		<div class="col-sm-12">
-			<div class="ibox">
-				<div class="ibox-body">
-					<div class="fixed-table-toolbar" id="toolbar">
-						<div class="columns pull-left">
-							<button shiro:hasPermission="sys:dept:add" type="button" class="btn btn-rounded btn-primary" onclick="add(1)">
-								<i class="fa fa-plus" aria-hidden="true"></i>
-								添加
-							</button>
-							<button class="btn btn-info" id="expandAllBtn">
-								<i class="fa fa-exchange"></i>
-								展开/折叠
-							</button>
-						</div>
+			<div class="search-collapse">
+				<form id="search-form">
+					<div class="search-list">
+						<ul>
+							<li>部门名称：<input type="text" name="deptName" id="deptName" />
+							</li>
+							<li>状态：<select name="status" id="status" th:with="type=${@dict.getDictDatas('Status')}">
+									<option value="">所有</option>
+									<option th:each="dict : ${type}" th:text="${dict.dictName}" th:value="${dict.dictNo}"></option>
+							</select>
+							</li>
+							<li><a class="btn btn-primary btn-rounded btn-sm" onclick="$.YiMo.BSTreeTable.search('search-form')">
+									<i class="fa fa-search"></i>
+									&nbsp;搜索
+								</a> <a class="btn btn-warning btn-rounded btn-sm" onclick="document.getElementById('search-form').reset();">
+									<i class="fa fa-refresh"></i>
+									&nbsp;重置
+								</a></li>
+						</ul>
 					</div>
-<!-- 					<div class="col-sm-12 select-table table-striped"> -->
-						<table id="bootstrap-tree-table" data-mobile-responsive="true">
-						</table>
-<!-- 					</div> -->
+				</form>
+			</div>
+			<div class="ibox">
+				<div class="fixed-table-toolbar" id="toolbar">
+					<a shiro:hasPermission="sys:dept:add" class="btn btn-primary  btn-circle" onclick="add(1)" title="添加">
+						<i class="fa fa-plus" aria-hidden="true"></i>
+					</a>
+					<a class="btn    btn-info  btn-circle" onclick="$.YiMo.BSTreeTable.exchange()" title="展开/折叠">
+						<i class="fa fa-exchange" aria-hidden="true"></i>
+					</a>
 				</div>
+				<table id="bootstrap-tree-table" data-mobile-responsive="true">
+				</table>
 			</div>
 		</div>
 	</div>

@@ -1377,30 +1377,25 @@
           if (o.showFullscreen) {
             html.push('<button class="' + this.constants.buttonsClass + '" type="button" name="fullscreen"\n          aria-label="Fullscreen" title="' + o.formatFullscreen() + '">\n          ' + Utils.sprintf(this.constants.html.icon, o.iconsPrefix, o.icons.fullscreen) + '\n          </button>');
           }
-
+          
           if (o.showColumns) {
-            html.push('<div class="keep-open ' + this.constants.classes.buttonsDropdown + '" title="' + o.formatColumns() + '">\n          <button class="' + this.constants.buttonsClass + ' dropdown-toggle" type="button" data-toggle="dropdown"\n          aria-label="Columns" title="' + o.formatFullscreen() + '">\n          ' + Utils.sprintf(this.constants.html.icon, o.iconsPrefix, o.icons.columns) + '\n          ' + this.constants.html.dropdownCaret + '\n          </button>\n          ' + this.constants.html.toobarDropdow[0]);
-
-            this.columns.forEach(function (column, i) {
-              if (column.radio || column.checkbox) {
-                return;
-              }
-
-              if (o.cardView && !column.cardVisible) {
-                return;
-              }
-
-              var checked = column.visible ? ' checked="checked"' : '';
-
-              if (column.switchable) {
-                html.push(Utils.sprintf(_this4.constants.html.toobarDropdowItem, Utils.sprintf('<input type="checkbox" data-field="%s" value="%s"%s> <span>%s</span>', column.field, i, checked, column.title)));
-                switchableCount++;
-              }
-            });
-            html.push(this.constants.html.toobarDropdow[1], '</div>');
-          }
-
-          html.push('</div>');
+              html.push('<div class="keep-open ' + this.constants.classes.buttonsDropdown + '" title="' + o.formatColumns() + '">\n          <button class="' + this.constants.buttonsClass + ' dropdown-toggle" type="button" data-toggle="dropdown"\n          aria-label="Columns" title="' + o.formatColumns() + '">\n          ' + Utils.sprintf(this.constants.html.icon, o.iconsPrefix, o.icons.columns) + '\n          ' + this.constants.html.dropdownCaret + '\n          </button>\n          ' + this.constants.html.toobarDropdow[0]);
+              this.columns.forEach(function (column, i) {
+                if (column.radio || column.checkbox) {
+                  return;
+                }
+                if (o.cardView && !column.cardVisible) {
+                  return;
+                }
+                var checked = column.visible ? ' checked="checked"' : '';
+                if (column.switchable) {
+                  html.push(Utils.sprintf(_this4.constants.html.toobarDropdowItem, Utils.sprintf('<input type="checkbox" data-field="%s" value="%s"%s> <span>%s</span>', column.field, i, checked, column.title)));
+                  switchableCount++;
+                }
+              });
+              html.push(this.constants.html.toobarDropdow[1], '</div>');
+            }
+            html.push('</div>');
 
           // Fix #188: this.showToolbar is for extensions
           if (this.showToolbar || html.length > 2) {
@@ -1440,11 +1435,9 @@
 
           if (o.showColumns) {
             $keepOpen = this.$toolbar.find('.keep-open');
-
             if (switchableCount <= o.minimumCountColumns) {
               $keepOpen.find('input').prop('disabled', true);
             }
-
             $keepOpen.find('li, label').off('click').on('click', function (e) {
               e.stopImmediatePropagation();
             });
