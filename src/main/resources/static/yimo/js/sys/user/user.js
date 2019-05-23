@@ -19,18 +19,25 @@ function load() {
 	    }, {
 	        field : 'userName',
 	        title : '用户名',
+	        halign : 'center',
 	        sortable : true
 	    }, {
 	        field : 'name',
 	        title : '昵称',
+	        halign : 'center',
 	        sortable : true
 	    }, {
+	        field : 'deptName',
+	        halign : 'center',
+	        title : '部门'
+	    }, {
 	        field : 'mobile',
+	        halign : 'center',
 	        title : '手机号'
 	    }, {
 	        field : 'status',
 	        title : '状态',
-	        align : 'center',
+	        halign : 'center',
 	        formatter : function(value, row, index) {
 		        var dictData = $.YiMo.getDictData('Status', value);
 		        return '<span class="label ' + dictData.dictDescribe + '">' + dictData.dictName + '</span>';
@@ -38,6 +45,8 @@ function load() {
 	    }, {
 	        title : '操作',
 	        field : 'id',
+	        width : '128px',
+	        halign : 'center',
 	        formatter : function(value, row, index) {
 		        var e = '<a class="btn btn-primary btn-sm ' + s_edit_h + '" href="#" mce_href="#" title="编辑" onclick="edit(\'' + row.userId + '\')"><i class="fa fa-edit"></i></a> ';
 		        var d = '<a class="btn btn-warning btn-sm ' + s_remove_h + '" href="#" title="删除"  mce_href="#" onclick="remove(\'' + row.userId + '\')"><i class="fa fa-remove"></i></a> ';
@@ -85,7 +94,7 @@ function resetPwd(id) {
 }
 function remove(id) {
 	YiMo.remove({
-	    url : prefix + "/remove/"+id,
+		url : prefix + "/remove/" + id,
 	});
 }
 

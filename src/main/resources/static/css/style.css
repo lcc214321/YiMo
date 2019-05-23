@@ -8047,3 +8047,19 @@ body.skin-3 {
 	display: block;
 	margin: 5px 5px;
 }
+
+
+/* .changeColor { */
+/* 	background-color: #31b0d5 !important; */
+/* 	color: white; */
+/* } */
+
+/* /*奇偶行颜色*/ */
+/* .table-striped>tbody>tr:nth-of-type(odd) { */
+/* 	background-color: #808080 */
+/* } */
+
+.table-hover>tbody>tr:hover {
+	background-color: #31b0d5  !important; 
+	color: white;
+}

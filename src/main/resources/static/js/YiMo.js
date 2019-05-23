@@ -14,15 +14,23 @@
 		            async : options.async || false,
 		            dataType : 'json',
 		            success : function(data) {
-			            console.log(data);
+			            console.log("操作成功返回:" + data);
 			            if (data.success == true) {
 				            parent.toastr.success(data.msg);
 				            options.success && options.success(data);
 				            if (options.parentRefresh == true) {
-					            parent.$.YiMo.BSTable.refresh();
+					            if (parent.$("#bootstrap-tree-table").length > 0) {
+						            parent.$.YiMo.BSTreeTable.refresh();
+					            } else {
+						            parent.$.YiMo.BSTable.refresh();
+					            }
 				            }
 				            if (options.refresh == true) {
-					            $.YiMo.BSTable.refresh();
+					            if ($("#bootstrap-tree-table").length > 0) {
+						            $.YiMo.BSTreeTable.refresh();
+					            } else {
+						            $.YiMo.BSTable.refresh();
+					            }
 				            }
 				            if (options.needClose == true) {
 					            var index = parent.layer.getFrameIndex(window.name);
@@ -71,7 +79,7 @@
 		        });
 		        return dictData;
 	        },
-	        /* 封装bootstrap-table */
+	        /** 简单封装bootstrap-table * */
 	        BSTable : {
 	            load : function(options) {
 		            $('#bootstrap-table').bootstrapTable({
@@ -79,19 +87,18 @@
 		                url : options.url,// 服务器数据的加载地址
 		                showRefresh : options.showRefresh || true,// 是否显示刷新按钮
 		                cache : false,// 是否使用缓存
-		                showToggle : options.showToggle || false, // 是否显示详细视图和列表视图的切换按钮
-		                showExport : options.showExport || false, // 是否支持导出文件
+		                showToggle : options.showToggle || true, // 是否显示详细视图和列表视图的切换按钮
 		                showFooter : options.showFooter || false,// 是否显示表尾
 		                search : options.search || false,// 是否显示搜索框
 		                showSearch : options.showSearch || true,// 是否显示搜索按钮
-		                showColumns : options.showColumns || false,// 是否显示内容下拉框（选择显示的列）
+		                showColumns : options.showColumns || true,// 是否显示内容下拉框（选择显示的列）
 		                iconSize : options.iconSize || 'outline',// 图标大小：undefined默认的按钮尺寸
 		                // xs超小按钮sm小按钮lg大按钮
 		                toolbar : options.toolbar || '#toolbar', // 指定工作栏
-		                striped : options.striped || true,// 设置为true会有隔行变色效果
+		                striped : true,// 设置为true会有隔行变色效果
 		                sortable : options.sortable || true, // 是否启用排序
 		                sortStable : true,
-		                sortOrder : options.sortOrder || 'desc', // 排序方式 asc或者 desc
+		                sortOrder : options.sortOrder || 'desc', // 排序方式
 		                dataType : options.dataType || "json",// 服务器返回的数据类型
 		                pagination : options.pagination || true,// 设置为true会在底部显示分页条
 		                queryParamsType : options.queryParamsType || "limit",// 设置为limit则会发送符合RESTFull格式的参数
@@ -142,7 +149,45 @@
 	            },
 
 	        },
-
+	        /** 简单封装bootstrap-treetable* */
+	        _treeTable : {},
+	        BSTreeTable : {
+	            _option : {},
+	            // 加载表格
+	            load : function(options) {
+		            $.YiMo.BSTreeTable._option = options;
+		            var treeTable = $('#bootstrap-tree-table').bootstrapTreeTable({
+		                code : options.code, // 用于设置父子关系
+		                parentCode : options.parentCode || 'parentId', // 用于设置父子关系
+		                type : 'get', // 请求方式（*）
+		                url : options.url, // 请求后台的URL（*）
+		                ajaxParams : options.ajaxParams || {}, // 请求数据的ajax的data属性
+		                expandColumn : options.expandColumn || '1', // 在哪一列上面显示展开按钮
+		                striped : options.striped || false, // 是否显示行间隔色
+		                bordered : true, // 是否显示边框
+		                toolbar : '#toolbar', // 指定工作栏
+		                showRefresh : options.showRefresh || true, // 是否显示刷新按钮
+		                showColumns : options.showColumns || false, // 是否显示隐藏某列下拉框
+		                expandAll : options.expandAll || false, // 是否全部展开
+		                expandFirst : options.expandFirst || false, // 是否默认第一级展开--expandAll为false时生效
+		                columns : options.columns
+		            });
+		            $.YiMo._treeTable = treeTable;
+	            },
+	            // 条件查询
+	            search : function(formId) {
+		            var searchFormId = formId || 'search-form';
+		            var search = {};
+		            $.each($("#" + searchFormId).serializeArray(), function(i, field) {
+			            search[field.name] = field.value;
+		            });
+		            $._treeTable.bootstrapTreeTable('refresh', search);
+	            },
+	            // 刷新
+	            refresh : function() {
+		            $('#bootstrap-tree-table').bootstrapTreeTable('refresh');
+	            },
+	        },
 	        // 新增
 	        add : function(option) {
 		        layer.open({

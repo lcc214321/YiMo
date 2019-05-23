@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"  th:with="title='部门管理'">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro" th:with="title='部门管理'">
 <meta charset="utf-8">
 <header th:replace="header::header(${title})"></header>
 <body class="gray-bg">
@@ -7,15 +7,22 @@
 		<div class="col-sm-12">
 			<div class="ibox">
 				<div class="ibox-body">
-					<div class="fixed-table-toolbar">
+					<div class="fixed-table-toolbar" id="toolbar">
 						<div class="columns pull-left">
 							<button shiro:hasPermission="sys:dept:add" type="button" class="btn btn-rounded btn-primary" onclick="add(1)">
-								<i class="fa fa-plus" aria-hidden="true"></i>添加
+								<i class="fa fa-plus" aria-hidden="true"></i>
+								添加
+							</button>
+							<button class="btn btn-info" id="expandAllBtn">
+								<i class="fa fa-exchange"></i>
+								展开/折叠
 							</button>
 						</div>
 					</div>
-					<table id="DeptTable" data-mobile-responsive="true">
-					</table>
+<!-- 					<div class="col-sm-12 select-table table-striped"> -->
+						<table id="bootstrap-tree-table" data-mobile-responsive="true">
+						</table>
+<!-- 					</div> -->
 				</div>
 			</div>
 		</div>

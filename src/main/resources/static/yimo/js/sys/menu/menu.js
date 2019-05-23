@@ -1,19 +1,11 @@
 var prefix = ctx + "sys/menu"
 var load = function() {
-	$('#MenuTable').bootstrapTreeTable({
-	    id : 'menuId',
+	options = {
 	    code : 'menuId',
-	    parentCode : 'parentId',
-	    type : "GET", // 请求数据的ajax类型
 	    url : prefix + '/list', // 请求数据的ajax的url
 	    ajaxParams : {
 		    sort : 'order_no'
 	    }, // 请求数据的ajax的data属性
-	    expandColumn : '1',// 在哪一列上面显示展开按钮
-	    striped : true, // 是否各行渐变色
-	    bordered : true, // 是否显示边框
-	    expandAll : false, // 是否全部展开
-	    // toolbar : '#exampleToolbar',
 	    columns : [ {
 	        title : '编号',
 	        field : 'menuId',
@@ -90,7 +82,8 @@ var load = function() {
 		        return e + d + p;
 	        }
 	    } ]
-	});
+	};
+	$.YiMo.BSTreeTable.load(options);
 }
 
 //新增

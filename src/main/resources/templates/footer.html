@@ -13,8 +13,8 @@
 		<div class="col-xs-offset-1">
 			<input type="file" id="file" name="file" />
 			<div class="mt10 pt5">
-				<input type="checkbox" id="isCover" name="isCover" title="如果导入数据已经存在，更新这条数据。"> 是否更新已经存在的数据 &nbsp; <a
-					onclick="importTemplate()" class="btn btn-default btn-xs"><i class="fa fa-file-excel-o"></i> 下载模板</a>
+				<input type="checkbox" id="isCover" name="isCover" title="如果导入数据已经存在，更新这条数据。"> 是否更新已经存在的数据 &nbsp; <a onclick="importTemplate()"
+					class="btn btn-default btn-xs"><i class="fa fa-file-excel-o"></i> 下载模板</a>
 			</div>
 			<font color="red" class="pull-left mt10"> 提示：请按照模板上传数据！ </font>
 		</div>
@@ -49,11 +49,12 @@
 	<!-- 表格插件 -->
 	<script th:src="@{/plugins/bootstrap-table/bootstrap-table.js}"></script>
 	<script th:src="@{/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.js}"></script>
+	<script th:src="@{/plugins/bootstrap-table/extensions/toolbar/bootstrap-table-toolbar.js}"></script>
 	<script th:src="@{/plugins/bootstrap-table/extensions/mobile/bootstrap-table-mobile.js}"></script>
-	
+
 	<script th:src="@{/js/plugins/validate/jquery.validate.min.js}"></script>
 	<script th:src="@{/js/plugins/validate/messages_zh.min.js}"></script>
-	<script th:src="@{/js/plugins/bootstrap-treetable/bootstrap-treetable.js}"></script>
+	<script th:src="@{/plugins/bootstrap-treetable/bootstrap-treetable.js}"></script>
 	<!-- 树形节点插件 -->
 	<script th:src="@{/js/plugins/jsTree/dist/jstree.min.js}"></script>
 	<!--webSocket -->

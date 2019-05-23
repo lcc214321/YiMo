@@ -3,50 +3,43 @@
 <header th:replace="header::header(${title})"></header>
 <body class="gray-bg">
 	<div class="wrapper wrapper-content animated ">
-		<div class="col-sm-3">
-			<div class="ibox ">
+		<div class="col-sm-2">
+			<div class="ibox">
 				<div id="jstree"></div>
 			</div>
 		</div>
-		<div class="col-sm-9">
-			<div class="ibox">
-				<div class="search-collapse" hidden="">
-					<form id="search-form">
-						<input type="hidden" id="deptId" name="deptId">
-						<div class="search-list">
-							<ul>
-								<li>用户名：<input type="text" name="userName" id="userName" />
-								</li>
-								<li>手机号码：<input type="text" name="mobile" id="mobile" />
-								</li>
-								<li>状态：<select name="status" id="status" th:with="type=${@dict.getDictDatas('Status')}">
-										<option value="">所有</option>
-										<option th:each="dict : ${type}" th:text="${dict.dictName}" th:value="${dict.dictNo}"></option>
-								</select>
-								</li>
-								<li><a class="btn btn-primary btn-rounded btn-sm" onclick="$.YiMo.BSTable.search('search-form')"><i class="fa fa-search"></i>&nbsp;搜索</a> <a
-									class="btn btn-warning btn-rounded btn-sm" onclick="document.getElementById('search-form').reset();"><i class="fa fa-refresh"></i>&nbsp;重置</a></li>
-							</ul>
-						</div>
-					</form>
-				</div>
+		<div class="col-sm-10">
+			<div class="search-collapse " hidden="">
+				<form id="search-form">
+					<input type="hidden" id="deptId" name="deptId">
+					<div class="search-list">
+						<ul>
+							<li>用户名称：<input type="text" name="userName" id="userName" />
+							</li>
+							<li>手机号码：<input type="text" name="mobile" id="mobile" />
+							</li>
+							<li>用户状态：<select name="status" id="status" th:with="type=${@dict.getDictDatas('Status')}">
+									<option value="">所有</option>
+									<option th:each="dict : ${type}" th:text="${dict.dictName}" th:value="${dict.dictNo}"></option>
+							</select>
+							</li>
+							<li><a class="btn btn-primary btn-rounded btn-sm" onclick="$.YiMo.BSTable.search('search-form')"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="document.getElementById('search-form').reset();"><i class="fa fa-refresh"></i>&nbsp;重置</a></li>
+						</ul>
+					</div>
+				</form>
 			</div>
 			<div class="ibox">
-				<div class="fixed-table-toolbar" id="toolbar">
-					<div class="columns pull-left">
-						<button shiro:hasPermission="sys:user:add" type="button" class="btn  btn-rounded  btn-primary "  onclick="add()">
-							<i class="fa fa-plus" aria-hidden="true"></i> 添加
-						</button>
-						<button shiro:hasPermission="sys:user:batchRemove" type="button" class="btn  btn-rounded btn-danger" onclick="batchRemove()">
-							<i class="fa fa-trash" aria-hidden="true"></i> 批量删除
-						</button>
-						<button shiro:hasPermission="sys:user:export" type="button" class="btn  btn-rounded btn-success" onclick="exportData()">
-							<i class="fa fa-download" aria-hidden="true"></i> 导出
-						</button>
-						<button shiro:hasPermission="sys:user:import" type="button" class="btn  btn-rounded btn-success" onclick="importData()">
-							<i class="fa fa-upload" aria-hidden="true"></i> 导入
-						</button>
-					</div>
+				<div class="fixed-table-toolbar" id="toolbar" role="group">
+					<a shiro:hasPermission="sys:user:add" class="btn    btn-primary  btn-circle" onclick="add()" title="添加"> <i class="fa fa-plus"
+							aria-hidden="true"></i>
+					</a> <a shiro:hasPermission="sys:user:batchRemove" class="btn   btn-danger btn-circle" onclick="batchRemove()" title="批量删除"> <i
+							class="fa fa-trash" aria-hidden="true"></i>
+					</a> <a shiro:hasPermission="sys:user:export" class="btn btn-info  btn-circle " onclick="exportData()" title="下载"> <i
+							class="fa fa-download" aria-hidden="true"></i>
+					</a> <a shiro:hasPermission="sys:user:import" class="btn btn-success btn-circle" onclick="importData()" title="上传"> <i
+							class="fa fa-upload"></i>
+					</a>
 				</div>
 				<table id="bootstrap-table" data-mobile-responsive="true">
 				</table>
