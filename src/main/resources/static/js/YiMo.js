@@ -91,11 +91,12 @@
 		                showFooter : options.showFooter || false,// 是否显示表尾
 		                search : options.search || false,// 是否显示搜索框
 		                showSearch : options.showSearch || true,// 是否显示搜索按钮
-		                showColumns : options.showColumns || true,// 是否显示内容下拉框（选择显示的列）
+		                showColumns : options.showColumns || false,// 是否显示内容下拉框（选择显示的列）
+		                showFullscreen : options.showFullscreen || true,// 全屏
 		                iconSize : options.iconSize || 'outline',// 图标大小：undefined默认的按钮尺寸
 		                // xs超小按钮sm小按钮lg大按钮
 		                toolbar : options.toolbar || '#toolbar', // 指定工作栏
-		                striped :  options.striped ||true,// 设置为true会有隔行变色效果
+		                striped : options.striped || true,// 设置为true会有隔行变色效果
 		                sortable : options.sortable || true, // 是否启用排序
 		                sortStable : true,
 		                sortOrder : options.sortOrder || 'desc', // 排序方式
@@ -153,26 +154,34 @@
 	        _treeTable : {},
 	        BSTreeTable : {
 	            _option : {},
+	            _expandAll :{},
+	            _expandFirst :{},
 	            // 加载表格
 	            load : function(options) {
 		            $.YiMo.BSTreeTable._option = options;
+		            $.YiMo.BSTreeTable._expandAll = options.expandAll || false;
+		            $.YiMo.BSTreeTable._expandFirst = options.expandFirst || false;
+
 		            var treeTable = $('#bootstrap-tree-table').bootstrapTreeTable({
 		                code : options.code, // 用于设置父子关系
 		                parentCode : options.parentCode || 'parentId', // 用于设置父子关系
 		                type : 'get', // 请求方式（*）
 		                url : options.url, // 请求后台的URL（*）
+		                sortOrder : options.sortOrder || 'desc', // 排序方式
 		                ajaxParams : options.ajaxParams || {}, // 请求数据的ajax的data属性
 		                expandColumn : options.expandColumn || '1', // 在哪一列上面显示展开按钮
 		                striped : options.striped || false, // 是否显示行间隔色
 		                bordered : true, // 是否显示边框
 		                toolbar : '#toolbar', // 指定工作栏
 		                showRefresh : options.showRefresh || true, // 是否显示刷新按钮
-		                showColumns : options.showColumns || false, // 是否显示隐藏某列下拉框
-		                expandAll : options.expandAll || false, // 是否全部展开
-		                expandFirst : options.expandFirst || false, // 是否默认第一级展开--expandAll为false时生效
+		                showColumns : options.showColumns || true, // 是否显示隐藏某列下拉框
+		                showSearch : options.showSearch || true,// 是否显示搜索按钮
+		                search : options.search || true,// 是否显示搜索按钮
+
+		                expandAll : $.YiMo.BSTreeTable._expandAll, // 是否全部展开
+		                expandFirst : $.YiMo.BSTreeTable._expandFirst, // 是否默认第一级展开--expandAll为false时生效
 		                columns : options.columns
 		            });
-		            $.YiMo._treeTable = treeTable;
 	            },
 	            // 条件查询
 	            search : function(formId) {
@@ -181,12 +190,25 @@
 		            $.each($("#" + searchFormId).serializeArray(), function(i, field) {
 			            search[field.name] = field.value;
 		            });
-		            $._treeTable.bootstrapTreeTable('refresh', search);
+		            $('#bootstrap-tree-table').bootstrapTreeTable('refresh', search);
 	            },
 	            // 刷新
 	            refresh : function() {
 		            $('#bootstrap-tree-table').bootstrapTreeTable('refresh');
 	            },
+	            // 展开or合并
+	            exchange : function() {
+	            	if($.YiMo.BSTreeTable._expandFirst==true&&$.YiMo.BSTreeTable._expandAll==false){//首次打开第一层时默认设置为true
+	            		 $.YiMo.BSTreeTable._expandAll=true;
+	            		 $.YiMo.BSTreeTable._expandFirst=false;
+	            	}
+		            if ($.YiMo.BSTreeTable._expandAll) {
+			            $('#bootstrap-tree-table').bootstrapTreeTable('collapseAll');
+		            } else {
+			            $('#bootstrap-tree-table').bootstrapTreeTable('expandAll');
+		            }
+		            $.YiMo.BSTreeTable._expandAll = $.YiMo.BSTreeTable._expandAll ? false : true;
+	            }
 	        },
 	        // 新增
 	        add : function(option) {

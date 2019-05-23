@@ -5,26 +5,34 @@
 <body class="gray-bg">
 	<div class="wrapper wrapper-content ">
 		<div class="col-sm-12">
-			<div class="ibox">
-				<div class="ibox-body">
-					<div class="fixed-table-toolbar">
-						<div class="columns pull-left">
-							<button shiro:hasPermission="sys:dict:add" type="button" class="btn btn-rounded btn-primary" onclick="add()">
-								<i class="fa fa-plus" aria-hidden="true"></i>
-								添加
-							</button>
-							<button shiro:hasPermission="sys:dict:batchRemove" type="button" class="btn btn-rounded btn-danger" onclick="batchRemove()">
-								<i class="fa fa-trash" aria-hidden="true"></i>
-								批量删除
-							</button>
-						</div>
-						<div class="columns pull-right">
-							<button class="btn btn-success" onclick="refresh()">刷新</button>
-						</div>
+		<div class="search-collapse" hidden="">
+				<form id="search-form">
+					<div class="search-list">
+						<ul>
+							<li>字典名称：<input type="text" name="dictName" id="dictName" />
+							</li>
+							<li>状态：<select name="status" id="status" th:with="type=${@dict.getDictDatas('Status')}">
+									<option value="">所有</option>
+									<option th:each="dict : ${type}" th:text="${dict.dictName}" th:value="${dict.dictNo}"></option>
+							</select>
+							</li>
+							<li><a class="btn btn-primary btn-rounded btn-sm" onclick="$.YiMo.BSTable.search('search-form')"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="document.getElementById('search-form').reset();"><i class="fa fa-refresh"></i>&nbsp;重置</a></li>
+						</ul>
 					</div>
-					<table id="DictTable" data-mobile-responsive="true">
-					</table>
+				</form>
+			</div>
+			<div class="ibox">
+				<div class="fixed-table-toolbar" id="toolbar">
+					<a shiro:hasPermission="sys:dict:add" class="btn    btn-primary  btn-circle" onclick="add()" title="添加">
+						<i class="fa fa-plus" aria-hidden="true"></i>
+					</a>
+					<a shiro:hasPermission="sys:dict:batchRemove" class="btn   btn-danger btn-circle" onclick="batchRemove()" title="批量删除">
+						<i class="fa fa-trash" aria-hidden="true"></i>
+					</a>
 				</div>
+				<table id="bootstrap-table" data-mobile-responsive="true">
+				</table>
 			</div>
 		</div>
 	</div>
