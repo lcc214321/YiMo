@@ -8054,12 +8054,15 @@ body.skin-3 {
 /* 	color: white; */
 /* } */
 
-/*奇偶行颜色 */
+/*奇偶行颜色 奇数*/
 .table-striped>tbody>tr:nth-of-type(odd) {
 	background-color: #eeeeee;
 }
+/**偶数行  默认与背景一致灰色**/
+.table-striped>tbody>tr:nth-of-type(even) {
+}
 .table-hover>tbody>tr{}
 .table-hover>tbody>tr:hover {
-	background-color: #199d82; important; 
+	background-color: #1fd1ad; important; 
 	color: white; !important; 
 }

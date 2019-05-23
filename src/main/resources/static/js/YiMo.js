@@ -16,7 +16,7 @@
 		            success : function(data) {
 			            console.log("操作成功返回:" + data);
 			            if (data.success == true) {
-				            parent.toastr.success(data.msg);
+				            toastr.success(data.msg);
 				            options.success && options.success(data);
 				            if (options.parentRefresh == true) {
 					            if (parent.$("#bootstrap-tree-table").length > 0) {
@@ -313,7 +313,7 @@
 			                success : function(data) {
 				                layer.close(index);
 				                if (data.success == true) {
-					                parent.$.YiMo.BSTable.refresh();
+					                $.YiMo.BSTable.refresh();
 					                toastr.success(data.msg);
 				                } else {
 					                toastr.error(data.msg);
