@@ -498,7 +498,7 @@ CREATE TABLE `sys_log` (
   `describe` varchar(100) DEFAULT NULL COMMENT '日志描述',
   `title` varchar(50) DEFAULT NULL COMMENT '标题',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5873 DEFAULT CHARSET=utf8 COMMENT='系统日志';
+) ENGINE=InnoDB AUTO_INCREMENT=5904 DEFAULT CHARSET=utf8 COMMENT='系统日志';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -507,6 +507,7 @@ CREATE TABLE `sys_log` (
 
 LOCK TABLES `sys_log` WRITE;
 /*!40000 ALTER TABLE `sys_log` DISABLE KEYS */;
+INSERT INTO `sys_log` VALUES (5873,1,'一墨大侠','QUERY',7,'top.yimo.sys.controller.MenuController.list',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:04:17','http://localhost/YiMo/sys/menu/list','获取菜单列表','菜单管理'),(5874,1,'一墨大侠','QUERY',17,'top.yimo.sys.controller.UserController.listByPage',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:04:35','http://localhost/YiMo/sys/user/list','获取用户列表','用户管理'),(5875,1,'一墨大侠','QUERY',17,'top.yimo.sys.controller.UserController.listByPage',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:06:10','http://localhost/YiMo/sys/user/list','获取用户列表','用户管理'),(5876,1,'一墨大侠','QUERY',15,'top.yimo.sys.controller.UserController.listByPage',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:06:15','http://localhost/YiMo/sys/user/list','获取用户列表','用户管理'),(5877,1,'一墨大侠','QUERY',16,'top.yimo.sys.controller.UserController.listByPage',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:06:17','http://localhost/YiMo/sys/user/list','获取用户列表','用户管理'),(5878,1,'一墨大侠','QUERY',17,'top.yimo.sys.controller.UserController.listByPage',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:06:19','http://localhost/YiMo/sys/user/list','获取用户列表','用户管理'),(5879,1,'一墨大侠','QUERY',32,'top.yimo.sys.controller.UserController.listByPage',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:06:21','http://localhost/YiMo/sys/user/list','获取用户列表','用户管理'),(5880,1,'一墨大侠','QUERY',16,'top.yimo.sys.controller.UserController.listByPage',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:06:34','http://localhost/YiMo/sys/user/list','获取用户列表','用户管理'),(5881,1,'一墨大侠','QUERY',16,'top.yimo.sys.controller.UserController.listByPage',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:06:41','http://localhost/YiMo/sys/user/list','获取用户列表','用户管理'),(5882,1,'一墨大侠','QUERY',14,'top.yimo.sys.controller.UserController.listByPage',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:06:44','http://localhost/YiMo/sys/user/list','获取用户列表','用户管理'),(5883,1,'一墨大侠','QUERY',14,'top.yimo.sys.controller.UserController.listByPage',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:06:45','http://localhost/YiMo/sys/user/list','获取用户列表','用户管理'),(5884,1,'一墨大侠','QUERY',15,'top.yimo.sys.controller.UserController.listByPage',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:07:25','http://localhost/YiMo/sys/user/list','获取用户列表','用户管理'),(5885,1,'一墨大侠','QUERY',15,'top.yimo.sys.controller.UserController.listByPage',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:07:33','http://localhost/YiMo/sys/user/list','获取用户列表','用户管理'),(5886,1,'一墨大侠','QUERY',16,'top.yimo.sys.controller.UserController.listByPage',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:07:42','http://localhost/YiMo/sys/user/list','获取用户列表','用户管理'),(5887,1,'一墨大侠','QUERY',16,'top.yimo.sys.controller.UserController.listByPage',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:09:14','http://localhost/YiMo/sys/user/list','获取用户列表','用户管理'),(5888,1,'一墨大侠','QUERY',15,'top.yimo.sys.controller.UserController.listByPage',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:09:15','http://localhost/YiMo/sys/user/list','获取用户列表','用户管理'),(5889,1,'一墨大侠','QUERY',16,'top.yimo.sys.controller.UserController.listByPage',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:09:16','http://localhost/YiMo/sys/user/list','获取用户列表','用户管理'),(5890,1,'一墨大侠','QUERY',53,'top.yimo.sys.controller.UserController.listByPage',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:09:22','http://localhost/YiMo/sys/user/list','获取用户列表','用户管理'),(5891,1,'一墨大侠','QUERY',17,'top.yimo.sys.controller.UserController.listByPage',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:09:28','http://localhost/YiMo/sys/user/list','获取用户列表','用户管理'),(5892,1,'一墨大侠','QUERY',15,'top.yimo.sys.controller.UserController.listByPage',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:09:32','http://localhost/YiMo/sys/user/list','获取用户列表','用户管理'),(5893,NULL,NULL,'LOGOUT',68,'top.yimo.common.controller.AuthController.logout',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:09:33','http://localhost/YiMo/logout','系统退出','用户认证'),(5894,54,'超级管理员','LOGIN',8,'top.yimo.common.controller.AuthController.doLogin',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:09:40','http://localhost/YiMo/login','认证操作','用户认证'),(5895,54,'超级管理员','QUERY',16,'top.yimo.sys.controller.UserController.listByPage',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:09:52','http://localhost/YiMo/sys/user/list','获取用户列表','用户管理'),(5896,54,'超级管理员','resetPwd',86,'top.yimo.sys.controller.UserController.resetPwd',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:10:00','http://localhost/YiMo/sys/user/resetPwd/54','提交重置用户密码','/sys/user'),(5897,54,'超级管理员','QUERY',17,'top.yimo.sys.controller.UserController.listByPage',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:10:00','http://localhost/YiMo/sys/user/list','获取用户列表','用户管理'),(5898,54,'超级管理员','QUERY',14,'top.yimo.sys.controller.UserController.listByPage',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:10:30','http://localhost/YiMo/sys/user/list','获取用户列表','用户管理'),(5899,NULL,NULL,'LOGOUT',89,'top.yimo.common.controller.AuthController.logout',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:10:34','http://localhost/YiMo/logout','系统退出','用户认证'),(5900,1,'一墨大侠','LOGIN',3,'top.yimo.common.controller.AuthController.doLogin',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:10:38','http://localhost/YiMo/login','认证操作','用户认证'),(5901,NULL,NULL,'LOGOUT',58,'top.yimo.common.controller.AuthController.logout',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:11:02','http://localhost/YiMo/logout','系统退出','用户认证'),(5902,1,'一墨大侠','LOGIN',5,'top.yimo.common.controller.AuthController.doLogin',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:11:04','http://localhost/YiMo/login','认证操作','用户认证'),(5903,1,'一墨大侠','QUERY',7,'top.yimo.sys.controller.MenuController.list',NULL,'0:0:0:0:0:0:0:1','2019-05-24 18:11:09','http://localhost/YiMo/sys/menu/list','获取菜单列表','菜单管理');
 /*!40000 ALTER TABLE `sys_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -632,7 +633,7 @@ CREATE TABLE `sys_user` (
   PRIMARY KEY (`user_id`),
   KEY `sys_user_sys_dept_fk` (`dept_id`),
   CONSTRAINT `sys_user_sys_dept_fk` FOREIGN KEY (`dept_id`) REFERENCES `sys_dept` (`dept_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8 COMMENT='系统用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8 COMMENT='系统用户表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -641,7 +642,7 @@ CREATE TABLE `sys_user` (
 
 LOCK TABLES `sys_user` WRITE;
 /*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
-INSERT INTO `sys_user` VALUES (1,'tayle','一墨大侠','824cdb88ed59a91d4d8132eeb34ab154',1,'123@qq.com','13112344321',1,1,NULL,'2019-05-23 16:55:06',1,'2018-01-01',NULL,NULL,NULL,NULL,NULL,NULL),(36,'hehe','呵呵','974c74fde828f76312668ffd5d74108d',1,'12@123.com','13112344321',1,1,NULL,'2019-05-23 16:55:06',1,'2010-10-10',NULL,'广东省','game&Code&Study',NULL,NULL,NULL),(48,'test','测试','4ef935d142ee2742daa3c2e6e478cdbd',1,'test@aa.com','13112344321',1,1,NULL,NULL,1,'2018-01-01',NULL,NULL,NULL,NULL,NULL,NULL),(49,'hah','hah','f1b7b64dd9fd8de8a981ccc980d91afc',1,'12@123.com','13112344321',1,1,NULL,NULL,1,'2010-10-10',NULL,'广东省','game&Code&Study',NULL,NULL,NULL),(52,'4','333','a3464e562988a28465eeff141ad808fd',1,'12@123.com','13112344321',1,1,NULL,NULL,1,'2010-10-10',NULL,'广东省','game&Code&Study',NULL,NULL,NULL),(53,'5','444','d7073c099b6712d8023e48ee11e5cb5d',1,'12@123.com','13112344321',1,1,NULL,NULL,1,'2010-10-10',NULL,'广东省','game&Code&Study',NULL,NULL,NULL);
+INSERT INTO `sys_user` VALUES (1,'admin','一墨大侠','45b9bfb1d5f018a7fad7b38d0f10ec5b',1,'123@qq.com','13112344321',1,1,NULL,'2019-05-23 16:55:06',1,'2018-01-01',NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `sys_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -676,6 +677,7 @@ CREATE TABLE `sys_user_online` (
 
 LOCK TABLES `sys_user_online` WRITE;
 /*!40000 ALTER TABLE `sys_user_online` DISABLE KEYS */;
+INSERT INTO `sys_user_online` VALUES ('38ea84fd-1d38-4043-a651-32367a006a14',NULL,NULL,NULL,NULL,'127.0.0.1','未知地址','Chrome','Windows 10','off_line','2019-05-24 14:34:00','2019-05-24 18:09:33',NULL),('9b57773a-d31f-4d62-90f7-edd6a9741290',NULL,NULL,NULL,NULL,'127.0.0.1','未知地址','Chrome','Windows 10','off_line','2019-05-24 18:09:40','2019-05-24 18:10:34',NULL),('a55ec5fe-0967-4818-bf57-624d2ed76b9d',NULL,NULL,NULL,NULL,'127.0.0.1','未知地址','Chrome','Windows 10','off_line','2019-05-24 18:10:38','2019-05-24 18:11:02',NULL);
 /*!40000 ALTER TABLE `sys_user_online` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -695,7 +697,7 @@ CREATE TABLE `sys_user_role` (
   KEY `sys_user_role_sys_user_fk` (`user_id`),
   CONSTRAINT `sys_user_role_sys_role_fk` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `sys_user_role_sys_user_fk` FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8 COMMENT='用户与角色对应关系';
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8 COMMENT='用户与角色对应关系';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -721,4 +723,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-24 18:03:27
+-- Dump completed on 2019-05-24 18:13:16

@@ -39,6 +39,7 @@ function load() {
 	        field : 'birth',
 	        halign : 'center',
 	        title : '生日',
+	        visible : false,
 	    }, {
 	        field : 'status',
 	        title : '状态',
