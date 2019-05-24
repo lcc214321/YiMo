@@ -406,7 +406,7 @@ CREATE TABLE `sys_dict` (
 
 LOCK TABLES `sys_dict` WRITE;
 /*!40000 ALTER TABLE `sys_dict` DISABLE KEYS */;
-INSERT INTO `sys_dict` VALUES ('OnlineStatus','在线状态',1,1,'2019-04-11 17:27:51','2019-04-11 17:27:51'),('Sex','性别',1,1,'2019-04-11 17:27:51','2019-04-11 17:27:48'),('Status','状态',1,1,'2019-04-11 17:27:51','2019-04-11 17:27:45');
+INSERT INTO `sys_dict` VALUES ('MenuType','目录类型',1,1,'2019-05-24 17:01:08',NULL),('OnlineStatus','在线状态',1,1,'2019-04-11 17:27:51','2019-04-11 17:27:51'),('Sex','性别',1,1,'2019-04-11 17:27:51','2019-04-11 17:27:48'),('Status','状态',1,1,'2019-04-11 17:27:51','2019-04-11 17:27:45');
 /*!40000 ALTER TABLE `sys_dict` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -437,7 +437,7 @@ CREATE TABLE `sys_dict_data` (
 
 LOCK TABLES `sys_dict_data` WRITE;
 /*!40000 ALTER TABLE `sys_dict_data` DISABLE KEYS */;
-INSERT INTO `sys_dict_data` VALUES ('OnlineStatus','off_line','下线','label-danger',1,NULL,NULL,NULL),('OnlineStatus','on_line','在线','label-primary',1,NULL,NULL,'2019-05-24 11:42:10'),('Sex','1','男',NULL,1,NULL,NULL,NULL),('Sex','2','女',NULL,1,NULL,NULL,NULL),('Sex','3','未知','',1,1,'2019-04-12 11:34:06',NULL),('Status','0','停用','label-danger',1,NULL,NULL,'2019-04-12 10:06:18'),('Status','1','正常','label-primary',1,NULL,NULL,NULL);
+INSERT INTO `sys_dict_data` VALUES ('MenuType','0','目录','label-info',1,1,'2019-05-24 17:13:57','2019-05-24 17:16:50'),('MenuType','1','菜单','label-success',1,1,'2019-05-24 17:14:10','2019-05-24 17:14:56'),('MenuType','2','按钮','label-warning',1,1,'2019-05-24 17:14:18','2019-05-24 17:15:05'),('OnlineStatus','off_line','下线','label-danger',1,NULL,NULL,NULL),('OnlineStatus','on_line','在线','label-primary',1,NULL,NULL,'2019-05-24 11:42:10'),('Sex','1','男',NULL,1,NULL,NULL,NULL),('Sex','2','女',NULL,1,NULL,NULL,NULL),('Sex','3','未知','',1,1,'2019-04-12 11:34:06',NULL),('Status','0','停用','label-danger',1,NULL,NULL,'2019-04-12 10:06:18'),('Status','1','正常','label-primary',1,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `sys_dict_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -498,7 +498,7 @@ CREATE TABLE `sys_log` (
   `describe` varchar(100) DEFAULT NULL COMMENT '日志描述',
   `title` varchar(50) DEFAULT NULL COMMENT '标题',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5366 DEFAULT CHARSET=utf8 COMMENT='系统日志';
+) ENGINE=InnoDB AUTO_INCREMENT=5873 DEFAULT CHARSET=utf8 COMMENT='系统日志';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -721,4 +721,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-24 11:57:13
+-- Dump completed on 2019-05-24 18:03:27
