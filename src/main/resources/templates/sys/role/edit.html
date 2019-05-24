@@ -70,7 +70,7 @@
 
 		function update() {
 			$('#menuIds').val(menuIds);
-			yimo.ajaxPut({
+			YiMo.ajaxPut({
 				url : ctx + "sys/role/update",
 				data : $('#RoleForm').serialize(),// 你的formid
 				needClose: true,

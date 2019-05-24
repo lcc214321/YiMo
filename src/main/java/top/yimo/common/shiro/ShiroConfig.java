@@ -17,11 +17,9 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler;
 import org.apache.shiro.session.mgt.SessionValidationScheduler;
-import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -265,13 +263,13 @@ public class ShiroConfig {
 	 * @param @return
 	 * @return AuthorizationAttributeSourceAdvisor
 	 */
-	@Bean
-	public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(
-			@Qualifier("securityManager") SecurityManager securityManager) {
-		AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
-		authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
-		return authorizationAttributeSourceAdvisor;
-	}
+//	@Bean
+//	public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(
+//			@Qualifier("securityManager") SecurityManager securityManager) {
+//		AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
+//		authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
+//		return authorizationAttributeSourceAdvisor;
+//	}
 
 	/**
 	 * 开启支持thymeleaf shiro标签

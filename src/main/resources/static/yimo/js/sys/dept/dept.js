@@ -48,13 +48,13 @@ function load() {
 //新增
 function add(id) {
 	YiMo.add({
-	    url : prefix + '/add/'+id, // iframe的url
+	    url : prefix + '/add/'+id, 
 	});
 }
 // 编辑
 function edit(id) {
 	YiMo.edit({
-	    url : prefix + '/edit/' + id // iframe的url
+	    url : prefix + '/edit/' + id 
 	});
 }
 //删除

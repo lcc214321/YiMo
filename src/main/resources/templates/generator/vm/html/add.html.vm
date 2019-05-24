@@ -40,7 +40,7 @@
 	        }
         });
         function save() {
-        	yimo.ajaxPost({
+        	YiMo.ajaxPost({
         		url : prefix + "/save",
         		data : $('#${className}Form').serialize(),
         		needClose : true,

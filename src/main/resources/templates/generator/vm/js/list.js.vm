@@ -62,7 +62,7 @@ function add() {
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
 		area : [ '800px', '520px' ],
-		content : prefix + '/add' // iframe的url
+		content : prefix + '/add' 
 	});
 }
 //编辑
@@ -73,7 +73,7 @@ function edit(id) {
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
 		area : [ '800px', '520px' ],
-		content : prefix + '/edit/' + id // iframe的url
+		content : prefix + '/edit/' + id 
 	});
 }
 //删除
@@ -82,7 +82,7 @@ function remove(id) {
 		btn : [ '确定', '取消' ]
 	},  function(index) {
 		layer.close(index);
-		yimo.ajaxDelete({
+		YiMo.ajaxDelete({
 			url : prefix + "/remove",
 			data : {
 				'${pk.attrname}' : id
@@ -108,7 +108,7 @@ function batchRemove() {
 			ids[i] = row['${pk.attrname}'];
 		});
 		layer.close(index);
-		yimo.ajaxDelete({
+		YiMo.ajaxDelete({
 			data : {
 				"ids" : ids
 			},

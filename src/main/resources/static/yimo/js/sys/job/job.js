@@ -17,7 +17,7 @@ function load() {
 	            search : false, // 是否显示搜索框
 	            showColumns : false, // 是否显示内容下拉框（选择显示的列）
 	            sidePagination : "server", // 设置在哪里进行分页，可选值为"client" 或者
-											// "server"
+	            // "server"
 	            queryParams : function(params) {
 		            return {
 		                limit : params.limit,
@@ -28,10 +28,10 @@ function load() {
 	                    {
 		                    checkbox : true
 	                    },
-//	                    {
-//	                        field : 'jobId',
-//	                        title : '任务ID'
-//	                    },
+	                    // {
+	                    // field : 'jobId',
+	                    // title : '任务ID'
+	                    // },
 	                    {
 	                        field : 'jobName',
 	                        title : '任务名称'
@@ -84,7 +84,7 @@ function pause(id) {
 		btn : [ '确定', '取消' ]
 	}, function(index) {
 		layer.close(index);
-		yimo.ajaxPost({
+		YiMo.ajaxPost({
 		    url : prefix + "/pause",
 		    data : {
 			    'jobId' : id,
@@ -99,7 +99,7 @@ function resume(id) {
 		btn : [ '确定', '取消' ]
 	}, function(index) {
 		layer.close(index);
-		yimo.ajaxPost({
+		YiMo.ajaxPost({
 		    url : prefix + "/resume",
 		    data : {
 			    'jobId' : id,
@@ -107,11 +107,6 @@ function resume(id) {
 		    refresh : true,
 		});
 	})
-}
-
-// 刷新
-function refresh() {
-	$('#JobTable').bootstrapTable('refresh');
 }
 
 function runCheck(status) {
@@ -132,12 +127,12 @@ function add() {
 	    maxmin : true,
 	    shadeClose : false, // 点击遮罩关闭层
 	    area : [ '800px', '520px' ],
-	    content : prefix + '/add' // iframe的url
+	    content : prefix + '/add'
 	});
 }
 // 编辑
 function edit(id, status) {
-	if (runCheck(status)){
+	if (runCheck(status)) {
 		return;
 	}
 	layer.open({
@@ -146,19 +141,19 @@ function edit(id, status) {
 	    maxmin : true,
 	    shadeClose : false, // 点击遮罩关闭层
 	    area : [ '800px', '520px' ],
-	    content : prefix + '/edit/' + id // iframe的url
+	    content : prefix + '/edit/' + id
 	});
 }
 // 删除
-function remove(id,status) {
-	if (runCheck(status)){
+function remove(id, status) {
+	if (runCheck(status)) {
 		return;
 	}
 	layer.confirm('确定要删除选中的记录？', {
 		btn : [ '确定', '取消' ]
 	}, function(index) {
 		layer.close(index);
-		yimo.ajaxDelete({
+		YiMo.ajaxDelete({
 		    url : prefix + "/remove",
 		    data : {
 			    'jobId' : id
@@ -184,7 +179,7 @@ function batchRemove() {
 			ids[i] = row['jobId'];
 		});
 		layer.close(index);
-		yimo.ajaxDelete({
+		YiMo.ajaxDelete({
 		    data : {
 			    "ids" : ids
 		    },

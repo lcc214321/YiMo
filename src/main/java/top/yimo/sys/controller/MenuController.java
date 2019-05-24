@@ -126,7 +126,7 @@ public class MenuController extends BaseController {
 	@ResponseBody
 	@RequiresPermissions("sys:menu:batchRemove")
 	@Log(describe = "批量删除菜单信息", title = title, operatorType = OperatorType.DELETE)
-	public ResponseVo remove(@PathVariable("id")@RequestParam("ids[]") Long[] menuIds) {
+	public ResponseVo batchRemove(@RequestParam("ids[]") Long[] menuIds) {
 		if (menuService.batchRemove(menuIds) > 0) {
 			return ResponseVo.ok("删除成功");
 		}

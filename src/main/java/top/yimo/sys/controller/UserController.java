@@ -146,7 +146,7 @@ public class UserController extends BaseController {
 	@DeleteMapping("/batchRemove")
 	@ResponseBody
 	@RequiresPermissions("sys:user:batchRemove")
-	public ResponseVo remove(@PathVariable("id") @RequestParam("ids[]") Long[] userIds) {
+	public ResponseVo batchRemove(@RequestParam("ids[]") Long[] userIds) {
 		userService.batchRemove(userIds);
 		return ResponseVo.ok("删除成功");
 	}

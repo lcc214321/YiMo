@@ -133,7 +133,7 @@ public class DeptController extends BaseController {
 	@ResponseBody
 	@RequiresPermissions("sys:dept:batchRemove")
 	@Log(describe = "批量删除部门信息", title = "部门管理", operatorType = OperatorType.DELETE)
-	public ResponseVo remove(@PathVariable("id")@RequestParam("ids[]") Long[] deptIds) {
+	public ResponseVo batchRemove(@RequestParam("ids[]") Long[] deptIds) {
 		if (deptService.batchRemove(deptIds) > 0) {
 			return ResponseVo.ok("删除成功");
 		}

@@ -52,7 +52,7 @@ function load() {
 	        field : 'status',
 	        title : '在线状态',
 	        formatter : function(value, row, index) {
-				var dictData =	yimo.getDictData('OnlineStatus',value);
+				var dictData =	YiMo.getDictData('OnlineStatus',value);
 				return '<span class="label '+dictData.dictDescribe+'">'+dictData.dictName+'</span>';
 	        }
 	    }, {
@@ -72,16 +72,12 @@ function load() {
 	    } ]
 	});
 }
-// 刷新
-function refresh() {
-	$('#UserOnlineTable').bootstrapTable('refresh');
-}
 function kickout(id) {
 	layer.confirm('确定要踢选中用户下线吗？', {
 		btn : [ '确定', '取消' ]
 	}, function(index) {
 		layer.close(index);
-		yimo.ajaxDelete({
+		YiMo.ajaxDelete({
 		    url : prefix + "/kickout",
 		    data : {
 			    'sessionId' : id

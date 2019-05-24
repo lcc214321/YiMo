@@ -115,7 +115,7 @@ public class RoleController extends BaseController {
 	@DeleteMapping("/batchRemove")
 	@ResponseBody
 	@RequiresPermissions("sys:role:batchRemove")
-	public ResponseVo remove(@PathVariable("id") @RequestParam("ids[]") Long[] roleIds) {
+	public ResponseVo batchRemove(@RequestParam("ids[]") Long[] roleIds) {
 		if (roleService.batchRemove(roleIds) > 0) {
 			return ResponseVo.ok("删除成功");
 		}

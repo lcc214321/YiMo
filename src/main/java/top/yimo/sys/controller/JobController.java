@@ -119,7 +119,7 @@ public class JobController extends BaseController {
 	@ResponseBody
 	@RequiresPermissions("sys:job:batchRemove")
 	@Log(describe = "批量删除", title = title, operatorType = OperatorType.DELETE)
-	public ResponseVo remove(@PathVariable("id")@RequestParam("ids[]") Integer[] jobIds) {
+	public ResponseVo batchRemove(@RequestParam("ids[]") Integer[] jobIds) {
 		if (jobService.batchRemove(jobIds) > 0) {
 			return ResponseVo.ok("删除成功");
 		}

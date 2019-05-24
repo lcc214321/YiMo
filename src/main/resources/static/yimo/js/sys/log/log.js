@@ -55,10 +55,6 @@ function load() {
 	    } ]
 	});
 }
-// 刷新
-function refresh() {
-	$('#LogTable').bootstrapTable('refresh');
-}
 // 批量删除
 function batchRemove() {
 	var rows = $('#LogTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
@@ -76,7 +72,7 @@ function batchRemove() {
 			ids[i] = row['id'];
 		});
 		layer.close(index);
-		yimo.ajaxDelete({
+		YiMo.ajaxDelete({
 		    data : {
 			    "ids" : ids
 		    },

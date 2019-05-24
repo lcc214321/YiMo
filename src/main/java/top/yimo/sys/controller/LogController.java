@@ -112,7 +112,7 @@ public class LogController extends BaseController {
 	@DeleteMapping("/batchRemove")
 	@ResponseBody
 	@RequiresPermissions("sys:log:batchRemove")
-	public ResponseVo remove(@PathVariable("id")@RequestParam("ids[]") Long[] ids) {
+	public ResponseVo batchRemove(@RequestParam("ids[]") Long[] ids) {
 		if (logService.batchRemove(ids) > 0) {
 			return ResponseVo.ok("删除成功");
 		}

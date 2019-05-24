@@ -39,7 +39,7 @@
 			            } else if (data.code == 666) {
 				            window.location.reload(true);
 			            } else {
-				            parent.toastr.error(data.msg);
+				            toastr.error(data.msg);
 			            }
 		            },
 		        });
@@ -218,7 +218,7 @@
 		            maxmin : true,
 		            shadeClose : false, // 点击遮罩关闭层
 		            area : [ '800px', '520px' ],
-		            content : option.url,// iframe的url
+		            content : option.url,
 		        });
 	        },
 	        // 编辑
@@ -229,12 +229,13 @@
 		            maxmin : true,
 		            shadeClose : false, // 点击遮罩关闭层
 		            area : [ '800px', '520px' ],
-		            content : option.url, // iframe的url
+		            content : option.url, 
 		        });
 	        },
 	        // 删除
-	        remove : function(option, primaryKey) {
-		        layer.confirm('确定要删除选中的记录？', {
+	        remove : function(option) {
+	        	var confirmMsg = option.confirmMsg || '确定要删除选中的记录？';
+		        layer.confirm(confirmMsg, {
 			        btn : [ '确定', '取消' ]
 		        }, function(index) {
 			        layer.close(index);

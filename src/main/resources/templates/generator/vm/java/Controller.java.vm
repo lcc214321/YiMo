@@ -116,7 +116,7 @@ public class ${className}Controller extends BaseController{
 	@ResponseBody
 	@RequiresPermissions("${moduleName}:${classname}:batchRemove")
 	@Log(describe = "批量删除", title = title, operatorType = OperatorType.DELETE)
-	public ResponseVo remove(@PathVariable("id")@RequestParam("ids[]") ${pk.attrType}[] ${pk.attrname}s){
+	public ResponseVo batchRemove(@RequestParam("ids[]") ${pk.attrType}[] ${pk.attrname}s){
 		if(${classname}Service.batchRemove(${pk.attrname}s)>0){
 			return ResponseVo.ok("删除成功");
 		}

@@ -21,14 +21,7 @@
 									<input id="dictDescribe" name="dictDescribe" class="form-control" type="text">
 								</div>
 							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label">状态：</label>
-								<div class="col-sm-8">
-										<label class="radio-inline" th:each="dict:${@dict.getDictDatas('Status')}"> <input th:field="*{dict.status}" type="radio" th:value="${dict.dictNo}"
-										th:text="${dict.dictName}" />
-									</label>
-								</div>
-							</div>
+							
 							<div class="form-group">
 								<div class="col-sm-8 col-sm-offset-3">
 									<button type="submit" class="btn btn-primary">提交</button>
