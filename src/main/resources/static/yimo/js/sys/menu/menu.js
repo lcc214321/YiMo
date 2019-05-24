@@ -34,15 +34,8 @@ var load = function() {
 	        valign : 'center',
 	        width : '10%',
 	        formatter : function(value, item, index) {
-		        if (item.type === 0) {
-			        return '<span class="label label-primary">目录</span>';
-		        }
-		        if (item.type === 1) {
-			        return '<span class="label label-success">菜单</span>';
-		        }
-		        if (item.type === 2) {
-			        return '<span class="label label-warning">按钮</span>';
-		        }
+	        	var dictData = $.YiMo.getDictData('MenuType', value);
+		        return '<span class="label ' + dictData.dictDescribe + '">' + dictData.dictName + '</span>';
 	        }
 	    }, {
 	        title : '地址',
@@ -64,11 +57,8 @@ var load = function() {
 	        title : '状态',
 	        align : 'left',
 	        formatter : function(value, row, index) {
-		        if (value == '0') {
-			        return '<span class="label label-danger">禁用</span>';
-		        } else if (value == '1') {
-			        return '<span class="label label-primary">正常</span>';
-		        }
+	        	var dictData = $.YiMo.getDictData('Status', value);
+		        return '<span class="label ' + dictData.dictDescribe + '">' + dictData.dictName + '</span>';
 	        }
 	    }, {
 	        title : '操作',

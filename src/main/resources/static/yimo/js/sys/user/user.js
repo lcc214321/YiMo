@@ -2,8 +2,8 @@ var prefix = ctx + "sys/user"
 
 function load() {
 	var options = {
-	    tableId : 'userTable',
 	    url : prefix + "/list",
+	    pageSize : 5,
 	    queryParams : function(params) { // 传递参数（*）
 		    return {
 		        limit : params.limit,
@@ -34,7 +34,7 @@ function load() {
 	        field : 'mobile',
 	        halign : 'center',
 	        title : '手机号',
-	        
+
 	    }, {
 	        field : 'birth',
 	        halign : 'center',

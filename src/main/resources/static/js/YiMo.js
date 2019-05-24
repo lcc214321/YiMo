@@ -82,6 +82,7 @@
 	        /** 简单封装bootstrap-table * */
 	        BSTable : {
 	            load : function(options) {
+	                $('#bootstrap-table').bootstrapTable('destroy');//先销毁表格
 		            $('#bootstrap-table').bootstrapTable({
 		                method : options.method || 'get',// 服务器数据的请求方式
 		                url : options.url,// 服务器数据的加载地址
@@ -101,7 +102,7 @@
 		                sortStable : true,
 		                sortOrder : options.sortOrder || 'desc', // 排序方式
 		                dataType : options.dataType || "json",// 服务器返回的数据类型
-		                pagination : options.pagination || true,// 设置为true会在底部显示分页条
+		                pagination : options.pagination || false,// 设置为true会在底部显示分页条
 		                queryParamsType : options.queryParamsType || "limit",// 设置为limit则会发送符合RESTFull格式的参数
 		                singleSelect : options.singleSelect || false,// 设置为true将禁止多选
 		                contentType : options.contentType || "application/x-www-form-urlencoded",// 发送到服务器的数据编码类型
@@ -170,7 +171,7 @@
 		                sortOrder : options.sortOrder || 'desc', // 排序方式
 		                ajaxParams : options.ajaxParams || {}, // 请求数据的ajax的data属性
 		                expandColumn : options.expandColumn || '1', // 在哪一列上面显示展开按钮
-		                striped : options.striped || false, // 是否显示行间隔色
+		                striped : options.striped || true, // 是否显示行间隔色
 		                bordered : true, // 是否显示边框
 		                toolbar : '#toolbar', // 指定工作栏
 		                showRefresh : options.showRefresh || true, // 是否显示刷新按钮
@@ -275,14 +276,13 @@
 	        // 导出数据
 	        exportData : function(option) {
 		        var exportFormId = option.formId || 'export-form';
-		        var ii = layer.load("正在导出数据，请稍后...");
+		        var ii = layer.msg("正在导出数据，请稍后...");
 		        $.post(option.url, $("#" + exportFormId).serializeArray(), function(data) {
 			        if (data.success == true) {
 				        window.location.href = ctx + "common/download?fileName=" + data.msg + "&delete=" + true;
 			        } else {
 				        layer.msg(data.msg);
 			        }
-			        layer.close(ii);
 		        });
 		        setTimeout(function() {
 			        layer.close(ii)

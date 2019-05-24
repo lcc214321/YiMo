@@ -23,8 +23,8 @@
 									<option th:each="dict : ${type}" th:text="${dict.dictName}" th:value="${dict.dictNo}"></option>
 							</select>
 							</li>
-							<li><a class="btn btn-primary btn-rounded btn-sm" onclick="$.YiMo.BSTable.search('search-form')"><i class="fa fa-search"></i>&nbsp;搜索</a>
-								<a class="btn btn-warning btn-rounded btn-sm" onclick="document.getElementById('search-form').reset();"><i class="fa fa-refresh"></i>&nbsp;重置</a></li>
+							<li><a class="btn btn-info btn-rounded btn-sm" onclick="$.YiMo.BSTable.search('search-form')" title="搜索"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="document.getElementById('search-form').reset();" title="重置"><i class="fa fa-refresh"></i>&nbsp;重置</a></li>
 						</ul>
 					</div>
 				</form>

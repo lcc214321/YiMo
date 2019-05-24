@@ -367,7 +367,7 @@ body.mini-navbar .navbar-default .nav>li>.nav-second-level li a {
 }
 
 .navbar-fixed-top, .navbar-static-top {
-	background: #f3f3f4;
+	background: #f3f3f3;
 }
 
 .fixed-nav #wrapper {
@@ -1529,7 +1529,7 @@ a.list-group-item.active, a.list-group-item.active:hover, a.list-group-item.acti
 
 .elements-list .list-group-item.active, .elements-list .list-group-item:hover
 	{
-	background: #f3f3f4;
+	background: #f3f3f3;
 	color: inherit;
 	border-color: #e7eaec;
 	/*border-bottom: 1px solid #e7eaec;*/
@@ -1659,13 +1659,13 @@ table.dataTable thead .sorting:after {
 }
 
 .btn-circle {
-	width: 30px;
-	height: 30px;
+	width: 34px;
+	height: 34px;
 	padding: 6px 0;
-	border-radius: 15px;
+	border-radius: 17px;
 	text-align: center;
 	font-size: 12px;
-	line-height: 1.428571429;
+	line-height: 1.7;
 }
 
 .btn-circle.btn-lg {
@@ -1823,7 +1823,7 @@ table.dataTable thead .sorting:after {
 }
 
 .todo-list.small-list>li {
-	background: #f3f3f4;
+	background: #f3f3f3;
 	border-left: none;
 	border-right: none;
 	border-radius: 4px;
@@ -1841,7 +1841,7 @@ table.dataTable thead .sorting:after {
 }
 
 .todo-list>li {
-	background: #f3f3f4;
+	background: #f3f3f3;
 	border-left: 6px solid #e7eaec;
 	border-right: 6px solid #e7eaec;
 	border-radius: 4px;
@@ -2397,7 +2397,7 @@ table.dataTable thead .sorting:after {
 #nestable2 .dd-handle {
 	color: inherit;
 	border: 1px dashed #e7eaec;
-	background: #f3f3f4;
+	background: #f3f3f3;
 	padding: 10px;
 }
 
@@ -3531,7 +3531,7 @@ nav.page-tabs .page-tabs-content {
 	-moz-border-top-colors: none;
 	background: none;
 	border-color: #dddddd #dddddd rgba(0, 0, 0, 0);
-	border-bottom: #f3f3f4;
+	border-bottom: #f3f3f3;
 	-webkit-border-image: none;
 	-o-border-image: none;
 	border-image: none;
@@ -3871,7 +3871,7 @@ table.table-mail tr td {
 
 /* BACKGROUNDS */
 .gray-bg {
-	background-color: #f3f3f4;
+	background-color: #f3f3f3;
 }
 
 .white-bg {
@@ -4036,7 +4036,7 @@ table.table-mail tr td {
 }
 
 .simple_tag {
-	background-color: #f3f3f4;
+	background-color: #f3f3f3;
 	border: 1px solid #e7eaec;
 	border-radius: 2px;
 	color: inherit;
@@ -4806,7 +4806,7 @@ ul.notes li div {
 
 .tag-list li a {
 	font-size: 10px;
-	background-color: #f3f3f4;
+	background-color: #f3f3f3;
 	padding: 5px 12px;
 	color: inherit;
 	border-radius: 2px;
@@ -5074,14 +5074,14 @@ dd.project-people {
 
 .faq-answer {
 	margin-top: 10px;
-	background: #f3f3f4;
+	background: #f3f3f3;
 	border: 1px solid #e7eaec;
 	border-radius: 3px;
 	padding: 15px;
 }
 
 .faq-item .tag-item {
-	background: #f3f3f4;
+	background: #f3f3f3;
 	padding: 2px 6px;
 	font-size: 10px;
 	text-transform: uppercase;
@@ -5484,7 +5484,7 @@ del {
 	font-size: 11px;
 	line-height: 14px;
 	max-width: 80%;
-	background: #f3f3f4;
+	background: #f3f3f3;
 	margin-bottom: 10px;
 }
 
@@ -5559,48 +5559,94 @@ transform
 perspective
 (120px)
  
+
 rotateX
+
+
 (-180
 .1deg
+
+
 )
- 
 rotateY
-(0deg);
+
+
+(0
+deg
+);
+
 
     
+
 }
 100%
 {
 -webkit-transform
+
+
 :
+
  
+
 perspective
-(120px)
+
+
+(120
+px
+)
+
  
+
 rotateX
-(-180deg)
+
+
+(-180
+deg
+)
+
  
+
 rotateY
+
+
 (-179
 .9deg
-);
 
-        
+
+);
 transform
+
+
 :
+
  
+
 perspective
-(120px)
+
+
+(120
+px
+)
+
  
+
 rotateX
-(-180deg)
+
+
+(-180
+deg
+)
+
  
+
 rotateY
+
+
 (-179
 .9deg
-);
 
-    
+
+);
 }
 }
 @
@@ -5612,68 +5658,142 @@ keyframes sk-rotatePlane { 0% {
 50%
 {
 -webkit-transform
+
+
 :
+
  
+
 perspective
-(120px)
+
+
+(120
+px
+)
+
  
+
 rotateX
+
+
 (-180
 .1deg
+
+
 )
- 
 rotateY
-(0deg);
+
+
+(0
+deg
+);
+
 
         
+
 transform
+
+
 :
+
  
+
 perspective
-(120px)
+
+
+(120
+px
+)
+
  
+
 rotateX
+
+
 (-180
 .1deg
+
+
 )
- 
 rotateY
-(0deg);
+
+
+(0
+deg
+);
+
 
     
+
 }
 100%
 {
 -webkit-transform
+
+
 :
+
  
+
 perspective
-(120px)
+
+
+(120
+px
+)
+
  
+
 rotateX
-(-180deg)
+
+
+(-180
+deg
+)
+
  
+
 rotateY
+
+
 (-179
 .9deg
-);
 
-        
+
+);
 transform
+
+
 :
+
  
+
 perspective
-(120px)
+
+
+(120
+px
+)
+
  
+
 rotateX
-(-180deg)
+
+
+(-180
+deg
+)
+
  
+
 rotateY
+
+
 (-179
 .9deg
-);
 
-    
+
+);
 }
 }
 
@@ -5721,19 +5841,27 @@ rotateY
 50%
 {
 -webkit-transform
-:
- 
-scale
-(1);
 
-        
+
+:
+
+ 
+
+scale
+
+
+(1);
 transform
-:
- 
-scale
-(1);
 
-    
+
+:
+
+ 
+
+scale
+
+
+(1);
 }
 }
 @
@@ -5745,19 +5873,27 @@ keyframes sk-doubleBounce { 0%, 100% {
 50%
 {
 -webkit-transform
-:
- 
-scale
-(1);
 
-        
+
+:
+
+ 
+
+scale
+
+
+(1);
 transform
-:
- 
-scale
-(1);
 
-    
+
+:
+
+ 
+
+scale
+
+
+(1);
 }
 }
 
@@ -5819,19 +5955,27 @@ scale
 20%
 {
 -webkit-transform
-:
- 
-scaleY
-(1);
 
-        
+
+:
+
+ 
+
+scaleY
+
+
+(1);
 transform
-:
- 
-scaleY
-(1);
 
-    
+
+:
+
+ 
+
+scaleY
+
+
+(1);
 }
 }
 @
@@ -5843,19 +5987,27 @@ keyframes sk-waveStretchDelay { 0%, 40%, 100% {
 20%
 {
 -webkit-transform
-:
- 
-scaleY
-(1);
 
-        
+
+:
+
+ 
+
+scaleY
+
+
+(1);
 transform
-:
- 
-scaleY
-(1);
 
-    
+
+:
+
+ 
+
+scaleY
+
+
+(1);
 }
 }
 
@@ -5902,93 +6054,231 @@ scaleY
 {
 /* Hack to make FF rotate in the right direction */
 -webkit-transform
+
+
 :
+
  
+
 translateX
-(42px)
+
+
+(42
+px
+)
+
  
+
 translateY
-(42px)
+
+
+(42
+px
+)
+
  
+
 rotate
-(-179deg);
+
+
+(-179
+deg
+);
+
 
         
+
 transform
+
+
 :
+
  
+
 translateX
-(42px)
+
+
+(42
+px
+)
+
  
+
 translateY
-(42px)
+
+
+(42
+px
+)
+
  
+
 rotate
-(-179deg);
+
+
+(-179
+deg
+);
+
 
     
+
 }
 50
-.1 % {
-	-webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);
-	transform: translateX(42px) translateY(42px) rotate(-180deg);
-}
-
-75%
+.1
+ 
+%
 {
 -webkit-transform
 :
  
 translateX
-(0px)
+(42px)
  
 translateY
 (42px)
  
 rotate
-(-270deg)
- 
-scale
-(0
-.5
-);
+(-180deg);
 
-        
+	
 transform
 :
  
 translateX
-(0px)
+(42px)
  
 translateY
 (42px)
  
 rotate
-(-270deg)
+(-180deg);
+
+
+}
+75%
+{
+-webkit-transform
+
+
+:
+
  
+
+translateX
+
+
+(0
+px
+)
+
+ 
+
+translateY
+
+
+(42
+px
+)
+
+ 
+
+rotate
+
+
+(-270
+deg
+)
+
+ 
+
 scale
+
+
 (0
 .5
-);
 
-    
+
+);
+transform
+
+
+:
+
+ 
+
+translateX
+
+
+(0
+px
+)
+
+ 
+
+translateY
+
+
+(42
+px
+)
+
+ 
+
+rotate
+
+
+(-270
+deg
+)
+
+ 
+
+scale
+
+
+(0
+.5
+
+
+);
 }
 100%
 {
 -webkit-transform
+
+
 :
+
  
+
 rotate
-(-360deg);
+
+
+(-360
+deg
+);
+
 
         
+
 transform
+
+
 :
+
  
+
 rotate
-(-360deg);
+
+
+(-360
+deg
+);
+
 
     
+
 }
 }
 @
@@ -6001,93 +6291,231 @@ keyframes sk-wanderingCubeMove { 25% {
 {
 /* Hack to make FF rotate in the right direction */
 -webkit-transform
+
+
 :
+
  
+
 translateX
-(42px)
+
+
+(42
+px
+)
+
  
+
 translateY
-(42px)
+
+
+(42
+px
+)
+
  
+
 rotate
-(-179deg);
+
+
+(-179
+deg
+);
+
 
         
+
 transform
+
+
 :
+
  
+
 translateX
-(42px)
+
+
+(42
+px
+)
+
  
+
 translateY
-(42px)
+
+
+(42
+px
+)
+
  
+
 rotate
-(-179deg);
+
+
+(-179
+deg
+);
+
 
     
+
 }
 50
-.1 % {
-	-webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);
-	transform: translateX(42px) translateY(42px) rotate(-180deg);
-}
-
-75%
+.1
+ 
+%
 {
 -webkit-transform
 :
  
 translateX
-(0px)
+(42px)
  
 translateY
 (42px)
  
 rotate
-(-270deg)
- 
-scale
-(0
-.5
-);
+(-180deg);
 
-        
+	
 transform
 :
  
 translateX
-(0px)
+(42px)
  
 translateY
 (42px)
  
 rotate
-(-270deg)
+(-180deg);
+
+
+}
+75%
+{
+-webkit-transform
+
+
+:
+
  
+
+translateX
+
+
+(0
+px
+)
+
+ 
+
+translateY
+
+
+(42
+px
+)
+
+ 
+
+rotate
+
+
+(-270
+deg
+)
+
+ 
+
 scale
+
+
 (0
 .5
-);
 
-    
+
+);
+transform
+
+
+:
+
+ 
+
+translateX
+
+
+(0
+px
+)
+
+ 
+
+translateY
+
+
+(42
+px
+)
+
+ 
+
+rotate
+
+
+(-270
+deg
+)
+
+ 
+
+scale
+
+
+(0
+.5
+
+
+);
 }
 100%
 {
 -webkit-transform
+
+
 :
+
  
+
 rotate
-(-360deg);
+
+
+(-360
+deg
+);
+
 
         
+
 transform
+
+
 :
+
  
+
 rotate
-(-360deg);
+
+
+(-360
+deg
+);
+
 
     
+
 }
 }
 
@@ -6116,22 +6544,34 @@ rotate
 100%
 {
 -webkit-transform
-:
- 
-scale
-(1);
 
-        
+
+:
+
+ 
+
+scale
+
+
+(1);
 transform
-:
- 
-scale
-(1);
 
-        
-opacity
+
 :
+
  
+
+scale
+
+
+(1);
+opacity
+
+
+:
+
+ 
+
 0;
 }
 }
@@ -6144,22 +6584,34 @@ keyframes sk-pulseScaleOut { 0% {
 100%
 {
 -webkit-transform
-:
- 
-scale
-(1);
 
-        
+
+:
+
+ 
+
+scale
+
+
+(1);
 transform
-:
- 
-scale
-(1);
 
-        
-opacity
+
 :
+
  
+
+scale
+
+
+(1);
+opacity
+
+
+:
+
+ 
+
 0;
 }
 }
@@ -6225,19 +6677,27 @@ keyframes sk-chasingDotsRotate { 100% {
 50%
 {
 -webkit-transform
-:
- 
-scale
-(1);
 
-        
+
+:
+
+ 
+
+scale
+
+
+(1);
 transform
-:
- 
-scale
-(1);
 
-    
+
+:
+
+ 
+
+scale
+
+
+(1);
 }
 }
 @
@@ -6249,19 +6709,27 @@ keyframes sk-chasingDotsBounce { 0%, 100% {
 50%
 {
 -webkit-transform
-:
- 
-scale
-(1);
 
-        
+
+:
+
+ 
+
+scale
+
+
+(1);
 transform
-:
- 
-scale
-(1);
 
-    
+
+:
+
+ 
+
+scale
+
+
+(1);
 }
 }
 
@@ -6313,19 +6781,27 @@ scale
 40%
 {
 -webkit-transform
-:
- 
-scale
-(1);
 
-        
+
+:
+
+ 
+
+scale
+
+
+(1);
 transform
-:
- 
-scale
-(1);
 
-    
+
+:
+
+ 
+
+scale
+
+
+(1);
 }
 }
 @
@@ -6337,19 +6813,27 @@ keyframes sk-threeBounceDelay { 0%, 80%, 100% {
 40%
 {
 -webkit-transform
-:
- 
-scale
-(1);
 
-        
+
+:
+
+ 
+
+scale
+
+
+(1);
 transform
-:
- 
-scale
-(1);
 
-    
+
+:
+
+ 
+
+scale
+
+
+(1);
 }
 }
 
@@ -6532,19 +7016,27 @@ scale
 40%
 {
 -webkit-transform
-:
- 
-scale
-(1);
 
-        
+
+:
+
+ 
+
+scale
+
+
+(1);
 transform
-:
- 
-scale
-(1);
 
-    
+
+:
+
+ 
+
+scale
+
+
+(1);
 }
 }
 @
@@ -6556,19 +7048,27 @@ keyframes sk-circleBounceDelay { 0%, 80%, 100% {
 40%
 {
 -webkit-transform
-:
- 
-scale
-(1);
 
-        
+
+:
+
+ 
+
+scale
+
+
+(1);
 transform
-:
- 
-scale
-(1);
 
-    
+
+:
+
+ 
+
+scale
+
+
+(1);
 }
 }
 
@@ -6667,17 +7167,29 @@ scale
 35%
 {
 -webkit-transform
+
+
 :
+
  
+
 scale3D
+
+
 (0
 ,
 0,
 1);
 transform
+
+
 :
+
  
+
 scale3D
+
+
 (0
 ,
 0,
@@ -6693,17 +7205,29 @@ keyframes sk-cubeGridScaleDelay { 0%, 70%, 100% {
 35%
 {
 -webkit-transform
+
+
 :
+
  
+
 scale3D
+
+
 (0
 ,
 0,
 1);
 transform
+
+
 :
+
  
+
 scale3D
+
+
 (0
 ,
 0,
@@ -6750,19 +7274,39 @@ scale3D
 100%
 {
 -webkit-transform
+
+
 :
+
  
+
 rotate
-(360deg);
+
+
+(360
+deg
+);
+
 
         
+
 transform
+
+
 :
+
  
+
 rotate
-(360deg);
+
+
+(360
+deg
+);
+
 
     
+
 }
 }
 @
@@ -6774,19 +7318,39 @@ keyframes sk-innerCircle { 0% {
 100%
 {
 -webkit-transform
+
+
 :
+
  
+
 rotate
-(360deg);
+
+
+(360
+deg
+);
+
 
         
+
 transform
+
+
 :
+
  
+
 rotate
-(360deg);
+
+
+(360
+deg
+);
+
 
     
+
 }
 }
 
@@ -6968,8 +7532,12 @@ rotate
 40%
 {
 opacity
+
+
 :
+
  
+
 1;
 }
 }
@@ -6981,8 +7549,12 @@ keyframes sk-circleFadeDelay { 0%, 39%, 100% {
 40%
 {
 opacity
+
+
 :
+
  
+
 1;
 }
 }
@@ -7997,10 +8569,11 @@ body.skin-3 {
 	margin: 5px 15px 5px 0px;
 	list-style: none;
 }
+
 .search-list ul {
 	margin: 0;
 	padding: 0;
-	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 .search-list li input {
@@ -8048,21 +8621,27 @@ body.skin-3 {
 	margin: 5px 5px;
 }
 
+/**bootstrap-table 自定义部分样式**/
 
-/* .changeColor { */
-/* 	background-color: #31b0d5 !important; */
-/* 	color: white; */
-/* } */
-
+/*表头统一样式  极关灰*/
+.treetable-thead, .table>thead>tr>th {
+		background-color: #EAEAEF; !important; 
+/* 		color:#f3f3f3;!important; */
+	/* 	border: 0px solid ;!important;  */
+}
 /*奇偶行颜色 奇数*/
-.table-striped>tbody>tr:nth-of-type(odd) {
-	background-color: #eeeeee;
+.table-striped>tbody>tr:nth-of-type(even) {
+	background-color: #eeeeee;	!important;
 }
 /**偶数行  默认与背景一致灰色**/
-.table-striped>tbody>tr:nth-of-type(even) {
+.table-striped>tbody>tr:nth-of-type(odd) {
+	background-color: #f9f9f9;	!important;
 }
-.table-hover>tbody>tr{}
+
 .table-hover>tbody>tr:hover {
-	background-color: #1fd1ad; important; 
-	color: white; !important; 
+	background-color: #e6e6e6;	!important;
+}
+/* 修改加载字体大小 */
+.bootstrap-table .fixed-table-container .fixed-table-body .fixed-table-loading .loading-wrap .loading-text {
+  font-size: 1.4rem;!important;
 }

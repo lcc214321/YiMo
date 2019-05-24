@@ -16,7 +16,7 @@
 									<option th:each="dict : ${type}" th:text="${dict.dictName}" th:value="${dict.dictNo}"></option>
 							</select>
 							</li>
-							<li><a class="btn btn-primary btn-rounded btn-sm" onclick="$.YiMo.BSTreeTable.search('search-form')">
+							<li><a class="btn btn-info btn-rounded btn-sm" onclick="$.YiMo.BSTreeTable.search('search-form')">
 									<i class="fa fa-search"></i>
 									&nbsp;搜索
 								</a> <a class="btn btn-warning btn-rounded btn-sm" onclick="document.getElementById('search-form').reset();">
@@ -29,13 +29,13 @@
 			</div>
 			<div class="ibox">
 				<div class="ibox-body">
-					<div class="fixed-table-toolbar">
+					<div class="fixed-table-toolbar" id="toolbar">
 						<div class="columns pull-left">
 							<a shiro:hasPermission="sys:menu:add" class="btn btn-primary  btn-circle" onclick="add('0'')" title="添加">
 								<i class="fa fa-plus" aria-hidden="true"></i>
 							</a>
-							<a class="btn    btn-info  btn-circle" onclick="$.YiMo.BSTreeTable.exchange()" title="展开/折叠">
-								<i class="fa fa-exchange" aria-hidden="true"></i>
+							<a class="btn    btn-info   btn-rounded" onclick="$.YiMo.BSTreeTable.exchange()" title="展开/折叠">
+								<i class="fa fa-exchange" aria-hidden="true"></i>&nbsp;展开/折叠
 							</a>
 
 						</div>
