@@ -101,7 +101,7 @@ public class ${className}Controller extends BaseController{
 	/**
 	 * 删除
 	 */
-	@DeleteMapping( "/remove")
+	@DeleteMapping( "/remove/{id}")
 	@ResponseBody
 	@RequiresPermissions("${moduleName}:${classname}:remove")
 	@Log(describe = "删除", title = title, operatorType = OperatorType.DELETE)
