@@ -58,13 +58,13 @@ xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"  th:with="title='${htmlTitle}
 				{
 					checkbox : true
 				},
-				#foreach($column in $columns)
+#foreach($column in $columns)
 				{
 					field : '${column.attrname}', 
 					title : '${column.comments}',
 			        halign : 'center',
 				},
-				#end
+#end
 				{
 		        title : '操作',
 		        field : 'id',

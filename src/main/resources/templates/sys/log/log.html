@@ -1,30 +1,162 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"  th:with="title='sys_log'">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro" th:with="title='sys_log'">
 <meta charset="utf-8">
 <header th:replace="header::header(${title})"></header>
 <body class="gray-bg">
 	<div class="wrapper wrapper-content ">
 		<div class="col-sm-12">
-			<div class="ibox">
-				<div class="ibox-body">
-					<div class="fixed-table-toolbar">
-						<div class="columns pull-left">
-						</div>
+			<!-- 搜索区域 -->
+			<div class="search-collapse" hidden="">
+				<form id="search-form">
+					<div class="search-list">
+						<ul>
+							<li>登录用户：<input type="text" name="userName" id="userName" /></li>
+							<li>操作类型：<input type="text" name="operationType" id="operationType" /></li>
+							<li>响应时间：<input type="text" name="time" id="time" /></li>
+							<li>请求方法：<input type="text" name="method" id="method" /></li>
+							<li>请求参数：<input type="text" name="params" id="params" /></li>
+							<li>日志描述：<input type="text" name="describe" id="describe" /></li>
+							<li><a class="btn btn-info btn-rounded btn-sm" onclick="$.YiMo.BSTable.search('search-form')"><i class="fa fa-search"></i>&nbsp;搜索</a> <a
+								class="btn btn-warning btn-rounded btn-sm" onclick="document.getElementById('search-form').reset();"><i class="fa fa-refresh"></i>&nbsp;重置</a></li>
+						</ul>
 					</div>
-					<table id="LogTable" data-mobile-responsive="true">
-					</table>
+				</form>
+			</div>
+			<!-- 表格区域 -->
+			<div class="ibox">
+				<div class="fixed-table-toolbar" id="toolbar" role="group">
+					<a shiro:hasPermission="sys:log:add" class="btn    btn-primary  btn-circle" onclick="add()" title="添加"> <i class="fa fa-plus" aria-hidden="true"></i>
+					</a> <a shiro:hasPermission="sys:log:batchRemove" class="btn   btn-danger btn-circle" onclick="batchRemove()" title="批量删除"> <i class="fa fa-trash" aria-hidden="true"></i>
+					</a> <a shiro:hasPermission="sys:log:export" class="btn btn-info  btn-circle " onclick="exportData()" title="下载"> <i class="fa fa-download" aria-hidden="true"></i>
+					</a>
 				</div>
+				<table id="bootstrap-table" data-mobile-responsive="true">
+				</table>
 			</div>
 		</div>
 	</div>
 	<div th:replace="footer :: footer"></div>
-	<script  type="text/javascript" th:inline="javascript">
-		var s_remove_h = [[${@permission.hasPermi('sys:log:remove')}]];
-		$().ready(function() {
-			load();
+	<div th:replace="footer :: uploadData"></div>
+	<script type="text/javascript" th:inline="javascript">
+	var prefix = ctx+"sys/log";
+	var s_edit_h = [[${@permission.hasPermi('sys:log:edit')}]];
+	var s_remove_h = [[${@permission.hasPermi('sys:log:remove')}]];
+	$().ready(function() {
+		load();
+	});
+	
+	function load() {
+		var options = {
+		url : prefix + "/list", // 服务器数据的加载地址
+		columns : [
+				{
+					checkbox : true
+				},
+				{
+					field : 'userId', 
+					title : '用户id',
+			        halign : 'center',
+			        visible : false,
+				},
+				{
+					field : 'userName', 
+					title : '用户名',
+			        halign : 'center',
+			        visible : true,
+				},
+				{
+					field : 'operationType', 
+					title : '用户操作类型',
+			        halign : 'center',
+				},
+				{
+					field : 'time', 
+					title : '响应时间',
+			        halign : 'center',
+				},
+				{
+					field : 'method', 
+					title : '请求方法',
+			        halign : 'center',
+			        visible : false,
+				},
+				{
+					field : 'params', 
+					title : '请求参数',
+			        halign : 'center',
+			        visible : false,
+				},
+				{
+					field : 'ip', 
+					title : 'IP地址',
+			        halign : 'center',
+				},
+				{
+					field : 'createTime', 
+					title : '创建时间',
+			        halign : 'center',
+				},
+				{
+					field : 'url', 
+					title : '操作url',
+			        halign : 'center',
+				},
+				{
+					field : 'describe', 
+					title : '日志描述',
+			        halign : 'center',
+				},
+				{
+					field : 'title', 
+					title : '标题',
+			        width : '78px',
+			        halign : 'center',
+				},
+				{
+		        title : '操作',
+		        field : 'id',
+		        width : '88px',
+		        halign : 'center',
+		        formatter : function(value, row, index) {
+			        var e = '<a class="btn btn-primary btn-sm ' + s_edit_h + '" href="#" mce_href="#" title="编辑" onclick="edit(\'' + row.roleId + '\')"><i class="fa fa-edit"></i></a> ';
+			        var d = '<a class="btn btn-warning btn-sm ' + s_remove_h + '" href="#" title="删除"  mce_href="#" onclick="remove(\'' + row.roleId + '\')"><i class="fa fa-remove"></i></a> ';
+			        return e + d;
+		        }
+		    } ]
+			};
+		YiMo.BSTable.load(options);
+	}
+	// 新增
+	function add() {
+		YiMo.add({
+		    url : prefix + '/add' 
 		});
+	}
+	// 编辑
+	function edit(id) {
+		YiMo.edit({
+		    url : prefix + '/edit/' + id 
+		});
+	}
+	//删除
+	function remove(id) {
+		YiMo.remove({
+		    url : prefix + "/remove/"+id,
+		});
+	}
+	//批量删除
+	function batchRemove() {
+		YiMo.batchRemove({
+		    primaryKey : '{id}',
+		    url : prefix + "/batchRemove",
+		});
+	}
+	//导出数据
+	function exportData() {
+		YiMo.exportData({
+			url : prefix + "/exportData",
+		});
+	}
 	</script>
-	<script type="text/javascript" th:src="@{/yimo/js/sys/log/log.js}"></script>
 </body>
 </html>

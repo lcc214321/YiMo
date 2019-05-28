@@ -57,7 +57,7 @@ public class ${className}ServiceImpl implements ${className}Service {
 	
 	@Override
 	public List<${className}DO> exportData(${className}DO ${classname}) {
-		List<${className}DO> exportData = roleDao.exportData(${classname});
+		List<${className}DO> exportData = ${classname}Dao.exportData(${classname});
 		return exportData;
 	}
 	

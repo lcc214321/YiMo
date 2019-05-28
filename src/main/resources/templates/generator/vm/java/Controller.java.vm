@@ -134,7 +134,7 @@ public class ${className}Controller extends BaseController{
 	@RequiresPermissions("${moduleName}:${classname}:export")
 	public ResponseVo exportData(${className}DO ${classname}) {
 		try {
-			List<${className}DO> exportData = ${classname}Service.exportData(role);
+			List<${className}DO> exportData = ${classname}Service.exportData(${classname});
 			ExcelUtil<${className}DO> excel = new ExcelUtil<${className}DO>(${className}DO.class);
 			return excel.exportExcel(exportData, "${comments}数据");
 		} catch (Exception e) {

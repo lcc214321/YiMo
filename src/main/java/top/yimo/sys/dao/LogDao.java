@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @author imTayle
  * @email imTayle@126.com
  * @version 1.0
- * @date 2019年03月11日 10:54:37
+ * @date 2019年05月28日 23:04:24
  */
 @Mapper
 public interface LogDao {
@@ -30,4 +30,7 @@ public interface LogDao {
 	int remove(Long id);
 	
 	int batchRemove(Long[] ids);
+	
+	List<LogDO> exportData(LogDO log);
+	
 }
