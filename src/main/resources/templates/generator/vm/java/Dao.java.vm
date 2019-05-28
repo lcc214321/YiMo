@@ -30,4 +30,7 @@ public interface ${className}Dao {
 	int remove(${pk.attrType} ${pk.columnName});
 	
 	int batchRemove(${pk.attrType}[] ${pk.attrname}s);
+	
+	List<${className}DO> exportData(${className}DO ${classname});
+	
 }

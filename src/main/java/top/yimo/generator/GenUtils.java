@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +32,7 @@ import top.yimo.generator.domain.TableDO;
  * 代码生成器 工具类
  */
 public class GenUtils {
+	public static final String separator = "|";
 
 	public static List<String> getTemplates() {
 		List<String> templates = new ArrayList<String>();
@@ -43,7 +45,8 @@ public class GenUtils {
 		templates.add("templates/generator/vm/html/list.html.vm");
 		templates.add("templates/generator/vm/html/add.html.vm");
 		templates.add("templates/generator/vm/html/edit.html.vm");
-		templates.add("templates/generator/vm/js/list.js.vm");
+		templates.add("templates/generator/vm/sql/dml.sql.vm");
+
 		return templates;
 	}
 
@@ -53,7 +56,8 @@ public class GenUtils {
 	 * @throws Exception
 	 */
 
-	public static void generatorCode(Map<String, String> table, List<Map<String, String>> columns, ZipOutputStream zip) throws Exception {
+	public static void generatorCode(Map<String, String> table, List<Map<String, String>> columns, ZipOutputStream zip)
+			throws Exception {
 		// 配置信息
 		Configuration config = getConfig();
 		// 表信息
@@ -61,13 +65,23 @@ public class GenUtils {
 		tableDO.setTableName(table.get("tableName"));
 		tableDO.setComments(table.get("tableComment"));
 		// 表名转换成Java类名
-		String className = tableToJava(tableDO.getTableName(), config.getString("tablePrefix"), config.getString("autoRemovePre"));
+		String className = tableToJava(tableDO.getTableName(), config.getString("tablePrefix"),
+				config.getString("autoRemovePre"));
 		tableDO.setClassName(className);
 		tableDO.setClassname(StringUtils.uncapitalize(className));
 
 		// 列信息
 		List<ColumnDO> columsList = new ArrayList<>();
 		for (Map<String, String> column : columns) {
+			String excludeField = config.getString("excludeField").toUpperCase();
+			String columnName = column.get("columnName").toUpperCase();
+			if (StringUtils.isNotBlank(excludeField)) {// 排除部分列信息
+				String[] excludeFields = excludeField.split(separator);
+				if (Arrays.asList(excludeFields).contains(columnName)) {
+					continue;
+				}
+			}
+
 			ColumnDO columnDO = new ColumnDO();
 			columnDO.setColumnName(column.get("columnName"));
 			columnDO.setDataType(column.get("dataType"));
@@ -129,7 +143,8 @@ public class GenUtils {
 
 			try {
 				// 添加到zip
-				String fileName = getFileName(template, tableDO.getClassname(), tableDO.getClassName(), config.getString("package"), moduleName);
+				String fileName = getFileName(template, tableDO.getClassname(), tableDO.getClassName(),
+						config.getString("package"), moduleName);
 				zip.putNextEntry(new ZipEntry(fileName));
 				IOUtils.write(sw.toString(), zip, "UTF-8");
 				IOUtils.closeQuietly(sw);
@@ -144,7 +159,7 @@ public class GenUtils {
 	 * 列名转换成Java属性名 驼峰命名方便MyBatis自动转换
 	 */
 	public static String columnToJava(String columnName) {
-		return WordUtils.capitalizeFully(columnName, new char[]{'_'}).replace("_", "");
+		return WordUtils.capitalizeFully(columnName, new char[] { '_' }).replace("_", "");
 	}
 
 	/**
@@ -177,7 +192,8 @@ public class GenUtils {
 	/**
 	 * 获取文件名
 	 */
-	public static String getFileName(String template, String classname, String className, String packageName, String moduleName) {
+	public static String getFileName(String template, String classname, String className, String packageName,
+			String moduleName) {
 		String packagePath = "main" + File.separator + "java" + File.separator;
 		if (StringUtils.isNotBlank(packageName)) {// 当时java是才加包空间
 			if (template.endsWith(".java.vm")) {
@@ -205,25 +221,26 @@ public class GenUtils {
 		}
 
 		if (template.contains("Mapper.xml.vm")) {
-			return "main" + File.separator + "resources" + File.separator + "mapper" + File.separator + moduleName + File.separator + className + "Mapper.xml";
+			return "main" + File.separator + "resources" + File.separator + "mapper" + File.separator + moduleName
+					+ File.separator + className + "Mapper.xml";
 		}
 
 		if (template.contains("list.html.vm")) {
-			return "main" + File.separator + "resources" + File.separator + "templates" + File.separator + moduleName + File.separator + classname
-			        + File.separator + classname + ".html";
+			return "main" + File.separator + "resources" + File.separator + "templates" + File.separator + moduleName
+					+ File.separator + classname + File.separator + classname + ".html";
 		}
 		if (template.contains("add.html.vm")) {
-			return "main" + File.separator + "resources" + File.separator + "templates" + File.separator + moduleName + File.separator + classname
-			        + File.separator + "add.html";
+			return "main" + File.separator + "resources" + File.separator + "templates" + File.separator + moduleName
+					+ File.separator + classname + File.separator + "add.html";
 		}
 		if (template.contains("edit.html.vm")) {
-			return "main" + File.separator + "resources" + File.separator + "templates" + File.separator + moduleName + File.separator + classname
-			        + File.separator + "edit.html";
+			return "main" + File.separator + "resources" + File.separator + "templates" + File.separator + moduleName
+					+ File.separator + classname + File.separator + "edit.html";
 		}
 
-		if (template.contains("list.js.vm")) {
-			return "main" + File.separator + "resources" + File.separator + "static" + File.separator + "yimo" + File.separator + "js" + File.separator
-			        + moduleName + File.separator + classname + File.separator + classname + ".js";
+		if (template.contains("dml.sql.vm")) {
+			return "main" + File.separator + "resources" + File.separator + "db" + File.separator + classname + "_dml"
+					+ ".sql";
 		}
 
 		return null;

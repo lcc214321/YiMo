@@ -2,6 +2,7 @@ package ${package}.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import top.yimo.common.annotation.Excel;
 import top.yimo.common.domain.BaseDO;
 #if(${hasBigDecimal})
 import java.math.BigDecimal;
@@ -23,6 +24,7 @@ public class ${className}DO extends BaseDO {
 	
 #foreach ($column in $columns)
 	//$column.comments
+	@Excel(name = "$column.comments", orderNum = $velocityCount)
 	private $column.attrType $column.attrname;
-#end
+	#end
 }

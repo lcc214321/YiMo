@@ -197,6 +197,7 @@ public class UserController extends BaseController {
 	 */
 	@GetMapping("/importTemplate")
 	@ResponseBody
+	@RequiresPermissions("sys:user:edit")
 	public ResponseVo importTemplate() {
 		try {
 			ExcelUtil<UserDO> excel = new ExcelUtil<UserDO>(UserDO.class);
@@ -212,6 +213,7 @@ public class UserController extends BaseController {
 	 */
 	@PostMapping("/importData")
 	@ResponseBody
+	@RequiresPermissions("sys:user:edit")
 	public ResponseVo importData(MultipartFile file, boolean isCover) {
 		ExcelUtil<UserDO> util = new ExcelUtil<UserDO>(UserDO.class);
 		List<UserDO> userList;

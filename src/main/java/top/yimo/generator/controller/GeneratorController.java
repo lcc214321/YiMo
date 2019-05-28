@@ -23,8 +23,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import top.yimo.common.model.vo.ResponseVo;
+import top.yimo.common.util.DateUtils;
 import top.yimo.generator.GenUtils;
 import top.yimo.generator.service.GeneratorService;
+
 /**
  * 
  * @Author imTayle
@@ -52,29 +54,28 @@ public class GeneratorController {
 	};
 
 	@RequestMapping("/code/{tableName}")
-	public void code(HttpServletRequest request, HttpServletResponse response, @PathVariable("tableName") String tableName) throws IOException {
-		String[] tableNames = new String[]{tableName};
+	public void code(HttpServletRequest request, HttpServletResponse response,
+			@PathVariable("tableName") String tableName) throws IOException {
+		String[] tableNames = new String[] { tableName };
 		byte[] data = generatorService.generatorCode(tableNames);
 		response.reset();
-		response.setHeader("Content-Disposition", "attachment; filename=\"" + tableName + ".zip\"");
+		response.setHeader("Content-Disposition",
+				"attachment; filename=\"" + tableName + DateUtils.nowTimeMillis() + ".zip\"");
 		response.addHeader("Content-Length", "" + data.length);
 		response.setContentType("application/octet-stream; charset=UTF-8");
-
 		IOUtils.write(data, response.getOutputStream());
 	}
 
 	@PostMapping("/batchCode")
-	public void batchCode(HttpServletRequest request, HttpServletResponse response, @RequestParam String tables) throws IOException {
-		String[] tableNames = new String[]{};
+	public void batchCode(HttpServletRequest request, HttpServletResponse response, @RequestParam String tables)
+			throws IOException {
+		String[] tableNames = new String[] {};
 		tableNames = tables.split(",");
-
-		// tableNames = JSON.parseArray(tables).toArray(tableNames);
 		byte[] data = generatorService.generatorCode(tableNames);
 		response.reset();
-		response.setHeader("Content-Disposition", "attachment; filename=\"YiMo.zip\"");
+		response.setHeader("Content-Disposition", "attachment; filename=\"YiMo" + DateUtils.nowTimeMillis() + ".zip\"");
 		response.addHeader("Content-Length", "" + data.length);
 		response.setContentType("application/octet-stream; charset=UTF-8");
-
 		IOUtils.write(data, response.getOutputStream());
 	}
 
@@ -87,6 +88,7 @@ public class GeneratorController {
 		property.put("package", conf.getProperty("package"));
 		property.put("autoRemovePre", conf.getProperty("autoRemovePre"));
 		property.put("tablePrefix", conf.getProperty("tablePrefix"));
+		property.put("excludeField", conf.getProperty("excludeField").toString());
 		model.addAttribute("property", property);
 		return prefix + "/edit";
 	}
@@ -101,6 +103,7 @@ public class GeneratorController {
 			conf.setProperty("package", map.get("package"));
 			conf.setProperty("autoRemovePre", map.get("autoRemovePre"));
 			conf.setProperty("tablePrefix", map.get("tablePrefix"));
+			conf.setProperty("excludeField", map.get("excludeField").toString());
 			conf.save();
 		} catch (ConfigurationException e) {
 			return ResponseVo.fail("保存配置文件出错");

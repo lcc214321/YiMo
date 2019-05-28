@@ -31,7 +31,7 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label">自动去掉表前缀：</label>
-							<div class="col-sm-2  i-checks icheckbox_square-green checked">
+							<div class="col-sm-2  ichecks icheckbox_square-green checked">
 								<input id="autoRemovePre" name="autoRemovePre"
 									class="form-control" type="checkbox"
 									value="true"
@@ -45,6 +45,13 @@
 							<div class="col-sm-8">
 								<input id="tablePrefix" name="tablePrefix" class="form-control"
 									type="text" th:value="${property.tablePrefix}">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">排除字段（多个字段用|分割）：</label>
+							<div class="col-sm-8">
+								<input id="tablePrefix" name="excludeField" class="form-control"
+									type="text" th:value="${property.excludeField}">
 							</div>
 						</div>
 						<div class="form-group">

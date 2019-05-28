@@ -15,12 +15,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import lombok.extern.slf4j.Slf4j;
 import top.yimo.common.annotation.Log;
 import top.yimo.common.controller.BaseController;
 import top.yimo.common.enums.OperatorType;
-import top.yimo.common.model.vo.PageVo;
+import top.yimo.common.model.vo.BootstrapTablePageVo;
 import top.yimo.common.model.vo.ResponseVo;
+import top.yimo.common.util.excel.ExcelUtil;
 import ${package}.domain.${className}DO;
 import ${package}.service.${className}Service;
 
@@ -32,7 +35,7 @@ import ${package}.service.${className}Service;
  * @version 1.0
  * @date ${datetime}
  */
- 
+ @Slf4j
 @Controller
 @RequestMapping("/${moduleName}/${classname}")
 public class ${className}Controller extends BaseController{
@@ -51,10 +54,10 @@ public class ${className}Controller extends BaseController{
 	@GetMapping("/list")
 	@RequiresPermissions("${moduleName}:${classname}:${classname}")
 	@Log(describe = "获取"+title, title = title, operatorType = OperatorType.QUERY)
-	public PageVo listByPage(@RequestParam Map<String, Object> params){
+	public BootstrapTablePageVo listByPage(@RequestParam Map<String, Object> params){
+		startPage(params);
 		List<${className}DO> ${classname}List = ${classname}Service.listByPage(params);
-		int total = ${classname}Service.count(params);
-		return getPageData(${classname}List, total);
+		return getPageData(${classname}List);
 	}
 	
 	@GetMapping("/add")
@@ -121,5 +124,56 @@ public class ${className}Controller extends BaseController{
 			return ResponseVo.ok("删除成功");
 		}
 		return ResponseVo.fail();
+	}
+	
+	/**
+	 * 导出数据
+	 */
+	@PostMapping("/exportData")
+	@ResponseBody
+	@RequiresPermissions("${moduleName}:${classname}:export")
+	public ResponseVo exportData(${className}DO ${classname}) {
+		try {
+			List<${className}DO> exportData = ${classname}Service.exportData(role);
+			ExcelUtil<${className}DO> excel = new ExcelUtil<${className}DO>(${className}DO.class);
+			return excel.exportExcel(exportData, "${comments}数据");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseVo.fail(-1, e.getMessage());
+		}
+	}
+	
+	/**
+	 * 导出导入模板
+	 */
+	@GetMapping("/importTemplate")
+	@ResponseBody
+	@RequiresPermissions("${moduleName}:${classname}:edit")
+	public ResponseVo importTemplate() {
+		try {
+			ExcelUtil<${className}DO> excel = new ExcelUtil<${className}DO>(${className}DO.class);
+			return excel.importTemplateExcel("${comments}数据导入模板");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseVo.fail(-1, e.getMessage());
+		}
+	}
+
+	/**
+	 * 导入数据
+	 */
+	@PostMapping("/importData")
+	@ResponseBody
+	@RequiresPermissions("${moduleName}:${classname}:edit")
+	public ResponseVo importData(MultipartFile file, boolean isCover) {
+		ExcelUtil<${className}DO> util = new ExcelUtil<${className}DO>(${className}DO.class);
+		try {
+			List<${className}DO> ${classname}List = util.importExcel(file.getInputStream());
+			String message = ${classname}Service.importData(${classname}List, isCover);
+			return ResponseVo.ok(message);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseVo.fail(-1, e.getMessage());
+		}
 	}
 }

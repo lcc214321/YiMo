@@ -40,8 +40,8 @@
 	</div>
 	<div th:replace="footer :: footer"></div>
 	<script type="text/javascript">
-	var prefix = ctx + "sys/role";
-		$().ready(function() {
+		var prefix = ctx + "sys/role";
+        $().ready(function() {
 	        validateRule();
         });
         $.validator.setDefaults({
@@ -50,7 +50,7 @@
 	        }
         });
         function save() {
-	       YiMo.ajaxPost({
+	        YiMo.ajaxPost({
 	            url : prefix + "/save",
 	            data : $('#RoleForm').serialize(),
 	            needClose : true,
@@ -81,15 +81,6 @@
 	                },
 	                remark : {
 		                required : icon + "请输入备注"
-	                },
-	                createUserId : {
-		                required : icon + "请输入创建用户id"
-	                },
-	                createTime : {
-		                required : icon + "请输入创建时间"
-	                },
-	                updateTime : {
-		                required : icon + "请输入更新时间"
 	                },
 	                status : {
 		                required : icon + "请输入角色状态"

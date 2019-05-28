@@ -14,18 +14,23 @@ import java.util.Map;
  * @date ${datetime}
  */
 public interface ${className}Service {
-	
+	//通过主键获取单个数据
 	${className}DO get(${pk.attrType} ${pk.attrname});
-	
+	//获取列表数据
 	List<${className}DO> listByPage(Map<String, Object> map);
-	
+	//统计笔数
 	int count(Map<String, Object> map);
-	
+	//新增保存
 	int save(${className}DO ${classname});
-	
+	//更新
 	int update(${className}DO ${classname});
-	
+	//删除
 	int remove(${pk.attrType} ${pk.attrname});
-	
+	//批量删除
 	int batchRemove(${pk.attrType}[] ${pk.attrname}s);
+	//数据导出
+	List<${className}DO> exportData(${className}DO ${classname});
+	//数据导入
+	String importData(List<${className}DO> ${classname}List, boolean isCover);
+
 }

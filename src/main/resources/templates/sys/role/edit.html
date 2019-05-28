@@ -56,6 +56,7 @@
 	</div>
 	<div th:replace="footer :: footer"></div>
 	<script type="text/javascript">
+	var prefix = ctx + "sys/role";
 		$().ready(function() {
 			getMenuTreeData();
 			validateRule();
@@ -71,7 +72,7 @@
 		function update() {
 			$('#menuIds').val(menuIds);
 			YiMo.ajaxPut({
-				url : ctx + "sys/role/update",
+				url : prefix+"/update",
 				data : $('#RoleForm').serialize(),// 你的formid
 				needClose: true,
 			});
