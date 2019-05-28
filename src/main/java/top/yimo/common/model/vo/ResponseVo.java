@@ -1,12 +1,19 @@
 package top.yimo.common.model.vo;
 
+import java.io.PrintWriter;
+
+import javax.servlet.ServletResponse;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.Data;
 
 /**
  * 默认ajax返回结果对象
+ * 
  * @author imTayle
  * @Email imTayle@126.com
- * @version 1.0 
+ * @version 1.0
  * @Time 2018-12-18 05:17:34
  */
 @Data
@@ -38,6 +45,7 @@ public class ResponseVo {
 	public static ResponseVo exception(String msg) {
 		return new ResponseVo(false, msg, 9999);
 	}
+
 	/**
 	 * 返回一个默认成功消息
 	 */
@@ -52,6 +60,7 @@ public class ResponseVo {
 	public static ResponseVo ok(String msg) {
 		return new ResponseVo(true, msg, 0);
 	}
+
 	public static ResponseVo ok(int code, String msg) {
 		return new ResponseVo(true, msg, code);
 	}
@@ -69,33 +78,57 @@ public class ResponseVo {
 	}
 
 	/**
-	* 返回一个错误的消息
+	 * 返回一个错误的消息
 	 */
 	public static ResponseVo fail(String msg) {
 		return new ResponseVo(false, msg, -1);
 	}
+
 	/**
-	* 返回一个被踢出的消息
+	 * 返回一个被踢出的消息
 	 */
 	public static ResponseVo kickout(String msg) {
 		return new ResponseVo(false, msg, 666);
 	}
+
 	/**
-	* 返回一个session超时的消息
+	 * 返回一个session超时的消息
 	 */
 	public static ResponseVo timeout(String msg) {
 		return new ResponseVo(false, msg, 999);
 	}
+
 	public ResponseVo(boolean success, String msg, int code, long timestamp) {
 		this.success = success;
 		this.msg = msg;
 		this.code = code;
 		this.timestamp = timestamp;
 	}
+
 	public ResponseVo(boolean success, String msg, int code) {
 		this.success = success;
 		this.msg = msg;
 		this.code = code;
 		this.timestamp = System.currentTimeMillis() / 1000;
+	}
+
+	/**
+	 * response输出json
+	 */
+	public static void out(ServletResponse response, ResponseVo result) {
+		PrintWriter out = null;
+		try {
+			response.setCharacterEncoding("UTF-8");// 设置编码
+			response.setContentType("application/json");// 设置返回类型
+			out = response.getWriter();
+			ObjectMapper objectMapper = new ObjectMapper();
+			out.println(objectMapper.writeValueAsString(result));// 输出
+		} catch (Exception e) {
+		} finally {
+			if (null != out) {
+				out.flush();
+				out.close();
+			}
+		}
 	}
 }
