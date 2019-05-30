@@ -1,6 +1,6 @@
 yimo:
   downloadPath: d:/
-  isDemo: false
+  isDemo: true
   refusedURI: remove@save@update
 server: 
   port: 80

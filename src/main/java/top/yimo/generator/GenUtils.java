@@ -32,7 +32,7 @@ import top.yimo.generator.domain.TableDO;
  * 代码生成器 工具类
  */
 public class GenUtils {
-	public static final String separator = "|";
+	public static final String separator = "@";
 
 	public static List<String> getTemplates() {
 		List<String> templates = new ArrayList<String>();
