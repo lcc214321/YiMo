@@ -675,15 +675,3 @@ function WinMove() {
 	    opacity : 0.8,
 	}).disableSelection();
 };
-
-// 全站ajax加载提示
-(function($) {
-	// //登录过期，shiro返回登录页面
-	// $.ajaxSetup({
-	// complete: function (xhr, status,dataType) {
-	// if('text/html;charset=UTF-8'==xhr.getResponseHeader('Content-Type')){
-	// top.location.href =ctx+ 'login';
-	// }
-	// }
-	// });
-})(jQuery);

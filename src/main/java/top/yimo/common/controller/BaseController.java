@@ -9,7 +9,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import top.yimo.common.domain.BaseDO;
-import top.yimo.common.exception.TipException;
 import top.yimo.common.model.vo.BootstrapTablePageVo;
 import top.yimo.common.util.DataConvert;
 import top.yimo.common.util.DateUtils;
@@ -57,9 +56,6 @@ public class BaseController {
 
 	protected UserDO getSysUser() {
 		UserDO user = ShiroUtils.getSysUser();
-		if (user == null) {
-			throw new TipException("当前用户已登录失效，请重新登录");
-		}
 		return user;
 	}
 

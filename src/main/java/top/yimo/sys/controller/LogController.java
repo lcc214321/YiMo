@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
-import top.yimo.common.annotation.Log;
 import top.yimo.common.controller.BaseController;
-import top.yimo.common.enums.OperatorType;
 import top.yimo.common.model.vo.BootstrapTablePageVo;
 import top.yimo.common.model.vo.ResponseVo;
 import top.yimo.common.util.excel.ExcelUtil;
@@ -53,7 +51,7 @@ public class LogController extends BaseController {
 	@ResponseBody
 	@GetMapping("/list")
 	@RequiresPermissions("sys:log:log")
-	@Log(describe = "获取" + title, title = title, operatorType = OperatorType.QUERY)
+//	@Log(describe = "获取" + title, title = title, operatorType = OperatorType.QUERY)
 	public BootstrapTablePageVo listByPage(@RequestParam Map<String, Object> params) {
 		startPage(params);
 		List<LogDO> logList = logService.listByPage(params);
@@ -77,7 +75,7 @@ public class LogController extends BaseController {
 	@ResponseBody
 	@PostMapping("/save")
 	@RequiresPermissions("sys:log:add")
-	@Log(describe = "新增", title = title, operatorType = OperatorType.DELETE)
+//	@Log(describe = "新增", title = title, operatorType = OperatorType.DELETE)
 	public ResponseVo save(LogDO log) {
 		beforeSave(log);
 		if (logService.save(log) > 0) {
@@ -89,7 +87,7 @@ public class LogController extends BaseController {
 	@ResponseBody
 	@PutMapping("/update")
 	@RequiresPermissions("sys:log:edit")
-	@Log(describe = "更新", title = title, operatorType = OperatorType.DELETE)
+//	@Log(describe = "更新", title = title, operatorType = OperatorType.DELETE)
 	public ResponseVo update(LogDO log) {
 		beforeUpdate(log);
 		if (logService.update(log) > 0) {
@@ -104,7 +102,7 @@ public class LogController extends BaseController {
 	@DeleteMapping("/remove/{id}")
 	@ResponseBody
 	@RequiresPermissions("sys:log:remove")
-	@Log(describe = "删除", title = title, operatorType = OperatorType.DELETE)
+//	@Log(describe = "删除", title = title, operatorType = OperatorType.DELETE)
 	public ResponseVo remove(@PathVariable("id") Long id) {
 		if (logService.remove(id) > 0) {
 			return ResponseVo.ok("删除成功");
@@ -118,7 +116,7 @@ public class LogController extends BaseController {
 	@DeleteMapping("/batchRemove")
 	@ResponseBody
 	@RequiresPermissions("sys:log:batchRemove")
-	@Log(describe = "批量删除", title = title, operatorType = OperatorType.DELETE)
+//	@Log(describe = "批量删除", title = title, operatorType = OperatorType.DELETE)
 	public ResponseVo batchRemove(@RequestParam("ids[]") Long[] ids) {
 		if (logService.batchRemove(ids) > 0) {
 			return ResponseVo.ok("删除成功");

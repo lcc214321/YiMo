@@ -92,17 +92,10 @@ public class ResponseVo {
 	}
 
 	/**
-	 * 返回一个被踢出的消息
-	 */
-	public static ResponseVo kickout(String msg) {
-		return new ResponseVo(false, msg, 666);
-	}
-
-	/**
 	 * 返回一个session超时的消息
 	 */
 	public static ResponseVo timeout(String msg) {
-		return new ResponseVo(false, msg, 999);
+		return new ResponseVo(false, msg, 403);
 	}
 
 	public ResponseVo(boolean success, String msg, int code, long timestamp) {

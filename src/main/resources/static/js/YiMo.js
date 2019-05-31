@@ -31,17 +31,13 @@
 						            $.YiMo.BSTable.refresh();
 					            }
 				            }
-				            if(options.refreshTab==true){
-				            	setTimeout("refreshTab()","700");//延迟0.7s刷新Tab
+				            if (options.refreshTab == true) {
+					            setTimeout("refreshTab()", "700");// 延迟0.7s刷新Tab
 				            }
 				            if (options.needClose == true) {
 					            var index = parent.layer.getFrameIndex(window.name);
 					            parent.layer.close(index);
 				            }
-			            } else if (data.code == 666) {
-				            window.location.reload(true);
-			            } else {
-				            toastr.error(data.msg);
 			            }
 		            },
 		        });
@@ -429,4 +425,16 @@
 	    }
 	});
 })(jQuery);
+
+/** 设置全局ajax处理 */
+$.ajaxSetup({
+	complete : function(xhr, status, dataType) {
+		// 登录过期，shiro返回登录页面
+		if ('timeout' == xhr.getResponseHeader('Content-Type')) {
+			conlog.log("ajax超时");
+			top.location.href = ctx + 'login';
+		}
+	}
+});
+
 var YiMo = $.YiMo;
