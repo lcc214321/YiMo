@@ -31,14 +31,14 @@ public interface UserService {
 	int batchRemove(Long[] userIds);
 
 	/**
-	 * 重置密码
+	 * 更新密码
 	 */
-	int resetPwd(Long userId) throws Exception;
+	int updatePwd(UserDO user, String pwd) throws Exception;
 
 	/**
-	 * 判断userName是否唯一
+	 * 判断user是否唯一
 	 */
-	boolean checkUserNameUnique(String userName);
+	boolean checkUserUnique(UserDO user);
 
 	/**
 	 * 导出用户数据
@@ -46,5 +46,7 @@ public interface UserService {
 	List<UserDO> exportData(UserDO user);
 
 	String importData(List<UserDO> userList, boolean isCover);
+
+	boolean checkPwd(String pwd, UserDO user);
 
 }

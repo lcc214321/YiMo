@@ -78,6 +78,13 @@ public class ResponseVo {
 	}
 
 	/**
+	 * 仅返回状态，code默认为0
+	 */
+	public static ResponseVo response(boolean isOK) {
+		return new ResponseVo(isOK, "", 0);
+	}
+
+	/**
 	 * 返回一个错误的消息
 	 */
 	public static ResponseVo fail(String msg) {

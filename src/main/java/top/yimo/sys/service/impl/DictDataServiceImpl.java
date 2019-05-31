@@ -66,6 +66,11 @@ public class DictDataServiceImpl implements DictDataService {
 	}
 
 	@Override
+	public List<DictDataDO> getDictDatas(String dictType, String dictNo) {
+		return dictDataDao.getDictDatas(dictType, dictNo);
+	}
+
+	@Override
 	public int removeByNo(String dictType, String dictNo) {
 		return dictDataDao.removeByNo(dictType, dictNo);
 	}

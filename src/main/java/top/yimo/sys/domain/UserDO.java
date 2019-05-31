@@ -65,6 +65,13 @@ public class UserDO extends BaseDO {
 	// 用户所拥有的角色
 	private List<Long> roleIds;
 
+	public UserDO(Long userId) {
+		this.userId = userId;
+	}
+
+	public UserDO() {
+	}
+
 	public Long getUserId() {
 		return userId;
 	}

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import top.yimo.common.annotation.Log;
+import top.yimo.common.constant.WebConstant;
 import top.yimo.common.controller.BaseController;
 import top.yimo.common.enums.OperatorType;
 import top.yimo.common.model.vo.BootstrapTablePageVo;
@@ -159,9 +160,30 @@ public class UserController extends BaseController {
 	@Log(describe = "提交重置用户密码", title = "/sys/user", operatorType = OperatorType.resetPwd)
 	@ResponseBody
 	public ResponseVo resetPwd(@PathVariable("id") Long userId) {
+		UserDO user = userService.get(userId);
 		try {
-			userService.resetPwd(userId);
+			userService.updatePwd(user, WebConstant.DEAFULT_PWD);
 			return ResponseVo.ok("密码重置成功");
+		} catch (Exception e) {
+			return ResponseVo.fail(-1, e.getMessage());
+		}
+	}
+
+	/**
+	 * 修改当前用户密码
+	 */
+	@PutMapping("/updatePwd")
+	@Log(describe = "修改用户密码", title = "/sys/user", operatorType = OperatorType.UPDATE)
+	@ResponseBody
+	public ResponseVo updatePwd(@RequestParam("newPassword") String newPwd,
+			@RequestParam("oldPassword") String oldPwd) {
+		UserDO user = getSysUser();
+		if (!userService.checkPwd(oldPwd.trim(), user)) {
+			return ResponseVo.fail("旧密码输入错误，请确认");
+		}
+		try {
+			userService.updatePwd(user, newPwd);
+			return ResponseVo.ok("密码修改成功");
 		} catch (Exception e) {
 			return ResponseVo.fail(-1, e.getMessage());
 		}
@@ -173,7 +195,31 @@ public class UserController extends BaseController {
 	@PostMapping("/checkUserNameUnique")
 	@ResponseBody
 	public boolean checkUserNameUnique(String username) {
-		return userService.checkUserNameUnique(username.trim());
+		UserDO use = new UserDO();
+		use.setUserName(username.trim());
+		return userService.checkUserUnique(use);
+	}
+
+	/**
+	 * 校验手机是否唯一
+	 */
+	@PostMapping("/checkMobileUnique")
+	@ResponseBody
+	public boolean checkMobileUnique(String mobile, Long userId) {
+		UserDO use = new UserDO(userId);
+		use.setMobile(mobile.trim());
+		return userService.checkUserUnique(use);
+	}
+
+	/**
+	 * 校验邮箱是否唯一
+	 */
+	@PostMapping("/checkEmailUnique")
+	@ResponseBody
+	public boolean checkEmailUnique(String email, Long userId) {
+		UserDO use = new UserDO(userId);
+		use.setEmail(email.trim());
+		return userService.checkUserUnique(use);
 	}
 
 	/**
@@ -225,5 +271,12 @@ public class UserController extends BaseController {
 			e.printStackTrace();
 			return ResponseVo.fail(-1, e.getMessage());
 		}
+	}
+
+	@GetMapping("/profile")
+	public String profile(Model model) {
+		UserDO userDO = userService.get(getUserId());
+		model.addAttribute("user", userDO);
+		return prefix + "/profile";
 	}
 }

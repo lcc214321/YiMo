@@ -3,6 +3,7 @@ package top.yimo.sys.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -106,7 +107,7 @@ public class DictDataController extends BaseController {
 	@DeleteMapping("/remove/{id}")
 	@ResponseBody
 	@RequiresPermissions("sys:dictData:remove")
-	public ResponseVo remove(@PathVariable("id")String dictType, String dictNo) {
+	public ResponseVo remove(@PathVariable("id") String dictType, String dictNo) {
 		if (dictDataService.removeByNo(dictType, dictNo) > 0) {
 			return ResponseVo.ok("删除成功");
 		}
@@ -119,7 +120,7 @@ public class DictDataController extends BaseController {
 	@DeleteMapping("/batchRemove")
 	@ResponseBody
 	@RequiresPermissions("sys:dictData:batchRemove")
-	public ResponseVo remove(@PathVariable("id")String dictType, @RequestParam("ids[]") String[] dictNos) {
+	public ResponseVo remove(@PathVariable("id") String dictType, @RequestParam("ids[]") String[] dictNos) {
 		if (dictDataService.batchRemoveByNo(dictType, dictNos) > 0) {
 			return ResponseVo.ok("删除成功");
 		}
@@ -128,9 +129,24 @@ public class DictDataController extends BaseController {
 
 	@ResponseBody
 	@GetMapping("/getDictData")
-	@RequiresPermissions("sys:dictData:dictData")
 	public DictDataDO getDictData(@RequestParam Map<String, Object> params, String dictType, String dictNo) {
 		DictDataDO dictData = dictDataService.getByTypeAndNo(dictType, dictNo);
 		return dictData;
+	}
+
+	@ResponseBody
+	@GetMapping("/getDictDatas")
+	public ResponseVo getDictDatas(@RequestParam Map<String, Object> params, String dictType, String dictNo) {
+		if (StringUtils.isBlank(dictNo) || StringUtils.isBlank(dictType)) {
+			return ResponseVo.ok("-");
+		}
+		StringBuffer sb = new StringBuffer();
+		List<DictDataDO> dictDatas = dictDataService.getDictDatas(dictType, dictNo);
+		for (DictDataDO dictData : dictDatas) {
+			sb = sb.append(dictData.getDictName()).append(",");
+		}
+		String dictNames = sb.toString();
+		dictNames = dictNames.substring(0, dictNames.length() - 1);
+		return ResponseVo.ok(dictNames);
 	}
 }

@@ -2,13 +2,14 @@ package top.yimo.common.util;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.Subject;
-
 
 import top.yimo.sys.domain.UserDO;
 
 /**
- * Shiro 工具类  用于获取登陆用户信息
+ * Shiro 工具类 用于获取登陆用户信息
  * 
  * @Author imTayle
  * @Email imTayle@126.com
@@ -33,8 +34,8 @@ public class ShiroUtils {
 	public static UserDO getSysUser() {
 		UserDO user = null;
 		Object obj = getSubject().getPrincipal();
-		if (obj!=null && obj instanceof UserDO) {
-			user =(UserDO)obj;
+		if (obj != null && obj instanceof UserDO) {
+			user = (UserDO) obj;
 		}
 		return user;
 	}
@@ -53,5 +54,14 @@ public class ShiroUtils {
 
 	public static String getSessionId() {
 		return String.valueOf(getSubject().getSession().getId());
+	}
+
+	public static void updateUser(UserDO user) {
+		Subject subject = getSubject();
+		PrincipalCollection principalCollection = subject.getPrincipals();
+		String realmName = principalCollection.getRealmNames().iterator().next();
+		PrincipalCollection newPrincipalCollection = new SimplePrincipalCollection(user, realmName);
+		// 重新加载Principal
+		subject.runAs(newPrincipalCollection);
 	}
 }

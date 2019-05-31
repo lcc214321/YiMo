@@ -115,6 +115,26 @@ function openPage(url, title) {
 	$(window.parent.document).find('.J_mainContent').append(iframe);
 }
 
+/** 刷新iframe * */
+function refreshTab() {
+	var topWindow = $(window.parent.document);
+	var currentId = $('.page-tabs-content', topWindow).find('.active').attr('data-id');
+	var target = $('.J_iframe[data-id="' + currentId + '"]',topWindow);
+	var url = target.attr('src');
+	// 显示loading提示
+	var index = layer.load(1, {
+		shade : [ 0.1, '#fff' ]
+	// 0.1透明度的白色背景
+	});
+	target.attr('src', url).load(function() {
+		// 关闭loading提示
+		layer.close(index);
+	});
+}
+/**关闭iframe**/
+function closeTab(){
+	
+}
 function NavToggle() {
 	$('.navbar-minimalize').trigger('click');
 }
@@ -628,13 +648,6 @@ $('.close-link').click(function() {
 	var content = $(this).closest('div.ibox');
 	content.remove();
 });
-
-// //判断当前页面是否在iframe中
-// if (top == this) {
-// var gohome = '<div class="gohome"><a class="animated bounceInUp"
-// href="index.html?v=4.0" title="返回首页"><i class="fa fa-home"></i></a></div>';
-// $('body').append(gohome);
-// }
 
 // animation.css
 function animationHover(element, animation) {

@@ -6,24 +6,25 @@
 	<sql id="tableName">
 		sys_dict_data
 	</sql>
-	
+
 	<!-- 数据表所有列名 -->
 	<sql id="Base_Column_List">
-		`dict_type`,`dict_no`,`dict_name`,`dict_describe`,`status`,`create_user_id`,`create_time`,`update_time`	</sql>
+		`dict_type`,`dict_no`,`dict_name`,`dict_describe`,`status`,`create_user_id`,`create_time`,`update_time`
+	</sql>
 
 	<!-- 查询字段 -->
 	<sql id="Base_Search_Param">
-				<if test="dictType != null and dictType != ''"> and dict_type = #{dictType} </if>
-				<if test="dictNo != null and dictNo != ''"> and dict_no = #{dictNo} </if>
-				<if test="dictName != null and dictName != ''"> and dict_name = #{dictName} </if>
-				<if test="dictDescribe != null and dictDescribe != ''"> and dict_describe = #{dictDescribe} </if>
-				<if test="status != null and status != ''"> and status = #{status} </if>
-				<if test="createUserId != null and createUserId != ''"> and create_user_id = #{createUserId} </if>
-				<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
-				<if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
-			</sql>
-	
-	
+		<if test="dictType != null and dictType != ''"> and dict_type = #{dictType} </if>
+		<if test="dictNo != null and dictNo != ''"> and dict_no = #{dictNo} </if>
+		<if test="dictName != null and dictName != ''"> and dict_name = #{dictName} </if>
+		<if test="dictDescribe != null and dictDescribe != ''"> and dict_describe = #{dictDescribe} </if>
+		<if test="status != null and status != ''"> and status = #{status} </if>
+		<if test="createUserId != null and createUserId != ''"> and create_user_id = #{createUserId} </if>
+		<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		<if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+	</sql>
+
+
 	<select id="get" resultType="top.yimo.sys.domain.DictDataDO">
 		select
 		<include refid="Base_Column_List" />
@@ -31,15 +32,18 @@
 		<include refid="tableName" />
 		where dict_type = #{value}
 	</select>
-	
-	<select id="getAllActiveDictData" resultType="top.yimo.sys.domain.DictDataDO">
+
+	<select id="getAllActiveDictData"
+		resultType="top.yimo.sys.domain.DictDataDO">
 		select
 		<include refid="Base_Column_List" />
 		from
 		<include refid="tableName" />
 		where dict_type = #{value} and status='1'
 	</select>
-	<select id="getByTypeAndNo" resultType="top.yimo.sys.domain.DictDataDO">
+
+	<select id="getByTypeAndNo"
+		resultType="top.yimo.sys.domain.DictDataDO">
 		select
 		<include refid="Base_Column_List" />
 		from
@@ -47,56 +51,75 @@
 		where dict_type = #{dictType} and dict_no = #{dictNo}
 	</select>
 
-	<select id="listByPage" resultType="top.yimo.sys.domain.DictDataDO" >
+	<select id="getDictDatas"
+		resultType="top.yimo.sys.domain.DictDataDO">
 		select
 		<include refid="Base_Column_List" />
 		from
 		<include refid="tableName" />
-		 where 1 = 1
+		where dict_type = #{dictType}
+		<if test="dictNo != null and dictNo != ''">
+			and dict_no in
+			<foreach collection="dictNo.split(',')" item="dict"
+				index="index" open="(" close=")" separator=",">
+				#{dict}
+			</foreach>
+		</if>
+
+	</select>
+
+	<select id="listByPage"
+		resultType="top.yimo.sys.domain.DictDataDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		where 1 = 1
 		<include refid="Base_Search_Param" />
-        <choose>
-            <when test="sort != null and sort.trim() != ''">
-                order by ${sort} ${order}
-            </when>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
 			<otherwise>
-                order by dict_type desc
+				order by dict_type desc
 			</otherwise>
-        </choose>
+		</choose>
 	</select>
-	
- 	<select id="count" resultType="int">
+
+	<select id="count" resultType="int">
 		select count(*) from sys_dict_data
-		  where 1 = 1
+		where 1 = 1
 		<include refid="Base_Search_Param" />
 	</select>
-	 
+
 	<insert id="save" parameterType="top.yimo.sys.domain.DictDataDO">
 		insert into sys_dict_data
 		(
-			`dict_type`, 
-			`dict_no`, 
-			`dict_name`, 
-			`dict_describe`, 
-			`status`, 
-			`create_user_id`, 
-			`create_time`, 
-			`update_time`
+		`dict_type`,
+		`dict_no`,
+		`dict_name`,
+		`dict_describe`,
+		`status`,
+		`create_user_id`,
+		`create_time`,
+		`update_time`
 		)
 		values
 		(
-			#{dictType}, 
-			#{dictNo}, 
-			#{dictName}, 
-			#{dictDescribe}, 
-			#{status}, 
-			#{createUserId}, 
-			#{createTime}, 
-			#{updateTime}
+		#{dictType},
+		#{dictNo},
+		#{dictName},
+		#{dictDescribe},
+		#{status},
+		#{createUserId},
+		#{createTime},
+		#{updateTime}
 		)
 	</insert>
-	 
-	<update id="update" parameterType="top.yimo.sys.domain.DictDataDO">
-		update sys_dict_data 
+
+	<update id="update"
+		parameterType="top.yimo.sys.domain.DictDataDO">
+		update sys_dict_data
 		<set>
 			<if test="dictNo != null">`dict_no` = #{dictNo}, </if>
 			<if test="dictName != null">`dict_name` = #{dictName}, </if>
@@ -108,25 +131,28 @@
 		</set>
 		where dict_type = #{dictType} and dict_no = #{dictNo}
 	</update>
-	
+
 	<delete id="remove">
 		delete from sys_dict_data where dict_type = #{value}
 	</delete>
-	
+
 	<delete id="removeByNo">
-		delete from sys_dict_data where dict_type = #{dictType} and dict_no = #{dictNo}
+		delete from sys_dict_data where dict_type =
+		#{dictType} and dict_no = #{dictNo}
 	</delete>
-	
+
 	<delete id="batchRemove">
-		delete from sys_dict_data where dict_type in 
-		<foreach item="dictType" collection="array" open="(" separator="," close=")">
+		delete from sys_dict_data where dict_type in
+		<foreach item="dictType" collection="array" open="("
+			separator="," close=")">
 			#{dictType}
 		</foreach>
 	</delete>
-	
+
 	<delete id="batchRemoveByNo">
-		delete from sys_dict_data where dict_type = #{dictType} and dict_no in  
-		<foreach item="dictNo" collection="dictNos" open="(" separator="," close=")">
+		delete from sys_dict_data where dict_type = #{dictType} and dict_no in
+		<foreach item="dictNo" collection="dictNos" open="("
+			separator="," close=")">
 			#{dictNo}
 		</foreach>
 	</delete>

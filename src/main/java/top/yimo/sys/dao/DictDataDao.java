@@ -23,6 +23,8 @@ public interface DictDataDao {
 
 	DictDataDO getByTypeAndNo(String dictType, String dictNo);
 
+	List<DictDataDO> getDictDatas(String dictType, String dictNo);
+
 	List<DictDataDO> listByPage(Map<String, Object> map);
 
 	int count(Map<String, Object> map);

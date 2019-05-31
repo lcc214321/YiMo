@@ -14,23 +14,25 @@
 		            async : options.async || false,
 		            dataType : 'json',
 		            success : function(data) {
-			            console.log("操作成功返回:" + data);
 			            if (data.success == true) {
 				            toastr.success(data.msg);
 				            options.success && options.success(data);
 				            if (options.parentRefresh == true) {
 					            if (parent.$("#bootstrap-tree-table").length > 0) {
 						            parent.$.YiMo.BSTreeTable.refresh();
-					            } else {
+					            } else if (parent.$("#bootstrap-table").length > 0) {
 						            parent.$.YiMo.BSTable.refresh();
 					            }
 				            }
 				            if (options.refresh == true) {
 					            if ($("#bootstrap-tree-table").length > 0) {
 						            $.YiMo.BSTreeTable.refresh();
-					            } else {
+					            } else if ($("#bootstrap-table").length > 0) {
 						            $.YiMo.BSTable.refresh();
 					            }
+				            }
+				            if(options.refreshTab==true){
+				            	setTimeout("refreshTab()","700");//延迟0.7s刷新Tab
 				            }
 				            if (options.needClose == true) {
 					            var index = parent.layer.getFrameIndex(window.name);
@@ -61,7 +63,7 @@
 		        options.type = "PUT";
 		        this.ajax(options);
 	        },
-	        /* 获取数据字典名称 */
+	        /* 获取数据字典对象 */
 	        getDictData : function(type, no) {
 		        var dictData;
 		        $.ajax({
@@ -79,10 +81,32 @@
 		        });
 		        return dictData;
 	        },
+	        /* 获取多个数据字典名称以逗号分割 */
+	        getDictDatas : function(type, no) {
+		        var dictName;
+		        $.ajax({
+		            type : 'GET',
+		            url : ctx + 'sys/dictData/getDictDatas',
+		            data : {
+		                'dictType' : type,
+		                'dictNo' : no
+		            },
+		            async : false,
+		            dataType : 'json',
+		            success : function(data) {
+			            if (data.success == true) {
+				            dictName = data.msg;
+			            } else {
+				            dictName = "-";
+			            }
+		            },
+		        });
+		        return dictName;
+	        },
 	        /** 简单封装bootstrap-table * */
 	        BSTable : {
 	            load : function(options) {
-	                $('#bootstrap-table').bootstrapTable('destroy');//先销毁表格
+		            $('#bootstrap-table').bootstrapTable('destroy');// 先销毁表格
 		            $('#bootstrap-table').bootstrapTable({
 		                method : options.method || 'get',// 服务器数据的请求方式
 		                url : options.url,// 服务器数据的加载地址
@@ -155,8 +179,8 @@
 	        _treeTable : {},
 	        BSTreeTable : {
 	            _option : {},
-	            _expandAll :{},
-	            _expandFirst :{},
+	            _expandAll : {},
+	            _expandFirst : {},
 	            // 加载表格
 	            load : function(options) {
 		            $.YiMo.BSTreeTable._option = options;
@@ -199,10 +223,10 @@
 	            },
 	            // 展开or合并
 	            exchange : function() {
-	            	if($.YiMo.BSTreeTable._expandFirst==true&&$.YiMo.BSTreeTable._expandAll==false){//首次打开第一层时默认设置为true
-	            		 $.YiMo.BSTreeTable._expandAll=true;
-	            		 $.YiMo.BSTreeTable._expandFirst=false;
-	            	}
+		            if ($.YiMo.BSTreeTable._expandFirst == true && $.YiMo.BSTreeTable._expandAll == false) {// 首次打开第一层时默认设置为true
+			            $.YiMo.BSTreeTable._expandAll = true;
+			            $.YiMo.BSTreeTable._expandFirst = false;
+		            }
 		            if ($.YiMo.BSTreeTable._expandAll) {
 			            $('#bootstrap-tree-table').bootstrapTreeTable('collapseAll');
 		            } else {
@@ -230,12 +254,12 @@
 		            maxmin : true,
 		            shadeClose : false, // 点击遮罩关闭层
 		            area : [ '800px', '520px' ],
-		            content : option.url, 
+		            content : option.url,
 		        });
 	        },
 	        // 删除
 	        remove : function(option) {
-	        	var confirmMsg = option.confirmMsg || '确定要删除选中的记录？';
+		        var confirmMsg = option.confirmMsg || '确定要删除选中的记录？';
 		        layer.confirm(confirmMsg, {
 			        btn : [ '确定', '取消' ]
 		        }, function(index) {

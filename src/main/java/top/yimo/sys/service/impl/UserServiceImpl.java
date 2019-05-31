@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import top.yimo.common.constant.WebConstant;
 import top.yimo.common.exception.TipException;
 import top.yimo.common.util.DateUtils;
+import top.yimo.common.util.ShiroUtils;
 import top.yimo.common.util.YiMoUtils;
 import top.yimo.sys.dao.DeptDao;
 import top.yimo.sys.dao.UserDao;
@@ -34,15 +36,21 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDO get(Long userId) {
-		return userDao.get(userId);
+		UserDO user = userDao.get(userId);
+		getDeptName(user);
+		return user;
+	}
+
+	public void getDeptName(UserDO user) {
+		Long deptId = user.getDeptId();
+		DeptDO dept = deptDao.get(deptId);
+		user.setDeptName(dept.getDeptName());
 	}
 
 	@Override
 	public UserDO findByUserName(String userName) {
 		UserDO user = userDao.findByUserName(userName);
-		Long deptId = user.getDeptId();
-		DeptDO dept = deptDao.get(deptId);
-		user.setDeptName(dept.getDeptName());
+		getDeptName(user);
 		return user;
 	}
 
@@ -90,13 +98,14 @@ public class UserServiceImpl implements UserService {
 				uerRoleDao.save(userRoleDO);
 			}
 		}
-//		// 如果修改的是当前用户对象 则更新shiro中的当前用户对象
-//		Long currUserId = ShiroUtils.getUserId();
-//		if (currUserId.equals(userId)) {
-//			UserDO currUser = ShiroUtils.getSysUser();
-//			BeanUtils.copyProperties(user, currUser);
-//			log.info("当前用户同步session完成");
-//		}
+		// 如果修改的是当前用户对象 则更新shiro中的当前用户对象
+		Long currUserId = ShiroUtils.getUserId();
+		if (currUserId.equals(userId)) {
+			UserDO currUser = ShiroUtils.getSysUser();
+			BeanUtils.copyProperties(user, currUser);
+			ShiroUtils.updateUser(currUser);
+			log.info("当前用户同步session以及shiro完成");
+		}
 		return userDao.update(user);
 	}
 
@@ -111,16 +120,21 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int resetPwd(Long userId) {
-		UserDO user = get(userId);
-		user.setPassword(YiMoUtils.encrypt(user.getUserName(), WebConstant.DEAFULT_PWD));
-		return userDao.update(user);
+	public int updatePwd(UserDO user, String pwd) {
+		user.setPassword(YiMoUtils.encrypt(user.getUserName(), pwd));
+		return update(user);
 	}
 
 	@Override
-	public boolean checkUserNameUnique(String userName) {
-		UserDO user = userDao.findByUserName(userName);
-		return user == null;
+	public boolean checkPwd(String pwd, UserDO user) {
+		String encrypt = YiMoUtils.encrypt(user.getUserName(), pwd);
+		return encrypt.equals(user.getPassword());
+	}
+
+	@Override
+	public boolean checkUserUnique(UserDO user) {
+		UserDO userdb = userDao.checkUserUnique(user);
+		return userdb == null;
 	}
 
 	@Override

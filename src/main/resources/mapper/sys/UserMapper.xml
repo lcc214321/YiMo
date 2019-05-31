@@ -4,7 +4,7 @@
 <mapper namespace="top.yimo.sys.dao.UserDao">
 	<!-- 表名 -->
 	<sql id="tableName">
-		sys_user
+		sys_user u
 	</sql>
 
 	<!-- 数据表所有列名 -->
@@ -57,6 +57,20 @@
 		from
 		<include refid="tableName" />
 		where user_name = #{value}
+	</select>
+
+	<select id="checkUserUnique"
+		resultType="top.yimo.sys.domain.UserDO"
+		parameterType="top.yimo.sys.domain.UserDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		where 1=1
+		<if test="userId != null and userId != ''"> and user_id != #{userId} </if>
+		<if test="userName != null and userName != ''"> and u.user_name = #{userName} </if>
+		<if test="email != null and email != ''"> and email = #{email} </if>
+		<if test="mobile != null and mobile != ''"> and mobile = #{mobile} </if>
 	</select>
 
 	<select id="listByPage" resultType="top.yimo.sys.domain.UserDO">

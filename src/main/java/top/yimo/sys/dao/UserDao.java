@@ -33,4 +33,6 @@ public interface UserDao {
 	int batchRemove(Long[] userIds);
 
 	List<UserDO> exportData(UserDO user);
+
+	UserDO checkUserUnique(UserDO user);
 }

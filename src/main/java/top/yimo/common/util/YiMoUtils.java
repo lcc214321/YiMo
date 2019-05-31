@@ -26,33 +26,33 @@ public class YiMoUtils {
 	 * @return String
 	 */
 	public static String encrypt(String pswd) {
-		String newPassword = new SimpleHash(WebConstant.ALGORITHM_NAME, pswd, ByteSource.Util.bytes(WebConstant.SALT), WebConstant.HASH_ITERATIONS).toHex();
+		String newPassword = new SimpleHash(WebConstant.ALGORITHM_NAME, pswd, ByteSource.Util.bytes(WebConstant.SALT),
+				WebConstant.HASH_ITERATIONS).toHex();
 		return newPassword;
 	}
 
 	/**
 	 * 
-	 * @param username
-	 *            用户名
-	 * @param pswd
-	 *            明文密码
+	 * @param username 用户名
+	 * @param pswd     明文密码
 	 * @return String
 	 */
 	public static String encrypt(String username, String pswd) {
-		String newPassword = new SimpleHash(WebConstant.ALGORITHM_NAME, pswd, ByteSource.Util.bytes(username + WebConstant.SALT), WebConstant.HASH_ITERATIONS)
-		        .toHex();
+		String newPassword = new SimpleHash(WebConstant.ALGORITHM_NAME, pswd,
+				ByteSource.Util.bytes(username + WebConstant.SALT), WebConstant.HASH_ITERATIONS).toHex();
 		return newPassword;
 	}
+
+//	public static void main(String[] args) {
+//		System.out.println(encrypt("admin", "000000"));
+//	}
 
 	/**
 	 * 获取IP地址
 	 * 
-	 * X-Forwarded-For：Squid 服务代理
-	* Proxy-Client-IP：apache 服务代理
-	* WL-Proxy-Client-IP：weblogic 服务代理
-	* HTTP_CLIENT_IP：有些代理服务器
-	* X-Real-IP：nginx服务代理
-	*/
+	 * X-Forwarded-For：Squid 服务代理 Proxy-Client-IP：apache 服务代理
+	 * WL-Proxy-Client-IP：weblogic 服务代理 HTTP_CLIENT_IP：有些代理服务器 X-Real-IP：nginx服务代理
+	 */
 	public static String getIpAddr(HttpServletRequest request) {
 
 		String ip = request.getHeader("x-forwarded-for");

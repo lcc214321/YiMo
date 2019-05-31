@@ -1,68 +1,53 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <header th:replace="header::header_index(title)(${title})"></header>
-<body class="fixed-sidebar full-height-layout gray-bg" style="overflow: hidden" >
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow: hidden">
 	<div id="wrapper">
 		<nav class="navbar-default navbar-static-side" role="navigation" th:fragment="menu">
-			<div class="nav-close">
-				<i class="fa fa-times-circle"></i>
-			</div>
 			<div class="sidebar-collapse">
 				<ul class="nav" id="side-menu">
 					<li class="nav-header">
-						<div class="dropdown profile-element">
-							<span><img alt="image" class="img-circle" th:src="@{/img/profile_small.jpg}" /></span> <a data-toggle="dropdown" class="dropdown-toggle" href="#"> <span class="clear">
-									<span class="block m-t-xs"><strong class="font-bold"></strong></span> <span class="text-muted text-xs block" th:text="${user.name}"><b class="caret"></b></span>
-							</span>
-							</a>
-							<ul class="dropdown-menu animated fadeInRight m-t-xs">
-								<!-- 								<li><a class="J_menuItem" href="form_avatar.html">修改头像</a></li> -->
-								<!-- 								<li><a class="J_menuItem" href="profile.html">个人资料</a></li> -->
-								<!-- 								<li><a class="J_menuItem" href="contacts.html">联系我们</a></li> -->
-								<!-- 								<li><a class="J_menuItem" href="mailbox.html">信箱</a></li> -->
-								<!-- 								<li class="divider"></li> -->
-								<!-- 								<li><a th:href="@{/logout}">安全退出</a></li> -->
-							</ul>
+						<div class="profile-element">
+							<img alt="image" class="img-circle" th:src="@{/img/profile_small.jpg}" />
 						</div>
 						<div class="logo-element">YiMo</div>
 					</li>
-					<li th:each="menu : ${menus}"><a href="#"> <i class="fa fa fa-bar-chart-o" th:class="${menu.attributes.icon}"></i> <span class="nav-label" th:text="${menu.text}">顶级菜单</span>
+					<li th:each="menu : ${menus}"><a href="#"> <i class="fa fa fa-bar-chart-o" th:class="${menu.attributes.icon}"></i> <span class="nav-label" th:text="${menu.text}"></span>
 							<span class="fa arrow"></span>
 					</a>
 						<ul class="nav nav-second-level">
-							<li th:each="cmenu : ${menu.children}"><a class="J_menuItem " href="#" th:href="${cmenu.attributes.url}"> <i class="fa fa fa-bar-chart-o"
-									th:class="${cmenu.attributes.icon}"></i> <span class="nav-label" th:text="${cmenu.text}">二级菜单</span></a></li>
+							<li th:each="cmenu : ${menu.children}"><a class="J_menuItem" href="#" th:href="${cmenu.attributes.url}"> <i class="fa fa fa-bar-chart-o"
+										th:class="${cmenu.attributes.icon}"></i> <span class="nav-label" th:text="${cmenu.text}"></span></a></li>
 						</ul></li>
 				</ul>
 			</div>
 		</nav>
 		<div th:replace="rightContent :: 	right-content"></div>
-<!-- 		<div th:replace="rightSidebar :: right-sidebar"></div> -->
+		<!-- 		<div th:replace="rightSidebar :: right-sidebar"></div> -->
 		<div th:replace="footer :: footer_index"></div>
 
 		<script type="text/javascript">
-		 var stompClient = null;
-		    $(function () {
-		        connect();
-		    });
+			var stompClient = null;
+            $(function() {
+	            connect();
+            });
 
-		    function connect() {
-		        var sock = new SockJS(ctx+"/websocket");
-		        var stomp = Stomp.over(sock);
-// 		        console.log("进入sock连接");
-		        stomp.connect('guest', 'guest', function(frame) {
-// 				stomp.subscribe("/topic/ReceiveTest", handleNotification);
-// 				stomp.send("/queue/sendTest",{},'发送消息文本内容');
-		        
-				stomp.subscribe("/topic/webSocketMessageJob", handleNotification);
+            function connect() {
+	            var sock = new SockJS(ctx + "/websocket");
+	            var stomp = Stomp.over(sock);
+	            // 		        console.log("进入sock连接");
+	            stomp.connect('guest', 'guest', function(frame) {
+		            // 				stomp.subscribe("/topic/ReceiveTest", handleNotification);
+		            // 				stomp.send("/queue/sendTest",{},'发送消息文本内容');
 
-				
-				function handleNotification(message) {
-					var m = JSON.parse(message.body);
-		            toastr.info(m.msg);
-		        }
-		    });
-		}
+		            stomp.subscribe("/topic/webSocketMessageJob", handleNotification);
+
+		            function handleNotification(message) {
+			            var m = JSON.parse(message.body);
+			            toastr.info(m.msg);
+		            }
+	            });
+            }
 		</script>
 	</div>
 </body>

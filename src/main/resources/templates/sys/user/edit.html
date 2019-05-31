@@ -52,7 +52,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label">性别：</label>
 								<div class="col-sm-8">
-								<label class="radio-inline" th:each="dict:${@dict.getDictDatas('Sex')}"> <input th:field="*{user.sex}" type="radio" th:value="${dict.dictNo}"
+									<label class="radio-inline" th:each="dict:${@dict.getDictDatas('Sex')}"> <input th:field="*{user.sex}" type="radio" th:value="${dict.dictNo}"
 										th:text="${dict.dictName}" />
 									</label>
 								</div>
@@ -79,8 +79,8 @@
 	</div>
 	<div th:replace="footer :: footer"></div>
 	<script type="text/javascript" th:inline="javascript">
-	
-		$().ready(function() {
+		var prefix = ctx + "/sys/user";
+        $().ready(function() {
 	        validateRule();
         });
         function validateRule() {
@@ -92,22 +92,88 @@
 	                },
 	                email : {
 	                    required : true,
-	                    email : true
+	                    email : true,
+	                    remote : {
+	                        url : prefix + "/checkEmailUnique",
+	                        type : "post",
+	                        dataType : "json",
+	                        data : {
+	                            "email" : function() {
+		                            return $("#email").val();
+	                            },
+	                            "userId" : function() {
+		                            return $("#userId").val();
+	                            },
+	                        },
+	                        dataFilter : function(data, type) {
+		                        if (data == "true")
+			                        return true;
+		                        else
+			                        return false;
+	                        }
+	                    }
+	                },
+	                mobile : {
+	                    required : true,
+	                    minlength : 11,
+	                    maxlength : 11,
+	                    remote : {
+	                        url : prefix + "/checkMobileUnique",
+	                        type : "post",
+	                        dataType : "json",
+	                        data : {
+	                            "mobile" : function() {
+		                            return $("#mobile").val();
+	                            },
+	                            "userId" : function() {
+		                            return $("#userId").val();
+	                            },
+	                        },
+	                        dataFilter : function(data, type) {
+		                        if (data == "true")
+			                        return true;
+		                        else
+			                        return false;
+	                        }
+	                    }
 	                },
 	            },
 	            messages : {
-
 	                name : {
-		                required : icon + "请输入姓名"
+		                required : icon + "请输入昵称"
 	                },
-	                email : icon + "请输入您的E-mail",
+	                userName : {
+	                    required : icon + "请输入您的用户名",
+	                    minlength : icon + "用户名必须两个字符以上",
+	                    remote : icon + "用户名已经存在"
+	                },
+	                password : {
+	                    required : icon + "请输入您的密码",
+	                    minlength : icon + "密码必须6个字符以上"
+	                },
+	                confirm_password : {
+	                    required : icon + "请再次输入密码",
+	                    minlength : icon + "密码必须6个字符以上",
+	                    equalTo : icon + "两次输入的密码不一致"
+	                },
+	                email : {
+	                    required : icon + "请输入您的E-mail",
+	                    remote : icon + "Email已经存在"
+	                },
+	                mobile : {
+	                    required : icon + "请输入手机号",
+	                    maxlength : icon + "请填写11位的手机号",
+	                    maxlength : icon + "请填写11位的手机号",
+	                    isMobile : icon + "请填写正确的手机号码",
+	                    remote : icon + "手机号码已经存在"
+	                }
 	            }
 	        })
         }
         $.validator.setDefaults({
 	        submitHandler : function() {
 		        $("#roleIds").val(getCheckedRoles());
-		       YiMo.ajaxPut({
+		        YiMo.ajaxPut({
 		            url : ctx + "sys/user/update",
 		            data : $('#editForm').serialize(),
 		            needClose : true,

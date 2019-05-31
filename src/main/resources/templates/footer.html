@@ -2,8 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="footer-content">
 	<div class="footer">
-		<div class="pull-right gitee" >
-			<a href='https://gitee.com/Tayle/YiMo' target="_blank"><img   src='https://gitee.com/Tayle/YiMo/widgets/widget_6.svg' alt='Fork me on Gitee'></img></a>
+		<div class="pull-right gitee">
+			<a href='https://gitee.com/Tayle/YiMo' target="_blank"><img src='https://gitee.com/Tayle/YiMo/widgets/widget_6.svg' alt='Fork me on Gitee'></img></a>
 		</div>
 
 		<div class="pull-left">
@@ -23,7 +23,6 @@
 			<font color="red" class="pull-left mt10"> 提示：请按照模板上传数据！ </font>
 		</div>
 	</form>
-	<div th:replace="footer :: footer"></div>
 </div>
 
 <div th:fragment="footer_index">
@@ -33,7 +32,7 @@
 	<script th:src="@{/js/bootstrap.min.js?v=3.3.6}"></script>
 	<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
 	<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
-	<script th:src="@{/js/plugins/layer/layer.min.js}"></script>
+	<script th:src="@{/plugins/layer/layer.min.js}"></script>
 	<script th:src="@{/js/main.js}"></script>
 	<!--webSocket -->
 	<script th:src="@{/js/plugins/webSocket/sockjs.min.js}"></script>
@@ -48,7 +47,8 @@
 	<script th:src="@{/js/bootstrap.min.js?v=3.3.6}"></script>
 	<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
 	<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
-	<script th:src="@{/js/plugins/layer/layer.min.js}"></script>
+	<script th:src="@{/plugins/layer/layer.min.js}"></script>
+	<script th:src="@{/plugins/layer/laydate/laydate.js}"></script>
 	<script th:src="@{/js/main.js}"></script>
 	<!-- 表格插件 -->
 	<script th:src="@{/plugins/bootstrap-table/bootstrap-table.js}"></script>
