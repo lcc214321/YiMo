@@ -60,6 +60,12 @@ public class ShiroConfig {
 
 	@Value("${yimo.permissions}")
 	private boolean permissions;
+	@Value("${yimo.kickout}")
+	private boolean kickout;
+	@Value("${yimo.kickout.isAfter}")
+	private boolean kickoutAfter;
+	@Value("${yimo.kickout.maxSession}")
+	private int maxSession;
 
 	@Bean
 	public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
@@ -80,7 +86,7 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/login/**", "anon");
 
 		// <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
-		if (permissions) {
+		if (permissions & kickout) {
 			filterChainDefinitionMap.put("/**", "kickout,authc");
 		} else {
 			filterChainDefinitionMap.put("/**", "anon");// authc
@@ -219,9 +225,9 @@ public class ShiroConfig {
 		kickoutSessionFilter.setCacheManager(ehCacheManager());
 
 		// 是否踢出后来登录的，默认是false；即后者登录的用户踢出前者登录的用户；踢出顺序。
-		kickoutSessionFilter.setKickoutAfter(false);
+		kickoutSessionFilter.setKickoutAfter(kickoutAfter);
 		// 同一个用户最大的会话数，默认1；比如2的意思是同一个用户允许最多同时两个人登录；
-		kickoutSessionFilter.setMaxSession(1);
+		kickoutSessionFilter.setMaxSession(maxSession);
 		return kickoutSessionFilter;
 	}
 

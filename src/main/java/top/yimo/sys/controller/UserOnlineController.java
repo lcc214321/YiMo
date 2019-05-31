@@ -23,7 +23,7 @@ import top.yimo.sys.domain.UserOnlineDO;
 import top.yimo.sys.service.UserOnlineService;
 
 /**
- * 在线用户记录 
+ * 在线用户记录
  * 
  * @author imTayle
  * @email imTayle@126.com
@@ -71,7 +71,7 @@ public class UserOnlineController extends BaseController {
 			return ResponseVo.fail("踢出用户为当前用户，不允许踢出");
 		}
 		if (userOnlineService.kickout(sessionId) > 0) {
-			return ResponseVo.kickout("踢出成功");
+			return ResponseVo.ok("踢出成功");
 		}
 		return ResponseVo.fail();
 	}
