@@ -17,9 +17,11 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler;
 import org.apache.shiro.session.mgt.SessionValidationScheduler;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -116,7 +118,7 @@ public class ShiroConfig {
 		// 使用加密
 		userRealm.setCredentialsMatcher(hashedCredentialsMatcher());
 		// 使用ehcache
-//		userRealm.setCacheManager(ehCacheManager());
+		userRealm.setCacheManager(ehCacheManager());
 		return userRealm;
 	}
 
@@ -132,7 +134,7 @@ public class ShiroConfig {
 		// 设置realm.
 		securityManager.setRealm(userRealm());
 		// 添加Ehcache
-//		securityManager.setCacheManager(ehCacheManager());
+		securityManager.setCacheManager(ehCacheManager());
 		// 添加Session控制
 		securityManager.setSessionManager(sessionManager());
 
@@ -196,7 +198,7 @@ public class ShiroConfig {
 	public OnlineSessionManager onlineSessionManager() {
 		OnlineSessionManager onlineSessionManager = new OnlineSessionManager();
 		// 加入缓存管理器
-//		onlineSessionManager.setCacheManager(ehCacheManager());
+		onlineSessionManager.setCacheManager(ehCacheManager());
 		// 删除过期的session
 		onlineSessionManager.setDeleteInvalidSessions(true);
 		// 去掉 JSESSIONID
@@ -214,7 +216,7 @@ public class ShiroConfig {
 	public KickoutSessionFilter kickoutSessionFilter() {
 		KickoutSessionFilter kickoutSessionFilter = new KickoutSessionFilter();
 		kickoutSessionFilter.setSessionManager(sessionManager());
-//		kickoutSessionFilter.setCacheManager(ehCacheManager());
+		kickoutSessionFilter.setCacheManager(ehCacheManager());
 
 		// 是否踢出后来登录的，默认是false；即后者登录的用户踢出前者登录的用户；踢出顺序。
 		kickoutSessionFilter.setKickoutAfter(false);
@@ -263,13 +265,13 @@ public class ShiroConfig {
 	 * @param @return
 	 * @return AuthorizationAttributeSourceAdvisor
 	 */
-//	@Bean
-//	public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(
-//			@Qualifier("securityManager") SecurityManager securityManager) {
-//		AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
-//		authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
-//		return authorizationAttributeSourceAdvisor;
-//	}
+	@Bean
+	public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(
+			@Qualifier("securityManager") SecurityManager securityManager) {
+		AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
+		authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
+		return authorizationAttributeSourceAdvisor;
+	}
 
 	/**
 	 * 开启支持thymeleaf shiro标签
