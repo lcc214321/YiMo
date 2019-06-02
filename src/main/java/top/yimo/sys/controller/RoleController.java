@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import lombok.extern.slf4j.Slf4j;
 import top.yimo.common.annotation.Log;
 import top.yimo.common.controller.BaseController;
 import top.yimo.common.enums.OperatorType;
@@ -35,11 +34,10 @@ import top.yimo.sys.service.RoleService;
  * @version 1.0
  * @date 2019年05月28日 22:08:56
  */
-@Slf4j
 @Controller
 @RequestMapping("/sys/role")
 public class RoleController extends BaseController {
-	private String prefix = "/sys/role";
+	private String prefix = "sys/role";
 	private final static String title = "角色";
 	@Autowired
 	private RoleService roleService;

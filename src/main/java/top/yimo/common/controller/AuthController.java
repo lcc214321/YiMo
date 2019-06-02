@@ -87,7 +87,7 @@ public class AuthController extends BaseController {
 	public String logout() {
 		// subject的实现类DelegatingSubject的logout方法，将本subject对象的session清空了
 		SecurityUtils.getSubject().logout();
-		return "/login";
+		return "login";
 	}
 
 }

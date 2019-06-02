@@ -38,7 +38,7 @@ import top.yimo.sys.service.DeptService;
 @Controller
 @RequestMapping("/sys/dept")
 public class DeptController extends BaseController {
-	private String prefix = "/sys/dept";
+	private String prefix = "sys/dept";
 	@Autowired
 	private DeptService deptService;
 

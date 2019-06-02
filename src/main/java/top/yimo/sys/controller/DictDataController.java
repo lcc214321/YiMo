@@ -37,7 +37,7 @@ import top.yimo.sys.service.DictDataService;
 @Controller
 @RequestMapping("/sys/dictData")
 public class DictDataController extends BaseController {
-	private String prefix = "/sys/dictData";
+	private String prefix = "sys/dictData";
 	@Autowired
 	private DictDataService dictDataService;
 

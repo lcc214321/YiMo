@@ -44,7 +44,7 @@ import top.yimo.sys.service.UserService;
 @Controller
 @RequestMapping("/sys/user")
 public class UserController extends BaseController {
-	private String prefix = "/sys/user";
+	private String prefix = "sys/user";
 	@Autowired
 	private UserService userService;
 

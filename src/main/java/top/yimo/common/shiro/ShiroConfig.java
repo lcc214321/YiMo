@@ -60,7 +60,7 @@ public class ShiroConfig {
 
 	@Value("${yimo.permissions}")
 	private boolean permissions;
-	@Value("${yimo.kickout}")
+	@Value("${yimo.kickout.kickout}")
 	private boolean kickout;
 	@Value("${yimo.kickout.isAfter}")
 	private boolean kickoutAfter;
@@ -265,13 +265,13 @@ public class ShiroConfig {
 	/**
 	 * 开启Shiro注解方式
 	 * 
-	 * @param @param securityManager
+	 * @param @param
+	 *            securityManager
 	 * @param @return
 	 * @return AuthorizationAttributeSourceAdvisor
 	 */
 	@Bean
-	public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(
-			@Qualifier("securityManager") SecurityManager securityManager) {
+	public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(@Qualifier("securityManager") SecurityManager securityManager) {
 		AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
 		authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
 		return authorizationAttributeSourceAdvisor;

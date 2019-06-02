@@ -37,7 +37,7 @@ import top.yimo.sys.service.MenuService;
 @Controller
 @RequestMapping("/sys/menu")
 public class MenuController extends BaseController {
-	private String prefix = "/sys/menu";
+	private String prefix = "sys/menu";
 	private final static String title = "菜单管理";
 
 	@Autowired

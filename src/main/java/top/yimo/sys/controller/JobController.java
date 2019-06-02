@@ -37,7 +37,7 @@ import top.yimo.sys.service.JobService;
 @Controller
 @RequestMapping("/sys/job")
 public class JobController extends BaseController {
-	private String prefix = "/sys/job";
+	private String prefix = "sys/job";
 	private final static String title = "定时任务调度表";
 	@Autowired
 	private JobService jobService;

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/sys/webLog")
 public class WebLogController {
-	private String prefix = "/sys/log";
+	private String prefix = "sys/log";
 	@GetMapping("/tail")
 	public String tailLog() {
 		return prefix+"/webLog";

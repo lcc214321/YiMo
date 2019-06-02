@@ -37,7 +37,7 @@ import top.yimo.generator.service.GeneratorService;
 @RequestMapping("/generator")
 @Controller
 public class GeneratorController {
-	String prefix = "/generator";
+	String prefix = "generator";
 	@Autowired
 	GeneratorService generatorService;
 

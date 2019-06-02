@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
-import lombok.extern.slf4j.Slf4j;
 import top.yimo.common.controller.BaseController;
 import top.yimo.common.model.vo.BootstrapTablePageVo;
 import top.yimo.common.model.vo.ResponseVo;
@@ -33,12 +31,11 @@ import top.yimo.sys.service.LogService;
  * @version 1.0
  * @date 2019年05月28日 23:04:24
  */
-@Slf4j
 @Controller
 @RequestMapping("/sys/log")
 public class LogController extends BaseController {
-	private String prefix = "/sys/log";
-	private final static String title = "系统日志";
+	private String prefix = "sys/log";
+	// private final static String title = "系统日志";
 	@Autowired
 	private LogService logService;
 
@@ -51,7 +48,7 @@ public class LogController extends BaseController {
 	@ResponseBody
 	@GetMapping("/list")
 	@RequiresPermissions("sys:log:log")
-//	@Log(describe = "获取" + title, title = title, operatorType = OperatorType.QUERY)
+	// @Log(describe = "获取" + title, title = title, operatorType = OperatorType.QUERY)
 	public BootstrapTablePageVo listByPage(@RequestParam Map<String, Object> params) {
 		startPage(params);
 		List<LogDO> logList = logService.listByPage(params);
@@ -75,7 +72,7 @@ public class LogController extends BaseController {
 	@ResponseBody
 	@PostMapping("/save")
 	@RequiresPermissions("sys:log:add")
-//	@Log(describe = "新增", title = title, operatorType = OperatorType.DELETE)
+	// @Log(describe = "新增", title = title, operatorType = OperatorType.DELETE)
 	public ResponseVo save(LogDO log) {
 		beforeSave(log);
 		if (logService.save(log) > 0) {
@@ -87,7 +84,7 @@ public class LogController extends BaseController {
 	@ResponseBody
 	@PutMapping("/update")
 	@RequiresPermissions("sys:log:edit")
-//	@Log(describe = "更新", title = title, operatorType = OperatorType.DELETE)
+	// @Log(describe = "更新", title = title, operatorType = OperatorType.DELETE)
 	public ResponseVo update(LogDO log) {
 		beforeUpdate(log);
 		if (logService.update(log) > 0) {
@@ -102,7 +99,7 @@ public class LogController extends BaseController {
 	@DeleteMapping("/remove/{id}")
 	@ResponseBody
 	@RequiresPermissions("sys:log:remove")
-//	@Log(describe = "删除", title = title, operatorType = OperatorType.DELETE)
+	// @Log(describe = "删除", title = title, operatorType = OperatorType.DELETE)
 	public ResponseVo remove(@PathVariable("id") Long id) {
 		if (logService.remove(id) > 0) {
 			return ResponseVo.ok("删除成功");
@@ -116,7 +113,7 @@ public class LogController extends BaseController {
 	@DeleteMapping("/batchRemove")
 	@ResponseBody
 	@RequiresPermissions("sys:log:batchRemove")
-//	@Log(describe = "批量删除", title = title, operatorType = OperatorType.DELETE)
+	// @Log(describe = "批量删除", title = title, operatorType = OperatorType.DELETE)
 	public ResponseVo batchRemove(@RequestParam("ids[]") Long[] ids) {
 		if (logService.batchRemove(ids) > 0) {
 			return ResponseVo.ok("删除成功");
@@ -157,21 +154,4 @@ public class LogController extends BaseController {
 		}
 	}
 
-	/**
-	 * 导入数据
-	 */
-	@PostMapping("/importData")
-	@ResponseBody
-	@RequiresPermissions("sys:log:edit")
-	public ResponseVo importData(MultipartFile file, boolean isCover) {
-		ExcelUtil<LogDO> util = new ExcelUtil<LogDO>(LogDO.class);
-		try {
-			List<LogDO> logList = util.importExcel(file.getInputStream());
-			String message = logService.importData(logList, isCover);
-			return ResponseVo.ok(message);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ResponseVo.fail(-1, e.getMessage());
-		}
-	}
 }

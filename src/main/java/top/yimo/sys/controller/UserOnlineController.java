@@ -34,7 +34,7 @@ import top.yimo.sys.service.UserOnlineService;
 @Controller
 @RequestMapping("/sys/userOnline")
 public class UserOnlineController extends BaseController {
-	private String prefix = "/sys/userOnline";
+	private String prefix = "sys/userOnline";
 	private final static String title = "在线用户记录";
 	@Autowired
 	private UserOnlineService userOnlineService;
