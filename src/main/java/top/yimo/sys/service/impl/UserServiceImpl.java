@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
 import top.yimo.common.constant.WebConstant;
@@ -152,7 +153,7 @@ public class UserServiceImpl implements UserService {
 		int failureNum = 0;
 		StringBuilder successMsg = new StringBuilder();
 		StringBuilder failureMsg = new StringBuilder();
-//		long operuserId = ShiroUtils.getUserId();
+		// long operuserId = ShiroUtils.getUserId();
 		long operuserId = 1l;
 
 		String password = WebConstant.DEAFULT_PWD;
@@ -194,6 +195,12 @@ public class UserServiceImpl implements UserService {
 			successMsg.insert(0, "恭喜您，数据已全部导入成功！共 " + successNum + " 条，数据如下：");
 		}
 		return successMsg.toString();
+	}
+
+	@Override
+	public String uploadImg(MultipartFile file, String avatar_data, Long userId) {
+
+		return null;
 	}
 
 }

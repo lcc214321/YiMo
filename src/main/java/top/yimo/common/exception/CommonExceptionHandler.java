@@ -30,9 +30,9 @@ public class CommonExceptionHandler {
 	 * @throws IOException
 	 */
 	@ExceptionHandler(SessionTimeOutException.class)
-	public void sessionOutExceptionHandler(SessionTimeOutException e, HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
+	public void sessionOutExceptionHandler(SessionTimeOutException e, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		log.info("登录超时,强制跳转到登录界面");
+		e.printStackTrace();
 		WebUtils.issueRedirect(request, response, "/login");
 	}
 }

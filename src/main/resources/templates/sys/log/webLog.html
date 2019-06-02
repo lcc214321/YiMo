@@ -34,7 +34,7 @@ html, body {
     }
     
     function connect() {
-	    var sock = new SockJS(ctx + "/websocket");
+	    var sock = new SockJS(ctx + "websocket");
 	    var stomp = Stomp.over(sock);
 	    stomp.connect('guest', 'guest', function(frame) {
 	    stomp.subscribe("/topic/webLogJob", showLog);

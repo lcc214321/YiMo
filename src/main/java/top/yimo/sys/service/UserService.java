@@ -3,6 +3,8 @@ package top.yimo.sys.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import top.yimo.sys.domain.UserDO;
 
 /**
@@ -48,5 +50,7 @@ public interface UserService {
 	String importData(List<UserDO> userList, boolean isCover);
 
 	boolean checkPwd(String pwd, UserDO user);
+
+	String uploadImg(MultipartFile file, String avatar_data, Long userId);
 
 }

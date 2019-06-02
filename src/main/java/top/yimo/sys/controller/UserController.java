@@ -1,7 +1,13 @@
 package top.yimo.sys.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -66,8 +72,7 @@ public class UserController extends BaseController {
 	@Log(describe = "获取用户列表", title = "用户管理", operatorType = OperatorType.QUERY)
 	public BootstrapTablePageVo listByPage(@RequestParam Map<String, Object> params) {
 		long deptId = 1;
-		if (params.get("deptId") != null && params.get("deptId").toString() != null
-				&& StringUtils.isNotBlank(params.get("deptId").toString())) {
+		if (params.get("deptId") != null && params.get("deptId").toString() != null && StringUtils.isNotBlank(params.get("deptId").toString())) {
 			deptId = Long.valueOf(params.get("deptId").toString());
 		}
 		List<Long> allSubDeptIds = deptService.getAllSubDeptIds(deptId);
@@ -175,8 +180,7 @@ public class UserController extends BaseController {
 	@PutMapping("/updatePwd")
 	@Log(describe = "修改用户密码", title = "/sys/user", operatorType = OperatorType.UPDATE)
 	@ResponseBody
-	public ResponseVo updatePwd(@RequestParam("newPassword") String newPwd,
-			@RequestParam("oldPassword") String oldPwd) {
+	public ResponseVo updatePwd(@RequestParam("newPassword") String newPwd, @RequestParam("oldPassword") String oldPwd) {
 		UserDO user = getSysUser();
 		if (!userService.checkPwd(oldPwd.trim(), user)) {
 			return ResponseVo.fail("旧密码输入错误，请确认");
@@ -278,5 +282,36 @@ public class UserController extends BaseController {
 		UserDO userDO = userService.get(getUserId());
 		model.addAttribute("user", userDO);
 		return prefix + "/profile";
+	}
+
+	@GetMapping("/avatar")
+	public String avatar(Model model) {
+		UserDO userDO = userService.get(getUserId());
+		model.addAttribute("user", userDO);
+		return prefix + "/avatar";
+	}
+
+	@ResponseBody
+	@PostMapping("/uploadImg")
+	ResponseVo uploadImg(String imgData, HttpServletRequest request, MultipartFile file) {
+		try {
+			String fileName = file.getName();
+			decodeBase64DataURLToImage(imgData, "d:\\", fileName);
+			return ResponseVo.ok(fileName);
+		} catch (Exception e) {
+			return ResponseVo.fail("更新图像失败！");
+		}
+	}
+
+	/**
+	 * 将Base64位编码的图片进行解码，并保存到指定目录
+	 */
+	public static void decodeBase64DataURLToImage(String dataURL, String path, String imgName) throws IOException {
+		// 将dataURL开头的非base64字符删除
+		String base64 = dataURL.substring(dataURL.indexOf(",") + 1);
+		FileOutputStream write = new FileOutputStream(new File(path + imgName));
+		byte[] decoderBytes = Base64.getDecoder().decode(base64);
+		write.write(decoderBytes);
+		write.close();
 	}
 }

@@ -33,7 +33,7 @@
             });
 
             function connect() {
-	            var sock = new SockJS(ctx + "/websocket");
+	            var sock = new SockJS(ctx + "websocket");
 	            var stomp = Stomp.over(sock);
 	            // 		        console.log("进入sock连接");
 	            stomp.connect('guest', 'guest', function(frame) {

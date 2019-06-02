@@ -1,155 +1,185 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="zh-cn">
 <head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-    <title>H+ 后台主题UI框架 - 富头像上传编辑器</title>
-    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
-    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
-
-    <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
-    <link href="css/animate.css" rel="stylesheet">
-
-    <link href="css/style.css?v=4.1.0" rel="stylesheet">
-
+<meta charset="UTF-8">
+<title>上传头像</title>
+<link href="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.css" rel="stylesheet">
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<style type="text/css">
+    body{
+        text-align: center;
+    }
+    #user-photo {
+        width:300px;
+        height:300px;
+        margin-top: 10px;
+    }
+    #photo {
+        max-width:100%;
+        max-height:350px;
+    }
+    .img-preview-box {
+        text-align: center;
+    }
+    .img-preview-box > div {
+        display: inline-block;;
+        margin-right: 10px;
+    }
+    .img-preview {
+        overflow: hidden;
+    }
+    .img-preview-box .img-preview-lg {
+        width: 150px;
+        height: 150px;
+    }
+    .img-preview-box .img-preview-md {
+        width: 100px;
+        height: 100px;
+    }
+    .img-preview-box .img-preview-sm {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+</style>
 </head>
-
-<body class="gray-bg">
-    <div class="wrapper wrapper-content">
-
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>富头像上传编辑器</h5>
-                        <div class="ibox-tools">
-                            <a class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </a>
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="form_editors.html#">
-                                <i class="fa fa-wrench"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-user">
-                                <li><a href="form_editors.html#">选项1</a>
-                                </li>
-                                <li><a href="form_editors.html#">选项2</a>
-                                </li>
-                            </ul>
-                            <a class="close-link">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="ibox-content">
-                        <ul class="nav nav-tabs" id="avatar-tab">
-                            <li class="active" id="upload"><a href="javascript:;">本地上传</a>
-                            </li>
-                            <li id="webcam"><a href="javascript:;">视频拍照</a>
-                            </li>
-                            <li id="albums"><a href="javascript:;">相册选取</a>
-                            </li>
-                        </ul>
-                        <div class="m-t m-b">
-                            <div id="flash1">
-                                <p id="swf1">本组件需要安装Flash Player后才可使用，请从<a href="http://www.adobe.com/go/getflashplayer">这里</a>下载安装。</p>
-                            </div>
-                            <div id="editorPanelButtons" style="display:none">
-                                <p class="m-t">
-                                    <label class="checkbox-inline">
-                                        <input type="checkbox" id="src_upload">是否上传原图片？</label>
-                                </p>
-                                <p>
-                                    <a href="javascript:;" class="btn btn-w-m btn-primary button_upload"><i class="fa fa-upload"></i> 上传</a>
-                                    <a href="javascript:;" class="btn btn-w-m btn-white button_cancel">取消</a>
-                                </p>
-                            </div>
-                            <p id="webcamPanelButton" style="display:none">
-                                <a href="javascript:;" class="btn btn-w-m btn-info button_shutter"><i class="fa fa-camera"></i> 拍照</a>
-                            </p>
-                            <div id="userAlbums" style="display:none">
-                                <a href="img/a1.jpg" class="fancybox" title="选取该照片">
-                                    <img src="img/a1.jpg" alt="示例图片1" />
-                                </a>
-                                <a href="img/a2.jpg" class="fancybox" title="选取该照片">
-                                    <img src="img/a2.jpg" alt="示例图片2" />
-                                </a>
-                                <a href="img/a3.jpg" class="fancybox" title="选取该照片">
-                                    <img src="img/a3.jpg" alt="示例图片2" />
-                                </a>
-                                <a href="img/a4.jpg" class="fancybox" title="选取该照片">
-                                    <img src="img/a4.jpg" alt="示例图片2" />
-                                </a>
-                                <a href="img/a5.jpg" class="fancybox" title="选取该照片">
-                                    <img src="img/a5.jpg" alt="示例图片2" />
-                                </a>
-                                <a href="img/a6.jpg" class="fancybox" title="选取该照片">
-                                    <img src="img/a6.jpg" alt="示例图片2" />
-                                </a>
-                                <a href="img/a7.jpg" class="fancybox" title="选取该照片">
-                                    <img src="img/a7.jpg" alt="示例图片2" />
-                                </a>
-                                <a href="img/a8.jpg" class="fancybox" title="选取该照片">
-                                    <img src="img/a8.jpg" alt="示例图片2" />
-                                </a>
-                                <a href="img/a9.jpg" class="fancybox" title="选取该照片">
-                                    <img src="img/a9.jpg" alt="示例图片2" />
-                                </a>>
-                            </div>
-                        </div>
-                        <div class="alert alert-warning alert-dismissable m-t">
-                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                            - 本示例不提供图片上传功能，如果需要测试，请访问官网：<a href="http://www.fullavatareditor.com/demo.html" target="_blank">http://www.fullavatareditor.com/demo.html</a>
-                            <br>- 测试 <b>视频拍照</b> 功能时，请注意允许<code>flash</code>和<code>浏览器</code>使用摄像头，否则可能会无法拍照。
-                        </div>
-                    </div>
+<body>
+<button class="btn btn-primary" data-target="#changeModal" data-toggle="modal">打开</button><br/>
+<div class="user-photo-box">
+    <img id="user-photo" src="">
+</div>
+</div>
+<div class="modal fade" id="changeModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title text-primary">
+            <i class="fa fa-pencil"></i>
+                        更换头像
+            </h4>
+        </div>
+        <div class="modal-body">
+            <p class="tip-info text-center">
+                未选择图片
+            </p>
+            <div class="img-container hidden">
+                <img src="" alt="" id="photo">
+            </div>
+            <div class="img-preview-box hidden">
+                <hr>
+                <span>150*150:</span>
+                <div class="img-preview img-preview-lg">
+                </div>
+                <span>100*100:</span>
+                <div class="img-preview img-preview-md">
+                </div>
+                <span>30*30:</span>
+                <div class="img-preview img-preview-sm">
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="ibox float-e-margins">
-
-                    <div class="ibox-content">
-
-                        <h2>
-                                富头像上传编辑器简介
-                            </h2>
-                        <p>
-                            富头像上传编辑器是一款支持本地上传、预览、视频拍照和网络加载的flash头像编辑上传插件，可缩放、裁剪、旋转、定位和调色等...。
-                        </p>
-
-                        <div class="alert alert-info">
-                            官网：<a href="http://www.fullavatareditor.com/" target="_blank">http://www.fullavatareditor.com/</a>
-                        </div>
-                        <p><span class="label label-warning">注意：这是一款商业插件，如果需要，请在获得许可后使用！</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
+        <div class="modal-footer">
+            <label class="btn btn-danger pull-left" for="photoInput">
+            <input type="file" class="sr-only" id="photoInput" accept="image/*">
+            <span>打开图片</span>
+            </label>
+            <button class="btn btn-primary disabled" disabled="true" onclick="sendPhoto();">提交</button>
+            <button class="btn btn-close" aria-hidden="true" data-dismiss="modal">取消</button>
         </div>
     </div>
+</div>
+</div>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    var initCropperInModal = function(img, input, modal){
+        var $image = img;
+        var $inputImage = input;
+        var $modal = modal;
+        var options = {
+            aspectRatio: 1, // 纵横比
+            viewMode: 2,
+            preview: '.img-preview' // 预览图的class名
+        };
+        // 模态框隐藏后需要保存的数据对象
+        var saveData = {};
+        var URL = window.URL || window.webkitURL;
+        var blobURL;
+        $modal.on('show.bs.modal',function () {
+            // 如果打开模态框时没有选择文件就点击“打开图片”按钮
+            if(!$inputImage.val()){
+                $inputImage.click();
+            }
+        }).on('shown.bs.modal', function () {
+            // 重新创建
+            $image.cropper( $.extend(options, {
+                ready: function () {
+                    // 当剪切界面就绪后，恢复数据
+                    if(saveData.canvasData){
+                        $image.cropper('setCanvasData', saveData.canvasData);
+                        $image.cropper('setCropBoxData', saveData.cropBoxData);
+                    }
+                }
+            }));
+        }).on('hidden.bs.modal', function () {
+            // 保存相关数据
+            saveData.cropBoxData = $image.cropper('getCropBoxData');
+            saveData.canvasData = $image.cropper('getCanvasData');
+            // 销毁并将图片保存在img标签
+            $image.cropper('destroy').attr('src',blobURL);
+        });
+        if (URL) {
+            $inputImage.change(function() {
+                var files = this.files;
+                var file;
+                if (!$image.data('cropper')) {
+                    return;
+                }
+                if (files && files.length) {
+                    file = files[0];
+                    if (/^image\/\w+$/.test(file.type)) {
 
-    <!-- 全局js -->
-    <script src="js/jquery.min.js?v=2.1.4"></script>
-    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+                        if(blobURL) {
+                            URL.revokeObjectURL(blobURL);
+                        }
+                        blobURL = URL.createObjectURL(file);
+
+                        // 重置cropper，将图像替换
+                        $image.cropper('reset').cropper('replace', blobURL);
+
+                        // 选择文件后，显示和隐藏相关内容
+                        $('.img-container').removeClass('hidden');
+                        $('.img-preview-box').removeClass('hidden');
+                        $('#changeModal .disabled').removeAttr('disabled').removeClass('disabled');
+                        $('#changeModal .tip-info').addClass('hidden');
+
+                    } else {
+                        window.alert('请选择一个图像文件！');
+                    }
+                }
+            });
+        } else {
+            $inputImage.prop('disabled', true).addClass('disabled');
+        }
+    }
 
 
+    var sendPhoto = function(){
+        $('#photo').cropper('getCroppedCanvas',{
+            width:300,
+            height:300
+        }).toBlob(function(blob){
+            // 转化为blob后更改src属性，隐藏模态框
+            $('#user-photo').attr('src',URL.createObjectURL(blob));
+            $('#changeModal').modal('hide');
+        });
+    }
 
-    <!-- 自定义js -->
-    <script src="js/content.js?v=1.0.0"></script>
-
-
-    <!-- fullavatareditor -->
-    <script type="text/javascript" src="plugins/fullavatareditor/scripts/swfobject.js"></script>
-    <script type="text/javascript" src="plugins/fullavatareditor/scripts/fullAvatarEditor.js"></script>
-    <script type="text/javascript" src="plugins/fullavatareditor/scripts/jQuery.Cookie.js"></script>
-    <script type="text/javascript" src="plugins/fullavatareditor/scripts/test.js"></script>
-
+    $(function(){
+        initCropperInModal($('#photo'),$('#photoInput'),$('#changeModal'));
+    });
+</script>
 </body>
-
 </html>
