@@ -58,11 +58,6 @@ import top.yimo.common.util.SpringUtil;
 import top.yimo.sys.domain.DictDataDO;
 import top.yimo.sys.service.impl.DictDataServiceImpl;
 
-/**
- * Excel相关处理
- * 
- * @author ruoyi
- */
 public class ExcelUtil<T> {
 	private static final Logger log = LoggerFactory.getLogger(ExcelUtil.class);
 
@@ -139,7 +134,8 @@ public class ExcelUtil<T> {
 	/**
 	 * 对excel表单默认第一个索引名转换成list
 	 * 
-	 * @param input 输入流
+	 * @param input
+	 *            输入流
 	 * @return 转换后集合
 	 */
 	public List<T> importExcel(InputStream is) throws Exception {
@@ -149,8 +145,10 @@ public class ExcelUtil<T> {
 	/**
 	 * 对excel表单指定表格索引名转换成list
 	 * 
-	 * @param sheetName 表格索引名
-	 * @param input     输入流
+	 * @param sheetName
+	 *            表格索引名
+	 * @param input
+	 *            输入流
 	 * @return 转换后集合
 	 */
 	public List<T> importExcel(String sheetName, InputStream is) throws Exception {
@@ -263,8 +261,10 @@ public class ExcelUtil<T> {
 	/**
 	 * 导出list数据到excel
 	 * 
-	 * @param list      导出数据集合
-	 * @param sheetName 工作表的名称
+	 * @param list
+	 *            导出数据集合
+	 * @param sheetName
+	 *            工作表的名称
 	 * @return 结果
 	 */
 	public ResponseVo exportExcel(List<T> list, String sheetName) {
@@ -275,7 +275,8 @@ public class ExcelUtil<T> {
 	/**
 	 * 导出导入模板
 	 * 
-	 * @param sheetName 工作表的名称
+	 * @param sheetName
+	 *            工作表的名称
 	 * @return 结果
 	 */
 	public ResponseVo importTemplateExcel(String sheetName) {
@@ -376,9 +377,12 @@ public class ExcelUtil<T> {
 	/**
 	 * 填充excel数据
 	 * 
-	 * @param index 序号
-	 * @param row   单元格行
-	 * @param cell  类型单元格
+	 * @param index
+	 *            序号
+	 * @param row
+	 *            单元格行
+	 * @param cell
+	 *            类型单元格
 	 */
 	public void fillExcelData(int index, Row row, Cell cell) {
 		int startNo = index * sheetSize;
@@ -433,17 +437,23 @@ public class ExcelUtil<T> {
 	/**
 	 * 设置单元格上提示
 	 * 
-	 * @param sheet         要设置的sheet.
-	 * @param promptTitle   标题
-	 * @param promptContent 内容
-	 * @param firstRow      开始行
-	 * @param endRow        结束行
-	 * @param firstCol      开始列
-	 * @param endCol        结束列
+	 * @param sheet
+	 *            要设置的sheet.
+	 * @param promptTitle
+	 *            标题
+	 * @param promptContent
+	 *            内容
+	 * @param firstRow
+	 *            开始行
+	 * @param endRow
+	 *            结束行
+	 * @param firstCol
+	 *            开始列
+	 * @param endCol
+	 *            结束列
 	 * @return 设置好的sheet.
 	 */
-	public static Sheet setHSSFPrompt(Sheet sheet, String promptTitle, String promptContent, int firstRow, int endRow,
-			int firstCol, int endCol) {
+	public static Sheet setHSSFPrompt(Sheet sheet, String promptTitle, String promptContent, int firstRow, int endRow, int firstCol, int endCol) {
 		// 构造constraint对象
 		DVConstraint constraint = DVConstraint.createCustomFormulaConstraint("DD1");
 		// 四个参数分别是：起始行、终止行、起始列、终止列
@@ -458,16 +468,21 @@ public class ExcelUtil<T> {
 	/**
 	 * 设置某些列的值只能输入预制的数据,显示下拉框.
 	 * 
-	 * @param sheet    要设置的sheet.
-	 * @param textlist 下拉框显示的内容
-	 * @param firstRow 开始行
-	 * @param endRow   结束行
-	 * @param firstCol 开始列
-	 * @param endCol   结束列
+	 * @param sheet
+	 *            要设置的sheet.
+	 * @param textlist
+	 *            下拉框显示的内容
+	 * @param firstRow
+	 *            开始行
+	 * @param endRow
+	 *            结束行
+	 * @param firstCol
+	 *            开始列
+	 * @param endCol
+	 *            结束列
 	 * @return 设置好的sheet.
 	 */
-	public static Sheet setHSSFValidation(Sheet sheet, String[] textlist, int firstRow, int endRow, int firstCol,
-			int endCol) {
+	public static Sheet setHSSFValidation(Sheet sheet, String[] textlist, int firstRow, int endRow, int firstCol, int endCol) {
 		DataValidationHelper helper = sheet.getDataValidationHelper();
 		// 加载下拉列表内容
 		DataValidationConstraint constraint = helper.createExplicitListConstraint(textlist);
@@ -490,13 +505,14 @@ public class ExcelUtil<T> {
 	/**
 	 * 解析导出值 0=男,1=女,2=未知
 	 * 
-	 * @param propertyValue 参数值
-	 * @param converterExp  翻译注解
+	 * @param propertyValue
+	 *            参数值
+	 * @param converterExp
+	 *            翻译注解
 	 * @return 解析后值
 	 * @throws Exception
 	 */
-	public static String convertByExp(String propertyValue, String converterExp, ConvertType convertType)
-			throws Exception {
+	public static String convertByExp(String propertyValue, String converterExp, ConvertType convertType) throws Exception {
 		String returnValue = "";
 		if (StringUtils.isNotBlank(convertType.name())) {
 			if (ConvertType.CODE_TABLE.equals(convertType)) {
@@ -523,8 +539,7 @@ public class ExcelUtil<T> {
 	 * 反向解析值 男=0,女=1,未知=2
 	 * 
 	 */
-	public static String reverseByExp(String propertyValue, String converterExp, ConvertType convertType)
-			throws Exception {
+	public static String reverseByExp(String propertyValue, String converterExp, ConvertType convertType) throws Exception {
 		String returnValue = "";
 		if (StringUtils.isNotBlank(convertType.name())) {
 			if (ConvertType.CODE_TABLE.equals(convertType)) {
@@ -581,14 +596,15 @@ public class ExcelUtil<T> {
 	 * 编码文件名
 	 */
 	public String encodingFilename(String filename) {
-		filename = UUID.randomUUID().toString() + "_" + filename + ".xlsx";
+		filename = UUID.randomUUID().toString() + "_" + filename + ".xls";
 		return filename;
 	}
 
 	/**
 	 * 获取下载路径
 	 * 
-	 * @param filename 文件名称
+	 * @param filename
+	 *            文件名称
 	 */
 	public String getAbsoluteFile(String filename) {
 		String downloadPath = YiMoConfig.getDownloadPath() + filename;
@@ -602,9 +618,12 @@ public class ExcelUtil<T> {
 	/**
 	 * 获取bean中的属性值
 	 * 
-	 * @param vo    实体对象
-	 * @param field 字段
-	 * @param excel 注解
+	 * @param vo
+	 *            实体对象
+	 * @param field
+	 *            字段
+	 * @param excel
+	 *            注解
 	 * @return 最终的属性值
 	 * @throws Exception
 	 */
@@ -680,9 +699,11 @@ public class ExcelUtil<T> {
 	/**
 	 * 创建工作表
 	 * 
-	 * @param         sheetName，指定Sheet名称
-	 * @param sheetNo sheet数量
-	 * @param index   序号
+	 * @param sheetName，指定Sheet名称
+	 * @param sheetNo
+	 *            sheet数量
+	 * @param index
+	 *            序号
 	 */
 	public void createSheet(double sheetNo, int index) {
 		this.sheet = wb.createSheet();
@@ -697,8 +718,10 @@ public class ExcelUtil<T> {
 	/**
 	 * 获取单元格值
 	 * 
-	 * @param row    获取的行
-	 * @param column 获取单元格列号
+	 * @param row
+	 *            获取的行
+	 * @param column
+	 *            获取单元格列号
 	 * @return 单元格值
 	 */
 	public Object getCellValue(Row row, int column) {
