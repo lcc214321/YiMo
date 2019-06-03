@@ -45,7 +45,7 @@ public class UserDO extends BaseDO {
 	@Excel(name = "生日", orderNum = 5, dateFormat = "yyyy-MM-dd")
 	private String birth;
 	// 头像
-	private Long picId;
+	private String picId;
 	// 现居住地
 	@Excel(name = "现居住地", orderNum = 6)
 	private String address;
@@ -160,11 +160,11 @@ public class UserDO extends BaseDO {
 		this.birth = birth;
 	}
 
-	public Long getPicId() {
+	public String getPicId() {
 		return picId;
 	}
 
-	public void setPicId(Long picId) {
+	public void setPicId(String picId) {
 		this.picId = picId;
 	}
 

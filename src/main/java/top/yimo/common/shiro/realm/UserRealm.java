@@ -41,6 +41,7 @@ public class UserRealm extends AuthorizingRealm {
 	MenuService menuService;
 	@Autowired
 	RoleService roleService;
+
 	/**
 	 * 认证
 	 */
@@ -59,13 +60,14 @@ public class UserRealm extends AuthorizingRealm {
 		if (0 == user.getStatus()) {
 			throw new LockedAccountException("账号已被锁定,请联系管理员");
 		}
-		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user, // 用户名
-		        user.getPassword(), // 密码
-		        ByteSource.Util.bytes(user.getUserName() + WebConstant.SALT), // 密码加盐
-		        getName() // realm name
+		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user, // 用户信息
+				user.getPassword(), // 密码
+				ByteSource.Util.bytes(user.getUserName() + WebConstant.SALT), // 密码加盐
+				getName() // realm name
 		);
 		return authenticationInfo;
 	}
+
 	/**
 	 * 清理缓存权限
 	 */

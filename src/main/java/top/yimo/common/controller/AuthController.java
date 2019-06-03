@@ -25,6 +25,7 @@ import top.yimo.common.annotation.Log;
 import top.yimo.common.enums.OperatorType;
 import top.yimo.common.model.vo.ResponseVo;
 import top.yimo.common.model.vo.TreeVo;
+import top.yimo.common.util.ShiroUtils;
 import top.yimo.sys.domain.MenuDO;
 import top.yimo.sys.domain.UserDO;
 import top.yimo.sys.service.MenuService;
@@ -38,7 +39,7 @@ import top.yimo.sys.service.UserOnlineService;
  */
 @Component
 @RequestMapping("/")
-public class AuthController extends BaseController {
+public class AuthController {
 
 	@Autowired
 	MenuService menuService;
@@ -53,8 +54,9 @@ public class AuthController extends BaseController {
 	@PostMapping(value = "/login")
 	@ResponseBody
 	@Log(title = "用户认证", describe = "认证操作", isSaveArgs = false, operatorType = OperatorType.LOGIN)
-	public ResponseVo doLogin(@RequestParam String username, @RequestParam String password, @RequestParam(required = false) boolean rememberme,
-	        HttpServletRequest request, HttpServletResponse response) {
+	public ResponseVo doLogin(@RequestParam String username, @RequestParam String password,
+			@RequestParam(required = false) boolean rememberme, HttpServletRequest request,
+			HttpServletResponse response) {
 		UsernamePasswordToken token = new UsernamePasswordToken(username, password, false);
 		Subject currentUser = SecurityUtils.getSubject();
 		try {
@@ -69,10 +71,10 @@ public class AuthController extends BaseController {
 		return ResponseVo.ok();
 	}
 
-	@RequestMapping(value = {"", "/index"})
+	@RequestMapping(value = { "", "/index" })
 	public String index(Model model) {
 		// 加载登陆用户信息
-		UserDO currUser = getSysUser();
+		UserDO currUser = ShiroUtils.getSysUser();
 		if (currUser == null) {
 			return "login";
 		}

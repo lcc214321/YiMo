@@ -1,9 +1,8 @@
 package top.yimo.sys.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.web.multipart.MultipartFile;
 
 import top.yimo.sys.domain.UserDO;
 
@@ -51,6 +50,6 @@ public interface UserService {
 
 	boolean checkPwd(String pwd, UserDO user);
 
-	String uploadImg(MultipartFile file, String avatar_data, Long userId);
+	String uploadImg(String avatar_data, Long userId) throws IOException;
 
 }

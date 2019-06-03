@@ -123,8 +123,6 @@ public class ShiroConfig {
 		UserRealm userRealm = new UserRealm();
 		// 使用加密
 		userRealm.setCredentialsMatcher(hashedCredentialsMatcher());
-		// 使用ehcache
-		userRealm.setCacheManager(ehCacheManager());
 		return userRealm;
 	}
 
@@ -265,13 +263,13 @@ public class ShiroConfig {
 	/**
 	 * 开启Shiro注解方式
 	 * 
-	 * @param @param
-	 *            securityManager
+	 * @param @param securityManager
 	 * @param @return
 	 * @return AuthorizationAttributeSourceAdvisor
 	 */
 	@Bean
-	public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(@Qualifier("securityManager") SecurityManager securityManager) {
+	public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(
+			@Qualifier("securityManager") SecurityManager securityManager) {
 		AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
 		authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
 		return authorizationAttributeSourceAdvisor;

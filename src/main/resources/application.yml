@@ -1,5 +1,6 @@
 yimo:
   downloadPath: d:/
+  uploadPath: d:/upload/
   isDemo: true
   refusedURI: batchRemove@remove@save@update
 server: 
@@ -79,6 +80,6 @@ shiro:
     unauthorizedurl: /error/403
     
 xss: 
-  enabled: true #xss过滤开关
+  enabled: false #xss过滤开关
   excludes: /favicon.ico,/img/*,/js/*,/css/*  # 不需要过滤的路径（多个用逗号分隔）
   urlPatterns: /*   #需要过滤的路径

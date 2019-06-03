@@ -1,9 +1,5 @@
 package top.yimo.sys.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.extern.slf4j.Slf4j;
 import top.yimo.common.annotation.Log;
 import top.yimo.common.constant.WebConstant;
 import top.yimo.common.controller.BaseController;
@@ -49,6 +46,7 @@ import top.yimo.sys.service.UserService;
 
 @Controller
 @RequestMapping("/sys/user")
+@Slf4j
 public class UserController extends BaseController {
 	private String prefix = "sys/user";
 	@Autowired
@@ -72,7 +70,8 @@ public class UserController extends BaseController {
 	@Log(describe = "获取用户列表", title = "用户管理", operatorType = OperatorType.QUERY)
 	public BootstrapTablePageVo listByPage(@RequestParam Map<String, Object> params) {
 		long deptId = 1;
-		if (params.get("deptId") != null && params.get("deptId").toString() != null && StringUtils.isNotBlank(params.get("deptId").toString())) {
+		if (params.get("deptId") != null && params.get("deptId").toString() != null
+				&& StringUtils.isNotBlank(params.get("deptId").toString())) {
 			deptId = Long.valueOf(params.get("deptId").toString());
 		}
 		List<Long> allSubDeptIds = deptService.getAllSubDeptIds(deptId);
@@ -180,7 +179,8 @@ public class UserController extends BaseController {
 	@PutMapping("/updatePwd")
 	@Log(describe = "修改用户密码", title = "/sys/user", operatorType = OperatorType.UPDATE)
 	@ResponseBody
-	public ResponseVo updatePwd(@RequestParam("newPassword") String newPwd, @RequestParam("oldPassword") String oldPwd) {
+	public ResponseVo updatePwd(@RequestParam("newPassword") String newPwd,
+			@RequestParam("oldPassword") String oldPwd) {
 		UserDO user = getSysUser();
 		if (!userService.checkPwd(oldPwd.trim(), user)) {
 			return ResponseVo.fail("旧密码输入错误，请确认");
@@ -293,25 +293,14 @@ public class UserController extends BaseController {
 
 	@ResponseBody
 	@PostMapping("/uploadImg")
-	ResponseVo uploadImg(String imgData, HttpServletRequest request, MultipartFile file) {
+	ResponseVo uploadImg(String imgData, HttpServletRequest request) {
 		try {
-			String fileName = file.getName();
-			decodeBase64DataURLToImage(imgData, "d:\\", fileName);
-			return ResponseVo.ok(fileName);
+			String uploadImg = userService.uploadImg(imgData, getUserId());
+			return ResponseVo.ok(uploadImg);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return ResponseVo.fail("更新图像失败！");
 		}
 	}
 
-	/**
-	 * 将Base64位编码的图片进行解码，并保存到指定目录
-	 */
-	public static void decodeBase64DataURLToImage(String dataURL, String path, String imgName) throws IOException {
-		// 将dataURL开头的非base64字符删除
-		String base64 = dataURL.substring(dataURL.indexOf(",") + 1);
-		FileOutputStream write = new FileOutputStream(new File(path + imgName));
-		byte[] decoderBytes = Base64.getDecoder().decode(base64);
-		write.write(decoderBytes);
-		write.close();
-	}
 }

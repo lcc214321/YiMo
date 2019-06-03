@@ -134,6 +134,13 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	 * yyyy-MM-dd 当前日期
 	 */
 	public static String getNowDate() {
-		return new SimpleDateFormat(DATE_PATTERN).format(new Date());
+		return getNowDate(DATE_PATTERN);
+	}
+
+	/**
+	 * 当前日期 指定格式
+	 */
+	public static String getNowDate(String datePattern) {
+		return new SimpleDateFormat(datePattern).format(new Date());
 	}
 }

@@ -1,16 +1,21 @@
 package top.yimo.sys.service.impl;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
+import top.yimo.common.YiMoConfig;
 import top.yimo.common.constant.WebConstant;
 import top.yimo.common.exception.TipException;
 import top.yimo.common.util.DateUtils;
@@ -198,9 +203,34 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String uploadImg(MultipartFile file, String avatar_data, Long userId) {
+	public String uploadImg(String avatar_data, Long userId) throws IOException {
+		String uploadPath = YiMoConfig.getUploadPath();
+		StringBuffer file = new StringBuffer();
+		String imgPath = file.append(DateUtils.getNowDate("yyyy/MM/dd")).append((File.separator))
+				.append(UUID.randomUUID()).append(".png").toString();
+		decodeBase64DataURLToImage(avatar_data, uploadPath + imgPath);
 
-		return null;
+		// 更新当前用户头像信息
+		UserDO user = get(userId);
+		user.setPicId("/files/" + imgPath);
+		update(user);
+		return "/files/" + imgPath;
 	}
 
+	/**
+	 * 将Base64位编码的图片进行解码，并保存到指定目录
+	 */
+	private static void decodeBase64DataURLToImage(String dataURL, String imgPath) throws IOException {
+		log.debug("文件路径{}", imgPath);
+		// 将dataURL开头的非base64字符删除
+		String base64 = dataURL.substring(dataURL.indexOf(",") + 1);
+		File file = new File(imgPath);
+		if (!file.exists()) {
+			file.getParentFile().mkdirs();
+		}
+		FileOutputStream write = new FileOutputStream(file);
+		byte[] decoderBytes = Base64.getDecoder().decode(base64);
+		write.write(decoderBytes);
+		write.close();
+	}
 }

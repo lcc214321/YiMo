@@ -6,7 +6,6 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.Subject;
 
-import top.yimo.common.exception.SessionTimeOutException;
 import top.yimo.sys.domain.UserDO;
 
 /**
@@ -38,7 +37,7 @@ public class ShiroUtils {
 		if (obj != null && obj instanceof UserDO) {
 			user = (UserDO) obj;
 		} else {
-			throw new SessionTimeOutException("当前用户已登录失效，请重新登录");
+//			throw new SessionTimeOutException("当前用户已登录失效，请重新登录");
 		}
 		return user;
 	}
