@@ -41,7 +41,7 @@ import top.yimo.sys.service.UserOnlineService;
 @Component
 @RequestMapping("/")
 public class AuthController {
-	@Value("${shiro.filter.loginurl}")
+	@Value("${yimo.loginHtml}")
 	private String login;
 
 	@Autowired

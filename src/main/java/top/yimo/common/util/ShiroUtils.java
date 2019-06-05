@@ -36,8 +36,6 @@ public class ShiroUtils {
 		Object obj = getSubject().getPrincipal();
 		if (obj != null && obj instanceof UserDO) {
 			user = (UserDO) obj;
-		} else {
-//			throw new SessionTimeOutException("当前用户已登录失效，请重新登录");
 		}
 		return user;
 	}

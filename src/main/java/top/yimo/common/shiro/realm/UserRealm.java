@@ -18,6 +18,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import lombok.extern.slf4j.Slf4j;
 import top.yimo.common.constant.WebConstant;
 import top.yimo.common.util.ShiroUtils;
 import top.yimo.sys.domain.RoleDO;
@@ -32,7 +33,7 @@ import top.yimo.sys.service.UserService;
  * @version 1.0
  * @Time 2019年1月14日 下午6:00:48
  */
-
+@Slf4j
 public class UserRealm extends AuthorizingRealm {
 
 	@Autowired
@@ -81,6 +82,7 @@ public class UserRealm extends AuthorizingRealm {
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		Long userId = ShiroUtils.getUserId();// 获取当面登陆用户ID
+		log.debug("获取用户{}的授权信息", userId);
 		Set<String> perms = menuService.listPermsByUserId(userId);
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 		List<RoleDO> roleIds = roleService.getRolesByUserId(userId);

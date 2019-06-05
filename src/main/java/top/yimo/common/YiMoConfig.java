@@ -11,6 +11,9 @@ public class YiMoConfig {
 	// 上传附件路径
 	private static String uploadPath;
 
+	// 日志模式
+	private static String logModel;
+
 	public static String getDownloadPath() {
 		return downloadPath;
 	}
@@ -25,6 +28,14 @@ public class YiMoConfig {
 
 	public void setUploadPath(String uploadPath) {
 		YiMoConfig.uploadPath = uploadPath;
+	}
+
+	public static String getLogModel() {
+		return logModel;
+	}
+
+	public void setLogModel(String logModel) {
+		YiMoConfig.logModel = logModel;
 	}
 
 }

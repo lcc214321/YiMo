@@ -5,9 +5,15 @@
 	<!-- 磁盘缓存位置 -->
 	<diskStore path="d:/ehcache/" />
 	<!-- 默认设置为30分钟 -->
-	<defaultCache eternal="false" maxElementsInMemory="1" maxElementsOnDisk="0" 
-		overflowToDisk="false" diskPersistent="true" timeToIdleSeconds="3600"
-		memoryStoreEvictionPolicy="LRU">
-		<bootstrapCacheLoaderFactory class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory"/>
+	<defaultCache eternal="false" maxElementsInMemory="1"
+		maxElementsOnDisk="0" overflowToDisk="false" diskPersistent="true"
+		timeToIdleSeconds="3600" memoryStoreEvictionPolicy="LRU">
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
 	</defaultCache>
+
+	<!--数据字典缓存 -->
+	<cache name="dictCache" 　 maxElementsInMemory="10000"
+		eternal="false" overflowToDisk="true" timeToIdleSeconds="30"
+		timeToLiveSeconds="60" memoryStoreEvictionPolicy="LFU" />
 </ehcache>

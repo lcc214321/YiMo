@@ -15,6 +15,7 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
+import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -23,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import top.yimo.common.constant.WebConstant;
-import top.yimo.common.exception.SessionTimeOutException;
 import top.yimo.common.model.vo.ResponseVo;
 import top.yimo.common.shiro.session.OnlineSessionDao;
 import top.yimo.common.util.SpringUtil;
@@ -49,6 +49,7 @@ public class KickoutSessionFilter extends AccessControlFilter {
 	private int maxSession = 1; // 同一个帐号最大会话数 默认1
 	private SessionManager sessionManager;
 	private Cache<String, Deque<Serializable>> cache;
+	private String loginUrl;
 
 	@Autowired
 	OnlineSessionDao onlineSessionDao;
@@ -141,8 +142,8 @@ public class KickoutSessionFilter extends AccessControlFilter {
 			logger.info("被强制踢出KickoutSessionFilter");
 			if (isAjax(request)) {// ajax请求
 				out(response, ResponseVo.timeout(msg));
-			} else {// 抛出异常由全局异常管理接收处理
-				new SessionTimeOutException(msg);
+			} else {
+				WebUtils.issueRedirect(request, response, loginUrl);
 			}
 			return false;
 		}
@@ -209,6 +210,14 @@ public class KickoutSessionFilter extends AccessControlFilter {
 
 	public void setCache(Cache<String, Deque<Serializable>> cache) {
 		this.cache = cache;
+	}
+
+	public String getLoginUrl() {
+		return loginUrl;
+	}
+
+	public void setLoginUrl(String loginUrl) {
+		this.loginUrl = loginUrl;
 	}
 
 }

@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import top.yimo.common.YiMoConfig;
 import top.yimo.common.annotation.Log;
 import top.yimo.common.util.DateUtils;
 import top.yimo.common.util.ShiroUtils;
@@ -40,6 +41,7 @@ public class LogAspect {
 	private String createTime = "";
 	@Autowired
 	LogService logService;
+
 	/**
 	 * 定义个切面 添加了Log注解的所有方法
 	 * 
@@ -55,16 +57,15 @@ public class LogAspect {
 		startTime.set(System.currentTimeMillis());
 		createTime = DateUtils.getNow();
 	}
+
 	@AfterReturning("sysLogPoint()")
 	public void doAfter(JoinPoint joinPoint) {
-		logger.info("耗时（毫秒） : " + (System.currentTimeMillis() - startTime.get()));
 		// 执行时长(毫秒)
 		long time = System.currentTimeMillis() - startTime.get();
 		LogDO log = new LogDO();
 		log.setTime(time);
 		// 接收到请求，记录请求内容
 		HttpServletRequest request = WebUtils.getHttpServletRequest();
-
 		MethodSignature signature = (MethodSignature) joinPoint.getSignature();
 		Method method = signature.getMethod();
 		Log syslog = method.getAnnotation(Log.class);
@@ -88,6 +89,11 @@ public class LogAspect {
 			log.setUserName(user.getName());
 		}
 		log.setCreateTime(createTime);
-		logService.save(log);
+		String logModel = YiMoConfig.getLogModel();
+		if ("db".equalsIgnoreCase(logModel)) {
+			logService.save(log);
+		} else {
+			logger.info("操作日志{}", log.toString());
+		}
 	}
 }

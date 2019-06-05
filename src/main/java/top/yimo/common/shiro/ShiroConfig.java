@@ -135,10 +135,10 @@ public class ShiroConfig {
 	@Bean
 	public SecurityManager securityManager() {
 		DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-		// 设置realm.
-		securityManager.setRealm(userRealm());
 		// 添加Ehcache
 		securityManager.setCacheManager(ehCacheManager());
+		// 设置realm.
+		securityManager.setRealm(userRealm());
 		// 添加Session控制
 		securityManager.setSessionManager(sessionManager());
 
@@ -226,6 +226,7 @@ public class ShiroConfig {
 		kickoutSessionFilter.setKickoutAfter(kickoutAfter);
 		// 同一个用户最大的会话数，默认1；比如2的意思是同一个用户允许最多同时两个人登录；
 		kickoutSessionFilter.setMaxSession(maxSession);
+		kickoutSessionFilter.setLoginUrl(loginUrl);
 		return kickoutSessionFilter;
 	}
 
