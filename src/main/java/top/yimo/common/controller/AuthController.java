@@ -13,6 +13,7 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,15 +41,17 @@ import top.yimo.sys.service.UserOnlineService;
 @Component
 @RequestMapping("/")
 public class AuthController {
+	@Value("${shiro.filter.loginurl}")
+	private String login;
 
 	@Autowired
 	MenuService menuService;
 	@Autowired
 	UserOnlineService userOnlineService;
 
-	@RequestMapping(value = "login")
+	@GetMapping(value = "/login")
 	public String login() {
-		return "login";
+		return login;
 	}
 
 	@PostMapping(value = "/login")
@@ -76,7 +79,7 @@ public class AuthController {
 		// 加载登陆用户信息
 		UserDO currUser = ShiroUtils.getSysUser();
 		if (currUser == null) {
-			return "login";
+			return login;
 		}
 		List<TreeVo<MenuDO>> menus = menuService.getMenusByUser(currUser.getUserId());
 		model.addAttribute("menus", menus);
@@ -89,7 +92,7 @@ public class AuthController {
 	public String logout() {
 		// subject的实现类DelegatingSubject的logout方法，将本subject对象的session清空了
 		SecurityUtils.getSubject().logout();
-		return "login";
+		return login;
 	}
 
 }

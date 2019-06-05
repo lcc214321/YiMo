@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,8 +44,24 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDO get(Long userId) {
 		UserDO user = userDao.get(userId);
-		getDeptName(user);
+		init(user);
 		return user;
+	}
+
+	/**
+	 * 补充用户信息，部门、头像
+	 */
+	public void init(UserDO user) {
+		getDeptName(user);
+		getPicId(user);
+	}
+
+	public void getPicId(UserDO user) {
+		String picId = user.getPicId();
+		if (StringUtils.isBlank(picId)) {
+			picId = "/img/a" + YiMoUtils.getRandomNumber(1, 9) + ".jpg";
+			user.setPicId(picId);
+		}
 	}
 
 	public void getDeptName(UserDO user) {
@@ -56,7 +73,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDO findByUserName(String userName) {
 		UserDO user = userDao.findByUserName(userName);
-		getDeptName(user);
+		init(user);
 		return user;
 	}
 
