@@ -1,5 +1,7 @@
 package top.yimo.common.util;
 
+import java.util.Random;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -43,9 +45,27 @@ public class YiMoUtils {
 		return newPassword;
 	}
 
-//	public static void main(String[] args) {
-//		System.out.println(encrypt("admin", "000000"));
-//	}
+	/**
+	 * 获取随机整数 [MIN,MAX] <br>
+	 * <b>eg:<br>
+	 * </b> 取[10,100]随机整数 rand.nextInt(91)+10
+	 * 
+	 * <br>
+	 * rand.nextInt(91) 表示为：[0, 91) -->[0,90]。
+	 * 
+	 * @param MAX 区间最大
+	 * @param MIN 区间最小
+	 */
+	public static int getRandomNumber(int MIN, int MAX) {
+		Random rand = new Random();
+		return rand.nextInt(MAX - MIN + 1) + MIN;
+	}
+
+	public static void main(String[] args) {
+		for (int i = 0; i < 20; i++) {
+			System.out.println(getRandomNumber(0, 10));
+		}
+	}
 
 	/**
 	 * 获取IP地址

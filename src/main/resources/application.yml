@@ -75,7 +75,7 @@ shiro:
     timeout: 1800  #单位为秒  默认30分钟
     interval:  600 #检查session有效性频率 默认10分钟一次
   filter: 
-    loginurl: /login 
+    loginurl: /login_1
     sucessurl: /index
     unauthorizedurl: /error/403
     

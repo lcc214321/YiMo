@@ -10253,3 +10253,8 @@ body.skin-3 {
 	position: absolute;!	important;
 	transform: translate(-90%, -27%);!	important;
 }
+/**头像大小全局默认为100px 100px**/
+img.img-circle{
+	width: 100px;;
+	height: 100px;
+}

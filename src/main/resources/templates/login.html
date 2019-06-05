@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='一墨(YiMo)通用后台管理系统'">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
@@ -46,15 +46,14 @@
 						<li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 数据库：MySQL</li>
 						<li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 工具类：commons-lang3 | commons-configuration ......</li>
 					</ul>
-					<!--                     <strong>还没有账号？ <a href="#">立即注册&raquo;</a></strong> -->
 				</div>
 			</div>
 			<div class="col-sm-5">
 				<form method="post" id="loginForm" class="m-t">
 					<p class="m-t-md" align="left">一花一世界，一墨一心语</p>
-					<input type="text" maxlength="10" id="username" name="username" class="form-control uname" placeholder="用户名" value="admin"> <input
-						type="password" id="password" name="password" class="form-control pword m-b" placeholder="密码" value="000000" />
-					<button type="submit" class="btn btn-success btn-block">登录</button>
+					<input type="text" maxlength="10" id="username" name="username" class="form-control uname" placeholder="用户名" value="admin"> <input type="password" id="password"
+							name="password" class="form-control pword m-b" placeholder="密码" value="000000" />
+					<a class="btn btn-success btn-block" id="login" onclick="login()">登录</a>
 				</form>
 			</div>
 		</div>
@@ -66,8 +65,6 @@
 	<script th:src="@{/js/jquery.min.js?v=2.1.4}"></script>
 	<script th:src="@{/js/bootstrap.min.js?v=3.3.6}"></script>
 	<script th:src="@{/plugins/layer/layer.min.js}"></script>
-	<script th:src="@{/js/plugins/validate/jquery.validate.min.js}"></script>
-	<script th:src="@{/js/plugins/validate/messages_zh.min.js}"></script>
 	<script th:src="@{/js/login.js}"></script>
 </body>
 </html>
