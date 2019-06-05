@@ -45,4 +45,10 @@ public interface DictDataDao {
 
 	@Select("select dict_no from sys_dict_data where dict_type=#{dictType} and status='1' and dict_name=#{dictName}")
 	String getDictNoByName(String dictType, String dictName);
+	
+	//获取省份数据
+	List<DictDataDO> getProvinces(String dictType, String dictDescribe);
+	
+	//获取下一级城市
+	List<DictDataDO> getNextCitys(String dictType, String dictNo, String dictDescribe);
 }

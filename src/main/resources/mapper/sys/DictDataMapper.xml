@@ -67,6 +67,41 @@
 		</if>
 
 	</select>
+	
+	<select id="getProvinces"
+		resultType="top.yimo.sys.domain.DictDataDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		where dict_type = #{dictType}
+		<if test="dictDescribe != null and dictDescribe != ''">
+			and dict_describe in
+			<foreach collection="dictDescribe.split(',')" item="dict"
+				index="index" open="(" close=")" separator=",">
+				#{dict}
+			</foreach>
+		</if>
+	</select>
+	
+	<select id="getNextCitys"
+		resultType="top.yimo.sys.domain.DictDataDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		where dict_type = #{dictType}
+		<if test="dictNo != null and dictNo != ''">
+			and dict_no like #{dictNo}
+		</if>
+		<if test="dictDescribe != null and dictDescribe != ''">
+			and dict_describe in
+			<foreach collection="dictDescribe.split(',')" item="dict"
+				index="index" open="(" close=")" separator=",">
+				#{dict}
+			</foreach>
+		</if>
+	</select>
 
 	<select id="listByPage"
 		resultType="top.yimo.sys.domain.DictDataDO">

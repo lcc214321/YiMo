@@ -128,5 +128,18 @@ public class DictDataServiceImpl implements DictDataService {
 	public List<DictDataDO> getDictDatas(String dictType) {
 		return getAllActiveDictData(dictType);
 	}
+	
+	/**
+	 * 获取下一级城市
+	 * @param dictType
+	 * @param dictNo
+	 * @param dictDescribe
+	 * @return
+	 */
+	@Override
+	public List<DictDataDO> getNextCitys(String dictType, String dictNo, String dictDescribe) {
+		// TODO Auto-generated method stub
+		return dictDataDao.getNextCitys(dictType, dictNo, dictDescribe);
+	}
 
 }

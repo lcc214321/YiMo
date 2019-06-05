@@ -40,4 +40,7 @@ public interface DictDataService {
 
 	// 获取指定type对应有效的字典数据
 	List<DictDataDO> getAllActiveDictData(String dictType);
+	
+	List<DictDataDO> getNextCitys(String dictType, String dictNo, String dictDescribe);
+	
 }

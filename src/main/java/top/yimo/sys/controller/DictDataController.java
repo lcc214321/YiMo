@@ -146,7 +146,23 @@ public class DictDataController extends BaseController {
 			sb = sb.append(dictData.getDictName()).append(",");
 		}
 		String dictNames = sb.toString();
-		dictNames = dictNames.substring(0, dictNames.length() - 1);
+		if(!"".equals(dictNames)) {
+			dictNames = dictNames.substring(0, dictNames.length() - 1);
+		}
 		return ResponseVo.ok(dictNames);
+	}
+	
+	@ResponseBody
+	@GetMapping("/getNextCitys")
+	public List<DictDataDO> getNextCitys(@RequestParam Map<String, Object> params, String dictType, String dictNo, String dictDescribe) {
+		if (!StringUtils.isBlank(dictNo)) {
+			if("city".equals(dictDescribe)) {
+				dictNo = dictNo.substring(0, 2) + "%";
+			}else {
+				dictNo = dictNo.substring(0, 4) + "%";
+			}
+		}
+		
+		return dictDataService.getNextCitys(dictType, dictNo, dictDescribe);
 	}
 }

@@ -4,7 +4,7 @@ spring:
     druid: 
         url: jdbc:mysql://localhost:3306/YiMo?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&serverTimezone=UTC
         username: root
-        password: 
+        password: root123
 
  #thymeleaf配置
   thymeleaf:

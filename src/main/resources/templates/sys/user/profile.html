@@ -30,7 +30,7 @@
 							<li class="list-group-item"><i class="fa fa-futbol-o"></i> <b class="font-noraml">兴趣爱好：</b>
 								<p class="pull-right " id="hobby"></p></li>
 							<li class="list-group-item"><i class="fa fa-home"></i> <b class="font-noraml">所属地区：</b>
-								<p class="pull-right">[[${user.district}]]</p></li>
+								<p class="pull-right">[[${@dictService.getDictDataName('AreaCode',user.district)}]]</p></li>
 						</ul>
 					</div>
 				</div>
@@ -95,6 +95,18 @@
 										<div class="form-group">
 											<label class="col-sm-2 control-label">现居住地址：</label>
 											<div class="col-sm-10">
+												<select class="form-control m-b" name="province" id="province" th:field="*{province}" style="width:200px" th:with="type=${@dictService.getProvinces('AreaCode','province')}">
+													<option value="">--- 请选择省份 ---</option>
+													<option th:each="dict : ${type}" th:text="${dict.dictName}" th:value="${dict.dictNo}" th:selected="selected"></option>
+												</select>
+												<select class="form-control m-b" name="city" id="city" th:field="*{city}" style="width:200px" th:with="type=${@dictService.getNextCitys('AreaCode',user.province,'city')}">
+													<option value="">--- 请选择城市 ---</option>
+													<option th:each="dict : ${type}" th:text="${dict.dictName}" th:value="${dict.dictNo}" th:selected="selected"></option>
+												</select>
+												<select class="form-control m-b" name="district" id="district" th:field="*{district}" style="width:200px" th:with="type=${@dictService.getNextCitys('AreaCode',user.city,'area')}">
+													<option value="">--- 请选择地区 ---</option>
+													<option th:each="dict : ${type}" th:text="${dict.dictName}" th:value="${dict.dictNo}" th:selected="selected"></option>
+												</select>
 												<input type="text" autocomplete="off" class="form-control" name="address" th:field="*{address}" placeholder="请输入现居住地址">
 											</div>
 										</div>
@@ -155,6 +167,25 @@
 	        validateRule();
 	        $('#hobby').html(YiMo.getDictDatas('hobby', '[[${user.hobby}]]'));
 
+			if($("select[name='province']").val() == null || $("select[name='province']").val() == ""){
+				$("select[name='city']").empty();
+				$("select[name='district']").empty();
+				$("select[name='city']").append("<option value=''>--- 请选择城市 ---</option>");
+				$("select[name='district']").append("<option value=''>--- 请选择地区 ---</option>");
+			}
+	    	// 更改省份后的操作
+	    	$("select[name='province']").change(function() {
+	    		var provCode = $("select[name='province']").val();
+	    		getCity(provCode);
+
+	    	});
+
+	    	// 更改城市后的操作
+	    	$("select[name='city']").change(function() {
+	    		var cityCode = $("select[name='city']").val();
+	    		getArea(cityCode);
+	    	});
+	        
         });
 
         /*用户管理-基本信息*/
@@ -294,6 +325,70 @@
 	            focusCleanup : true
 	        });
         }
+        
+      //获取对应城市列表（里面包括获取第一个城市的区县列表）
+        function getCity(provCode) {
+
+        	var firstCityCode;
+
+        	// ajax请求所有市级单位
+        	$.ajax({
+                type : 'GET',
+                url : ctx + 'sys/dictData/getNextCitys',
+                data : {
+                    'dictType' : 'AreaCode',
+                    'dictNo' : provCode,
+                    'dictDescribe' : 'city'
+                },
+                async : false,
+                dataType : 'json',
+                success : function(data) {
+
+        			// 先清空城市下拉框
+        			$("select[name='city']").empty();
+        	
+        			$.each(data, function(i, d) {
+        				$("select[name='city']").append(
+        						"<option value='"+d.dictNo+"'>" + d.dictName
+        								+ "</option>");
+        			});
+        	        // 获取第一个城市的code
+        	        firstCityCode = data[0].dictNo;
+        	        // 根据第一个城市code获取对应区县列表
+        	        getArea(firstCityCode);
+                
+                },
+            });
+        		
+        }
+
+        function getArea(cityCode) {
+
+        	// ajax请求所有区县单位
+        	$.ajax({
+                type : 'GET',
+                url : ctx + 'sys/dictData/getNextCitys',
+                data : {
+                	'dictType' : 'AreaCode',
+                    'dictNo' : cityCode,
+                    'dictDescribe' : 'area'
+                },
+                async : false,
+                dataType : 'json',
+                success : function(data) {
+
+        			// 先清空城市下拉框
+        			$("select[name='district']").empty();
+        	
+        			$.each(data, function(i, d) {
+        				$("select[name='district']").append(
+        						"<option value='"+d.dictNo+"'>" + d.dictName
+        								+ "</option>");
+        			});
+                },
+            });
+        }
+
 	</script>
 	<th:block th:replace="avatar :: div"/>
 </body>
