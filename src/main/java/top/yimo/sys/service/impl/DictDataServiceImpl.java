@@ -4,9 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
+import top.yimo.common.constant.WebConstant;
 import top.yimo.sys.dao.DictDataDao;
 import top.yimo.sys.domain.DictDataDO;
 import top.yimo.sys.service.DictDataService;
@@ -21,7 +24,9 @@ import top.yimo.sys.service.DictDataService;
  */
 @Service("dict")
 @Transactional(rollbackFor = Exception.class)
+@Slf4j
 public class DictDataServiceImpl implements DictDataService {
+
 	@Autowired
 	private DictDataDao dictDataDao;
 
@@ -61,11 +66,13 @@ public class DictDataServiceImpl implements DictDataService {
 	}
 
 	@Override
+	@Cacheable(value = WebConstant.DICT_CACHE)
 	public DictDataDO getByTypeAndNo(String dictType, String dictNo) {
 		return dictDataDao.getByTypeAndNo(dictType, dictNo);
 	}
 
 	@Override
+	@Cacheable(value = WebConstant.DICT_CACHE)
 	public List<DictDataDO> getDictDatas(String dictType, String dictNo) {
 		return dictDataDao.getDictDatas(dictType, dictNo);
 	}
@@ -81,6 +88,7 @@ public class DictDataServiceImpl implements DictDataService {
 	}
 
 	@Override
+	@Cacheable(value = WebConstant.DICT_CACHE, key = "AllActiveDictData")
 	public List<DictDataDO> getAllActiveDictData(String dictType) {
 		return dictDataDao.getAllActiveDictData(dictType);
 	}
@@ -92,6 +100,7 @@ public class DictDataServiceImpl implements DictDataService {
 	 * @param dictNo   字典编号
 	 * @return
 	 */
+	@Cacheable(value = WebConstant.DICT_CACHE)
 	public DictDataDO getDictData(String dictType, String dictNo) {
 		DictDataDO dict = getByTypeAndNo(dictType, dictNo);
 		return dict;
@@ -125,12 +134,15 @@ public class DictDataServiceImpl implements DictDataService {
 	 * @param dictType
 	 * @return
 	 */
+	@Cacheable(value = WebConstant.DICT_CACHE)
 	public List<DictDataDO> getDictDatas(String dictType) {
+		log.debug("第一次加载未使用缓存{}", dictType);
 		return getAllActiveDictData(dictType);
 	}
-	
+
 	/**
 	 * 获取下一级城市
+	 * 
 	 * @param dictType
 	 * @param dictNo
 	 * @param dictDescribe
@@ -138,7 +150,6 @@ public class DictDataServiceImpl implements DictDataService {
 	 */
 	@Override
 	public List<DictDataDO> getNextCitys(String dictType, String dictNo, String dictDescribe) {
-		// TODO Auto-generated method stub
 		return dictDataDao.getNextCitys(dictType, dictNo, dictDescribe);
 	}
 

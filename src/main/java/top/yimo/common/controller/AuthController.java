@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import lombok.extern.slf4j.Slf4j;
 import top.yimo.common.annotation.Log;
 import top.yimo.common.enums.OperatorType;
 import top.yimo.common.model.vo.ResponseVo;
@@ -40,6 +41,7 @@ import top.yimo.sys.service.UserOnlineService;
  */
 @Component
 @RequestMapping("/")
+@Slf4j
 public class AuthController {
 	@Value("${yimo.loginHtml}")
 	private String login;
@@ -92,6 +94,7 @@ public class AuthController {
 	public String logout() {
 		// subject的实现类DelegatingSubject的logout方法，将本subject对象的session清空了
 		SecurityUtils.getSubject().logout();
+		log.debug("系统退出");
 		return login;
 	}
 

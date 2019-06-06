@@ -45,5 +45,9 @@ public class WebConstant {
 
 	public static final String STATUS_RUNNING_STOP = "0";
 	public static final String STATUS_RUNNING_RUN = "1";
+	/**
+	 * 数据字典缓存
+	 */
+	public static final String DICT_CACHE = "dictCache";
 
 }

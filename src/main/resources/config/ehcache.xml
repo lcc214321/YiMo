@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
-	updateCheck="true" name="YiMo">
+<ehcache name="yimo" updateCheck="false">
 	<!-- 磁盘缓存位置 -->
 	<diskStore path="d:/ehcache/" />
 	<!-- 默认设置为30分钟 -->
@@ -11,9 +9,9 @@
 		<bootstrapCacheLoaderFactory
 			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
 	</defaultCache>
-
 	<!--数据字典缓存 -->
-	<cache name="dictCache" 　 maxElementsInMemory="10000"
-		eternal="false" overflowToDisk="true" timeToIdleSeconds="30"
-		timeToLiveSeconds="60" memoryStoreEvictionPolicy="LFU" />
+	<cache name="dictCache" maxEntriesLocalHeap="2000"
+		eternal="false" timeToIdleSeconds="600" timeToLiveSeconds="0"
+		overflowToDisk="false" statistics="true">
+	</cache>
 </ehcache>
