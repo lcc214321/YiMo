@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='sys_model_libaray'">
+<meta charset="utf-8">
+<header th:replace="header::header(${title})"></header>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="ModelLibarayForm">
+							   							<div class="form-group">
+								<label class="col-sm-3 control-label">模板编号：</label>
+								<div class="col-sm-8">
+									<input id="modelNo" name="modelNo" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">编号：</label>
+								<div class="col-sm-8">
+									<input id="colIndex" name="colIndex" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">字段：</label>
+								<div class="col-sm-8">
+									<input id="colField" name="colField" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">列头：</label>
+								<div class="col-sm-8">
+									<input id="colTitle" name="colTitle" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">提示文本，支持HTML 属性：</label>
+								<div class="col-sm-8">
+									<input id="colTollTip" name="colTollTip" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">列头布局：</label>
+								<div class="col-sm-8">
+									<input id="colHalign" name="colHalign" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">数据布局：</label>
+								<div class="col-sm-8">
+									<input id="colAlign" name="colAlign" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">是否显示：</label>
+								<div class="col-sm-8">
+									<input id="colVisible" name="colVisible" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">数据的格式：</label>
+								<div class="col-sm-8">
+									<input id="colFormatter" name="colFormatter" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">是否更新：</label>
+								<div class="col-sm-8">
+									<input id="colUpdate" name="colUpdate" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">是否排序：</label>
+								<div class="col-sm-8">
+									<input id="colSortable" name="colSortable" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">按钮组：</label>
+								<div class="col-sm-8">
+									<input id="colButton" name="colButton" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">状态：</label>
+								<div class="col-sm-8">
+									<input id="status" name="status" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">备注：</label>
+								<div class="col-sm-8">
+									<input id="remark" name="remark" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">创建用户id：</label>
+								<div class="col-sm-8">
+									<input id="createUserId" name="createUserId" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">创建时间：</label>
+								<div class="col-sm-8">
+									<input id="createTime" name="createTime" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">更新时间：</label>
+								<div class="col-sm-8">
+									<input id="updateTime" name="updateTime" class="form-control" type="text">
+								</div>
+							</div>
+							 							<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary" >提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<div th:replace="footer :: footer"></div>
+<script type="text/javascript">
+	var prefix = ctx+"sys/modelLibaray";
+		$().ready(function() {
+	        validateRule();
+        });
+        $.validator.setDefaults({
+        	submitHandler : function() {
+		        save();
+	        }
+        });
+        function save() {
+        	YiMo.ajaxPost({
+        		url : prefix + "/save",
+        		data : $('#ModelLibarayForm').serialize(),
+        		needClose : true,
+	            parentRefresh : true,
+        	});
+        }
+
+        function validateRule() {
+	        var icon = "<i class='fa fa-times-circle'></i> ";
+	        $("#ModelLibarayForm").validate({
+	        	rules : {
+	        		        			        		        			        			 modelNo : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 colIndex : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 colField : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 colTitle : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 colTollTip : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 colHalign : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 colAlign : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 colVisible : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 colFormatter : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 colUpdate : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 colSortable : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 colButton : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 status : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 remark : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 createUserId : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 createTime : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 updateTime : {
+	 		                required : true
+	 	                },
+	        			        		        	 },
+	        	 messages : {
+	        	 	        	 	        			        	 	        			 modelNo : {
+ 		                required : icon + "请输入模板编号"
+ 	                },
+        			        			        	 	        			 colIndex : {
+ 		                required : icon + "请输入编号"
+ 	                },
+        			        			        	 	        			 colField : {
+ 		                required : icon + "请输入字段"
+ 	                },
+        			        			        	 	        			 colTitle : {
+ 		                required : icon + "请输入列头"
+ 	                },
+        			        			        	 	        			 colTollTip : {
+ 		                required : icon + "请输入提示文本，支持HTML 属性"
+ 	                },
+        			        			        	 	        			 colHalign : {
+ 		                required : icon + "请输入列头布局"
+ 	                },
+        			        			        	 	        			 colAlign : {
+ 		                required : icon + "请输入数据布局"
+ 	                },
+        			        			        	 	        			 colVisible : {
+ 		                required : icon + "请输入是否显示"
+ 	                },
+        			        			        	 	        			 colFormatter : {
+ 		                required : icon + "请输入数据的格式"
+ 	                },
+        			        			        	 	        			 colUpdate : {
+ 		                required : icon + "请输入是否更新"
+ 	                },
+        			        			        	 	        			 colSortable : {
+ 		                required : icon + "请输入是否排序"
+ 	                },
+        			        			        	 	        			 colButton : {
+ 		                required : icon + "请输入按钮组"
+ 	                },
+        			        			        	 	        			 status : {
+ 		                required : icon + "请输入状态"
+ 	                },
+        			        			        	 	        			 remark : {
+ 		                required : icon + "请输入备注"
+ 	                },
+        			        			        	 	        			 createUserId : {
+ 		                required : icon + "请输入创建用户id"
+ 	                },
+        			        			        	 	        			 createTime : {
+ 		                required : icon + "请输入创建时间"
+ 	                },
+        			        			        	 	        			 updateTime : {
+ 		                required : icon + "请输入更新时间"
+ 	                },
+        			        			        	 }
+	        })
+        }
+	</script>
+</body>
+</html>

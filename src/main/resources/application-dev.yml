@@ -19,7 +19,7 @@ logging:
   level: 
     top.yimo: debug
 yimo: 
-  permissions: true  #开发环境关闭权限认证 方便调试接口
+  permissions: false  #开发环境关闭权限认证 方便调试接口
   kickout:         #开发环境关闭在线用户数控制
     kickout : true
     isAfter: false  #是否踢出后来登录的，默认是false；即后者登录的用户踢出前者登录的用户

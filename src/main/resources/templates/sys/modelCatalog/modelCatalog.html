@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"  th:with="title='sys_model_catalog'">
+<meta charset="utf-8">
+<header th:replace="header::header(${title})"></header>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+		<!-- 搜索区域 -->
+			<div class="search-collapse" hidden="">
+				<form id="search-form">
+					<div class="search-list">
+						<ul>
+													<li>：<input type="text" name="id" id="id" /></li>
+													<li>模板编号：<input type="text" name="modelNo" id="modelNo" /></li>
+													<li>模板名称：<input type="text" name="modelName" id="modelName" /></li>
+													<li>模板描述：<input type="text" name="modelDescribe" id="modelDescribe" /></li>
+													<li>模型类型List Or Info：<input type="text" name="modelType" id="modelType" /></li>
+													<li>数据来源：<input type="text" name="url" id="url" /></li>
+													<li>模型版本：<input type="text" name="modelVersion" id="modelVersion" /></li>
+													<li>备注：<input type="text" name="remark" id="remark" /></li>
+													<li>创建用户id：<input type="text" name="createUserId" id="createUserId" /></li>
+													<li>创建时间：<input type="text" name="createTime" id="createTime" /></li>
+													<li>更新时间：<input type="text" name="updateTime" id="updateTime" /></li>
+													<li>状态：<input type="text" name="status" id="status" /></li>
+													<li>状态：<select name="status" id="status" th:with="type=${@dict.getDictDatas('Status')}">
+									<option value="">所有</option>
+									<option th:each="dict : ${type}" th:text="${dict.dictName}" th:value="${dict.dictNo}"></option>
+							</select>
+							</li>
+							<li><a class="btn btn-info btn-rounded btn-sm" onclick="$.YiMo.BSTable.search('search-form')"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="document.getElementById('search-form').reset();"><i class="fa fa-refresh"></i>&nbsp;重置</a></li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			<!-- 表格区域 -->
+			<div class="ibox">
+				<div class="fixed-table-toolbar" id="toolbar" role="group">
+					<a shiro:hasPermission="sys:modelCatalog:add" class="btn    btn-primary  btn-circle" onclick="add()" title="添加"> <i class="fa fa-plus"
+							aria-hidden="true"></i>
+					</a> <a shiro:hasPermission="sys:modelCatalog:batchRemove" class="btn   btn-danger btn-circle" onclick="batchRemove()" title="批量删除"> <i
+							class="fa fa-trash" aria-hidden="true"></i>
+					</a> <a shiro:hasPermission="sys:modelCatalog:export" class="btn btn-info  btn-circle " onclick="exportData()" title="下载"> <i
+							class="fa fa-download" aria-hidden="true"></i>
+					</a>
+				</div>
+				<table id="bootstrap-table" data-mobile-responsive="true">
+				</table>
+			</div>
+		</div>
+	</div>
+	<div th:replace="footer :: footer"></div>
+	<div th:replace="footer :: uploadData"></div>
+	<script type="text/javascript" th:inline="javascript">
+	var prefix = ctx+"sys/modelCatalog";
+	var s_edit_h = [[${@permission.hasPermi('sys:modelCatalog:edit')}]];
+	var s_remove_h = [[${@permission.hasPermi('sys:modelCatalog:remove')}]];
+	$().ready(function() {
+		load();
+	});
+	
+	function load() {
+		var options = {
+		url : prefix + "/list", // 服务器数据的加载地址
+		columns : [
+				{
+					checkbox : true
+				},
+				{
+					field : 'id', 
+					title : '',
+			        halign : 'center',
+				},
+				{
+					field : 'modelNo', 
+					title : '模板编号',
+			        halign : 'center',
+				},
+				{
+					field : 'modelName', 
+					title : '模板名称',
+			        halign : 'center',
+				},
+				{
+					field : 'modelDescribe', 
+					title : '模板描述',
+			        halign : 'center',
+				},
+				{
+					field : 'modelType', 
+					title : '模型类型List Or Info',
+			        halign : 'center',
+				},
+				{
+					field : 'url', 
+					title : '数据来源',
+			        halign : 'center',
+				},
+				{
+					field : 'modelVersion', 
+					title : '模型版本',
+			        halign : 'center',
+				},
+				{
+					field : 'remark', 
+					title : '备注',
+			        halign : 'center',
+				},
+				{
+					field : 'createUserId', 
+					title : '创建用户id',
+			        halign : 'center',
+				},
+				{
+					field : 'createTime', 
+					title : '创建时间',
+			        halign : 'center',
+				},
+				{
+					field : 'updateTime', 
+					title : '更新时间',
+			        halign : 'center',
+				},
+				{
+					field : 'status', 
+					title : '状态',
+			        halign : 'center',
+				},
+				{
+		        title : '操作',
+		        field : 'id',
+		        width : '128px',
+		        halign : 'center',
+		        formatter : function(value, row, index) {
+			        var e = '<a class="btn btn-primary btn-sm ' + s_edit_h + '" href="#" mce_href="#" title="编辑" onclick="edit(\'' + row.id + '\')"><i class="fa fa-edit"></i></a> ';
+			        var d = '<a class="btn btn-warning btn-sm ' + s_remove_h + '" href="#" title="删除"  mce_href="#" onclick="remove(\'' + row.id + '\')"><i class="fa fa-remove"></i></a> ';
+			        return e + d;
+		        }
+		    } ]
+			};
+		YiMo.BSTable.load(options);
+	}
+	// 新增
+	function add() {
+		YiMo.add({
+		    url : prefix + '/add' 
+		});
+	}
+	// 编辑
+	function edit(id) {
+		YiMo.edit({
+		    url : prefix + '/edit/' + id 
+		});
+	}
+	//删除
+	function remove(id) {
+		YiMo.remove({
+		    url : prefix + "/remove/"+id,
+		});
+	}
+	//批量删除
+	function batchRemove() {
+		YiMo.batchRemove({
+		    primaryKey : 'id',
+		    url : prefix + "/batchRemove",
+		});
+	}
+	//导出数据
+	function exportData() {
+		YiMo.exportData({
+			url : prefix + "/exportData",
+		});
+	}
+	</script>
+</body>
+</html>

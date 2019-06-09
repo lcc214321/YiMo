@@ -123,6 +123,7 @@
 		                sortable : options.sortable || true, // 是否启用排序
 		                sortStable : true,
 		                sortOrder : options.sortOrder || 'desc', // 排序方式
+		                clickToSelect:options.clickToSelect || true,// 设置为 True 点击列的时候选中单选按钮或者复选框
 		                dataType : options.dataType || "json",// 服务器返回的数据类型
 		                pagination : options.pagination || false,// 设置为true会在底部显示分页条
 		                queryParamsType : options.queryParamsType || "limit",// 设置为limit则会发送符合RESTFull格式的参数

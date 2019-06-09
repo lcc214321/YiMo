@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.yimo.sys.dao.ModelLibarayDao">
+<!--根据需求调整缓存参数：-->
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache">
+        <property name="timeToIdleSeconds" value="3600"/>
+        <property name="timeToLiveSeconds" value="3600"/>
+        <!-- 同ehcache参数maxElementsInMemory -->
+        <property name="maxEntriesLocalHeap" value="1000"/>
+        <!-- 同ehcache参数maxElementsOnDisk -->
+        <property name="maxEntriesLocalDisk" value="10000000"/>
+        <property name="memoryStoreEvictionPolicy" value="LRU"/>
+    </cache>
+	<!-- 表名 -->
+	<sql id="tableName">
+		sys_model_libaray
+	</sql>
+	
+	<!-- 数据表所有列名 -->
+	<sql id="Base_Column_List">
+		`id`,`model_no`,`col_index`,`col_field`,`col_title`,`col_toll_tip`,`col_halign`,`col_align`,`col_visible`,`col_formatter`,`col_update`,`col_sortable`,`col_button`,`status`,`remark`,`create_user_id`,`create_time`,`update_time`	</sql>
+
+	<!-- 查询字段 -->
+	<sql id="Base_Search_Param">
+				<if test="id != null and id != ''"> and id = #{id} </if>
+				<if test="modelNo != null and modelNo != ''"> and model_no = #{modelNo} </if>
+				<if test="colIndex != null and colIndex != ''"> and col_index = #{colIndex} </if>
+				<if test="colField != null and colField != ''"> and col_field = #{colField} </if>
+				<if test="colTitle != null and colTitle != ''"> and col_title = #{colTitle} </if>
+				<if test="colTollTip != null and colTollTip != ''"> and col_toll_tip = #{colTollTip} </if>
+				<if test="colHalign != null and colHalign != ''"> and col_halign = #{colHalign} </if>
+				<if test="colAlign != null and colAlign != ''"> and col_align = #{colAlign} </if>
+				<if test="colVisible != null and colVisible != ''"> and col_visible = #{colVisible} </if>
+				<if test="colFormatter != null and colFormatter != ''"> and col_formatter = #{colFormatter} </if>
+				<if test="colUpdate != null and colUpdate != ''"> and col_update = #{colUpdate} </if>
+				<if test="colSortable != null and colSortable != ''"> and col_sortable = #{colSortable} </if>
+				<if test="colButton != null and colButton != ''"> and col_button = #{colButton} </if>
+				<if test="status != null and status != ''"> and status = #{status} </if>
+				<if test="remark != null and remark != ''"> and remark = #{remark} </if>
+				<if test="createUserId != null and createUserId != ''"> and create_user_id = #{createUserId} </if>
+				<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+				<if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+			</sql>
+	
+	
+	<select id="get" resultType="top.yimo.sys.domain.ModelLibarayDO" useCache="false">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		where id = #{value}
+	</select>
+	
+	<select id="exportData" resultType="top.yimo.sys.domain.ModelLibarayDO"
+		parameterType="top.yimo.sys.domain.ModelLibarayDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		where 1=1
+		<include refid="Base_Search_Param" />
+	</select>
+
+
+	<select id="listByPage" resultType="top.yimo.sys.domain.ModelLibarayDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		 where 1 = 1
+		<include refid="Base_Search_Param" />
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from sys_model_libaray
+		  where 1 = 1
+		<include refid="Base_Search_Param" />
+	</select>
+	 
+	<insert id="save" parameterType="top.yimo.sys.domain.ModelLibarayDO" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_model_libaray
+		(
+			`model_no`, 
+			`col_index`, 
+			`col_field`, 
+			`col_title`, 
+			`col_toll_tip`, 
+			`col_halign`, 
+			`col_align`, 
+			`col_visible`, 
+			`col_formatter`, 
+			`col_update`, 
+			`col_sortable`, 
+			`col_button`, 
+			`status`, 
+			`remark`, 
+			`create_user_id`, 
+			`create_time`, 
+			`update_time`
+		)
+		values
+		(
+			#{modelNo}, 
+			#{colIndex}, 
+			#{colField}, 
+			#{colTitle}, 
+			#{colTollTip}, 
+			#{colHalign}, 
+			#{colAlign}, 
+			#{colVisible}, 
+			#{colFormatter}, 
+			#{colUpdate}, 
+			#{colSortable}, 
+			#{colButton}, 
+			#{status}, 
+			#{remark}, 
+			#{createUserId}, 
+			#{createTime}, 
+			#{updateTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="top.yimo.sys.domain.ModelLibarayDO">
+		update sys_model_libaray 
+		<set>
+			<if test="modelNo != null">`model_no` = #{modelNo}, </if>
+			<if test="colIndex != null">`col_index` = #{colIndex}, </if>
+			<if test="colField != null">`col_field` = #{colField}, </if>
+			<if test="colTitle != null">`col_title` = #{colTitle}, </if>
+			<if test="colTollTip != null">`col_toll_tip` = #{colTollTip}, </if>
+			<if test="colHalign != null">`col_halign` = #{colHalign}, </if>
+			<if test="colAlign != null">`col_align` = #{colAlign}, </if>
+			<if test="colVisible != null">`col_visible` = #{colVisible}, </if>
+			<if test="colFormatter != null">`col_formatter` = #{colFormatter}, </if>
+			<if test="colUpdate != null">`col_update` = #{colUpdate}, </if>
+			<if test="colSortable != null">`col_sortable` = #{colSortable}, </if>
+			<if test="colButton != null">`col_button` = #{colButton}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="remark != null">`remark` = #{remark}, </if>
+			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from sys_model_libaray where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from sys_model_libaray where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
