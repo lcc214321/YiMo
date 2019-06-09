@@ -498,7 +498,7 @@ CREATE TABLE `sys_log` (
   `describe` varchar(100) DEFAULT NULL COMMENT '日志描述',
   `title` varchar(50) DEFAULT NULL COMMENT '标题',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6274 DEFAULT CHARSET=utf8 COMMENT='系统日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统日志';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -530,7 +530,7 @@ CREATE TABLE `sys_menu` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `status` varchar(1) DEFAULT NULL COMMENT '菜单状态',
   PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8 COMMENT='菜单管理';
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8 COMMENT='菜单管理';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -539,8 +539,82 @@ CREATE TABLE `sys_menu` (
 
 LOCK TABLES `sys_menu` WRITE;
 /*!40000 ALTER TABLE `sys_menu` DISABLE KEYS */;
-INSERT INTO `sys_menu` VALUES (1,0,'系统管理','','',0,'fa fa-gears',10,'2017-08-09 22:49:47','2019-04-12 16:04:12','1'),(2,1,'系统菜单','sys/menu/','sys:menu:menu',1,'fa fa-th-list',13,'2017-08-09 22:55:15','2019-03-27 16:21:32','1'),(3,1,'部门管理','sys/dept/','sys:dept:dept',1,'fa fa-group',14,'2017-08-09 22:55:15','2019-03-27 16:21:35','1'),(4,1,'用户管理','sys/user/','sys:user:user',1,'fa fa-user',11,'2017-08-10 14:12:11','2019-03-27 16:21:24','1'),(5,1,'角色管理','sys/role','sys:role:role',1,'fa fa-user-secret',12,'2017-08-10 14:13:19','2019-03-27 16:21:28','1'),(6,4,'编辑','','sys:user:edit',2,'',0,'2017-08-14 10:51:35',NULL,'1'),(7,4,'新增','','sys:user:add',2,'',0,'2017-08-14 10:51:35',NULL,'1'),(8,4,'删除','','sys:user:remove',2,'',0,'2017-08-14 10:51:35',NULL,'1'),(9,4,'重置密码','','sys:user:resetPwd',2,'',0,'2017-08-14 10:51:35',NULL,'1'),(10,4,'批量删除','','sys:user:batchRemove',2,'',0,'2017-08-14 10:51:35',NULL,'1'),(11,2,'新增','sys/menu/','sys:menu:add',2,'',3,'2017-08-09 22:55:15',NULL,'1'),(12,2,'编辑','sys/menu/','sys:menu:edit',2,'',3,'2017-08-09 22:55:15',NULL,'1'),(13,2,'删除','sys/menu/','sys:menu:remove',2,'',3,'2017-08-09 22:55:15',NULL,'1'),(17,5,'编辑','','sys:role:edit',2,'',0,'2017-08-14 10:51:35',NULL,'1'),(18,5,'删除','','sys:role:remove',2,'',0,'2017-08-14 10:51:35',NULL,'1'),(25,3,'新增','','sys:dept:add',2,'',NULL,NULL,NULL,'1'),(26,3,'编辑','','sys:dept:edit',2,'',NULL,NULL,NULL,'1'),(32,3,'删除','','sys:dept:remove',2,'',NULL,NULL,NULL,'1'),(37,0,'系统工具','','',0,'fa fa-cog fa-spin',20,'2019-03-01 14:16:05','2019-03-27 16:19:49','1'),(38,37,'自动生成代码','generator','sys:generator:generator',1,'fa fa-anchor ',20,'2019-03-01 14:22:52','2019-03-27 16:19:41','1'),(39,0,'系统监控','','',0,'fa fa-tachometer',30,'2019-03-01 18:09:57','2019-04-23 14:47:35','1'),(40,39,'系统操作日志','sys/log','sys:log:log',1,'fa fa-file-archive-o',31,'2019-03-01 18:11:48','2019-04-16 10:57:16','1'),(41,5,'新增','','sys:role:add',2,'',NULL,'2019-03-05 11:53:48',NULL,'1'),(42,1,'数据字典','sys/dict','sys:dict:dict',1,'fa fa-book',15,'2019-03-07 17:26:16','2019-03-27 16:21:39','1'),(43,42,'新增','','sys:dict:add',2,'',NULL,'2019-03-07 17:35:45',NULL,'1'),(44,42,'编辑','','sys:dict:edit',2,'',NULL,'2019-03-07 17:36:08',NULL,'1'),(45,42,'删除','','sys:dict:remove',2,'',NULL,'2019-03-07 17:36:08',NULL,'1'),(46,42,'数据字典数据','','sys:dictData',2,'',NULL,'2019-03-07 17:36:08',NULL,'1'),(47,42,'编辑字典数据','','sys:dictData:edit',2,'',NULL,'2019-03-07 17:36:08',NULL,'1'),(48,42,'新增字典数据','','sys:dictData:add',2,'',NULL,'2019-03-07 17:36:08',NULL,'1'),(49,42,'删除字典数据','','sys:dictData:remove',2,'',NULL,'2019-03-07 17:36:08',NULL,'1'),(50,39,'在线用户','sys/userOnline','sys:userOnline:userOnline',1,'fa fa-user',32,'2019-03-18 15:16:35','2019-03-27 16:20:58','1'),(51,50,'强制提出','','sys:userOnline:kickout',2,'',NULL,'2019-03-18 15:29:08',NULL,'1'),(53,39,'定时任务管理','sys/job','sys:job:job',1,'fa fa-calendar',33,'2019-03-25 17:00:14','2019-03-27 16:21:02','1'),(54,37,'表单构建器','common/frombuild','common:frombuild',1,'fa fa-arrows',21,'2019-03-27 16:19:30','2019-05-22 18:37:19','1'),(55,39,'服务器日志','sys/webLog/tail','sys:weblog:tail',1,'fa fa-calendar-o',34,'2019-04-16 10:58:34','2019-05-22 18:25:17','0'),(56,37,'swagger','sys/swagger/view','sys:swagger:view',1,'fa fa-file-archive-o',23,'2019-04-23 12:08:05','2019-04-23 12:08:15','1'),(57,39,'Druid','sys/druid/view','sys:druid:view',1,'fa fa-wrench',35,'2019-04-23 14:48:56',NULL,'1');
+INSERT INTO `sys_menu` VALUES (1,0,'系统管理','','',0,'fa fa-gears',10,'2017-08-09 22:49:47','2019-04-12 16:04:12','1'),(2,1,'系统菜单','sys/menu/','sys:menu:menu',1,'fa fa-th-list',13,'2017-08-09 22:55:15','2019-03-27 16:21:32','1'),(3,1,'部门管理','sys/dept/','sys:dept:dept',1,'fa fa-group',14,'2017-08-09 22:55:15','2019-03-27 16:21:35','1'),(4,1,'用户管理','sys/user/','sys:user:user',1,'fa fa-user',11,'2017-08-10 14:12:11','2019-03-27 16:21:24','1'),(5,1,'角色管理','sys/role','sys:role:role',1,'fa fa-user-secret',12,'2017-08-10 14:13:19','2019-03-27 16:21:28','1'),(6,4,'编辑','','sys:user:edit',2,'',0,'2017-08-14 10:51:35',NULL,'1'),(7,4,'新增','','sys:user:add',2,'',0,'2017-08-14 10:51:35',NULL,'1'),(8,4,'删除','','sys:user:remove',2,'',0,'2017-08-14 10:51:35',NULL,'1'),(9,4,'重置密码','','sys:user:resetPwd',2,'',0,'2017-08-14 10:51:35',NULL,'1'),(10,4,'批量删除','','sys:user:batchRemove',2,'',0,'2017-08-14 10:51:35',NULL,'1'),(11,2,'新增','sys/menu/','sys:menu:add',2,'',3,'2017-08-09 22:55:15',NULL,'1'),(12,2,'编辑','sys/menu/','sys:menu:edit',2,'',3,'2017-08-09 22:55:15',NULL,'1'),(13,2,'删除','sys/menu/','sys:menu:remove',2,'',3,'2017-08-09 22:55:15',NULL,'1'),(17,5,'编辑','','sys:role:edit',2,'',0,'2017-08-14 10:51:35',NULL,'1'),(18,5,'删除','','sys:role:remove',2,'',0,'2017-08-14 10:51:35',NULL,'1'),(25,3,'新增','','sys:dept:add',2,'',NULL,NULL,NULL,'1'),(26,3,'编辑','','sys:dept:edit',2,'',NULL,NULL,NULL,'1'),(32,3,'删除','','sys:dept:remove',2,'',NULL,NULL,NULL,'1'),(37,0,'系统工具','','',0,'fa fa-cog fa-spin',20,'2019-03-01 14:16:05','2019-03-27 16:19:49','1'),(38,37,'自动生成代码','generator','sys:generator:generator',1,'fa fa-anchor ',20,'2019-03-01 14:22:52','2019-03-27 16:19:41','1'),(39,0,'系统监控','','',0,'fa fa-tachometer',30,'2019-03-01 18:09:57','2019-04-23 14:47:35','1'),(40,39,'系统操作日志','sys/log','sys:log:log',1,'fa fa-file-archive-o',31,'2019-03-01 18:11:48','2019-04-16 10:57:16','1'),(41,5,'新增','','sys:role:add',2,'',NULL,'2019-03-05 11:53:48',NULL,'1'),(42,1,'数据字典','sys/dict','sys:dict:dict',1,'fa fa-book',15,'2019-03-07 17:26:16','2019-03-27 16:21:39','1'),(43,42,'新增','','sys:dict:add',2,'',NULL,'2019-03-07 17:35:45',NULL,'1'),(44,42,'编辑','','sys:dict:edit',2,'',NULL,'2019-03-07 17:36:08',NULL,'1'),(45,42,'删除','','sys:dict:remove',2,'',NULL,'2019-03-07 17:36:08',NULL,'1'),(46,42,'数据字典数据','','sys:dictData',2,'',NULL,'2019-03-07 17:36:08',NULL,'1'),(47,42,'编辑字典数据','','sys:dictData:edit',2,'',NULL,'2019-03-07 17:36:08',NULL,'1'),(48,42,'新增字典数据','','sys:dictData:add',2,'',NULL,'2019-03-07 17:36:08',NULL,'1'),(49,42,'删除字典数据','','sys:dictData:remove',2,'',NULL,'2019-03-07 17:36:08',NULL,'1'),(50,39,'在线用户','sys/userOnline','sys:userOnline:userOnline',1,'fa fa-user',32,'2019-03-18 15:16:35','2019-03-27 16:20:58','1'),(51,50,'强制提出','','sys:userOnline:kickout',2,'',NULL,'2019-03-18 15:29:08',NULL,'1'),(53,39,'定时任务管理','sys/job','sys:job:job',1,'fa fa-calendar',33,'2019-03-25 17:00:14','2019-03-27 16:21:02','1'),(54,37,'表单构建器','common/frombuild','common:frombuild',1,'fa fa-arrows',21,'2019-03-27 16:19:30','2019-05-22 18:37:19','1'),(55,39,'服务器日志','sys/webLog/tail','sys:weblog:tail',1,'fa fa-calendar-o',34,'2019-04-16 10:58:34','2019-05-22 18:25:17','0'),(56,37,'swagger','sys/swagger/view','sys:swagger:view',1,'fa fa-file-archive-o',23,'2019-04-23 12:08:05','2019-04-23 12:08:15','1'),(57,39,'Druid','sys/druid/view','sys:druid:view',1,'fa fa-wrench',35,'2019-04-23 14:48:56',NULL,'1'),(58,1,'系统模型库','sys/modelLibaray','sys:modelLibaray:modelLibaray',1,'fa fa-object-ungroup',12,'2019-01-01 00:00:00',NULL,'1'),(59,58,'新增','','sys:modelLibaray:add',2,'',0,'2019-01-01 00:00:00',NULL,'1'),(60,58,'编辑','','sys:modelLibaray:edit',2,'',0,'2019-01-01 00:00:00',NULL,'1'),(61,58,'删除','','sys:modelLibaray:remove',2,'',0,'2019-01-01 00:00:00',NULL,'1'),(62,58,'导出','','sys:modelLibaray:export',2,'',0,'2019-01-01 00:00:00',NULL,'1');
 /*!40000 ALTER TABLE `sys_menu` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sys_model_catalog`
+--
+
+DROP TABLE IF EXISTS `sys_model_catalog`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sys_model_catalog` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `model_no` varchar(20) DEFAULT NULL COMMENT '模板编号',
+  `model_name` varchar(50) DEFAULT NULL COMMENT '模板名称',
+  `model_describe` varchar(100) DEFAULT NULL COMMENT '模板描述',
+  `model_type` varchar(50) DEFAULT NULL COMMENT '模型类型List Or Info',
+  `url` varchar(20) DEFAULT NULL COMMENT '数据来源',
+  `model_version` varchar(10) DEFAULT 'V1.0' COMMENT '模型版本',
+  `remark` varchar(100) DEFAULT NULL COMMENT '备注',
+  `create_user_id` bigint(255) DEFAULT NULL COMMENT '创建用户id',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `status` varchar(100) DEFAULT NULL COMMENT '状态',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='系统模型目录';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sys_model_catalog`
+--
+
+LOCK TABLES `sys_model_catalog` WRITE;
+/*!40000 ALTER TABLE `sys_model_catalog` DISABLE KEYS */;
+INSERT INTO `sys_model_catalog` VALUES (1,'UserList','用户列表','','List','/sys/user/user','V1.0',NULL,NULL,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `sys_model_catalog` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sys_model_libaray`
+--
+
+DROP TABLE IF EXISTS `sys_model_libaray`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sys_model_libaray` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `model_no` varchar(20) DEFAULT NULL COMMENT '模板编号',
+  `col_index` varchar(5) DEFAULT NULL COMMENT '编号',
+  `col_field` varchar(50) DEFAULT NULL COMMENT '字段',
+  `col_title` varchar(50) DEFAULT NULL COMMENT '列头',
+  `col_toll_tip` varchar(50) DEFAULT NULL COMMENT '提示文本，支持HTML 属性',
+  `col_halign` varchar(50) DEFAULT NULL COMMENT '列头布局',
+  `col_align` varchar(50) DEFAULT NULL COMMENT '数据布局',
+  `col_visible` varchar(2) DEFAULT NULL COMMENT '是否显示',
+  `col_formatter` varchar(2) DEFAULT NULL COMMENT '数据的格式',
+  `col_update` varchar(2) DEFAULT NULL COMMENT '是否更新',
+  `col_sortable` varchar(2) DEFAULT NULL COMMENT '是否排序',
+  `col_button` varchar(2) DEFAULT NULL COMMENT '按钮组',
+  `status` varchar(100) DEFAULT NULL COMMENT '状态',
+  `remark` varchar(100) DEFAULT NULL COMMENT '备注',
+  `create_user_id` bigint(255) DEFAULT NULL COMMENT '创建用户id',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='系统模型库';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sys_model_libaray`
+--
+
+LOCK TABLES `sys_model_libaray` WRITE;
+/*!40000 ALTER TABLE `sys_model_libaray` DISABLE KEYS */;
+INSERT INTO `sys_model_libaray` VALUES (2,'UserList','1','name','姓名','姓名','center','center','1','0','1','1','1','1','1',1,'2019-06-08 13:44:21','2019-01-01 00:00:00');
+/*!40000 ALTER TABLE `sys_model_libaray` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -569,7 +643,7 @@ CREATE TABLE `sys_role` (
 
 LOCK TABLES `sys_role` WRITE;
 /*!40000 ALTER TABLE `sys_role` DISABLE KEYS */;
-INSERT INTO `sys_role` VALUES (1,'超级管理员','superAdmin','',NULL,NULL,'2019-04-23 14:49:06','1'),(2,'用户管理员','userAdmin','用于管理用户信息',NULL,NULL,'2019-04-12 17:22:16','1'),(3,'系统运维员','operations','',NULL,NULL,'2019-04-16 10:59:03','1'),(4,'默认角色','default','默认角色',NULL,NULL,NULL,'1');
+INSERT INTO `sys_role` VALUES (1,'超级管理员','superAdmin','',NULL,NULL,'2019-06-08 13:40:09','1'),(2,'用户管理员','userAdmin','用于管理用户信息',NULL,NULL,'2019-04-12 17:22:16','1'),(3,'系统运维员','operations','',NULL,NULL,'2019-06-08 12:31:11','1'),(4,'默认角色','default','默认角色',NULL,NULL,NULL,'1');
 /*!40000 ALTER TABLE `sys_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -589,7 +663,7 @@ CREATE TABLE `sys_role_menu` (
   KEY `sys_role_menu_sys_menu_fk` (`menu_id`),
   CONSTRAINT `sys_role_menu_sys_menu_fk` FOREIGN KEY (`menu_id`) REFERENCES `sys_menu` (`menu_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `sys_role_menu_sys_role_fk` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=532 DEFAULT CHARSET=utf8 COMMENT='角色与菜单对应关系';
+) ENGINE=InnoDB AUTO_INCREMENT=580 DEFAULT CHARSET=utf8 COMMENT='角色与菜单对应关系';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -598,7 +672,7 @@ CREATE TABLE `sys_role_menu` (
 
 LOCK TABLES `sys_role_menu` WRITE;
 /*!40000 ALTER TABLE `sys_role_menu` DISABLE KEYS */;
-INSERT INTO `sys_role_menu` VALUES (404,2,4),(405,2,5),(406,2,6),(407,2,7),(408,2,8),(409,2,9),(410,2,10),(411,2,17),(412,2,18),(413,2,41),(414,2,1),(415,3,39),(416,3,40),(417,3,50),(418,3,51),(419,3,53),(420,3,55),(494,1,1),(495,1,2),(496,1,3),(497,1,4),(498,1,5),(499,1,6),(500,1,7),(501,1,8),(502,1,9),(503,1,10),(504,1,11),(505,1,12),(506,1,13),(507,1,17),(508,1,18),(509,1,25),(510,1,26),(511,1,32),(512,1,37),(513,1,38),(514,1,39),(515,1,40),(516,1,41),(517,1,42),(518,1,43),(519,1,44),(520,1,45),(521,1,46),(522,1,47),(523,1,48),(524,1,49),(525,1,50),(526,1,51),(527,1,53),(528,1,54),(529,1,55),(530,1,56),(531,1,57);
+INSERT INTO `sys_role_menu` VALUES (404,2,4),(405,2,5),(406,2,6),(407,2,7),(408,2,8),(409,2,9),(410,2,10),(411,2,17),(412,2,18),(413,2,41),(414,2,1),(532,3,39),(533,3,40),(534,3,50),(535,3,51),(536,3,53),(537,3,57),(538,1,1),(539,1,2),(540,1,3),(541,1,4),(542,1,5),(543,1,6),(544,1,7),(545,1,8),(546,1,9),(547,1,10),(548,1,11),(549,1,12),(550,1,13),(551,1,17),(552,1,18),(553,1,25),(554,1,26),(555,1,32),(556,1,37),(557,1,38),(558,1,39),(559,1,40),(560,1,41),(561,1,42),(562,1,43),(563,1,44),(564,1,45),(565,1,46),(566,1,47),(567,1,48),(568,1,49),(569,1,50),(570,1,51),(571,1,53),(572,1,54),(573,1,56),(574,1,57),(575,1,58),(576,1,59),(577,1,60),(578,1,61),(579,1,62);
 /*!40000 ALTER TABLE `sys_role_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -676,6 +750,7 @@ CREATE TABLE `sys_user_online` (
 
 LOCK TABLES `sys_user_online` WRITE;
 /*!40000 ALTER TABLE `sys_user_online` DISABLE KEYS */;
+INSERT INTO `sys_user_online` VALUES ('6986a64e-6426-4e33-bd6a-10e593933209',1,'admin',1,'一墨有限公司','127.0.0.1','未知地址','Chrome','Windows 10','on_line','2019-06-08 13:11:06',NULL,NULL),('e76b1782-076c-4ef9-845c-2c6d42660719',1,'admin',1,'一墨有限公司','127.0.0.1','未知地址','Chrome','Windows 10','off_line','2019-06-08 12:23:17','2019-06-08 13:03:17',NULL);
 /*!40000 ALTER TABLE `sys_user_online` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -721,4 +796,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-06-08 12:26:21
+-- Dump completed on 2019-06-09 23:10:28
