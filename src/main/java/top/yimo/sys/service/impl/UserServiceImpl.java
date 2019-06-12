@@ -124,7 +124,7 @@ public class UserServiceImpl implements UserService {
 		// 如果修改的是当前用户对象 则更新shiro中的当前用户对象
 		Long currUserId = ShiroUtils.getUserId();
 		if (currUserId.equals(userId)) {
-			UserDO currUser = ShiroUtils.getSysUser();
+			UserDO currUser = ShiroUtils.getCurrentUser();
 			BeanUtils.copyProperties(user, currUser);
 			ShiroUtils.updateUser(currUser);
 			log.info("当前用户同步session以及shiro完成");
@@ -220,15 +220,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String uploadImg(String avatar_data, Long userId) throws IOException {
+	public String uploadImg(String avatar_data, UserDO user) throws IOException {
 		String uploadPath = YiMoConfig.getUploadPath();
 		StringBuffer file = new StringBuffer();
 		String imgPath = file.append(DateUtils.getNowDate("yyyy/MM/dd")).append((File.separator))
 				.append(UUID.randomUUID()).append(".png").toString();
 		decodeBase64DataURLToImage(avatar_data, uploadPath + imgPath);
-
 		// 更新当前用户头像信息
-		UserDO user = get(userId);
 		user.setPicId("/files/" + imgPath);
 		update(user);
 		return "/files/" + imgPath;

@@ -50,6 +50,6 @@ public interface UserService {
 
 	boolean checkPwd(String pwd, UserDO user);
 
-	String uploadImg(String avatar_data, Long userId) throws IOException;
+	String uploadImg(String avatar_data, UserDO user) throws IOException;
 
 }

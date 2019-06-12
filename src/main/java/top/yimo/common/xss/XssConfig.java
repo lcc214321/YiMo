@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 /**
  * 
  * @Author imTayle
@@ -36,7 +37,7 @@ public class XssConfig {
 		if (StringUtils.isBlank(urlPatterns)) {// 默认过滤所有
 			urlPatterns = "/*";
 		}
-		if (StringUtils.isBlank(enabled)) {// 默认过滤所有
+		if (StringUtils.isBlank(enabled)) {// 默认过滤
 			enabled = "true";
 		}
 		filterRegistrationBean.addUrlPatterns(urlPatterns);

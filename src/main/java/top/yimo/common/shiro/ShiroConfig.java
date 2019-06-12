@@ -28,6 +28,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.ehcache.CacheManager;
 import top.yimo.common.constant.WebConstant;
 import top.yimo.common.shiro.filter.KickoutSessionFilter;
@@ -44,6 +45,7 @@ import top.yimo.common.shiro.session.ShiroSessionListener;
  * @Time 2019年1月14日 下午5:49:40
  */
 @Configuration
+@Slf4j
 public class ShiroConfig {
 
 	@Value("${shiro.session.timeout}")
@@ -72,6 +74,7 @@ public class ShiroConfig {
 		// 拦截器.
 		HashMap<String, Filter> hashMap = new HashMap<String, Filter>();
 		hashMap.put("kickout", kickoutSessionFilter());
+
 		shiroFilterFactoryBean.setFilters(hashMap);
 		Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
 		// 配置不会被拦截的链接 顺序判断
@@ -87,9 +90,9 @@ public class ShiroConfig {
 		// <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
 		if (permissions) {
 			filterChainDefinitionMap.put("/**", "kickout,authc");
+		} else {
+			filterChainDefinitionMap.put("/**", "anon");
 		}
-		filterChainDefinitionMap.put("/**", "anon");
-
 		// 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
 		shiroFilterFactoryBean.setLoginUrl(loginUrl);
 		// 登录成功后要跳转的链接
@@ -170,7 +173,7 @@ public class ShiroConfig {
 		sessionManager.setSessionDAO(sessionDAO());
 		sessionManager.setSessionFactory(sessionFactory());
 		sessionManager.setSessionIdUrlRewritingEnabled(false);// 去掉 JSESSIONID
-		sessionManager.setSessionValidationScheduler(sessionValidationScheduler());
+//		sessionManager.setSessionValidationScheduler(sessionValidationScheduler());
 		sessionManager.setSessionValidationSchedulerEnabled(true);// 开启定时检查session
 		// 增加session过期操作监听
 		Collection<SessionListener> listeners = new HashSet<SessionListener>();

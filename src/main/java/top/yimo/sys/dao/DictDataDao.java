@@ -51,14 +51,18 @@ public interface DictDataDao {
 	@CacheEvict(value = WebConstant.DICT_CACHE, allEntries = true)
 	int batchRemoveByNo(String dictType, String[] dictNos);
 
+	@Cacheable(value = WebConstant.DICT_CACHE)
 	List<DictDataDO> getAllActiveDictData(String dictType);
 
 	@Select("select dict_no from sys_dict_data where dict_type=#{dictType} and status='1' and dict_name=#{dictName}")
+	@Cacheable(value = WebConstant.DICT_CACHE)
 	String getDictNoByName(String dictType, String dictName);
 
 	// 获取省份数据
+	@Cacheable(value = WebConstant.DICT_CACHE)
 	List<DictDataDO> getProvinces(String dictType, String dictDescribe);
 
 	// 获取下一级城市
+	@Cacheable(value = WebConstant.DICT_CACHE)
 	List<DictDataDO> getNextCitys(String dictType, String dictNo, String dictDescribe);
 }

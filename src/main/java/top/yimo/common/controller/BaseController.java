@@ -13,7 +13,6 @@ import top.yimo.common.model.vo.BootstrapTablePageVo;
 import top.yimo.common.util.DataConvert;
 import top.yimo.common.util.DateUtils;
 import top.yimo.common.util.ShiroUtils;
-import top.yimo.sys.domain.UserDO;
 
 /**
  * web层通用数据处理
@@ -54,18 +53,18 @@ public class BaseController {
 		return page;
 	}
 
-	protected UserDO getSysUser() {
-		UserDO user = ShiroUtils.getSysUser();
-		return user;
-	}
-
-	protected Long getUserId() {
-		return getSysUser().getUserId();
-	}
-
-	protected String getUserName() {
-		return getSysUser().getUserName();
-	}
+//	protected UserDO getSysUser() {
+//		UserDO user = ShiroUtils.getSysUser();
+//		return user;
+//	}
+//
+//	protected Long getUserId() {
+//		return getSysUser().getUserId();
+//	}
+//
+//	protected String getUserName() {
+//		return getSysUser().getUserName();
+//	}
 
 	protected void beforeSave(BaseDO baseDo) {
 		baseDo.setCreateUserId(ShiroUtils.getUserId());

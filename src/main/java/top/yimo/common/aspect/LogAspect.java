@@ -83,7 +83,7 @@ public class LogAspect {
 		log.setMethod(joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
 		log.setUrl(request.getRequestURL().toString());
 
-		UserDO user = ShiroUtils.getSysUser();
+		UserDO user = ShiroUtils.getCurrentUser();
 		if (user != null) {
 			log.setUserId(user.getUserId());
 			log.setUserName(user.getName());

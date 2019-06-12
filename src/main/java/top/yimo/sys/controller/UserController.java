@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import lombok.extern.slf4j.Slf4j;
 import top.yimo.common.annotation.Log;
 import top.yimo.common.constant.WebConstant;
 import top.yimo.common.controller.BaseController;
 import top.yimo.common.enums.OperatorType;
 import top.yimo.common.model.vo.BootstrapTablePageVo;
 import top.yimo.common.model.vo.ResponseVo;
+import top.yimo.common.util.ShiroUtils;
 import top.yimo.common.util.excel.ExcelUtil;
 import top.yimo.sys.domain.DeptDO;
 import top.yimo.sys.domain.RoleDO;
@@ -46,7 +46,6 @@ import top.yimo.sys.service.UserService;
 
 @Controller
 @RequestMapping("/sys/user")
-@Slf4j
 public class UserController extends BaseController {
 	private String prefix = "sys/user";
 	@Autowired
@@ -181,7 +180,7 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public ResponseVo updatePwd(@RequestParam("newPassword") String newPwd,
 			@RequestParam("oldPassword") String oldPwd) {
-		UserDO user = getSysUser();
+		UserDO user = ShiroUtils.getCurrentUser();
 		if (!userService.checkPwd(oldPwd.trim(), user)) {
 			return ResponseVo.fail("旧密码输入错误，请确认");
 		}
@@ -279,14 +278,14 @@ public class UserController extends BaseController {
 
 	@GetMapping("/profile")
 	public String profile(Model model) {
-		UserDO userDO = userService.get(getUserId());
+		UserDO userDO = userService.get(ShiroUtils.getUserId());
 		model.addAttribute("user", userDO);
 		return prefix + "/profile";
 	}
 
 	@GetMapping("/avatar")
 	public String avatar(Model model) {
-		UserDO userDO = userService.get(getUserId());
+		UserDO userDO = ShiroUtils.getCurrentUser();
 		model.addAttribute("user", userDO);
 		return prefix + "/avatar";
 	}
@@ -295,7 +294,7 @@ public class UserController extends BaseController {
 	@PostMapping("/uploadImg")
 	ResponseVo uploadImg(String imgData, HttpServletRequest request) {
 		try {
-			String uploadImg = userService.uploadImg(imgData, getUserId());
+			String uploadImg = userService.uploadImg(imgData, ShiroUtils.getCurrentUser());
 			return ResponseVo.ok(uploadImg);
 		} catch (Exception e) {
 			e.printStackTrace();

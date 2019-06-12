@@ -1,4 +1,5 @@
 package top.yimo.common.xss;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 /**
  * xss过滤器
+ * 
  * @Author imTayle
  * @Email imTayle@126.com
  * @version 1.0
@@ -49,11 +52,12 @@ public class XssFilter implements Filter {
 		if (StringUtils.isNotEmpty(tempEnabled)) {
 			enabled = Boolean.valueOf(tempEnabled);
 		}
-		log.info("过滤器初始化");
+		log.info("xss过滤器初始化");
 	}
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse) response;
 		if (handleExcludeURL(req, resp)) {
@@ -64,6 +68,9 @@ public class XssFilter implements Filter {
 		chain.doFilter(xssRequest, response);
 	}
 
+	/**
+	 * 处理不需要过滤的拦截
+	 */
 	private boolean handleExcludeURL(HttpServletRequest request, HttpServletResponse response) {
 		if (!enabled) {
 			return true;

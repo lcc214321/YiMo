@@ -22,11 +22,12 @@ import top.yimo.common.controller.BaseController;
 import top.yimo.common.enums.OperatorType;
 import top.yimo.common.model.vo.BootstrapTablePageVo;
 import top.yimo.common.model.vo.ResponseVo;
+import top.yimo.common.util.ShiroUtils;
 import top.yimo.sys.domain.JobDO;
 import top.yimo.sys.service.JobService;
 
 /**
- * 定时任务调度表 
+ * 定时任务调度表
  * 
  * @author imTayle
  * @email imTayle@126.com
@@ -91,7 +92,7 @@ public class JobController extends BaseController {
 	@Log(describe = "更新", title = title, operatorType = OperatorType.UPDATE)
 	public ResponseVo update(JobDO job) {
 		beforeUpdate(job);
-		job.setUpdateUserId(getUserId());
+		job.setUpdateUserId(ShiroUtils.getUserId());
 		if (jobService.update(job) > 0) {
 			return ResponseVo.ok("更新成功");
 		}
@@ -105,7 +106,7 @@ public class JobController extends BaseController {
 	@ResponseBody
 	@RequiresPermissions("sys:job:remove")
 	@Log(describe = "删除", title = title, operatorType = OperatorType.DELETE)
-	public ResponseVo remove(@PathVariable("id")Integer jobId) {
+	public ResponseVo remove(@PathVariable("id") Integer jobId) {
 		if (jobService.remove(jobId) > 0) {
 			return ResponseVo.ok("删除成功");
 		}
@@ -128,7 +129,7 @@ public class JobController extends BaseController {
 
 	/**
 	 * 暂停定时任务
-	 * 	 
+	 * 
 	 */
 	@PostMapping("/pause")
 	@ResponseBody
@@ -141,7 +142,7 @@ public class JobController extends BaseController {
 
 	/**
 	 * 启动定时任务
-	 * 	 
+	 * 
 	 */
 	@PostMapping("/resume")
 	@ResponseBody

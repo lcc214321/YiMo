@@ -6,6 +6,8 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.Subject;
 
+import com.alibaba.fastjson.JSONObject;
+
 import top.yimo.sys.domain.UserDO;
 
 /**
@@ -31,21 +33,22 @@ public class ShiroUtils {
 		getSubject().logout();
 	}
 
-	public static UserDO getSysUser() {
+	public static UserDO getCurrentUser() {
 		UserDO user = null;
 		Object obj = getSubject().getPrincipal();
-		if (obj != null && obj instanceof UserDO) {
-			user = (UserDO) obj;
+		if (obj != null) {
+			JSONObject json = (JSONObject) JSONObject.toJSON(obj);
+			user = json.toJavaObject(UserDO.class);
 		}
 		return user;
 	}
 
 	public static Long getUserId() {
-		return getSysUser().getUserId().longValue();
+		return getCurrentUser().getUserId().longValue();
 	}
 
 	public static String getUserName() {
-		return getSysUser().getName();
+		return getCurrentUser().getName();
 	}
 
 	public static String getIp() {

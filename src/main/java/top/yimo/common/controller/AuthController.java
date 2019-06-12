@@ -79,7 +79,7 @@ public class AuthController {
 	@RequestMapping(value = { "", "/index" })
 	public String index(Model model) {
 		// 加载登陆用户信息
-		UserDO currUser = ShiroUtils.getSysUser();
+		UserDO currUser = ShiroUtils.getCurrentUser();
 		if (currUser == null) {
 			return login;
 		}

@@ -23,9 +23,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.extern.slf4j.Slf4j;
 import top.yimo.common.constant.WebConstant;
 import top.yimo.common.model.vo.ResponseVo;
 import top.yimo.common.shiro.session.OnlineSessionDao;
+import top.yimo.common.util.ShiroUtils;
 import top.yimo.common.util.SpringUtil;
 import top.yimo.sys.domain.OnlineSession;
 import top.yimo.sys.domain.UserDO;
@@ -40,6 +42,7 @@ import top.yimo.sys.service.UserOnlineService;
  * @version 1.0
  * @Time 2019年3月11日 下午2:41:01
  */
+@Slf4j
 public class KickoutSessionFilter extends AccessControlFilter {
 	private static final Logger logger = LoggerFactory.getLogger(KickoutSessionFilter.class);
 
@@ -70,11 +73,13 @@ public class KickoutSessionFilter extends AccessControlFilter {
 		Subject subject = getSubject(request, response);
 		// 没有登录授权 且没有记住我
 		if (!subject.isAuthenticated() && !subject.isRemembered()) {
+			log.info("没有登录");
 			// 如果没有登录，直接进行之后的流程
 			return true;
 		}
-		UserDO user = (UserDO) subject.getPrincipal();
+		UserDO user = ShiroUtils.getCurrentUser();
 		if (user == null) {
+			log.info("当前用户为null");
 			return false;
 		}
 
@@ -137,7 +142,6 @@ public class KickoutSessionFilter extends AccessControlFilter {
 	@Override
 	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
 		Subject subject = getSubject(request, response);
-		logger.info("进入拒绝访问处理....");
 		Session session = subject.getSession();
 		if (session != null && (Boolean) session.getAttribute("kickout") != null
 				&& (Boolean) session.getAttribute("kickout") == true) {
