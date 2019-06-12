@@ -56,75 +56,77 @@
 	</div>
 	<div th:replace="footer :: footer"></div>
 	<script type="text/javascript">
-	var prefix = ctx + "sys/role";
-		$().ready(function() {
-			getMenuTreeData();
-			validateRule();
-		});
+		var prefix = ctx + "sys/role";
+        $().ready(function() {
+	        getMenuTreeData();
+	        validateRule();
+        });
 
-		$.validator.setDefaults({
-			submitHandler : function() {
-				getAllSelectNodes();
-				update();
-			}
-		});
+        $.validator.setDefaults({
+	        submitHandler : function() {
+		        getAllSelectNodes();
+		        update();
+	        }
+        });
 
-		function update() {
-			$('#menuIds').val(menuIds);
-			YiMo.ajaxPut({
-				url : prefix+"/update",
-				data : $('#RoleForm').serialize(),// 你的formid
-				needClose: true,
-			});
-			window.parent.location.reload();
-		}
+        function update() {
+	        $('#menuIds').val(menuIds);
+	        YiMo.ajaxPut({
+	            url : prefix + "/update",
+	            data : $('#RoleForm').serialize(),// 你的formid
+	            needClose : true,
+	            refresh : true,
+	        });
+        }
 
-		function getMenuTreeData() {
-			var roleId = $('#roleId').val();
-			$.ajax({
-				type : "GET",
-				url : ctx + "sys/menu/getMenuTree/" + roleId,
-				success : function(data) {
-					loadMenuTree(data);
-				}
-			});
-		}
+        function getMenuTreeData() {
+	        var roleId = $('#roleId').val();
+	        $.ajax({
+	            type : "GET",
+	            url : ctx + "sys/menu/getMenuTree/" + roleId,
+	            success : function(data) {
+		            loadMenuTree(data);
+	            }
+	        });
+        }
 
-		function loadMenuTree(menuTree) {
-			console.log(menuTree);
-			$('#menuTree').jstree({
-				"plugins" : [ "wholerow", "checkbox" ],
-				'core' : {
-					'data' : menuTree,
-					'expand_selected_onload' : true,
-				},
-			});
-		}
+        function loadMenuTree(menuTree) {
+	        $('#menuTree').jstree({
+	            "plugins" : [ "wholerow", "checkbox" ],
+	            'core' : {
+	                'data' : menuTree,
+	                'expand_selected_onload' : true,
+	            },
+	            'checkbox' : {
+		            "three_state" : true
+	            //父子级关联选中
+	            },
+	        });
+        }
 
-		function getAllSelectNodes() {
-			var ref = $('#menuTree').jstree(true); // 获得整个树
-			menuIds = ref.get_selected(); // 获得所有选中节点的，返回值为数组
-			$("#menuTree").find(".jstree-undetermined").each(
-					function(i, element) {
-						menuIds.push($(element).closest('.jstree-node').attr("id"));
-					});
-		}
+        function getAllSelectNodes() {
+	        var ref = $('#menuTree').jstree(true); // 获得整个树
+	        menuIds = ref.get_selected(); // 获得所有选中节点的，返回值为数组
+	        $("#menuTree").find(".jstree-undetermined").each(function(i, element) {
+		        menuIds.push($(element).closest('.jstree-node').attr("id"));
+	        });
+        }
 
-		function validateRule() {
-			var icon = "<i class='fa fa-times-circle'></i> ";
-			$("#RoleForm").validate({
-				rules : {
-					roleName : {
-						required : true
-					}
-				},
-				messages : {
-					roleName : {
-						required : icon + "请输入角色名"
-					}
-				}
-			});
-		}
+        function validateRule() {
+	        var icon = "<i class='fa fa-times-circle'></i> ";
+	        $("#RoleForm").validate({
+	            rules : {
+		            roleName : {
+			            required : true
+		            }
+	            },
+	            messages : {
+		            roleName : {
+			            required : icon + "请输入角色名"
+		            }
+	            }
+	        });
+        }
 	</script>
 </body>
 </html>

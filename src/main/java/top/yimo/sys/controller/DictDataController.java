@@ -104,10 +104,10 @@ public class DictDataController extends BaseController {
 	/**
 	 * 删除
 	 */
-	@DeleteMapping("/remove/{id}")
+	@DeleteMapping("/remove/{dictType}/{dictNo}")
 	@ResponseBody
 	@RequiresPermissions("sys:dictData:remove")
-	public ResponseVo remove(@PathVariable("id") String dictType, String dictNo) {
+	public ResponseVo remove(@PathVariable("dictType") String dictType, @PathVariable("dictNo") String dictNo) {
 		if (dictDataService.removeByNo(dictType, dictNo) > 0) {
 			return ResponseVo.ok("删除成功");
 		}
@@ -146,23 +146,24 @@ public class DictDataController extends BaseController {
 			sb = sb.append(dictData.getDictName()).append(",");
 		}
 		String dictNames = sb.toString();
-		if(!"".equals(dictNames)) {
+		if (!"".equals(dictNames)) {
 			dictNames = dictNames.substring(0, dictNames.length() - 1);
 		}
 		return ResponseVo.ok(dictNames);
 	}
-	
+
 	@ResponseBody
 	@GetMapping("/getNextCitys")
-	public List<DictDataDO> getNextCitys(@RequestParam Map<String, Object> params, String dictType, String dictNo, String dictDescribe) {
+	public List<DictDataDO> getNextCitys(@RequestParam Map<String, Object> params, String dictType, String dictNo,
+			String dictDescribe) {
 		if (!StringUtils.isBlank(dictNo)) {
-			if("city".equals(dictDescribe)) {
+			if ("city".equals(dictDescribe)) {
 				dictNo = dictNo.substring(0, 2) + "%";
-			}else {
+			} else {
 				dictNo = dictNo.substring(0, 4) + "%";
 			}
 		}
-		
+
 		return dictDataService.getNextCitys(dictType, dictNo, dictDescribe);
 	}
 }

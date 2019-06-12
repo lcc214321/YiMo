@@ -11,10 +11,10 @@ import top.yimo.sys.domain.DictDataDO;
 
 @Service("dictService")
 public class DictService {
-	
+
 	@Autowired
 	private DictDataDao dictDataDao;
-	
+
 	public boolean contains(String dictNo, String str) {
 		boolean isContains = false;
 		if (StringUtils.isBlank(str) || StringUtils.isBlank(dictNo)) {
@@ -36,18 +36,19 @@ public class DictService {
 	public boolean contains(String dictNo, List<String> list) {
 		return list.contains(dictNo);
 	}
-	
+
 	public String getDictDataName(String dictType, String dictNo) {
 		String name = "";
 		DictDataDO dataDO = dictDataDao.getByTypeAndNo(dictType, dictNo);
-		if(dataDO!= null) {
+		if (dataDO != null) {
 			name = dataDO.getDictName();
 		}
 		return name;
 	}
-	
+
 	/**
 	 * 获取省份
+	 * 
 	 * @param dictType
 	 * @param dictDescribe
 	 * @return
@@ -56,25 +57,24 @@ public class DictService {
 		// TODO Auto-generated method stub
 		return dictDataDao.getProvinces(dictType, dictDescribe);
 	}
-	
+
 	/**
 	 * 获取省份
+	 * 
 	 * @param dictType
 	 * @param dictDescribe
 	 * @return
 	 */
 	public List<DictDataDO> getNextCitys(String dictType, String dictNo, String dictDescribe) {
-		// TODO Auto-generated method stub
-		if(!"".equals(dictNo)&&dictNo != null) {
-			if("city".equals(dictDescribe)) {
+		if (!"".equals(dictNo) && dictNo != null) {
+			if ("city".equals(dictDescribe)) {
 				dictNo = dictNo.substring(0, 2) + "%";
-			}else {
+			} else {
 				dictNo = dictNo.substring(0, 4) + "%";
 			}
 		}
-		
 		return dictDataDao.getNextCitys(dictType, dictNo, dictDescribe);
-		
+
 	}
 
 }

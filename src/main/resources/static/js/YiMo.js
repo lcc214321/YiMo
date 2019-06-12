@@ -424,7 +424,7 @@
 	        endWith : function(value, end) {
 		        var reg = new RegExp(end + "$");
 		        return reg.test(value)
-	        }
+	        },
 	    }
 	});
 })(jQuery);

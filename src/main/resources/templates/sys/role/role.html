@@ -37,7 +37,7 @@
 	</div>
 	<div th:replace="footer :: footer"></div>
 	<div th:replace="footer :: uploadData"></div>
-	<script type="text/javascript" th:inline="javascript">
+<script type="text/javascript" th:inline="javascript">
 	var prefix = ctx+"sys/role";
 	var s_edit_h = [[${@permission.hasPermi('sys:role:edit')}]];
 	var s_remove_h = [[${@permission.hasPermi('sys:role:remove')}]];

@@ -63,7 +63,7 @@ function edit(dictType, dictNo) {
 // 删除
 function remove(dictType, dictNo) {
 	YiMo.remove({
-		url : prefix + '/edit/' + dictType + '/' + dictNo
+		url : prefix + '/remove/' + dictType + '/' + dictNo
 	});
 }
 // 批量删除
