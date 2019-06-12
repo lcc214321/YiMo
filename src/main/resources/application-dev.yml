@@ -10,7 +10,7 @@ spring:
     restart:
       enabled: true #热部署生效
       additional-paths: src/main/java #设置重启的目录
-      exclude:  #配置内容修改不重启
+      additional-exclude: src/main/resources  #配置内容修改不重启
  #thymeleaf配置
   thymeleaf:
     cache: false #开发环境 关闭缓存   

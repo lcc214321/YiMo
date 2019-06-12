@@ -32,6 +32,7 @@ import top.yimo.sys.domain.MenuDO;
 import top.yimo.sys.domain.UserDO;
 import top.yimo.sys.service.MenuService;
 import top.yimo.sys.service.UserOnlineService;
+import top.yimo.sys.service.UserService;
 
 /**
  * @Author imTayle
@@ -48,6 +49,9 @@ public class AuthController {
 
 	@Autowired
 	MenuService menuService;
+	@Autowired
+	UserService userService;
+
 	@Autowired
 	UserOnlineService userOnlineService;
 
@@ -85,7 +89,8 @@ public class AuthController {
 		}
 		List<TreeVo<MenuDO>> menus = menuService.getMenusByUser(currUser.getUserId());
 		model.addAttribute("menus", menus);
-		model.addAttribute("user", currUser);
+		UserDO user = userService.get(currUser.getUserId());
+		model.addAttribute("user", user);
 		return "index";
 	}
 
