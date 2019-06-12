@@ -1,6 +1,6 @@
 yimo:
   downloadPath: d:/
-  uploadPath: d:/upload/
+  uploadPath: upload/
   isDemo: false
   refusedURI: batchRemove@remove@save@update
   loginHtml: login_1

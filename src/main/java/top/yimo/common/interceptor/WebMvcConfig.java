@@ -21,7 +21,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		// 增加静态文件映射
-		registry.addResourceHandler("/files/**").addResourceLocations("file:///" + YiMoConfig.getUploadPath());
+		registry.addResourceHandler("/files/**").addResourceLocations("file:" + YiMoConfig.getUploadPath());
 	}
 
 }

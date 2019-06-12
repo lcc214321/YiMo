@@ -9,7 +9,7 @@
 
 	<!-- 数据表所有列名 -->
 	<sql id="Base_Column_List">
-		`user_id`,`user_name`,`name`,`password`,`dept_id`,`email`,`mobile`,`status`,`create_user_id`,`create_time`,`update_time`,`sex`,`birth`,`pic_id`,`address`,`hobby`,`province`,`city`,`district`
+		u.`user_id`,u.`user_name`,u.`name`,u.`password`,u.`dept_id`,u.`email`,u.`mobile`,u.`status`,u.`create_user_id`,u.`create_time`,u.`update_time`,u.`sex`,u.`birth`,u.`pic_id`,u.`address`,u.`hobby`,u.`province`,u.`city`,u.`district`,u.`update_user_id` 
 	</sql>
 
 	<!-- 查询字段 -->
@@ -25,20 +25,20 @@
 				#{deptIds}
 			</foreach>
 		</if>
-		<if test="email != null and email != ''"> and email = #{email} </if>
-		<if test="mobile != null and mobile != ''"> and mobile = #{mobile} </if>
+		<if test="email != null and email != ''"> and u.email = #{email} </if>
+		<if test="mobile != null and mobile != ''"> and u.mobile = #{mobile} </if>
 		<if test="status != null and status != ''"> and u.status = #{status} </if>
 		<if test="createUserId != null and createUserId != ''"> and u.create_user_id = #{createUserId} </if>
 		<if test="createTime != null and createTime != ''"> and u.create_time = #{createTime} </if>
 		<if test="updateTime != null and updateTime != ''"> and u.update_time = #{updateTime} </if>
-		<if test="sex != null and sex != ''"> and sex = #{sex} </if>
-		<if test="birth != null and birth != ''"> and birth = #{birth} </if>
-		<if test="picId != null and picId != ''"> and pic_id = #{picId} </if>
-		<if test="address != null and address != ''"> and address = #{address} </if>
-		<if test="hobby != null and hobby != ''"> and hobby = #{hobby} </if>
-		<if test="province != null and province != ''"> and province = #{province} </if>
-		<if test="city != null and city != ''"> and city = #{city} </if>
-		<if test="district != null and district != ''"> and district = #{district} </if>
+		<if test="sex != null and sex != ''"> and u.sex = #{sex} </if>
+		<if test="birth != null and birth != ''"> and u.birth = #{birth} </if>
+		<if test="picId != null and picId != ''"> and u.pic_id = #{picId} </if>
+		<if test="address != null and address != ''"> and u.address = #{address} </if>
+		<if test="hobby != null and hobby != ''"> and u.hobby = #{hobby} </if>
+		<if test="province != null and province != ''"> and u.province = #{province} </if>
+		<if test="city != null and city != ''"> and u.city = #{city} </if>
+		<if test="district != null and district != ''"> and u.district = #{district} </if>
 	</sql>
 
 	<select id="get" resultType="top.yimo.sys.domain.UserDO"
@@ -75,7 +75,7 @@
 
 	<select id="listByPage" resultType="top.yimo.sys.domain.UserDO">
 		select
-		u.`user_id`,`user_name`,`name`,`password`,d.`dept_id`,d.`dept_name`,`email`,`mobile`,u.`status`,`create_user_id`,`create_time`,`update_time`,`sex`,`birth`,`pic_id`,`address`,`hobby`,`province`,`city`,`district`
+		u.`user_id`,u.`user_name`,u.`name`,u.`password`,d.`dept_id`,d.`dept_name`,u.`email`,u.`mobile`,u.`status`,u.`create_user_id`,u.`create_time`,u.`update_time`,u.`sex`,u.`birth`,u.`pic_id`,u.`address`,u.`hobby`,u.`province`,u.`city`,u.`district`
 		from
 		sys_user u,sys_dept d where 1=1 and d.dept_id=u.dept_id
 		<include refid="Base_Search_Param" />

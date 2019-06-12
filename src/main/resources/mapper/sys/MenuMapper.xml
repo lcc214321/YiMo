@@ -19,26 +19,27 @@
 
 	<!-- 数据表所有列名 -->
 	<sql id="Base_Column_List">
-		`menu_id`,`parent_id`,`name`,`url`,`perms`,`type`,`icon`,`order_no`,`create_time`,`update_time`,`status`
-	</sql>
+		`menu_id`,`parent_id`,`name`,`url`,`perms`,`type`,`icon`,`order_no`,`create_time`,`update_time`,`status`,`create_user_id`,`update_user_id`	</sql>
 
 	<!-- 查询字段 -->
 	<sql id="Base_Search_Param">
-		<if test="menuId != null and menuId != ''"> and menu_id = #{menuId} </if>
-		<if test="parentId != null and parentId != ''"> and parent_id = #{parentId} </if>
-		<if test="name != null and name != ''"> and name = #{name} </if>
-		<if test="url != null and url != ''"> and url = #{url} </if>
-		<if test="perms != null and perms != ''"> and perms = #{perms} </if>
-		<if test="type != null and type != ''"> and type = #{type} </if>
-		<if test="icon != null and icon != ''"> and icon = #{icon} </if>
-		<if test="orderNo != null and orderNo != ''"> and order_no = #{orderNo} </if>
-		<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
-		<if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
-		<if test="status != null and status != ''"> and status = #{status} </if>
-	</sql>
-
-
-	<select id="get" resultType="top.yimo.sys.domain.MenuDO">
+				<if test="menuId != null and menuId != ''"> and menu_id = #{menuId} </if>
+				<if test="parentId != null and parentId != ''"> and parent_id = #{parentId} </if>
+				<if test="name != null and name != ''"> and name = #{name} </if>
+				<if test="url != null and url != ''"> and url = #{url} </if>
+				<if test="perms != null and perms != ''"> and perms = #{perms} </if>
+				<if test="type != null and type != ''"> and type = #{type} </if>
+				<if test="icon != null and icon != ''"> and icon = #{icon} </if>
+				<if test="orderNo != null and orderNo != ''"> and order_no = #{orderNo} </if>
+				<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+				<if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+				<if test="status != null and status != ''"> and status = #{status} </if>
+				<if test="createUserId != null and createUserId != ''"> and create_user_id = #{createUserId} </if>
+				<if test="updateUserId != null and updateUserId != ''"> and update_user_id = #{updateUserId} </if>
+			</sql>
+	
+	
+	<select id="get" resultType="top.yimo.sys.domain.MenuDO" useCache="false">
 		select
 		<include refid="Base_Column_List" />
 		from
@@ -73,29 +74,33 @@
 		useGeneratedKeys="true" keyProperty="menuId">
 		insert into sys_menu
 		(
-		`parent_id`,
-		`name`,
-		`url`,
-		`perms`,
-		`type`,
-		`icon`,
-		`order_no`,
-		`create_time`,
-		`update_time`,
-		`status`
+			`parent_id`, 
+			`name`, 
+			`url`, 
+			`perms`, 
+			`type`, 
+			`icon`, 
+			`order_no`, 
+			`create_time`, 
+			`update_time`, 
+			`status`, 
+			`create_user_id`, 
+			`update_user_id`
 		)
 		values
 		(
-		#{parentId},
-		#{name},
-		#{url},
-		#{perms},
-		#{type},
-		#{icon},
-		#{orderNo},
-		#{createTime},
-		#{updateTime},
-		#{status}
+			#{parentId}, 
+			#{name}, 
+			#{url}, 
+			#{perms}, 
+			#{type}, 
+			#{icon}, 
+			#{orderNo}, 
+			#{createTime}, 
+			#{updateTime}, 
+			#{status}, 
+			#{createUserId}, 
+			#{updateUserId}
 		)
 	</insert>
 
@@ -110,8 +115,10 @@
 			<if test="icon != null">`icon` = #{icon}, </if>
 			<if test="orderNo != null">`order_no` = #{orderNo}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
-			<if test="updateTime != null">`update_time` = #{updateTime},</if>
-			<if test="status != null">`status` = #{status}</if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
+			<if test="updateUserId != null">`update_user_id` = #{updateUserId}</if>
 		</set>
 		where menu_id = #{menuId}
 	</update>

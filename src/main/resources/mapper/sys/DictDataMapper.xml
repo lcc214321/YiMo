@@ -9,23 +9,26 @@
 
 	<!-- 数据表所有列名 -->
 	<sql id="Base_Column_List">
-		`dict_type`,`dict_no`,`dict_name`,`dict_describe`,`status`,`create_user_id`,`create_time`,`update_time`
-	</sql>
+		`dict_type`,`dict_no`,`dict_name`,`dict_describe`,`status`,`create_user_id`,`create_time`,`update_time`,`action`,`data_type`,`order_no`,`update_user_id`	</sql>
 
 	<!-- 查询字段 -->
 	<sql id="Base_Search_Param">
-		<if test="dictType != null and dictType != ''"> and dict_type = #{dictType} </if>
-		<if test="dictNo != null and dictNo != ''"> and dict_no = #{dictNo} </if>
-		<if test="dictName != null and dictName != ''"> and dict_name = #{dictName} </if>
-		<if test="dictDescribe != null and dictDescribe != ''"> and dict_describe = #{dictDescribe} </if>
-		<if test="status != null and status != ''"> and status = #{status} </if>
-		<if test="createUserId != null and createUserId != ''"> and create_user_id = #{createUserId} </if>
-		<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
-		<if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
-	</sql>
-
-
-	<select id="get" resultType="top.yimo.sys.domain.DictDataDO">
+				<if test="dictType != null and dictType != ''"> and dict_type = #{dictType} </if>
+				<if test="dictNo != null and dictNo != ''"> and dict_no = #{dictNo} </if>
+				<if test="dictName != null and dictName != ''"> and dict_name = #{dictName} </if>
+				<if test="dictDescribe != null and dictDescribe != ''"> and dict_describe = #{dictDescribe} </if>
+				<if test="status != null and status != ''"> and status = #{status} </if>
+				<if test="createUserId != null and createUserId != ''"> and create_user_id = #{createUserId} </if>
+				<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+				<if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+				<if test="action != null and action != ''"> and action = #{action} </if>
+				<if test="dataType != null and dataType != ''"> and data_type = #{dataType} </if>
+				<if test="orderNo != null and orderNo != ''"> and order_no = #{orderNo} </if>
+				<if test="updateUserId != null and updateUserId != ''"> and update_user_id = #{updateUserId} </if>
+			</sql>
+	
+	
+	<select id="get" resultType="top.yimo.sys.domain.DictDataDO" useCache="false">
 		select
 		<include refid="Base_Column_List" />
 		from
@@ -130,31 +133,38 @@
 	<insert id="save" parameterType="top.yimo.sys.domain.DictDataDO">
 		insert into sys_dict_data
 		(
-		`dict_type`,
-		`dict_no`,
-		`dict_name`,
-		`dict_describe`,
-		`status`,
-		`create_user_id`,
-		`create_time`,
-		`update_time`
+			`dict_type`, 
+			`dict_no`, 
+			`dict_name`, 
+			`dict_describe`, 
+			`status`, 
+			`create_user_id`, 
+			`create_time`, 
+			`update_time`, 
+			`action`, 
+			`data_type`, 
+			`order_no`, 
+			`update_user_id`
 		)
 		values
 		(
-		#{dictType},
-		#{dictNo},
-		#{dictName},
-		#{dictDescribe},
-		#{status},
-		#{createUserId},
-		#{createTime},
-		#{updateTime}
+			#{dictType}, 
+			#{dictNo}, 
+			#{dictName}, 
+			#{dictDescribe}, 
+			#{status}, 
+			#{createUserId}, 
+			#{createTime}, 
+			#{updateTime}, 
+			#{action}, 
+			#{dataType}, 
+			#{orderNo}, 
+			#{updateUserId}
 		)
 	</insert>
-
-	<update id="update"
-		parameterType="top.yimo.sys.domain.DictDataDO">
-		update sys_dict_data
+	 
+	<update id="update" parameterType="top.yimo.sys.domain.DictDataDO">
+		update sys_dict_data 
 		<set>
 			<if test="dictNo != null">`dict_no` = #{dictNo}, </if>
 			<if test="dictName != null">`dict_name` = #{dictName}, </if>
@@ -162,7 +172,11 @@
 			<if test="status != null">`status` = #{status}, </if>
 			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
-			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="action != null">`action` = #{action}, </if>
+			<if test="dataType != null">`data_type` = #{dataType}, </if>
+			<if test="orderNo != null">`order_no` = #{orderNo}, </if>
+			<if test="updateUserId != null">`update_user_id` = #{updateUserId}</if>
 		</set>
 		where dict_type = #{dictType} and dict_no = #{dictNo}
 	</update>
