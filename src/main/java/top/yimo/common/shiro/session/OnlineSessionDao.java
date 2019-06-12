@@ -8,7 +8,6 @@ import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import lombok.extern.slf4j.Slf4j;
 import top.yimo.common.constant.WebConstant;
 import top.yimo.common.util.DateUtils;
 import top.yimo.common.util.SpringUtil;
@@ -16,6 +15,7 @@ import top.yimo.sys.domain.OnlineSession;
 import top.yimo.sys.domain.UserOnlineDO;
 import top.yimo.sys.service.UserOnlineService;
 import top.yimo.sys.service.impl.UserOnlineServiceImpl;
+
 /**
  * 管理session的CRUD
  * 
@@ -65,16 +65,17 @@ public class OnlineSessionDao extends EnterpriseCacheSessionDAO {
 
 	/**
 	 * 将session信息持久化到db
-	 * @throws InvocationTargetException 
-	 * @throws IllegalAccessException 
+	 * 
+	 * @throws InvocationTargetException
+	 * @throws IllegalAccessException
 	 */
-	public void save2DB(OnlineSession session) {
+	public synchronized void save2DB(OnlineSession session) {
 		if (session.isChange()) {// 发生变化才更新
 			UserOnlineDO userOnline = new UserOnlineDO();
 			BeanUtils.copyProperties(session, userOnline);
 			userOnline.setSessionId(session.getId().toString());
 			if (session.getStatus().equals(WebConstant.ONLINE_SESSION_OFF)) {
-				userOnline.setEndTime(DateUtils.format(session.getStopTimestamp(),DateUtils.DATE_TIME_PATTERN));
+				userOnline.setEndTime(DateUtils.format(session.getStopTimestamp(), DateUtils.DATE_TIME_PATTERN));
 			}
 			userOnline.setSession(session);
 			UserOnlineServiceImpl userOnlineService = SpringUtil.getBean(UserOnlineServiceImpl.class);

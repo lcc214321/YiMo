@@ -34,10 +34,12 @@ public class UserOnlineServiceImpl implements UserOnlineService {
 	public UserOnlineDO getActive(String sessionid) {
 		return userOnlineDao.getActive(sessionid);
 	}
+
 	@Override
 	public UserOnlineDO get(String sessionid) {
 		return userOnlineDao.get(sessionid);
 	}
+
 	@Override
 	public List<UserOnlineDO> listByPage(Map<String, Object> map) {
 		return userOnlineDao.listByPage(map);
@@ -63,7 +65,7 @@ public class UserOnlineServiceImpl implements UserOnlineService {
 	public int kickout(String sessionId) {
 		Session doReadSession = onlineSessionDao.doReadSession(sessionId);
 		if (doReadSession != null) {
-			onlineSessionDao.doDelete(doReadSession);
+			onlineSessionDao.delete(doReadSession);// 删除session
 		}
 		return 1;
 	}

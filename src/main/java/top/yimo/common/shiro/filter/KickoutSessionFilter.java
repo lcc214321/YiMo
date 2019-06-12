@@ -73,6 +73,11 @@ public class KickoutSessionFilter extends AccessControlFilter {
 			// 如果没有登录，直接进行之后的流程
 			return true;
 		}
+		UserDO user = (UserDO) subject.getPrincipal();
+		if (user == null) {
+			return false;
+		}
+
 		Session session = onlineSessionDao.readSession(subject.getSession().getId());
 		if (session != null && (Boolean) session.getAttribute("kickout") != null
 				&& (Boolean) session.getAttribute("kickout") == true) {// 标记为踢出的session
@@ -81,7 +86,6 @@ public class KickoutSessionFilter extends AccessControlFilter {
 		if (session != null && session instanceof OnlineSession) {
 			OnlineSession onlineSession = (OnlineSession) session;// 类型强制转换 ，改变的是对象引用变量
 			// 当前用户
-			UserDO user = (UserDO) subject.getPrincipal();
 			String username = user.getUserName();
 			if (onlineSession.getUserId() == null || onlineSession.getUserId() == 0L) {// 补充自定义session中当前用户信息
 				BeanUtils.copyProperties(user, onlineSession);
@@ -133,6 +137,7 @@ public class KickoutSessionFilter extends AccessControlFilter {
 	@Override
 	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
 		Subject subject = getSubject(request, response);
+		logger.info("进入拒绝访问处理....");
 		Session session = subject.getSession();
 		if (session != null && (Boolean) session.getAttribute("kickout") != null
 				&& (Boolean) session.getAttribute("kickout") == true) {

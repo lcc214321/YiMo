@@ -431,10 +431,11 @@
 
 /** 设置全局ajax处理 */
 $.ajaxSetup({
-	complete : function(xhr, status, dataType) {
+	complete : function(xhr, status) {
 		// 登录过期，shiro返回登录页面
 		if ('timeout' == xhr.getResponseHeader('Content-Type')) {
-			conlog.log("ajax超时");
+			var data = xhr.responseJSON;
+	        toastr.error(data.msg);
 			top.location.href = ctx + 'login';
 		}
 	}
