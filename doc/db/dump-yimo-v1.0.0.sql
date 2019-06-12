@@ -131,7 +131,7 @@ CREATE TABLE `qrtz_fired_triggers` (
 
 LOCK TABLES `qrtz_fired_triggers` WRITE;
 /*!40000 ALTER TABLE `qrtz_fired_triggers` DISABLE KEYS */;
-INSERT INTO `qrtz_fired_triggers` VALUES ('YiMoScheduler','NON_CLUSTERED1560326394519','trigger-SyncOnlineStatusJob','trigger-myCronJob','NON_CLUSTERED',1560332520212,1560332550000,5,'ACQUIRED',NULL,NULL,'0','0');
+INSERT INTO `qrtz_fired_triggers` VALUES ('YiMoScheduler','NON_CLUSTERED1560335508045','trigger-SyncOnlineStatusJob','trigger-myCronJob','NON_CLUSTERED',1560335730094,1560335760000,5,'ACQUIRED',NULL,NULL,'0','0');
 /*!40000 ALTER TABLE `qrtz_fired_triggers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -352,7 +352,7 @@ CREATE TABLE `qrtz_triggers` (
 
 LOCK TABLES `qrtz_triggers` WRITE;
 /*!40000 ALTER TABLE `qrtz_triggers` DISABLE KEYS */;
-INSERT INTO `qrtz_triggers` VALUES ('YiMoScheduler','trigger-SyncOnlineStatusJob','trigger-myCronJob','SyncOnlineStatusJob','myCronJob',NULL,1560332550000,1560332520000,5,'ACQUIRED','CRON',1560138271000,0,NULL,0,''),('YiMoScheduler','trigger-WebLogJob','trigger-myCronJob','WebLogJob','myCronJob',NULL,1558340621131,1557913330000,5,'PAUSED','CRON',1555396082000,0,NULL,0,''),('YiMoScheduler','trigger-WebSocketMessageJob','trigger-myCronJob','WebSocketMessageJob','myCronJob',NULL,1557913340000,1557913335000,5,'PAUSED','CRON',1554198281000,0,NULL,0,'');
+INSERT INTO `qrtz_triggers` VALUES ('YiMoScheduler','trigger-SyncOnlineStatusJob','trigger-myCronJob','SyncOnlineStatusJob','myCronJob',NULL,1560335760000,1560335730000,5,'ACQUIRED','CRON',1560138271000,0,NULL,0,''),('YiMoScheduler','trigger-WebLogJob','trigger-myCronJob','WebLogJob','myCronJob',NULL,1558340621131,1557913330000,5,'PAUSED','CRON',1555396082000,0,NULL,0,''),('YiMoScheduler','trigger-WebSocketMessageJob','trigger-myCronJob','WebSocketMessageJob','myCronJob',NULL,1557913340000,1557913335000,5,'PAUSED','CRON',1554198281000,0,NULL,0,'');
 /*!40000 ALTER TABLE `qrtz_triggers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -731,7 +731,7 @@ CREATE TABLE `sys_user` (
 
 LOCK TABLES `sys_user` WRITE;
 /*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
-INSERT INTO `sys_user` VALUES (1,'admin','一墨','45b9bfb1d5f018a7fad7b38d0f10ec5b',1,'3123@qq.com','13112344321',1,1,NULL,'2019-06-12 16:14:45',1,'2019-05-01','/files/2019/06/10\\e079ab00-6827-4de7-9c55-22bc5e4ab869.png','','code,game,read','440000','440300','440303',NULL),(2,'yimo','一墨','fc1e126d32ecd7851533d3976c329aa6',1,'yimo@yimo.top','13112344322',1,1,'2019-05-31 11:56:12','2019-06-12 11:37:51',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `sys_user` VALUES (1,'admin','一墨','45b9bfb1d5f018a7fad7b38d0f10ec5b',1,'3123@qq.com','13112344321',1,1,'2019-6-12 17:00:00',NULL,1,'2019-05-01','/files/2019/06/12\\1cb2ca42-b291-4021-b6a2-fde7419f3fe3.png','','code,game,read','440000','440300','440303',NULL),(2,'yimo','一墨','fc1e126d32ecd7851533d3976c329aa6',1,'yimo@yimo.top','13112344322',1,1,'2019-6-12 17:00:00',NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `sys_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -785,7 +785,7 @@ CREATE TABLE `sys_user_role` (
   KEY `sys_user_role_sys_user_fk` (`user_id`),
   CONSTRAINT `sys_user_role_sys_role_fk` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `sys_user_role_sys_user_fk` FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8 COMMENT='用户与角色对应关系';
+) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8 COMMENT='用户与角色对应关系';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -794,7 +794,7 @@ CREATE TABLE `sys_user_role` (
 
 LOCK TABLES `sys_user_role` WRITE;
 /*!40000 ALTER TABLE `sys_user_role` DISABLE KEYS */;
-INSERT INTO `sys_user_role` VALUES (86,1,1),(87,2,2);
+INSERT INTO `sys_user_role` VALUES (87,2,2),(88,1,1);
 /*!40000 ALTER TABLE `sys_user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -811,4 +811,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-06-12 17:42:30
+-- Dump completed on 2019-06-12 18:35:41
