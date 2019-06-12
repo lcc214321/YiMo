@@ -79,12 +79,16 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/fonts/**", "anon");
 		filterChainDefinitionMap.put("/img/**", "anon");
 		filterChainDefinitionMap.put("/js/**", "anon");
+		filterChainDefinitionMap.put("/plugins/**", "anon");
 		filterChainDefinitionMap.put("/yimo/**", "anon");
 		filterChainDefinitionMap.put("/favicon.ico", "anon");
 		filterChainDefinitionMap.put("/login/**", "anon");
 
 		// <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
-		filterChainDefinitionMap.put("/**", "kickout,authc");
+		if (permissions) {
+			filterChainDefinitionMap.put("/**", "kickout,authc");
+		}
+		filterChainDefinitionMap.put("/**", "anon");
 
 		// 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
 		shiroFilterFactoryBean.setLoginUrl(loginUrl);
