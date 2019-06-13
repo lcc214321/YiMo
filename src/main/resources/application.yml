@@ -5,7 +5,7 @@ yimo:
   refusedURI: batchRemove@remove@save@update
   loginHtml: login_1
 server: 
-  port: 80
+  port: 8080
   servlet: 
     context-path: /YiMo
 spring:
