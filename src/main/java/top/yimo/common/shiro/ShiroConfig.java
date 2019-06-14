@@ -28,7 +28,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
-import lombok.extern.slf4j.Slf4j;
 import net.sf.ehcache.CacheManager;
 import top.yimo.common.constant.WebConstant;
 import top.yimo.common.shiro.filter.KickoutSessionFilter;
@@ -45,7 +44,6 @@ import top.yimo.common.shiro.session.ShiroSessionListener;
  * @Time 2019年1月14日 下午5:49:40
  */
 @Configuration
-@Slf4j
 public class ShiroConfig {
 
 	@Value("${shiro.session.timeout}")

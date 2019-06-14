@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import top.yimo.common.annotation.Log;
 import top.yimo.common.controller.BaseController;
@@ -157,21 +156,21 @@ public class RoleController extends BaseController {
 		}
 	}
 
-	/**
-	 * 导入数据
-	 */
-	@PostMapping("/importData")
-	@ResponseBody
-	@RequiresPermissions("sys:role:edit")
-	public ResponseVo importData(MultipartFile file, boolean isCover) {
-		ExcelUtil<RoleDO> util = new ExcelUtil<RoleDO>(RoleDO.class);
-		try {
-			List<RoleDO> roleList = util.importExcel(file.getInputStream());
-			String message = roleService.importData(roleList, isCover);
-			return ResponseVo.ok(message);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ResponseVo.fail(-1, e.getMessage());
-		}
-	}
+//	/**
+//	 * 导入数据
+//	 */
+//	@PostMapping("/importData")
+//	@ResponseBody
+//	@RequiresPermissions("sys:role:edit")
+//	public ResponseVo importData(MultipartFile file, boolean isCover) {
+//		ExcelUtil<RoleDO> util = new ExcelUtil<RoleDO>(RoleDO.class);
+//		try {
+//			List<RoleDO> roleList = util.importExcel(file.getInputStream());
+//			String message = roleService.importData(roleList, isCover);
+//			return ResponseVo.ok(message);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return ResponseVo.fail(-1, e.getMessage());
+//		}
+//	}
 }

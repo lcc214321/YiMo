@@ -73,7 +73,6 @@ public class KickoutSessionFilter extends AccessControlFilter {
 		Subject subject = getSubject(request, response);
 		// 没有登录授权 且没有记住我
 		if (!subject.isAuthenticated() && !subject.isRemembered()) {
-			log.info("没有登录");
 			// 如果没有登录，直接进行之后的流程
 			return true;
 		}

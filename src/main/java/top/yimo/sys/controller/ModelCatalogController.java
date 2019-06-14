@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import lombok.extern.slf4j.Slf4j;
 import top.yimo.common.annotation.Log;
 import top.yimo.common.controller.BaseController;
 import top.yimo.common.enums.OperatorType;
@@ -28,104 +27,103 @@ import top.yimo.sys.domain.ModelCatalogDO;
 import top.yimo.sys.service.ModelCatalogService;
 
 /**
- * 系统模型目录 
+ * 系统模型目录
  * 
  * @author imTayle
  * @email imTayle@126.com
  * @version 1.0
  * @date 2019年06月08日 13:27:18
  */
- @Slf4j
 @Controller
 @RequestMapping("/sys/modelCatalog")
-public class ModelCatalogController extends BaseController{
-	private String prefix ="/sys/modelCatalog";
-	private final static String title ="系统模型目录";
+public class ModelCatalogController extends BaseController {
+	private String prefix = "/sys/modelCatalog";
+	private final static String title = "系统模型目录";
 	@Autowired
 	private ModelCatalogService modelCatalogService;
-	
+
 	@GetMapping()
 	@RequiresPermissions("sys:modelCatalog:modelCatalog")
-	public String ModelCatalog(){
-	    return prefix+"/modelCatalog";
+	public String ModelCatalog() {
+		return prefix + "/modelCatalog";
 	}
-	
+
 	@ResponseBody
 	@GetMapping("/list")
 	@RequiresPermissions("sys:modelCatalog:modelCatalog")
-	@Log(describe = "获取"+title, title = title, operatorType = OperatorType.QUERY)
-	public BootstrapTablePageVo listByPage(@RequestParam Map<String, Object> params){
+	@Log(describe = "获取" + title, title = title, operatorType = OperatorType.QUERY)
+	public BootstrapTablePageVo listByPage(@RequestParam Map<String, Object> params) {
 		startPage(params);
 		List<ModelCatalogDO> modelCatalogList = modelCatalogService.listByPage(params);
 		return getPageData(modelCatalogList);
 	}
-	
+
 	@GetMapping("/add")
 	@RequiresPermissions("sys:modelCatalog:add")
-	public String add(){
-	    return prefix+"/add";
+	public String add() {
+		return prefix + "/add";
 	}
 
 	@GetMapping("/edit/{id}")
 	@RequiresPermissions("sys:modelCatalog:edit")
-	public String edit(@PathVariable("id") Long id,Model model){
+	public String edit(@PathVariable("id") Long id, Model model) {
 		ModelCatalogDO modelCatalog = modelCatalogService.get(id);
 		model.addAttribute("modelCatalog", modelCatalog);
-	    return prefix+"/edit";
+		return prefix + "/edit";
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/save")
 	@RequiresPermissions("sys:modelCatalog:add")
 	@Log(describe = "新增", title = title, operatorType = OperatorType.DELETE)
-	public ResponseVo save( ModelCatalogDO modelCatalog){
+	public ResponseVo save(ModelCatalogDO modelCatalog) {
 		beforeSave(modelCatalog);
-		if(modelCatalogService.save(modelCatalog)>0){
+		if (modelCatalogService.save(modelCatalog) > 0) {
 			return ResponseVo.ok("保存成功");
 		}
 		return ResponseVo.fail();
 	}
-	
+
 	@ResponseBody
 	@PutMapping("/update")
 	@RequiresPermissions("sys:modelCatalog:edit")
 	@Log(describe = "更新", title = title, operatorType = OperatorType.DELETE)
-	public ResponseVo update( ModelCatalogDO modelCatalog){
-			beforeUpdate(modelCatalog);
+	public ResponseVo update(ModelCatalogDO modelCatalog) {
+		beforeUpdate(modelCatalog);
 		if (modelCatalogService.update(modelCatalog) > 0) {
 			return ResponseVo.ok("更新成功");
 		}
 		return ResponseVo.fail();
 	}
-	
+
 	/**
 	 * 删除
 	 */
-	@DeleteMapping( "/remove/{id}")
+	@DeleteMapping("/remove/{id}")
 	@ResponseBody
 	@RequiresPermissions("sys:modelCatalog:remove")
 	@Log(describe = "删除", title = title, operatorType = OperatorType.DELETE)
-	public ResponseVo remove(@PathVariable("id") Long id){
-		if(modelCatalogService.remove(id)>0){
+	public ResponseVo remove(@PathVariable("id") Long id) {
+		if (modelCatalogService.remove(id) > 0) {
 			return ResponseVo.ok("删除成功");
 		}
 		return ResponseVo.fail();
 	}
-	
+
 	/**
 	 * 批量删除
 	 */
-	@DeleteMapping( "/batchRemove")
+	@DeleteMapping("/batchRemove")
 	@ResponseBody
 	@RequiresPermissions("sys:modelCatalog:batchRemove")
 	@Log(describe = "批量删除", title = title, operatorType = OperatorType.DELETE)
-	public ResponseVo batchRemove(@RequestParam("ids[]") Long[] ids){
-		if(modelCatalogService.batchRemove(ids)>0){
+	public ResponseVo batchRemove(@RequestParam("ids[]") Long[] ids) {
+		if (modelCatalogService.batchRemove(ids) > 0) {
 			return ResponseVo.ok("删除成功");
 		}
 		return ResponseVo.fail();
 	}
-	
+
 	/**
 	 * 导出数据
 	 */
@@ -142,7 +140,7 @@ public class ModelCatalogController extends BaseController{
 			return ResponseVo.fail(-1, e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 导出导入模板
 	 */
