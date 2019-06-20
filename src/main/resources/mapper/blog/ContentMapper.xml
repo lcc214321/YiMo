@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.yimo.blog.dao.ContentDao">
+	<!-- 表名 -->
+	<sql id="tableName">
+		b_content
+	</sql>
+
+	<!-- 数据表所有列名 -->
+	<sql id="Base_Column_List">
+		`cid`,`title`,`slug`,`created`,`modified`,`content`,`author_id`,`type`,`status`,`tags`,`categories`,`hits`,`comment_num`,`allow_comment`,`allow_ping`,`allow_feed`
+	</sql>
+
+	<!-- 查询字段 -->
+	<sql id="Base_Search_Param">
+		<if test="cid != null and cid != ''"> and cid = #{cid} </if>
+		<if test="title != null and title != ''"> and title = #{title} </if>
+		<if test="slug != null and slug != ''"> and slug = #{slug} </if>
+		<if test="created != null and created != ''"> and created = #{created} </if>
+		<if test="modified != null and modified != ''"> and modified = #{modified} </if>
+		<if test="content != null and content != ''"> and content = #{content} </if>
+		<if test="authorId != null and authorId != ''"> and author_id = #{authorId} </if>
+		<if test="type != null and type != ''"> and type = #{type} </if>
+		<if test="status != null and status != ''"> and status = #{status} </if>
+		<if test="tags != null and tags != ''"> and tags = #{tags} </if>
+		<if test="categories != null and categories != ''"> and categories = #{categories} </if>
+		<if test="hits != null and hits != ''"> and hits = #{hits} </if>
+		<if test="commentNum != null and commentNum != ''"> and comment_num = #{commentNum} </if>
+		<if test="allowComment != null and allowComment != ''"> and allow_comment = #{allowComment} </if>
+		<if test="allowPing != null and allowPing != ''"> and allow_ping = #{allowPing} </if>
+		<if test="allowFeed != null and allowFeed != ''"> and allow_feed = #{allowFeed} </if>
+	</sql>
+
+
+	<select id="getArticlesByKeyWord"
+		resultType="top.yimo.blog.domain.ContentDO"
+		parameterType="top.yimo.blog.domain.ContentDO" useCache="false">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		where status = 'publish' and type='article'
+		<if test="content != null and content != ''"> and content like CONCAT('%',#{content},'%')</if>
+		<if test="tags != null and tags != ''"> and tags = #{tags} </if>
+		<if test="categories != null and categories != ''"> and categories = #{categories} </if>
+
+	</select>
+
+	<select id="get" resultType="top.yimo.blog.domain.ContentDO"
+		useCache="false">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		where cid = #{value}
+	</select>
+
+	<select id="exportData"
+		resultType="top.yimo.blog.domain.ContentDO"
+		parameterType="top.yimo.blog.domain.ContentDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		where 1=1
+		<include refid="Base_Search_Param" />
+	</select>
+
+
+	<select id="listByPage"
+		resultType="top.yimo.blog.domain.ContentDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		where 1 = 1
+		<include refid="Base_Search_Param" />
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by cid desc
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="count" resultType="int">
+		select count(*) from b_content
+		where 1 = 1
+		<include refid="Base_Search_Param" />
+	</select>
+
+	<insert id="save"
+		parameterType="top.yimo.blog.domain.ContentDO"
+		useGeneratedKeys="true" keyProperty="cid">
+		insert into b_content
+		(
+		`title`,
+		`slug`,
+		`created`,
+		`modified`,
+		`content`,
+		`author_id`,
+		`type`,
+		`status`,
+		`tags`,
+		`categories`,
+		`hits`,
+		`comment_num`,
+		`allow_comment`,
+		`allow_ping`,
+		`allow_feed`
+		)
+		values
+		(
+		#{title},
+		#{slug},
+		#{created},
+		#{modified},
+		#{content},
+		#{authorId},
+		#{type},
+		#{status},
+		#{tags},
+		#{categories},
+		#{hits},
+		#{commentNum},
+		#{allowComment},
+		#{allowPing},
+		#{allowFeed}
+		)
+	</insert>
+
+	<update id="update"
+		parameterType="top.yimo.blog.domain.ContentDO">
+		update b_content
+		<set>
+			<if test="title != null">`title` = #{title}, </if>
+			<if test="slug != null">`slug` = #{slug}, </if>
+			<if test="created != null">`created` = #{created}, </if>
+			<if test="modified != null">`modified` = #{modified}, </if>
+			<if test="content != null">`content` = #{content}, </if>
+			<if test="authorId != null">`author_id` = #{authorId}, </if>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="tags != null">`tags` = #{tags}, </if>
+			<if test="categories != null">`categories` = #{categories}, </if>
+			<if test="hits != null">`hits` = #{hits}, </if>
+			<if test="commentNum != null">`comment_num` = #{commentNum}, </if>
+			<if test="allowComment != null">`allow_comment` = #{allowComment}, </if>
+			<if test="allowPing != null">`allow_ping` = #{allowPing}, </if>
+			<if test="allowFeed != null">`allow_feed` = #{allowFeed}</if>
+		</set>
+		where cid = #{cid}
+	</update>
+
+	<delete id="remove">
+		delete from b_content where cid = #{value}
+	</delete>
+
+	<delete id="batchRemove">
+		delete from b_content where cid in
+		<foreach item="cid" collection="array" open="(" separator=","
+			close=")">
+			#{cid}
+		</foreach>
+	</delete>
+
+</mapper>

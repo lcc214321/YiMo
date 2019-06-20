@@ -83,3 +83,17 @@ xss:
   enabled: true #xss过滤开关
   excludes: /favicon.ico,/img/*,/js/*,/css/*  # 不需要过滤的路径（多个用逗号分隔）
   urlPatterns: /*   #需要过滤的路径
+  
+  
+#blog相关配置
+blog: 
+    articlePageSize: 6 #每页文章数量
+    commentPgaeSize: 6 #每页评论数量
+    pageMax: 20 #最大页数 
+    weibo: 
+    zhihu: 
+    github: 
+    twitter: 
+    hitExceed: 1 #点击更新次数 默认设置点击1次就更新 
+    hitsLimitTime: 7200  #默认2小时7200秒 内同一个ip点击算一次
+    commentLimitTime: 5 #默认5秒内只允许评论一次

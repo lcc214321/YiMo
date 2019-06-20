@@ -1,5 +1,6 @@
 package top.yimo.common;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,18 @@ public class YiMoConfig {
 
 	// 日志模式
 	private static String logModel;
+
+	// contextPath
+	private static String contextPath;
+
+	public static String getContextPath() {
+		return contextPath;
+	}
+
+	@Value("${server.servlet.context-path}")
+	public void setContextPath(String contextPath) {
+		YiMoConfig.contextPath = contextPath;
+	}
 
 	public static String getDownloadPath() {
 		return downloadPath;

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="${@commons.getThemePath('header')}::header(${article.title},${article.tags})"></div>
+<body>
+	<article class="main-content post-page">
+		<div class="post-header">
+			<h1 class="post-title" itemprop="name headline">
+				<a th:href="${@commons.permalink(article)}" th:text="${article.title}" data-no-instant=""></a>
+			</h1>
+			<div class="post-data">
+				<time th:datetime="${article.created}" itemprop="datePublished" th:text="'发布于 '+ ${article.created}"></time>
+				/
+				<th:block th:utext="${@commons.show_categories(article.categories)}" />
+				/ <a href="#comment" th:text="${article.commentNum ?: 0}+' 条评论'"></a> /
+				<th:block th:text="${article.hits}" />
+				浏览
+				<br>
+				<time th:datetime="${article.modified}" itemprop="datePublished" th:text="'最后编辑时间为: '+ ${article.modified}"></time>
+			</div>
+		</div>
+		<div id="post-content" class="post-content" itemprop="articleBody">
+			<p class="post-tags" th:utext="${@commons.show_tags(article.tags)}"></p>
+			<th:block th:utext="${@commons.article(article.content)}" />
+			<p class="post-info">
+				本文由 <a href="#">Tayle</a> 创作，采用 <a href="#" target="_blank" rel="external nofollow">知识共享署名4.0</a> 国际许可协议进行许可
+				<br>
+				本站文章除注明转载/出处外，均为本站原创或翻译，转载前请务必署名。
+				<br>
+			</p>
+		</div>
+	</article>
+	<div th:replace="${@commons.getThemePath('comment')}::comment"></div>
+	<div th:replace="${@commons.getThemePath('footer')}::footer"></div>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="comment">
+<body>
+<div th:if="${article}!=null">
+    <div th:id="${article.cid ?: 0}" class="comment-container">
+        <div id="comment" class="clearfix">
+            <div th:if="${article.allowComment}">
+                <form method="post" id="comment-form" class="comment-form" role="form"
+                      onsubmit="return TaleComment.subComment();">
+                    <input type="hidden" name="coid" id="coid"/>
+                    <input type="hidden" name="cid" id="cid" th:value="${article.cid}"/>
+                    <input type="hidden" name="_csrf_token" th:value="${_csrf_token}"/>
+                    <input type="text" name="author" maxlength="12" id="author"
+                           class="form-control input-control clearfix"
+                           placeholder="昵称 (*)"
+                    />
+                    <input type="email" name="mail" id="mail" class="form-control input-control clearfix"
+                           placeholder="邮箱 (*)"
+                    />
+                    <input type="url" name="url" id="url" class="form-control input-control clearfix"
+                           placeholder="网址 (http://)"
+                    />
+                    <textarea name="text" id="textarea" class="form-control" placeholder="以上信息可以为空,评论不能为空哦!"
+                              required="required" minlength="5"
+                              maxlength="2000"></textarea>
+                    <button type="submit" class="submit" id="misubmit">提交</button>
+                </form>
+            </div>
+            <div th:unless="${article.allowComment}">
+                <span class="response">评论已关闭.</span>
+            </div>
+
+            <div th:if="${comment}">
+                <ol class="comment-list">
+                    <th:block th:each="comment :${comment.list}">
+                        <li th:id="'li-comment-'+${comment.coid}" class="comment-body comment-parent comment-odd">
+                            <div th:id="'comment-'+${comment.coid}">
+                                <div class="comment-view" onclick="">
+                                    <div class="comment-header">
+                                        <!--设置get请求的参数-->
+                                        <img class="avatar"
+                                             th:src="@{${comment.authorImg}(s='80',r='G',d='')}"
+                                             th:title="${comment.author}"
+                                             width="80" height="80"/>
+                                        <span class="comment-author">
+                                <a href="##" rel="external nofollow"
+                                   th:text="${comment.author}"></a>
+                            </span>
+                                    </div>
+                                    <div class="comment-content">
+                                        <span class="comment-author-at"></span>
+                                        <p th:utext="${@commons.article(comment.content)}"></p>
+                                    </div>
+                                    <div class="comment-meta">
+                                        <time class="comment-time" th:text="${@commons.fmtdate(comment.created)}"></time>
+                                        <span class="comment-reply">
+                            </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </th:block>
+                </ol>
+                <div class="lists-navigator clearfix">
+                    <ol class="page-navigator">
+                        <th:block th:if="${comment.hasPreviousPage}">
+                            <li class="prev"><a th:href="'?cp='+${comment.prePage}+'#comment'">←</a></li>
+                        </th:block>
+                        <th:block th:each="navIndex : ${comment.navigatepageNums}">
+                            <li th:class="${comment.pageNum}==${navIndex}?'current':''"><a
+                                    th:href="'?cp='+${navIndex}+'#comment'" th:text="${navIndex}"></a>
+                            </li>
+                        </th:block>
+                        <th:block th:if="${comment.hasNextPage}">
+                            <li class="next"><a th:href="'?cp='+${comment.nextPage}+'#comment'">→</a></li>
+                        </th:block>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    /*<![CDATA[*/
+    (function () {
+        window.TaleComment = {
+            dom: function (id) {
+                return document.getElementById(id);
+            },
+            create: function (tag, attr) {
+                var el = document.createElement(tag);
+                for (var key in attr) {
+                    el.setAttribute(key, attr[key]);
+                }
+                return el;
+            },
+            reply: function (coid) {
+                $('#comment-form input[name=coid]').val(coid);
+                $("html,body").animate({scrollTop: $('div.comment-container').offset().top}, 500);
+                $('#comment-form #textarea').focus();
+            },
+            subComment: function () {
+                $.ajax({
+                    type: 'post',
+                    url: ctx+'/blog/comment',
+                    data: $('#comment-form').serialize(),
+                    async: false,
+                    dataType: 'json',
+                    success: function (result) {
+                        $('#comment-form input[name=coid]').val('');
+                        if (result && result.success) {
+                        	alert("评论已提交至后台审核!");
+                            window.location.reload();
+                        } else {
+                            if (result.msg) {
+                                alert(result.msg);
+                            }
+                        }
+                    }
+                });
+                return false;
+            }
+        };
+    })();
+    /*]]>*/
+</script>
+</html>

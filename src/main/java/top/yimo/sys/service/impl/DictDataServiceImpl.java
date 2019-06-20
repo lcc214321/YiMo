@@ -31,11 +31,6 @@ public class DictDataServiceImpl implements DictDataService {
 	private DictDataDao dictDataDao;
 
 	@Override
-	public DictDataDO get(String dictType) {
-		return dictDataDao.get(dictType);
-	}
-
-	@Override
 	public List<DictDataDO> listByPage(Map<String, Object> map) {
 		return dictDataDao.listByPage(map);
 	}
@@ -73,8 +68,8 @@ public class DictDataServiceImpl implements DictDataService {
 
 	@Override
 	@Cacheable(value = WebConstant.DICT_CACHE)
-	public List<DictDataDO> getDictDatas(String dictType, String dictNo) {
-		return dictDataDao.getDictDatas(dictType, dictNo);
+	public List<DictDataDO> getDictDatas(String dictType, String dictNos) {
+		return dictDataDao.getDictDatas(dictType, dictNos);
 	}
 
 	@Override

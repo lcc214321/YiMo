@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.yimo.blog.dao.CommentDao">
+	<!-- 表名 -->
+	<sql id="tableName">
+		b_comment
+	</sql>
+
+	<!-- 数据表所有列名 -->
+	<sql id="Base_Column_List">
+		`coid`,`cid`,`created`,`author`,`author_id`,`owner_id`,`mail`,`url`,`ip`,`agent`,`content`,`type`,`status`,`parent`,
+		`author_img`
+	</sql>
+
+	<!-- 查询字段 -->
+	<sql id="Base_Search_Param">
+		<if test="coid != null and coid != ''"> and coid = #{coid} </if>
+		<if test="cid != null and cid != ''"> and cid = #{cid} </if>
+		<if test="created != null and created != ''"> and created = #{created} </if>
+		<if test="author != null and author != ''"> and author = #{author} </if>
+		<if test="authorId != null and authorId != ''"> and author_id = #{authorId} </if>
+		<if test="ownerId != null and ownerId != ''"> and owner_id = #{ownerId} </if>
+		<if test="mail != null and mail != ''"> and mail = #{mail} </if>
+		<if test="url != null and url != ''"> and url = #{url} </if>
+		<if test="ip != null and ip != ''"> and ip = #{ip} </if>
+		<if test="agent != null and agent != ''"> and agent = #{agent} </if>
+		<if test="content != null and content != ''"> and content = #{content} </if>
+		<if test="type != null and type != ''"> and type = #{type} </if>
+		<if test="status != null and status != ''"> and status = #{status} </if>
+		<if test="parent != null and parent != ''"> and parent = #{parent} </if>
+		<if test="authorImg != null and authorImg != ''"> and author_img = #{authorImg} </if>
+	</sql>
+
+
+	<select id="get" resultType="top.yimo.blog.domain.CommentDO"
+		useCache="false">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		where coid = #{value}
+	</select>
+
+	<select id="exportData"
+		resultType="top.yimo.blog.domain.CommentDO"
+		parameterType="top.yimo.blog.domain.CommentDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		where 1=1
+		<include refid="Base_Search_Param" />
+	</select>
+
+
+	<select id="listByPage"
+		resultType="top.yimo.blog.domain.CommentDO">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="tableName" />
+		where 1 = 1
+		<include refid="Base_Search_Param" />
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by coid desc
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="count" resultType="int">
+		select count(*) from b_comment
+		where 1 = 1
+		<include refid="Base_Search_Param" />
+	</select>
+
+	<insert id="save" parameterType="top.yimo.blog.domain.CommentDO"
+		useGeneratedKeys="true" keyProperty="coid">
+		insert into b_comment
+		(
+		`cid`,
+		`created`,
+		`author`,
+		`author_id`,
+		`owner_id`,
+		`mail`,
+		`url`,
+		`ip`,
+		`agent`,
+		`content`,
+		`type`,
+		`status`,
+		`author_img`,
+		`parent`
+		)
+		values
+		(
+		#{cid},
+		#{created},
+		#{author},
+		#{authorId},
+		#{ownerId},
+		#{mail},
+		#{url},
+		#{ip},
+		#{agent},
+		#{content},
+		#{type},
+		#{status},
+		#{authorImg},
+
+
+		#{parent}
+		)
+	</insert>
+
+	<update id="update"
+		parameterType="top.yimo.blog.domain.CommentDO">
+		update b_comment
+		<set>
+			<if test="cid != null">`cid` = #{cid}, </if>
+			<if test="created != null">`created` = #{created}, </if>
+			<if test="author != null">`author` = #{author}, </if>
+			<if test="authorId != null">`author_id` = #{authorId}, </if>
+			<if test="ownerId != null">`owner_id` = #{ownerId}, </if>
+			<if test="mail != null">`mail` = #{mail}, </if>
+			<if test="url != null">`url` = #{url}, </if>
+			<if test="ip != null">`ip` = #{ip}, </if>
+			<if test="agent != null">`agent` = #{agent}, </if>
+			<if test="content != null">`content` = #{content}, </if>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="parent != null">`parent` = #{parent}</if>
+			<if test="authorImg != null "> author_img = #{authorImg} </if>
+
+		</set>
+		where coid = #{coid}
+	</update>
+
+	<delete id="remove">
+		delete from b_comment where coid = #{value}
+	</delete>
+
+	<delete id="batchRemove">
+		delete from b_comment where coid in
+		<foreach item="coid" collection="array" open="(" separator=","
+			close=")">
+			#{coid}
+		</foreach>
+	</delete>
+
+</mapper>

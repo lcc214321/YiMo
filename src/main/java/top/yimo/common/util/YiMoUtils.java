@@ -1,6 +1,7 @@
 package top.yimo.common.util;
 
 import java.util.Random;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,6 +20,12 @@ import top.yimo.common.constant.WebConstant;
  */
 
 public class YiMoUtils {
+
+	/**
+	 * 匹配邮箱正则
+	 */
+	private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern
+			.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
 	/**
 	 * 对明文密码加密 加盐
@@ -88,7 +95,12 @@ public class YiMoUtils {
 		return "0:0:0:0:0:0:0:1".equals(ip) ? "127.0.0.1" : ip;
 	}
 
+	/**
+	 * 通过IP获取物理地址
+	 * 
+	 */
 	public static String getAddressByIp(String ip) {
+		// TODO 后续添加接口查询
 		String address = "未知地址";
 		return address;
 	}

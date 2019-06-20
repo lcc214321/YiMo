@@ -22,8 +22,6 @@ import top.yimo.sys.domain.DictDataDO;
 @Mapper
 public interface DictDataDao {
 
-	DictDataDO get(String dictType);
-
 	@Cacheable(value = WebConstant.DICT_CACHE)
 	DictDataDO getByTypeAndNo(String dictType, String dictNo);
 

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='b_content'">
+<meta charset="utf-8">
+<header th:replace="header::header(${title})"></header>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="contentForm">
+							   							<div class="form-group">
+								<label class="col-sm-3 control-label">内容标题：</label>
+								<div class="col-sm-8">
+									<input id="title" name="title" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">内容缩略名：</label>
+								<div class="col-sm-8">
+									<input id="slug" name="slug" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">内容生成时的GMT unix时间戳：</label>
+								<div class="col-sm-8">
+									<input id="created" name="created" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">内容更改时的GMT unix时间戳：</label>
+								<div class="col-sm-8">
+									<input id="modified" name="modified" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">内容文字：</label>
+								<div class="col-sm-8">
+									<input id="content" name="content" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">内容所属用户id：</label>
+								<div class="col-sm-8">
+									<input id="authorId" name="authorId" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">内容类别：</label>
+								<div class="col-sm-8">
+									<input id="type" name="type" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">内容状态：</label>
+								<div class="col-sm-8">
+									<input id="status" name="status" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">标签列表：</label>
+								<div class="col-sm-8">
+									<input id="tags" name="tags" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">分类列表：</label>
+								<div class="col-sm-8">
+									<input id="categories" name="categories" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">点击次数：</label>
+								<div class="col-sm-8">
+									<input id="hits" name="hits" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">内容所属评论数：</label>
+								<div class="col-sm-8">
+									<input id="commentNum" name="commentNum" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">是否允许评论：</label>
+								<div class="col-sm-8">
+									<input id="allowComment" name="allowComment" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">是否允许ping：</label>
+								<div class="col-sm-8">
+									<input id="allowPing" name="allowPing" class="form-control" type="text">
+								</div>
+							</div>
+							  							<div class="form-group">
+								<label class="col-sm-3 control-label">允许出现在聚合中：</label>
+								<div class="col-sm-8">
+									<input id="allowFeed" name="allowFeed" class="form-control" type="text">
+								</div>
+							</div>
+							 							<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary" >提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<div th:replace="footer :: footer"></div>
+<script type="text/javascript">
+	var prefix = ctx+"blog/content";
+		$().ready(function() {
+	        validateRule();
+        });
+        $.validator.setDefaults({
+        	submitHandler : function() {
+		        save();
+	        }
+        });
+        function save() {
+        	YiMo.ajaxPost({
+        		url : prefix + "/save",
+        		data : $('#contentForm').serialize(),
+        		needClose : true,
+	            parentRefresh : true,
+        	});
+        }
+
+        function validateRule() {
+	        var icon = "<i class='fa fa-times-circle'></i> ";
+	        $("#contentForm").validate({
+	        	rules : {
+	        		        			        		        			        			 title : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 slug : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 created : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 modified : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 content : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 authorId : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 type : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 status : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 tags : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 categories : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 hits : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 commentNum : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 allowComment : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 allowPing : {
+	 		                required : true
+	 	                },
+	        			        		        			        			 allowFeed : {
+	 		                required : true
+	 	                },
+	        			        		        	 },
+	        	 messages : {
+	        	 	        	 	        			        	 	        			 title : {
+ 		                required : icon + "请输入内容标题"
+ 	                },
+        			        			        	 	        			 slug : {
+ 		                required : icon + "请输入内容缩略名"
+ 	                },
+        			        			        	 	        			 created : {
+ 		                required : icon + "请输入内容生成时的GMT unix时间戳"
+ 	                },
+        			        			        	 	        			 modified : {
+ 		                required : icon + "请输入内容更改时的GMT unix时间戳"
+ 	                },
+        			        			        	 	        			 content : {
+ 		                required : icon + "请输入内容文字"
+ 	                },
+        			        			        	 	        			 authorId : {
+ 		                required : icon + "请输入内容所属用户id"
+ 	                },
+        			        			        	 	        			 type : {
+ 		                required : icon + "请输入内容类别"
+ 	                },
+        			        			        	 	        			 status : {
+ 		                required : icon + "请输入内容状态"
+ 	                },
+        			        			        	 	        			 tags : {
+ 		                required : icon + "请输入标签列表"
+ 	                },
+        			        			        	 	        			 categories : {
+ 		                required : icon + "请输入分类列表"
+ 	                },
+        			        			        	 	        			 hits : {
+ 		                required : icon + "请输入点击次数"
+ 	                },
+        			        			        	 	        			 commentNum : {
+ 		                required : icon + "请输入内容所属评论数"
+ 	                },
+        			        			        	 	        			 allowComment : {
+ 		                required : icon + "请输入是否允许评论"
+ 	                },
+        			        			        	 	        			 allowPing : {
+ 		                required : icon + "请输入是否允许ping"
+ 	                },
+        			        			        	 	        			 allowFeed : {
+ 		                required : icon + "请输入允许出现在聚合中"
+ 	                },
+        			        			        	 }
+	        })
+        }
+	</script>
+</body>
+</html>

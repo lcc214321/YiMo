@@ -1,5 +1,6 @@
 package top.yimo.common.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -44,6 +45,10 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 			return df.format(date);
 		}
 		return null;
+	}
+
+	public static String formatDateByUnixTime(long unixTime, String pattern) {
+		return format(new Date(unixTime * 1000L), pattern);
 	}
 
 	/**
@@ -142,5 +147,17 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	 */
 	public static String getNowDate(String datePattern) {
 		return new SimpleDateFormat(datePattern).format(new Date());
+	}
+
+	/**
+	 * 将传入的字符串转化成Date 默认格式为yyyy-MM-dd <br>
+	 * 转化异常时返回当前时间
+	 */
+	public static Date parseDate(String str) {
+		try {
+			return parseDate(str, DateUtils.DATE_PATTERN);
+		} catch (ParseException e) {
+			return new Date();
+		}
 	}
 }

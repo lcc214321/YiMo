@@ -10,6 +10,7 @@ import com.github.pagehelper.PageInfo;
 
 import top.yimo.common.domain.BaseDO;
 import top.yimo.common.model.vo.BootstrapTablePageVo;
+import top.yimo.common.model.vo.PageVo;
 import top.yimo.common.util.DataConvert;
 import top.yimo.common.util.DateUtils;
 import top.yimo.common.util.ShiroUtils;
@@ -29,7 +30,7 @@ public class BaseController {
 	 * 统一使用PageHelper设置分页
 	 */
 	protected void startPage(Map<String, Object> params) {
-		int pageSize = DataConvert.toInt(params.get("limit"));
+		int pageSize = DataConvert.toInt(params.get("limit"));// 每页大小
 		int offset = DataConvert.toInt(params.get("offset"));
 		int pageNum = 1;
 		if (pageSize > 0) {
@@ -53,18 +54,16 @@ public class BaseController {
 		return page;
 	}
 
-//	protected UserDO getSysUser() {
-//		UserDO user = ShiroUtils.getSysUser();
-//		return user;
-//	}
-//
-//	protected Long getUserId() {
-//		return getSysUser().getUserId();
-//	}
-//
-//	protected String getUserName() {
-//		return getSysUser().getUserName();
-//	}
+	/**
+	 * 响应请求普通分页数据
+	 */
+	protected PageVo getPageVo(List<?> list, int currPage, int pageSize) {
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		PageVo page = new PageVo(list, new PageInfo(list).getTotal());
+		page.setCurrPage(currPage);
+		page.setPageSize(pageSize);
+		return page;
+	}
 
 	protected void beforeSave(BaseDO baseDo) {
 		baseDo.setCreateUserId(ShiroUtils.getUserId());

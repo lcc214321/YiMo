@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="${@commons.getThemePath('header')}::header(${title},${keywords})"></div>
+<body>
+<article class="main-content post-page">
+    <div class="post-header">
+        <h1 class="post-title" itemprop="name headline" th:text="${article.title}"></h1>
+        <div class="post-data">
+            <time th:datetime="${article.created}" itemprop="datePublished" th:text="'发布于 '+ ${article.created}"></time>
+        </div>
+    </div>
+    <div id="post-content" class="post-content" th:utext="${@commons.article(article.content)}"></div>
+</article>
+	<div th:replace="${@commons.getThemePath('comment')}::comment"></div>
+<div th:replace="${@commons.getThemePath('footer')}::footer"></div>
+</body>
+</html>

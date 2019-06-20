@@ -14,13 +14,12 @@ import top.yimo.sys.domain.DictDataDO;
  * @date 2019年03月07日 17:42:42
  */
 public interface DictDataService {
-	//
-	DictDataDO get(String dictType);
 
+	// 通过dictType与dictNo获取唯一的dictData
 	DictDataDO getByTypeAndNo(String dictType, String dictNo);
 
-	// 获取多个dictName
-	List<DictDataDO> getDictDatas(String dictType, String dictNo);
+	// 根据指定的dictNo（多个时以逗号风格） 获取多个dictName
+	List<DictDataDO> getDictDatas(String dictType, String dictNos);
 
 	List<DictDataDO> listByPage(Map<String, Object> map);
 
@@ -40,7 +39,7 @@ public interface DictDataService {
 
 	// 获取指定type对应有效的字典数据
 	List<DictDataDO> getAllActiveDictData(String dictType);
-	
+
 	List<DictDataDO> getNextCitys(String dictType, String dictNo, String dictDescribe);
-	
+
 }
