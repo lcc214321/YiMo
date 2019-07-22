@@ -31,8 +31,7 @@
 			</div>
 		</div>
 	</div>
-	<div th:replace="footer :: footer"></div>
-	<div th:replace="footer :: uploadData"></div>
+	<div th:replace="../../footer :: footer"></div>
 	<script type="text/javascript" th:inline="javascript">
 	var prefix = ctx+"blog/content";
 	var s_edit_h = [[${@permission.hasPermi('blog:content:edit')}]];
@@ -65,7 +64,6 @@
 						var dictData = $.YiMo.getDictData('ArticleStatus', value);
 						return '<span class="label ' + dictData.dictDescribe + '">' + dictData.dictName + '</span>';
 					}
-
 				},
 				{
 					field : 'tags', 
@@ -78,7 +76,6 @@
 					title : '所属分类',
 			        halign : 'center',
 					width : '5%',
-
 				},
 				{
 					field : 'created', 

@@ -1,10 +1,3 @@
-// Tags Input
-$('#tags').tagsInput({
-    width : '100%',
-    height : '35px',
-    defaultText : '请输入文章标签'
-});
-
 $('.toggle').toggles({
     on : true,
     text : {
@@ -12,11 +5,6 @@ $('.toggle').toggles({
         off : '关闭'
     }
 });
-
-$(".select2").select2({
-	width : '100%'
-});
-
 
 var textarea = $('#text'), toolbar = $('<div class="markdown-editor" id="md-button-bar" />').insertBefore(textarea.parent())
 preview = $('<div id="md-preview" class="md-hidetab" />').insertAfter('.markdown-editor');
@@ -28,10 +16,10 @@ function allow_comment(obj) {
 	var on = this_.find('.toggle-on.active').length;
 	var off = this_.find('.toggle-off.active').length;
 	if (on == 1) {
-		$('#allow_comment').val(false);
+		$('#allow_comment').val(0);
 	}
 	if (off == 1) {
-		$('#allow_comment').val(true);
+		$('#allow_comment').val(1);
 	}
 }
 
@@ -40,10 +28,10 @@ function allow_feed(obj) {
 	var on = this_.find('.toggle-on.active').length;
 	var off = this_.find('.toggle-off.active').length;
 	if (on == 1) {
-		$('#allow_feed').val(false);
+		$('#allow_feed').val(0);
 	}
 	if (off == 1) {
-		$('#allow_feed').val(true);
+		$('#allow_feed').val(1);
 	}
 }
 

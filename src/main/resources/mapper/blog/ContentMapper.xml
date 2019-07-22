@@ -95,7 +95,7 @@
 	<insert id="save"
 		parameterType="top.yimo.blog.domain.ContentDO"
 		useGeneratedKeys="true" keyProperty="cid">
-		insert into b_content
+		replace into b_content
 		(
 		`title`,
 		`slug`,
