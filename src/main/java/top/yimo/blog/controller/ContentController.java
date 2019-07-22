@@ -60,7 +60,9 @@ public class ContentController extends BaseController {
 
 	@GetMapping("/add")
 	@RequiresPermissions("blog:content:add")
-	public String add() {
+	public String add(Model model) {
+		ContentDO content = new ContentDO();
+		model.addAttribute("content", content);
 		return prefix + "/add";
 	}
 

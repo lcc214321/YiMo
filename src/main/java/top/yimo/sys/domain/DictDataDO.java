@@ -25,6 +25,12 @@ public class DictDataDO extends BaseDO {
 	private String dictName;
 	// 字典描述
 	private String dictDescribe;
+	// 按钮动作
+	private String action;
 	// 状态
 	private String status;
+//数据类型
+	private String dataType;
+//排序号
+	private String orderNo;
 }
