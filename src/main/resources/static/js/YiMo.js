@@ -38,7 +38,7 @@
 					            var index = parent.layer.getFrameIndex(window.name);
 					            parent.layer.close(index);
 				            }
-			            }else{
+			            } else {
 				            toastr.error(data.msg);
 			            }
 		            },
@@ -123,7 +123,9 @@
 		                sortable : options.sortable || true, // 是否启用排序
 		                sortStable : true,
 		                sortOrder : options.sortOrder || 'desc', // 排序方式
-		                clickToSelect:options.clickToSelect || true,// 设置为 True 点击列的时候选中单选按钮或者复选框
+		                clickToSelect : options.clickToSelect || true,// 设置为
+																		// True
+																		// 点击列的时候选中单选按钮或者复选框
 		                dataType : options.dataType || "json",// 服务器返回的数据类型
 		                pagination : options.pagination || false,// 设置为true会在底部显示分页条
 		                queryParamsType : options.queryParamsType || "limit",// 设置为limit则会发送符合RESTFull格式的参数
@@ -234,27 +236,34 @@
 		            $.YiMo.BSTreeTable._expandAll = $.YiMo.BSTreeTable._expandAll ? false : true;
 	            }
 	        },
+	        
 	        // 新增
 	        add : function(option) {
-		        layer.open({
+		        var index = layer.open({
 		            type : 2,
-		            title : '增加',
+		            title : option.title||'增加',
 		            maxmin : true,
 		            shadeClose : false, // 点击遮罩关闭层
 		            area : [ '800px', '520px' ],
 		            content : option.url,
 		        });
+		        if (option.full) {
+			        layer.full(index);
+		        }
 	        },
 	        // 编辑
 	        edit : function(option) {
-		        layer.open({
+		        var index = layer.open({
 		            type : 2,
-		            title : '编辑',
+		            title : option.title||'编辑',
 		            maxmin : true,
 		            shadeClose : false, // 点击遮罩关闭层
 		            area : [ '800px', '520px' ],
 		            content : option.url,
 		        });
+		        if (option.full) {
+			        layer.full(index);
+		        }
 	        },
 	        // 删除
 	        remove : function(option) {
@@ -369,8 +378,7 @@
 		            }
 		        });
 	        },
-	        
-	        
+
 	    },
 
 	    /** 通用数据转化函数* */
@@ -437,7 +445,7 @@ $.ajaxSetup({
 		// 登录过期，shiro返回登录页面
 		if ('timeout' == xhr.getResponseHeader('Content-Type')) {
 			var data = xhr.responseJSON;
-	        toastr.error(data.msg);
+			toastr.error(data.msg);
 			top.location.href = ctx + 'login';
 		}
 	}

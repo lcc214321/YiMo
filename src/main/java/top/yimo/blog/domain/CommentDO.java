@@ -26,7 +26,7 @@ public class CommentDO extends BaseDO {
 	private Integer cid;
 	// 评论生成时的GMT unix时间戳
 	@Excel(name = "评论生成时的GMT unix时间戳", orderNum = 3)
-	private Integer created;
+	private String created;
 	// 评论作者
 	@Excel(name = "评论作者", orderNum = 4)
 	private String author;

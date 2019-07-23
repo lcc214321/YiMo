@@ -3,6 +3,7 @@ package top.yimo.blog.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,8 @@ import top.yimo.blog.domain.ContentDO;
 import top.yimo.blog.model.vo.ArchiveVo;
 import top.yimo.blog.service.ContentService;
 import top.yimo.common.exception.TipException;
+import top.yimo.common.util.DateUtils;
+import top.yimo.common.util.ShiroUtils;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -36,6 +39,22 @@ public class ContentServiceImpl implements ContentService {
 
 	@Override
 	public int save(ContentDO content) {
+		String slug = content.getSlug();
+		if (StringUtils.isBlank(slug)) {
+			content.setSlug("");
+		}
+
+		if (StringUtils.isBlank(content.getType())) {
+			content.setType("article");
+		}
+		content.setAuthorId(ShiroUtils.getUserId());
+
+		if (StringUtils.isBlank(content.getCreateTime())) {
+			content.setCreated(DateUtils.getNow());
+		} else {
+			content.setModified(DateUtils.getNow());
+		}
+
 		return contentDao.save(content);
 	}
 
@@ -123,6 +142,19 @@ public class ContentServiceImpl implements ContentService {
 
 	@Override
 	public ContentDO getPage(String slug) {
-		return contentDao.getPage(slug);
+		ContentDO page = contentDao.getPage(slug, "page");
+		if (page == null) {
+			page = contentDao.getPageById(slug, "page");
+		}
+		return page;
+	}
+
+	@Override
+	public ContentDO getArticle(String slug) {
+		ContentDO page = contentDao.getPage(slug, "article");
+		if (page == null) {
+			page = contentDao.getPageById(slug, "article");
+		}
+		return page;
 	}
 }

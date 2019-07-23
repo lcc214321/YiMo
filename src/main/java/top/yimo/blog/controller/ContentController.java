@@ -63,7 +63,7 @@ public class ContentController extends BaseController {
 	public String add(Model model) {
 		ContentDO content = new ContentDO();
 		model.addAttribute("content", content);
-		return prefix + "/add";
+		return prefix + "/modify";
 	}
 
 	@GetMapping("/edit/{cid}")
@@ -71,7 +71,7 @@ public class ContentController extends BaseController {
 	public String edit(@PathVariable("cid") Integer cid, Model model) {
 		ContentDO content = contentService.get(cid);
 		model.addAttribute("content", content);
-		return prefix + "/edit";
+		return prefix + "/modify";
 	}
 
 	@ResponseBody

@@ -25,13 +25,17 @@
 				<div class="fixed-table-toolbar" id="toolbar" role="group">
 					<a shiro:hasPermission="blog:content:add" class="btn    btn-primary  btn-circle" onclick="add()" title="添加"> <i class="fa fa-plus" aria-hidden="true"></i>
 					</a>
+					<a shiro:hasPermission="blog:content:export" class="btn btn-info  btn-circle " onclick="exportData()" title="下载"> <i class="fa fa-download" aria-hidden="true"></i>
+					</a>
 				</div>
 				<table id="bootstrap-table" data-mobile-responsive="true">
 				</table>
 			</div>
 		</div>
 	</div>
-	<div th:replace="../../footer :: footer"></div>
+	<div th:replace="footer :: footer"></div>
+	<div th:replace="footer :: uploadData"></div>
+
 	<script type="text/javascript" th:inline="javascript">
 	var prefix = ctx+"blog/content";
 	var s_edit_h = [[${@permission.hasPermi('blog:content:edit')}]];
@@ -46,14 +50,24 @@
 		columns : [
 				{
 					field : 'cid', 
-					title : 'post表主键',
-			        halign : 'center',
+			        visible : false,
+				},{
+					field : 'slug', 
 			        visible : false,
 				},
 				{
 					field : 'title', 
 					title : '内容标题',
 			        halign : 'center',
+				},{
+					field : 'type', 
+					title : '内容类型',
+			        halign : 'center',
+			        width : '5%',
+					formatter : function(value, row, index) {
+						var dictData = $.YiMo.getDictData('ContentType', value);
+						return '<span class="label ' + dictData.dictDescribe + '">' + dictData.dictName + '</span>';
+					}
 				},
 				{
 					field : 'status', 
@@ -81,7 +95,13 @@
 					field : 'created', 
 					title : '发布时间',
 			        halign : 'center',
-			        width : '180px',
+			        width : '10%',
+				},
+				{
+					field : 'modified', 
+					title : '更新时间',
+			        halign : 'center',
+			        width : '10%',
 				},
 				{
 					field : 'hits', 
@@ -97,7 +117,8 @@
 		        formatter : function(value, row, index) {
 			        var e = '<a class="btn btn-primary btn-sm ' + s_edit_h + '" href="#" mce_href="#" title="编辑" onclick="edit(\'' + row.cid + '\')"><i class="fa fa-edit"></i></a> ';
 			        var d = '<a class="btn btn-warning btn-sm ' + s_remove_h + '" href="#" title="删除"  mce_href="#" onclick="remove(\'' + row.cid + '\')"><i class="fa fa-remove"></i></a> ';
-			        return e + d;
+			        var p = '<a class="btn btn-success btn-sm " href="#" title="预览"  mce_href="#" onclick="preview(\'' + row.slug + '\')"><i class="fa fa-rocket"></i></a> ';
+			        return e + d+p;
 		        }
 		    } ]
 			};
@@ -106,19 +127,41 @@
 	// 新增
 	function add() {
 		YiMo.add({
-		    url : prefix + '/add' 
+		    url : prefix + '/add' ,
+		    full : true,
+		    title : '发布文章',
 		});
 	}
 	// 编辑
 	function edit(id) {
 		YiMo.edit({
-		    url : prefix + '/edit/' + id 
+		    url : prefix + '/edit/' + id,
+		    full : true,
+		    title : '更新文章',
 		});
 	}
 	//删除
 	function remove(id) {
 		YiMo.remove({
 		    url : prefix + "/remove/"+id,
+		});
+	}
+	//预览
+	function preview(slug){
+		var url  =" article/"+slug+"/preview";
+		var index = layer.open({
+            type : 2,
+            maxmin : true,
+            shadeClose : false, // 点击遮罩关闭层
+            content : url,
+        });
+	        layer.full(index);
+	}
+	
+	//导出数据
+	function exportData() {
+		YiMo.exportData({
+			url : prefix + "/exportData",
 		});
 	}
 	</script>

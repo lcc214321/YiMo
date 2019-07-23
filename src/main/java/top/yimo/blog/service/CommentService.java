@@ -40,4 +40,7 @@ public interface CommentService {
 
 	// 数据导入
 	String importData(List<CommentDO> commentList, boolean isCover);
+
+	// 审批评论
+	int approve(Integer coid);
 }

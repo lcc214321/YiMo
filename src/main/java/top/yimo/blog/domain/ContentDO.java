@@ -38,7 +38,7 @@ public class ContentDO extends BaseDO {
 	private String content;
 	// 内容所属用户id
 	@Excel(name = "内容所属用户id", orderNum = 7)
-	private Integer authorId;
+	private Long authorId;
 	// 内容类别
 	@Excel(name = "内容类别", orderNum = 8)
 	private String type;

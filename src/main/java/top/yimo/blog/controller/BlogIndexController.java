@@ -35,6 +35,7 @@ import top.yimo.blog.service.MetaService;
 import top.yimo.blog.utils.BlogUtils;
 import top.yimo.common.controller.BaseController;
 import top.yimo.common.model.vo.ResponseVo;
+import top.yimo.common.util.DateUtils;
 import top.yimo.common.util.MapCache;
 import top.yimo.common.util.VerifyUtils;
 import top.yimo.common.util.YiMoUtils;
@@ -98,12 +99,12 @@ public class BlogIndexController extends BaseController {
 	 * 文章页
 	 *
 	 * @param request 请求
-	 * @param cid     文章主键
+	 * @param slug    文章对应页面
 	 * @return
 	 */
-	@GetMapping(value = { "article/{cid}", "article/{cid}.html" })
-	public String getArticle(HttpServletRequest request, Model model, @PathVariable int cid) {
-		ContentDO content = contentService.get(cid);
+	@GetMapping(value = { "article/{slug}", "article/{slug}.html" })
+	public String getArticle(HttpServletRequest request, Model model, @PathVariable String slug) {
+		ContentDO content = contentService.getArticle(slug);
 		if (null == content || !"publish".equals(content.getStatus())) {
 			return sendRedirect404();
 		}
@@ -117,17 +118,17 @@ public class BlogIndexController extends BaseController {
 	 * @param cid     文章主键
 	 * @return
 	 */
-	@GetMapping(value = { "article/{cid}/preview", "article/{cid}.html" })
-	public String articlePreview(HttpServletRequest request, Model model, @PathVariable int cid) {
-		return getArticle(request, model, cid);
+	@GetMapping(value = { "article/{slug}/preview", "article/{slug}.html" })
+	public String articlePreview(HttpServletRequest request, Model model, @PathVariable String slug) {
+		return getArticle(request, model, slug);
 	}
 
 	/**
 	 * 自定义页面,如关于的页面
 	 */
-	@GetMapping(value = "/{pagename}")
-	public String page(HttpServletRequest request, @PathVariable String pagename, Model model) {
-		ContentDO content = contentService.getPage(pagename);
+	@GetMapping(value = "/{slug}")
+	public String page(HttpServletRequest request, @PathVariable String slug, Model model) {
+		ContentDO content = contentService.getPage(slug);
 		if (null == content) {
 			return sendRedirect404();
 		}
@@ -164,6 +165,7 @@ public class BlogIndexController extends BaseController {
 			PageHelper.startPage(Integer.valueOf(cp), BlogConfig.getCommentPgaeSize());
 			HashMap<String, Object> para = new HashMap<String, Object>();
 			para.put("cid", content.getCid());
+			para.put("status", "approved");
 			List<CommentDO> comment = commentService.listByPage(para);
 			PageInfo<CommentDO> page = new PageInfo<CommentDO>(comment);
 			if (page.getSize() > 0) {
@@ -284,6 +286,8 @@ public class BlogIndexController extends BaseController {
 		comment.setContent(text);
 		comment.setMail(mail);
 		comment.setParent(coid);
+		comment.setCreated(DateUtils.getNow());
+		comment.setStatus("not_audit");
 		if (commentService.save(comment) > 0) {
 			// 设置对每个文章5秒可以评论一次
 			cache.hset(key, val, 1, BlogConfig.getCommentLimitTime());

@@ -3,7 +3,7 @@ yimo:
   uploadPath: upload/
   isDemo: false
   refusedURI: batchRemove@remove@save@update
-  loginHtml: login_1
+  loginHtml: login
 server: 
   port: 80
   servlet: 

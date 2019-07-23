@@ -45,8 +45,11 @@ public interface ContentDao {
 
 	List<ContentDO> getArticlesByKeyWord(ContentDO content);
 
-	@Select("select   *  from b_content where status = 'publish'  and slug=#{slug} and type='page' ")
-	ContentDO getPage(String slug);
+	@Select("select   *  from b_content where status = 'publish'  and slug=#{slug} and type=#{type} ")
+	ContentDO getPage(String slug, String type);
+
+	@Select("select   *  from b_content where status = 'publish'  and cid=#{cid} and type=#{type} ")
+	ContentDO getPageById(String cid, String type);
 
 	@Update("update b_content set comment_num=comment_num+1 where comment_num=#{comment_num} and cid=#{cid}")
 	int updateCommentNum(Integer cid, Integer comment_num);

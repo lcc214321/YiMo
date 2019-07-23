@@ -43,11 +43,15 @@ public final class BlogCommons {
 	public static final String BLOG = "/blog/";
 
 	public static String getResourcePath(String url) {
-		return YiMoConfig.getContextPath() + BLOG + prefix + url;
+		return getBlogPath() + prefix + url;
 	}
 
 	public static String getThemePath(String url) {
 		return BLOG + THEME + url;
+	}
+
+	public static String getBlogPath() {
+		return YiMoConfig.getContextPath() + BLOG;
 	}
 
 	/**
@@ -76,7 +80,7 @@ public final class BlogCommons {
 	 * @return
 	 */
 	public static String site_url(String sub) {
-		return YiMoConfig.getContextPath() + BLOG + sub;
+		return getBlogPath() + sub;
 	}
 
 	/**
@@ -221,7 +225,8 @@ public final class BlogCommons {
 			String[] arr = categories.split(",");
 			StringBuffer sbuf = new StringBuffer();
 			for (String c : arr) {
-				sbuf.append("<a href=\"/category/" + URLEncoder.encode(c, "UTF-8") + "\">" + c + "</a>");
+				sbuf.append("<a href=\"" + getBlogPath() + "category/" + URLEncoder.encode(c, "UTF-8") + "\">" + c
+						+ "</a>");
 			}
 			return sbuf.toString();
 		}

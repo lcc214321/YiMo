@@ -50,4 +50,7 @@ public interface ContentService {
 
 	// 根据地址获取页面
 	ContentDO getPage(String slug);
+
+	// 根据地址获取文章
+	ContentDO getArticle(String slug);
 }
