@@ -52,7 +52,7 @@
                                         <p th:utext="${@commons.article(comment.content)}"></p>
                                     </div>
                                     <div class="comment-meta">
-                                        <time class="comment-time" th:text="${@commons.fmtdate(comment.created)}"></time>
+                                        <time class="comment-time" th:text="${comment.created}"></time>
                                         <span class="comment-reply">
                             </span>
                                     </div>

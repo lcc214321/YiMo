@@ -70,7 +70,7 @@ public class BlogIndexController extends BaseController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping({ "/", "" })
+	@RequestMapping({"/", ""})
 	public String index(Model model) {
 		return index(model, 1);
 	}
@@ -78,8 +78,10 @@ public class BlogIndexController extends BaseController {
 	/**
 	 * 首页分页
 	 *
-	 * @param request request
-	 * @param p       第几页
+	 * @param request
+	 *            request
+	 * @param p
+	 *            第几页
 	 * @return 主页
 	 */
 	@GetMapping(value = "page/{p}")
@@ -98,11 +100,13 @@ public class BlogIndexController extends BaseController {
 	/**
 	 * 文章页
 	 *
-	 * @param request 请求
-	 * @param slug    文章对应页面
+	 * @param request
+	 *            请求
+	 * @param slug
+	 *            文章对应页面
 	 * @return
 	 */
-	@GetMapping(value = { "article/{slug}", "article/{slug}.html" })
+	@GetMapping(value = {"article/{slug}", "article/{slug}.html"})
 	public String getArticle(HttpServletRequest request, Model model, @PathVariable String slug) {
 		ContentDO content = contentService.getArticle(slug);
 		if (null == content || !"publish".equals(content.getStatus())) {
@@ -114,11 +118,13 @@ public class BlogIndexController extends BaseController {
 	/**
 	 * 文章页(预览)
 	 *
-	 * @param request 请求
-	 * @param cid     文章主键
+	 * @param request
+	 *            请求
+	 * @param cid
+	 *            文章主键
 	 * @return
 	 */
-	@GetMapping(value = { "article/{slug}/preview", "article/{slug}.html" })
+	@GetMapping(value = {"article/{slug}/preview", "article/{slug}.html"})
 	public String articlePreview(HttpServletRequest request, Model model, @PathVariable String slug) {
 		return getArticle(request, model, slug);
 	}
@@ -139,8 +145,7 @@ public class BlogIndexController extends BaseController {
 	 * 根据content内容跳转到指定页面
 	 * 
 	 */
-	public String redirectContent(HttpServletRequest request, Model model, boolean is_post, String redirectUrl,
-			ContentDO content) {
+	public String redirectContent(HttpServletRequest request, Model model, boolean is_post, String redirectUrl, ContentDO content) {
 		model.addAttribute("article", content);
 		model.addAttribute("is_post", is_post);
 		completeArticle(request, model, content);
@@ -220,7 +225,7 @@ public class BlogIndexController extends BaseController {
 	 *
 	 * @return
 	 */
-	@GetMapping(value = { "feed", "feed.xml" }, produces = { "application/xml;charset=UTF-8" })
+	@GetMapping(value = {"feed", "feed.xml"}, produces = {"application/xml;charset=UTF-8"})
 	@ResponseBody
 	public String feed(HttpServletResponse response) {
 		String xml = "";
@@ -243,9 +248,8 @@ public class BlogIndexController extends BaseController {
 	 */
 	@PostMapping(value = "/comment")
 	@ResponseBody
-	public ResponseVo comment(HttpServletRequest request, HttpServletResponse response, @RequestParam Integer cid,
-			@RequestParam Integer coid, @RequestParam String author, @RequestParam String mail,
-			@RequestParam String url, @RequestParam String text) {
+	public ResponseVo comment(HttpServletRequest request, HttpServletResponse response, @RequestParam Integer cid, @RequestParam Integer coid,
+	        @RequestParam String author, @RequestParam String mail, @RequestParam String url, @RequestParam String text) {
 
 		if (null == cid || StringUtils.isBlank(text)) {
 			return ResponseVo.fail("请输入完整后评论");
@@ -278,6 +282,9 @@ public class BlogIndexController extends BaseController {
 		author = EmojiParser.parseToAliases(author);
 		text = EmojiParser.parseToAliases(text);
 		CommentDO comment = new CommentDO();
+		if (StringUtils.isBlank(author)) {
+			author = "热心网友";
+		}
 		comment.setAuthor(author);
 		comment.setAuthorImg(BlogCommons.gravatar());
 		comment.setCid(cid);
@@ -288,6 +295,7 @@ public class BlogIndexController extends BaseController {
 		comment.setParent(coid);
 		comment.setCreated(DateUtils.getNow());
 		comment.setStatus("not_audit");
+		comment.setType("comment");
 		if (commentService.save(comment) > 0) {
 			// 设置对每个文章5秒可以评论一次
 			cache.hset(key, val, 1, BlogConfig.getCommentLimitTime());

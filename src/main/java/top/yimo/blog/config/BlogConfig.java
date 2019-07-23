@@ -13,9 +13,55 @@ public class BlogConfig {
 	public static String zhihu;
 	public static String github;
 	public static String twitter;
+	public static String gitee;
+
 	public static int hitExceed;
 	public static int hitsLimitTime;
 	public static int commentLimitTime;
+	public static String title;
+	public static String description;
+	public static String motto;
+	public static String keywords;
+
+	public static String getGitee() {
+		return gitee;
+	}
+
+	public void setGitee(String gitee) {
+		BlogConfig.gitee = gitee;
+	}
+
+	public static String getKeywords() {
+		return keywords;
+	}
+
+	public void setKeywords(String keywords) {
+		BlogConfig.keywords = keywords;
+	}
+
+	public static String getMotto() {
+		return motto;
+	}
+
+	public void setMotto(String motto) {
+		BlogConfig.motto = motto;
+	}
+
+	public static String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		BlogConfig.title = title;
+	}
+
+	public static String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		BlogConfig.description = description;
+	}
 
 	public static int getCommentLimitTime() {
 		return commentLimitTime;

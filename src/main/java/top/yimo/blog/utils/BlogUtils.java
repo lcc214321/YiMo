@@ -9,6 +9,7 @@ import com.sun.syndication.feed.rss.Item;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.WireFeedOutput;
 
+import top.yimo.blog.config.BlogConfig;
 import top.yimo.blog.domain.ContentDO;
 import top.yimo.blog.service.BlogCommons;
 import top.yimo.common.util.DateUtils;
@@ -23,9 +24,9 @@ public class BlogUtils {
 	 */
 	public static String getRssXml(List<ContentDO> articles) throws FeedException {
 		Channel channel = new Channel("rss_2.0");
-		channel.setTitle(BlogCommons.site_option("site_title"));
-		channel.setLink(BlogCommons.site_url());
-		channel.setDescription(BlogCommons.site_option("site_description"));
+		channel.setTitle(BlogConfig.getTitle());
+		channel.setLink(BlogCommons.site_url("/"));
+		channel.setDescription(BlogConfig.getDescription());
 		channel.setLanguage("zh-CN");
 		List<Item> items = new ArrayList<>();
 		articles.forEach(article -> {

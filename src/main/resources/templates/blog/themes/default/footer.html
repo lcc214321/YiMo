@@ -18,6 +18,9 @@
 								<th:block th:case="'github'">
 									<a class="social github" target="blank" th:href="@{${index.value}}">Github</a>
 								</th:block>
+								<th:block th:case="'gitee'">
+									<a class="social gitee" target="blank" th:href="@{${index.value}}">码云</a>
+								</th:block>
 								<th:block th:case="'twitter'">
 									<a class="social twitter" target="blank" th:href="@{${index.value}}">Twitter</a>
 								</th:block>
@@ -33,27 +36,27 @@
 				<div class="meta-item meta-motto">
 					<a class="meta-title">&copy; 2018-2019 Tayle</a>
 					<div class="info-text">
-						<th:block th:if="${option}!=null and ${option.containsKey('site_motto')!=false}">
-							<p th:utext="${option.get('site_motto')}"></p>
+						<th:block th:if="${@commons.motto()!=null }">
+							<p th:utext="${@commons.motto()}"></p>
 						</th:block>
 					</div>
 				</div>
-<!-- 				<div class="meta-item meta-posts"> -->
-<!-- 					<h3 class="meta-title">最新文章</h3> -->
-<!-- 					<th:block th:if="${@commons}!=null and ${@commons.recent_articles(10)}!=''"> -->
-<!-- 						<th:block th:each="content : ${@commons.recent_articles(10)}"> -->
-<!-- 							<li><a th:href="${@commons.permalink(content)}" th:text="${content.title}"></a></li> -->
-<!-- 						</th:block> -->
-<!-- 					</th:block> -->
-<!-- 				</div> -->
+				<div class="meta-item meta-posts">
+					<h3 class="meta-title">最新文章</h3>
+					<th:block th:if="${@commons}!=null and ${@commons.recent_articles(10)}!=''">
+						<th:block th:each="content : ${@commons.recent_articles(10)}">
+							<li><a th:href="${@commons.permalink(content)}" th:text="${content.title} "></a></li>
+						</th:block>
+					</th:block>
+				</div>
 
-<!-- 				<div class="meta-item meta-comment"> -->
-<!-- 					<h3 class="meta-title">最新评论</h3> -->
-<!-- 					<th:block th:if="${@commons}!=null and ${@commons.recent_comment(10)}!=''"> -->
-<!-- 						<th:block th:each="comment : ${@commons.recent_comment(10)}"> -->
-<!-- 							<li><a th:href="${@commons.commentlink(comment.cid,comment.coid)}" th:text="${@commons.comment_info(comment)}"></a></li> -->
-<!-- 						</th:block> -->
-<!-- 				</div> -->
+				<div class="meta-item meta-comment">
+					<h3 class="meta-title">最新评论</h3>
+					<th:block th:if="${@commons}!=null and ${@commons.recent_comment(10)}!=''">
+						<th:block th:each="comment : ${@commons.recent_comment(10)}">
+							<li><a th:href="${@commons.commentlink(comment.cid,comment.coid)}" th:text="${@commons.comment_info(comment)}"></a></li>
+						</th:block>
+				</div>
 			</div>
 	</footer>
 	<th:block th:if="${is_post}">
@@ -160,7 +163,7 @@
 	<script th:inline="javascript">
     /*<![CDATA[*/
     var isOk = [[${is_post}]];
-    if (isOk) {
+    if (isOk) {//当是文章时生成文字目录
         var postDirectory = new Headroom(document.getElementById("directory-content"), {
             tolerance: 0,
             offset: 100,

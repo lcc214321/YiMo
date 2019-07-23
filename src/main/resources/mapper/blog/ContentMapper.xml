@@ -42,8 +42,8 @@
 		<include refid="tableName" />
 		where status = 'publish' and type='article'
 		<if test="content != null and content != ''"> and content like CONCAT('%',#{content},'%')</if>
-		<if test="tags != null and tags != ''"> and tags = #{tags} </if>
-		<if test="categories != null and categories != ''"> and categories = #{categories} </if>
+		<if test="tags != null and tags != ''"> and tags like CONCAT('%',#{tags},'%')  </if>
+		<if test="categories != null and categories != ''"> and categories like CONCAT('%', #{categories},'%')</if>
 
 	</select>
 
@@ -107,8 +107,6 @@
 		`status`,
 		`tags`,
 		`categories`,
-		`hits`,
-		`comment_num`,
 		`allow_comment`,
 		`allow_ping`,
 		`allow_feed`
@@ -125,8 +123,6 @@
 		#{status},
 		#{tags},
 		#{categories},
-		#{hits},
-		#{commentNum},
 		#{allowComment},
 		#{allowPing},
 		#{allowFeed}

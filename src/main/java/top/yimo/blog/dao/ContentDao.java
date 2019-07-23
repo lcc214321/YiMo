@@ -53,4 +53,7 @@ public interface ContentDao {
 
 	@Update("update b_content set comment_num=comment_num+1 where comment_num=#{comment_num} and cid=#{cid}")
 	int updateCommentNum(Integer cid, Integer comment_num);
+
+	@Select("select   *  from b_content where status = 'publish'  and  type='article' order by created limit #{limit} ")
+	List<ContentDO> recentcontent(int limit);
 }

@@ -14,12 +14,14 @@ import org.commonmark.ext.gfm.tables.TablesExtension;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageInfo;
 import com.vdurmont.emoji.EmojiParser;
 
 import top.yimo.blog.config.BlogConfig;
+import top.yimo.blog.domain.CommentDO;
 import top.yimo.blog.domain.ContentDO;
 import top.yimo.common.YiMoConfig;
 import top.yimo.common.util.DateUtils;
@@ -41,6 +43,12 @@ public final class BlogCommons {
 	public static final List EMPTY = new ArrayList(0);
 
 	public static final String BLOG = "/blog/";
+
+	@Autowired
+	ContentService contentService;
+
+	@Autowired
+	CommentService commentService;
 
 	public static String getResourcePath(String url) {
 		return getBlogPath() + prefix + url;
@@ -65,60 +73,43 @@ public final class BlogCommons {
 	}
 
 	/**
-	 * 网站链接
-	 *
-	 * @return
-	 */
-	public static String site_url() {
-		return site_url("");
-	}
-
-	/**
 	 * 返回网站链接下的全址
 	 *
-	 * @param sub 前面追加的地址
+	 * @param sub
+	 *            前面追加的地址
 	 * @return
 	 */
 	public static String site_url(String sub) {
 		return getBlogPath() + sub;
 	}
 
+	public static String site_url() {
+		return site_url("");
+	}
 	/**
-	 * 网站标题
-	 *
-	 * @return
+	 * 返回博客名
 	 */
-	public static String site_title() {
-		return site_option("Tayle博客");
+	public static String title() {
+		return BlogConfig.getTitle();
+	}
+	/**
+	 * 博客描述
+	 */
+	public static String description() {
+		return BlogConfig.getDescription();
 	}
 
 	/**
-	 * 网站配置项
-	 *
-	 * @param key
-	 * @return
+	 * 返回博客座右铭
 	 */
-	public static String site_option(String key) {
-		return site_option(key, "");
+	public static String motto() {
+		return BlogConfig.getMotto();
 	}
-
 	/**
-	 * 网站配置项
-	 *
-	 * @param key
-	 * @param defalutValue 默认值
-	 * @return
+	 * 返回博客关键字
 	 */
-	public static String site_option(String key, String defalutValue) {
-		if (StringUtils.isBlank(key)) {
-			return "";
-		}
-		String str = "";
-		if (StringUtils.isNotBlank(str)) {
-			return str;
-		} else {
-			return defalutValue;
-		}
+	public static String keywords() {
+		return BlogConfig.getKeywords();
 	}
 
 	/**
@@ -225,8 +216,7 @@ public final class BlogCommons {
 			String[] arr = categories.split(",");
 			StringBuffer sbuf = new StringBuffer();
 			for (String c : arr) {
-				sbuf.append("<a href=\"" + getBlogPath() + "category/" + URLEncoder.encode(c, "UTF-8") + "\">" + c
-						+ "</a>");
+				sbuf.append("<a href=\"" + getBlogPath() + "category/" + URLEncoder.encode(c, "UTF-8") + "\">" + c + "</a>");
 			}
 			return sbuf.toString();
 		}
@@ -244,7 +234,7 @@ public final class BlogCommons {
 			String[] arr = tags.split(",");
 			StringBuffer sbuf = new StringBuffer();
 			for (String c : arr) {
-				sbuf.append("<a href=\"/tag/" + URLEncoder.encode(c, "UTF-8") + "\">" + c + "</a>");
+				sbuf.append("<a href=\"" + getBlogPath() + "tag/" + URLEncoder.encode(c, "UTF-8") + "\">" + c + "</a>");
 			}
 			return sbuf.toString();
 		}
@@ -254,8 +244,10 @@ public final class BlogCommons {
 	/**
 	 * 截取文章摘要
 	 *
-	 * @param value 文章内容
-	 * @param len   要截取文字的个数
+	 * @param value
+	 *            文章内容
+	 * @param len
+	 *            要截取文字的个数
 	 * @return
 	 */
 	public static String intro(String value, int len) {
@@ -310,32 +302,32 @@ public final class BlogCommons {
 		return EmojiParser.parseToUnicode(value);
 	}
 
-//	/**
-//	 * 获取文章第一张图片
-//	 *
-//	 * @return
-//	 */
-//	public static String show_thumb(String content) {
-//		content = TaleUtils.mdToHtml(content);
-//		if (content.contains("<img")) {
-//			String img = "";
-//			String regEx_img = "<img.*src\\s*=\\s*(.*?)[^>]*?>";
-//			Pattern p_image = Pattern.compile(regEx_img, Pattern.CASE_INSENSITIVE);
-//			Matcher m_image = p_image.matcher(content);
-//			if (m_image.find()) {
-//				img = img + "," + m_image.group();
-//				// //匹配src
-//				Matcher m = Pattern.compile("src\\s*=\\s*\'?\"?(.*?)(\'|\"|>|\\s+)").matcher(img);
-//				if (m.find()) {
-//					return m.group(1);
-//				}
-//			}
-//		}
-//		return "";
-//	}
+	// /**
+	// * 获取文章第一张图片
+	// *
+	// * @return
+	// */
+	// public static String show_thumb(String content) {
+	// content = TaleUtils.mdToHtml(content);
+	// if (content.contains("<img")) {
+	// String img = "";
+	// String regEx_img = "<img.*src\\s*=\\s*(.*?)[^>]*?>";
+	// Pattern p_image = Pattern.compile(regEx_img, Pattern.CASE_INSENSITIVE);
+	// Matcher m_image = p_image.matcher(content);
+	// if (m_image.find()) {
+	// img = img + "," + m_image.group();
+	// // //匹配src
+	// Matcher m = Pattern.compile("src\\s*=\\s*\'?\"?(.*?)(\'|\"|>|\\s+)").matcher(img);
+	// if (m.find()) {
+	// return m.group(1);
+	// }
+	// }
+	// }
+	// return "";
+	// }
 
-	private static final String[] ICONS = { "bg-ico-book", "bg-ico-game", "bg-ico-note", "bg-ico-chat", "bg-ico-code",
-			"bg-ico-image", "bg-ico-web", "bg-ico-link", "bg-ico-design", "bg-ico-lock" };
+	private static final String[] ICONS = {"bg-ico-book", "bg-ico-game", "bg-ico-note", "bg-ico-chat", "bg-ico-code", "bg-ico-image", "bg-ico-web",
+	        "bg-ico-link", "bg-ico-design", "bg-ico-lock"};
 
 	/**
 	 * 显示文章图标
@@ -357,6 +349,7 @@ public final class BlogCommons {
 		map.put("weibo", BlogConfig.getWeibo());
 		map.put("zhihu", BlogConfig.getZhihu());
 		map.put("github", BlogConfig.getGithub());
+		map.put("gitee", BlogConfig.getGitee());
 		map.put("twitter", BlogConfig.getTwitter());
 		return map;
 	}
@@ -377,12 +370,12 @@ public final class BlogCommons {
 	 * @param limit
 	 * @return
 	 */
-//	public List<ContentVo> recent_articles(int limit) {
-//		if (null == siteService) {
-//			return EMPTY;
-//		}
-//		return siteService.recentcontent(limit);
-//	}
+	public List<ContentDO> recent_articles(int limit) {
+		if (null == contentService) {
+			return EMPTY;
+		}
+		return contentService.recentcontent(limit);
+	}
 
 	/**
 	 * 最新评论
@@ -390,12 +383,12 @@ public final class BlogCommons {
 	 * @param limit
 	 * @return
 	 */
-//	public List<CommentVo> recent_comment(int limit) {
-//		if (null == siteService) {
-//			return EMPTY;
-//		}
-//		return siteService.recentcomment(limit);
-//	}
+	public List<CommentDO> recent_comment(int limit) {
+		if (null == commentService) {
+			return EMPTY;
+		}
+		return commentService.recentcomment(limit);
+	}
 
 	/**
 	 * 获取评论信息
@@ -403,9 +396,9 @@ public final class BlogCommons {
 	 * @param comment
 	 * @return
 	 */
-//	public String comment_info(CommentVo comment) {
-//		return comment.getAuthor() + ": " + comment.getContent();
-//	}
+	public String comment_info(CommentDO comment) {
+		return comment.getAuthor() + ": " + comment.getContent();
+	}
 
 	/**
 	 * 提取html中的文字

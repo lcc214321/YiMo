@@ -93,27 +93,27 @@ public class ContentServiceImpl implements ContentService {
 			// try {
 			// TODO 完成数据有效性校验与唯一性校验
 			// 验证是否存在数据
-//				UserDO userdb = userDao.findByUserName(user.getUserName()); 
-//				if (userdb == null) {// 不存在新增 
-//					user.setPassword(password); 
-//					user.setCreateUserId(operuserId); 
-//					this.save(user); 
-//					successNum++; 
-//					successMsg.append("<br/>" + successNum + "、账号 " + user.getName() + " 导入成功"); 
-//				} else if (isCover) {// 覆盖 
-//					
-//					this.update(user); 
-//					successNum++; 
-//					successMsg.append("<br/>" + successNum + "、账号 " + user.getName() + " 更新成功"); 
-//				} else { 
-//					failureNum++; 
-//					failureMsg.append("<br/>" + failureNum + "、账号 " + user.getName() + " 已存在"); 
-//				} 
-//			} catch (Exception e) { 
-//				failureNum++; 
-//				String msg = "<br/>" + failureNum + "、账号 " + user.getName() + " 导入失败："; 
-//				failureMsg.append(msg + e.getMessage()); 
-//				log.error(msg, e); 
+			// UserDO userdb = userDao.findByUserName(user.getUserName());
+			// if (userdb == null) {// 不存在新增
+			// user.setPassword(password);
+			// user.setCreateUserId(operuserId);
+			// this.save(user);
+			// successNum++;
+			// successMsg.append("<br/>" + successNum + "、账号 " + user.getName() + " 导入成功");
+			// } else if (isCover) {// 覆盖
+			//
+			// this.update(user);
+			// successNum++;
+			// successMsg.append("<br/>" + successNum + "、账号 " + user.getName() + " 更新成功");
+			// } else {
+			// failureNum++;
+			// failureMsg.append("<br/>" + failureNum + "、账号 " + user.getName() + " 已存在");
+			// }
+			// } catch (Exception e) {
+			// failureNum++;
+			// String msg = "<br/>" + failureNum + "、账号 " + user.getName() + " 导入失败：";
+			// failureMsg.append(msg + e.getMessage());
+			// log.error(msg, e);
 		}
 		if (failureNum > 0) {
 			failureMsg.insert(0, "很抱歉，导入失败！共 " + failureNum + " 条数据格式不正确，错误如下：");
@@ -156,5 +156,11 @@ public class ContentServiceImpl implements ContentService {
 			page = contentDao.getPageById(slug, "article");
 		}
 		return page;
+	}
+
+	@Override
+	public List<ContentDO> recentcontent(int limit) {
+
+		return contentDao.recentcontent(limit);
 	}
 }

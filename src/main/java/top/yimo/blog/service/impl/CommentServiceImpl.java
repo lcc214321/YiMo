@@ -85,4 +85,10 @@ public class CommentServiceImpl implements CommentService {
 		comment.setStatus("approved");
 		return commentDao.update(comment);
 	}
+
+	@Override
+	public List<CommentDO> recentcomment(int limit) {
+
+		return commentDao.recentcomment(limit);
+	}
 }

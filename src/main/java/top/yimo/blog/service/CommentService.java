@@ -43,4 +43,9 @@ public interface CommentService {
 
 	// 审批评论
 	int approve(Integer coid);
+
+	/**
+	 * 获取最新的评论
+	 */
+	List<CommentDO> recentcomment(int limit);
 }

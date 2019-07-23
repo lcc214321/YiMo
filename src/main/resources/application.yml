@@ -93,7 +93,12 @@ blog:
     weibo: 
     zhihu: 
     github: 
+    gitee: https://gitee.com/Tayle/YiMo
     twitter: 
     hitExceed: 1 #点击更新次数 默认设置点击1次就更新 
     hitsLimitTime: 7200  #默认2小时7200秒 内同一个ip点击算一次
     commentLimitTime: 5 #默认5秒内只允许评论一次
+    title: 一墨博客
+    description: 分享IT界那些事儿
+    motto: 我曾经7次鄙视自己的灵魂。<br>第一次，当她本可进取时，却故作谦卑；<br>第二次，当她在空虚时，用爱欲来填充；<br>第三次，在困难和容易之间，她选择了容易；<br>第四次，她犯了错，却借由别人也会犯错来宽慰自己；<br>第五次，她自由软弱，却把她认为是生命的坚韧；<br>第六次，当她鄙夷一张丑恶的嘴脸时，却不知那正是自己面具中的一副；<br>第七次，她侧身于生活的污泥中，虽不甘心，却又畏首畏尾。<br>
+    keywords: java blog,YiMo,SpringBoot,一墨博客,博客

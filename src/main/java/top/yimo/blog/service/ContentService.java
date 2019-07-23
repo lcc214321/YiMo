@@ -53,4 +53,9 @@ public interface ContentService {
 
 	// 根据地址获取文章
 	ContentDO getArticle(String slug);
+
+	/**
+	 * 获取最近的文章
+	 */
+	List<ContentDO> recentcontent(int limit);
 }
