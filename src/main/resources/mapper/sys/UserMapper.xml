@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="top.yimo.sys.dao.UserDao">
+<mapper namespace="cn.tayle.sys.dao.UserDao">
 	<!-- 表名 -->
 	<sql id="tableName">
 		sys_user u
@@ -41,7 +41,7 @@
 		<if test="district != null and district != ''"> and u.district = #{district} </if>
 	</sql>
 
-	<select id="get" resultType="top.yimo.sys.domain.UserDO"
+	<select id="get" resultType="cn.tayle.sys.domain.UserDO"
 		useCache="false">
 		select
 		<include refid="Base_Column_List" />
@@ -51,7 +51,7 @@
 	</select>
 
 	<select id="findByUserName"
-		resultType="top.yimo.sys.domain.UserDO">
+		resultType="cn.tayle.sys.domain.UserDO">
 		select
 		<include refid="Base_Column_List" />
 		from
@@ -60,8 +60,8 @@
 	</select>
 
 	<select id="checkUserUnique"
-		resultType="top.yimo.sys.domain.UserDO"
-		parameterType="top.yimo.sys.domain.UserDO">
+		resultType="cn.tayle.sys.domain.UserDO"
+		parameterType="cn.tayle.sys.domain.UserDO">
 		select
 		<include refid="Base_Column_List" />
 		from
@@ -73,7 +73,7 @@
 		<if test="mobile != null and mobile != ''"> and mobile = #{mobile} </if>
 	</select>
 
-	<select id="listByPage" resultType="top.yimo.sys.domain.UserDO">
+	<select id="listByPage" resultType="cn.tayle.sys.domain.UserDO">
 		select
 		u.`user_id`,u.`user_name`,u.`name`,u.`password`,d.`dept_id`,d.`dept_name`,u.`email`,u.`mobile`,u.`status`,u.`create_user_id`,u.`create_time`,u.`update_time`,u.`sex`,u.`birth`,u.`pic_id`,u.`address`,u.`hobby`,u.`province`,u.`city`,u.`district`
 		from
@@ -88,8 +88,8 @@
 		<!-- </otherwise> -->
 		<!-- </choose> -->
 	</select>
-	<select id="exportData" resultType="top.yimo.sys.domain.UserDO"
-		parameterType="top.yimo.sys.domain.UserDO">
+	<select id="exportData" resultType="cn.tayle.sys.domain.UserDO"
+		parameterType="cn.tayle.sys.domain.UserDO">
 		select
 		<include refid="Base_Column_List" />
 		from
@@ -105,7 +105,7 @@
 		<include refid="Base_Search_Param" />
 	</select>
 
-	<insert id="save" parameterType="top.yimo.sys.domain.UserDO"
+	<insert id="save" parameterType="cn.tayle.sys.domain.UserDO"
 		useGeneratedKeys="true" keyProperty="userId">
 		insert into sys_user
 		(
@@ -134,7 +134,7 @@
 		)
 	</insert>
 
-	<update id="update" parameterType="top.yimo.sys.domain.UserDO">
+	<update id="update" parameterType="cn.tayle.sys.domain.UserDO">
 		update sys_user
 		<set>
 			<if test="userName != null">`user_name` = #{userName}, </if>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="top.yimo.sys.dao.LogDao">
+<mapper namespace="cn.tayle.sys.dao.LogDao">
 <!--根据需求调整缓存参数：-->
     <cache type="org.mybatis.caches.ehcache.EhcacheCache">
         <property name="timeToIdleSeconds" value="3600"/>
@@ -38,7 +38,7 @@
 			</sql>
 	
 	
-	<select id="get" resultType="top.yimo.sys.domain.LogDO" useCache="false">
+	<select id="get" resultType="cn.tayle.sys.domain.LogDO" useCache="false">
 		select
 		<include refid="Base_Column_List" />
 		from
@@ -46,8 +46,8 @@
 		where id = #{value}
 	</select>
 	
-	<select id="exportData" resultType="top.yimo.sys.domain.LogDO"
-		parameterType="top.yimo.sys.domain.LogDO">
+	<select id="exportData" resultType="cn.tayle.sys.domain.LogDO"
+		parameterType="cn.tayle.sys.domain.LogDO">
 		select
 		<include refid="Base_Column_List" />
 		from
@@ -57,7 +57,7 @@
 	</select>
 
 
-	<select id="listByPage" resultType="top.yimo.sys.domain.LogDO">
+	<select id="listByPage" resultType="cn.tayle.sys.domain.LogDO">
 		select
 		<include refid="Base_Column_List" />
 		from
@@ -80,7 +80,7 @@
 		<include refid="Base_Search_Param" />
 	</select>
 	 
-	<insert id="save" parameterType="top.yimo.sys.domain.LogDO" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="cn.tayle.sys.domain.LogDO" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_log
 		(
 			`user_id`, 
@@ -111,7 +111,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="top.yimo.sys.domain.LogDO">
+	<update id="update" parameterType="cn.tayle.sys.domain.LogDO">
 		update sys_log 
 		<set>
 			<if test="userId != null">`user_id` = #{userId}, </if>

@@ -26,7 +26,7 @@
         </layout>
     </appender>
 
-    <logger name="top.yimo" additivity="false">
+    <logger name="cn.tayle" additivity="false">
         <appender-ref ref="console"/>
         <appender-ref ref="logFile" />
     </logger>

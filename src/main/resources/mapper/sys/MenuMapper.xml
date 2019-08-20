@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="top.yimo.sys.dao.MenuDao">
+<mapper namespace="cn.tayle.sys.dao.MenuDao">
   <!--根据需求调整缓存参数：-->
     <cache type="org.mybatis.caches.ehcache.EhcacheCache">
         <property name="timeToIdleSeconds" value="3600"/>
@@ -39,7 +39,7 @@
 			</sql>
 	
 	
-	<select id="get" resultType="top.yimo.sys.domain.MenuDO" useCache="false">
+	<select id="get" resultType="cn.tayle.sys.domain.MenuDO" useCache="false">
 		select
 		<include refid="Base_Column_List" />
 		from
@@ -47,7 +47,7 @@
 		where menu_id = #{value}
 	</select>
 
-	<select id="list" resultType="top.yimo.sys.domain.MenuDO">
+	<select id="list" resultType="cn.tayle.sys.domain.MenuDO">
 		select
 		<include refid="Base_Column_List" />
 		from
@@ -70,7 +70,7 @@
 		<include refid="Base_Search_Param" />
 	</select>
 
-	<insert id="save" parameterType="top.yimo.sys.domain.MenuDO"
+	<insert id="save" parameterType="cn.tayle.sys.domain.MenuDO"
 		useGeneratedKeys="true" keyProperty="menuId">
 		insert into sys_menu
 		(
@@ -104,7 +104,7 @@
 		)
 	</insert>
 
-	<update id="update" parameterType="top.yimo.sys.domain.MenuDO">
+	<update id="update" parameterType="cn.tayle.sys.domain.MenuDO">
 		update sys_menu
 		<set>
 			<if test="parentId != null">`parent_id` = #{parentId}, </if>

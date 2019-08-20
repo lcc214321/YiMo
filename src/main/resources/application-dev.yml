@@ -22,7 +22,7 @@ mybatis:
 logging:
   path: /log
   level: 
-    top.yimo: debug
+    cn.tayle: debug
 yimo: 
   permissions: true  #开发环境关闭权限认证 方便调试接口 关闭会同时使kick拦截器失效
   kickout:       

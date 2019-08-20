@@ -2,8 +2,8 @@ package ${package}.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import top.yimo.common.annotation.Excel;
-import top.yimo.common.domain.BaseDO;
+import cn.tayle.common.annotation.Excel;
+import cn.tayle.common.domain.BaseDO;
 #if(${hasBigDecimal})
 import java.math.BigDecimal;
 #end

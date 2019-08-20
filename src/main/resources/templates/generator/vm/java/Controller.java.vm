@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
-import top.yimo.common.annotation.Log;
-import top.yimo.common.controller.BaseController;
-import top.yimo.common.enums.OperatorType;
-import top.yimo.common.model.vo.BootstrapTablePageVo;
-import top.yimo.common.model.vo.ResponseVo;
-import top.yimo.common.util.excel.ExcelUtil;
+import cn.tayle.common.annotation.Log;
+import cn.tayle.common.controller.BaseController;
+import cn.tayle.common.enums.OperatorType;
+import cn.tayle.common.model.vo.BootstrapTablePageVo;
+import cn.tayle.common.model.vo.ResponseVo;
+import cn.tayle.common.util.excel.ExcelUtil;
 import ${package}.domain.${className}DO;
 import ${package}.service.${className}Service;
 

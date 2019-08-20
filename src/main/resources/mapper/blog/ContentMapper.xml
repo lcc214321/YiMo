@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="top.yimo.blog.dao.ContentDao">
+<mapper namespace="cn.tayle.blog.dao.ContentDao">
 	<!-- 表名 -->
 	<sql id="tableName">
 		b_content
@@ -34,8 +34,8 @@
 
 
 	<select id="getArticlesByKeyWord"
-		resultType="top.yimo.blog.domain.ContentDO"
-		parameterType="top.yimo.blog.domain.ContentDO" useCache="false">
+		resultType="cn.tayle.blog.domain.ContentDO"
+		parameterType="cn.tayle.blog.domain.ContentDO" useCache="false">
 		select
 		<include refid="Base_Column_List" />
 		from
@@ -47,7 +47,7 @@
 
 	</select>
 
-	<select id="get" resultType="top.yimo.blog.domain.ContentDO"
+	<select id="get" resultType="cn.tayle.blog.domain.ContentDO"
 		useCache="false">
 		select
 		<include refid="Base_Column_List" />
@@ -57,8 +57,8 @@
 	</select>
 
 	<select id="exportData"
-		resultType="top.yimo.blog.domain.ContentDO"
-		parameterType="top.yimo.blog.domain.ContentDO">
+		resultType="cn.tayle.blog.domain.ContentDO"
+		parameterType="cn.tayle.blog.domain.ContentDO">
 		select
 		<include refid="Base_Column_List" />
 		from
@@ -69,7 +69,7 @@
 
 
 	<select id="listByPage"
-		resultType="top.yimo.blog.domain.ContentDO">
+		resultType="cn.tayle.blog.domain.ContentDO">
 		select
 		<include refid="Base_Column_List" />
 		from
@@ -93,7 +93,7 @@
 	</select>
 
 	<insert id="save"
-		parameterType="top.yimo.blog.domain.ContentDO"
+		parameterType="cn.tayle.blog.domain.ContentDO"
 		useGeneratedKeys="true" keyProperty="cid">
 		replace into b_content
 		(
@@ -130,7 +130,7 @@
 	</insert>
 
 	<update id="update"
-		parameterType="top.yimo.blog.domain.ContentDO">
+		parameterType="cn.tayle.blog.domain.ContentDO">
 		update b_content
 		<set>
 			<if test="title != null">`title` = #{title}, </if>

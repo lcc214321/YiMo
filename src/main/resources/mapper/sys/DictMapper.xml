@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="top.yimo.sys.dao.DictDao">
+<mapper namespace="cn.tayle.sys.dao.DictDao">
   <!--根据需求调整缓存参数：-->
     <cache type="org.mybatis.caches.ehcache.EhcacheCache">
         <property name="timeToIdleSeconds" value="3600"/>
@@ -33,7 +33,7 @@
 			</sql>
 	
 	
-	<select id="get" resultType="top.yimo.sys.domain.DictDO">
+	<select id="get" resultType="cn.tayle.sys.domain.DictDO">
 		select
 		<include refid="Base_Column_List" />
 		from
@@ -41,7 +41,7 @@
 		where dict_type = #{value}
 	</select>
 
-	<select id="listByPage" resultType="top.yimo.sys.domain.DictDO">
+	<select id="listByPage" resultType="cn.tayle.sys.domain.DictDO">
 		select
 		<include refid="Base_Column_List" />
 		from
@@ -64,7 +64,7 @@
 		<include refid="Base_Search_Param" />
 	</select>
 	 
-	<insert id="save" parameterType="top.yimo.sys.domain.DictDO">
+	<insert id="save" parameterType="cn.tayle.sys.domain.DictDO">
 		insert into sys_dict
 		(
 			`dict_type`, 
@@ -87,7 +87,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="top.yimo.sys.domain.DictDO">
+	<update id="update" parameterType="cn.tayle.sys.domain.DictDO">
 		update sys_dict 
 		<set>
 			<if test="dictDescribe != null">`dict_describe` = #{dictDescribe}, </if>

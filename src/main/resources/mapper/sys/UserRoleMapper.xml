@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="top.yimo.sys.dao.UserRoleDao">
+<mapper namespace="cn.tayle.sys.dao.UserRoleDao">
 	<!-- 表名 -->
 	<sql id="tableName">
 		sys_user_role
@@ -19,7 +19,7 @@
 			</sql>
 	
 	
-	<select id="get" resultType="top.yimo.sys.domain.UserRoleDO">
+	<select id="get" resultType="cn.tayle.sys.domain.UserRoleDO">
 		select
 		<include refid="Base_Column_List" />
 		from
@@ -27,7 +27,7 @@
 		where id = #{value}
 	</select>
 
-	<select id="listByPage" resultType="top.yimo.sys.domain.UserRoleDO">
+	<select id="listByPage" resultType="cn.tayle.sys.domain.UserRoleDO">
 		select
 		<include refid="Base_Column_List" />
 		from
@@ -50,7 +50,7 @@
 		<include refid="Base_Search_Param" />
 	</select>
 	 
-	<insert id="save" parameterType="top.yimo.sys.domain.UserRoleDO" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="cn.tayle.sys.domain.UserRoleDO" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_user_role
 		(
 			`user_id`, 
@@ -63,7 +63,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="top.yimo.sys.domain.UserRoleDO">
+	<update id="update" parameterType="cn.tayle.sys.domain.UserRoleDO">
 		update sys_user_role 
 		<set>
 			<if test="userId != null">`user_id` = #{userId}, </if>

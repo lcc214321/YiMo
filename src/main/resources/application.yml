@@ -50,7 +50,7 @@ spring:
 #MyBatis配置
 mybatis:
     mapperLocations: classpath:mapper/**/*.xml
-    typeAliasesPackage: top.yimo
+    typeAliasesPackage: cn.tayle
     configuration:
       mapUnderscoreToCamelCase: true #开启驼峰命名自动转换
       cache-enabled: true  #开启二级缓存
@@ -61,7 +61,7 @@ logging:
   path: /log
   level: 
     root: info
-    top.yimo: info
+    cn.tayle: info
     
  #pageHelper配置   
 pagehelper:

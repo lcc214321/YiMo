@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="top.yimo.sys.dao.UserOnlineDao">
+<mapper namespace="cn.tayle.sys.dao.UserOnlineDao">
 	<!-- 表名 -->
 	<sql id="tableName">
 		sys_user_online
@@ -29,7 +29,7 @@
 			</sql>
 	
 	
-	<select id="getActive" resultType="top.yimo.sys.domain.UserOnlineDO">
+	<select id="getActive" resultType="cn.tayle.sys.domain.UserOnlineDO">
 		select
 		<include refid="Base_Column_List" />
 		from
@@ -37,14 +37,14 @@
 		where sessionId = #{value} and status='on_line' 
 	</select>
 
-	<select id="get" resultType="top.yimo.sys.domain.UserOnlineDO">
+	<select id="get" resultType="cn.tayle.sys.domain.UserOnlineDO">
 		select
 		<include refid="Base_Column_List" />
 		from
 		<include refid="tableName" />
 		where sessionId = #{value} 
 	</select>
-	<select id="getActives" resultType="top.yimo.sys.domain.UserOnlineDO">
+	<select id="getActives" resultType="cn.tayle.sys.domain.UserOnlineDO">
 		select
 		<include refid="Base_Column_List" />
 		from
@@ -53,7 +53,7 @@
 	</select>
 
 
-	<select id="listByPage" resultType="top.yimo.sys.domain.UserOnlineDO">
+	<select id="listByPage" resultType="cn.tayle.sys.domain.UserOnlineDO">
 		select
 		<include refid="Base_Column_List" />
 		from
@@ -76,7 +76,7 @@
 		<include refid="Base_Search_Param" />
 	</select>
 	 
-	<insert id="save" parameterType="top.yimo.sys.domain.UserOnlineDO">
+	<insert id="save" parameterType="cn.tayle.sys.domain.UserOnlineDO">
 		replace into sys_user_online
 		(
 			`sessionId`, 
@@ -110,7 +110,7 @@
 			#{outTime}
 		)
 	</insert>
-<update id="update" parameterType="top.yimo.sys.domain.UserOnlineDO">
+<update id="update" parameterType="cn.tayle.sys.domain.UserOnlineDO">
 		update sys_user_online 
 		<set>
 			<if test="userId != null">`user_id` = #{userId}, </if>
