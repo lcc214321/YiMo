@@ -10,9 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>cn.tayle</groupId>
-	<artifactId>YiMo</artifactId>
+	<artifactId>YiMo-Signle</artifactId>
 	<version>1.0.1-SNAPSHOT</version>
-	<name>YiMo</name>
+	<name>YiMo-Signle</name>
 	<description>Java</description>
 
 	<properties>
